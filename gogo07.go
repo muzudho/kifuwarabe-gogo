@@ -9,6 +9,7 @@ import (
 	"math/rand"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
+	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	// "os"
 	// "sort"
 	// "strconv"
@@ -34,7 +35,7 @@ func countScoreV7(turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board[z+dir4[i]]]++
+				mk[board[z+e.Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++

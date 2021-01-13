@@ -10,6 +10,7 @@ import (
 	"math/rand"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
+	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	// "os"
 	// "sort"
 	// "strconv"
@@ -37,7 +38,7 @@ func putStoneV3(tz int, color int) int {
 		around[i][0] = 0
 		around[i][1] = 0
 		around[i][2] = 0
-		z := tz + dir4[i]
+		z := tz + e.Dir4[i]
 		c := board[z]
 		if c == 0 {
 			space++
@@ -77,8 +78,8 @@ func putStoneV3(tz int, color int) int {
 	for i := 0; i < 4; i++ {
 		lib := around[i][0]
 		c := around[i][2]
-		if c == unCol && lib == 1 && board[tz+dir4[i]] != 0 {
-			takeStone(tz+dir4[i], unCol)
+		if c == unCol && lib == 1 && board[tz+e.Dir4[i]] != 0 {
+			takeStone(tz+e.Dir4[i], unCol)
 		}
 	}
 

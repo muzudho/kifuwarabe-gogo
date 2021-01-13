@@ -13,13 +13,14 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	"github.com/muzudho/kifuwarabe-uec12/entities"
+	e "github.com/muzudho/kifuwarabe-uec12/entities"
 )
 
 func main() {
 	fmt.Printf("Author: %s\n", entities.Author)
 	// GoGoV1()
-	GoGoV2()
-	// GoGoV3()
+	// GoGoV2()
+	GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
@@ -200,7 +201,6 @@ var board = [c.BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
 
-var dir4 = [4]int{1, c.Width, -1, -c.Width}
 var koZ int
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
@@ -228,7 +228,7 @@ func countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
 	checkBoard[tz] = 1
 	*pStone++
 	for i := 0; i < 4; i++ {
-		z := tz + dir4[i]
+		z := tz + e.Dir4[i]
 		if checkBoard[z] != 0 {
 			continue
 		}
@@ -255,7 +255,7 @@ func countLiberty(tz int, pLiberty *int, pStone *int) {
 func takeStone(tz int, color int) {
 	board[tz] = 0
 	for i := 0; i < 4; i++ {
-		z := tz + dir4[i]
+		z := tz + e.Dir4[i]
 		if board[z] == color {
 			takeStone(z, color)
 		}
