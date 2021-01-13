@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
+	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 )
 
 // PrintBoardV1 - 盤の描画。
@@ -23,7 +24,7 @@ func PrintBoardV1() {
 	}
 	fmt.Printf("+\n")
 	for y := 0; y < c.BoardSize; y++ {
-		fmt.Printf("%s|", usiKomaKanji[y+1])
+		fmt.Printf("%s|", p.LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
 			fmt.Printf("%s", str[board[x+1+c.Width*(y+1)]])
 		}

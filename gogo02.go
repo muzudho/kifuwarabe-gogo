@@ -8,6 +8,7 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 	// "log"
 	// "math"
 	// "math/rand"
@@ -109,7 +110,7 @@ func PrintBoardV2() {
 	}
 	fmt.Printf("+\n")
 	for y := 0; y < c.BoardSize; y++ {
-		fmt.Printf("%s|", usiKomaKanji[y+1])
+		fmt.Printf("%s|", p.LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
 			fmt.Printf("%s", str[board[x+1+c.Width*(y+1)]])
 		}

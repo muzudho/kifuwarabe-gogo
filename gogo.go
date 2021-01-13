@@ -12,12 +12,11 @@ import (
 	"time"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
-	"github.com/muzudho/kifuwarabe-uec12/entities"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
 )
 
 func main() {
-	fmt.Printf("Author: %s\n", entities.Author)
+	fmt.Printf("Author: %s\n", e.Author)
 	// GoGoV1()
 	// GoGoV2()
 	GoGoV3()
@@ -29,9 +28,6 @@ func main() {
 	// GoGoV9()
 	// GoGoV9a()
 }
-
-var usiKomaKanji = [20]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九",
-	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
 
 /*
 // gogo01.go 用
