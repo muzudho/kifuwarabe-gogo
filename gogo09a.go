@@ -21,7 +21,7 @@ import (
 	// "unsafe"
 )
 
-var recordTime [MaxMoves]float64
+var recordTime [c.MaxMoves]float64
 
 func getCharZ(z int) string {
 	if z == 0 {

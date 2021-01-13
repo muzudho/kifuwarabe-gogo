@@ -48,7 +48,7 @@ func countScoreV7(turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if float64(score)-komi > 0 {
+	if float64(score)-c.Komi > 0 {
 		win = 1
 	}
 	if turnColor == 2 {

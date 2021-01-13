@@ -29,13 +29,6 @@ func main() {
 	// GoGoV9a()
 }
 
-const (
-	// komi - コミ☆（＾～＾）
-	komi = 6.5
-	// MaxMoves - 最大手数。
-	MaxMoves = 1000
-)
-
 var usiKomaKanji = [20]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九",
 	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
 
@@ -210,7 +203,7 @@ var board = [c.BoardMax]int{
 var dir4 = [4]int{1, c.Width, -1, -c.Width}
 var koZ int
 var moves, allPlayouts, flagTestPlayout int
-var record [MaxMoves]int
+var record [c.MaxMoves]int
 
 func getZ(x int, y int) int {
 	return y*c.Width + x

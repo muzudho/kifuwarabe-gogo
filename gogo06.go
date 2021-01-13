@@ -48,7 +48,7 @@ func countScoreV6(turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if float32(score)-komi > 0 {
+	if float32(score)-c.Komi > 0 {
 		win = 1
 	}
 	// fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)

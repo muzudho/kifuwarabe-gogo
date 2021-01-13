@@ -178,7 +178,7 @@ func getComputerMove(color int, fUCT int) int {
 }
 
 func printSgf() {
-	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, komi)
+	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, c.Komi)
 	for i := 0; i < moves; i++ {
 		z := record[i]
 		y := z / c.Width
