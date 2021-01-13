@@ -38,7 +38,7 @@ func PrintBoardV8() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", p.LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[board[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|")
 		if y == 4 {
@@ -65,7 +65,7 @@ func playoutV8(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = getZ(x+1, y+1)
-				if board[z] != 0 {
+				if c.Board[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -145,7 +145,7 @@ func createNode() int {
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
-			if board[z] != 0 {
+			if c.Board[z] != 0 {
 				continue
 			}
 			addChild(pN, z)
@@ -221,12 +221,12 @@ func getBestUctV8(color int) int {
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
 		koZCopy := koZ
-		copy(boardCopy[:], board[:])
+		copy(boardCopy[:], c.Board[:])
 
 		searchUctV8(color, next)
 
 		koZ = koZCopy
-		copy(board[:], boardCopy[:])
+		copy(c.Board[:], boardCopy[:])
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {

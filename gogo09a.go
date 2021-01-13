@@ -58,7 +58,7 @@ func PrintBoardV9a() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", usiKomaKanjiV9a[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", str[board[x+1+c.Width*(y+1)]])
+			fmt.Fprintf(os.Stderr, "%s", str[c.Board[x+1+c.Width*(y+1)]])
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
@@ -82,12 +82,12 @@ func getBestUctV9a(color int) int {
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
 		koZCopy := koZ
-		copy(boardCopy[:], board[:])
+		copy(boardCopy[:], c.Board[:])
 
 		searchUctV8(color, next)
 
 		koZ = koZCopy
-		copy(board[:], boardCopy[:])
+		copy(c.Board[:], boardCopy[:])
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {
@@ -106,11 +106,11 @@ func getBestUctV9a(color int) int {
 
 func initBoard() {
 	for i := 0; i < c.BoardMax; i++ {
-		board[i] = 3
+		c.Board[i] = 3
 	}
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			board[getZ(x+1, y+1)] = 0
+			c.Board[getZ(x+1, y+1)] = 0
 		}
 	}
 	moves = 0

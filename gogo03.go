@@ -40,25 +40,25 @@ func putStoneV3(tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + e.Dir4[i]
-		c := board[z]
-		if c == 0 {
+		color2 := c.Board[z]
+		if color2 == 0 {
 			space++
 		}
-		if c == 3 {
+		if color2 == 3 {
 			wall++
 		}
-		if c == 0 || c == 3 {
+		if color2 == 0 || color2 == 3 {
 			continue
 		}
 		countLiberty(z, &liberty, &stone)
 		around[i][0] = liberty
 		around[i][1] = stone
-		around[i][2] = c
-		if c == unCol && liberty == 1 {
+		around[i][2] = color2
+		if color2 == unCol && liberty == 1 {
 			captureSum += stone
 			koMaybe = z
 		}
-		if c == color && liberty >= 2 {
+		if color2 == color && liberty >= 2 {
 			mycolSafe++
 		}
 
@@ -72,19 +72,19 @@ func putStoneV3(tz int, color int) int {
 	if wall+mycolSafe == 4 {
 		return 3
 	}
-	if board[tz] != 0 {
+	if c.Board[tz] != 0 {
 		return 4
 	}
 
 	for i := 0; i < 4; i++ {
 		lib := around[i][0]
-		c := around[i][2]
-		if c == unCol && lib == 1 && board[tz+e.Dir4[i]] != 0 {
+		color2 := around[i][2]
+		if color2 == unCol && lib == 1 && c.Board[tz+e.Dir4[i]] != 0 {
 			takeStone(tz+e.Dir4[i], unCol)
 		}
 	}
 
-	board[tz] = color
+	c.Board[tz] = color
 
 	countLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
@@ -112,7 +112,7 @@ func PrintBoardV3() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", p.LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[board[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -129,7 +129,7 @@ func getEmptyZ() int {
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
 		z = getZ(x, y)
-		if board[z] == 0 {
+		if c.Board[z] == 0 {
 			break
 		}
 	}

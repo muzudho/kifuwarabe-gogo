@@ -29,15 +29,15 @@ func countScoreV5(turnColor int) int {
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
-			c := board[z]
-			kind[c]++
-			if c != 0 {
+			color2 := c.Board[z]
+			kind[color2]++
+			if color2 != 0 {
 				continue
 			}
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board[z+e.Dir4[i]]]++
+				mk[c.Board[z+e.Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -72,7 +72,7 @@ func playoutV5(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = getZ(x+1, y+1)
-				if board[z] != 0 {
+				if c.Board[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
