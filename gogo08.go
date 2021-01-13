@@ -12,6 +12,7 @@ import (
 	"os"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
+	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 	// "sort"
 	// "strconv"
@@ -42,7 +43,7 @@ func PrintBoardV8() {
 		}
 		fmt.Printf("|")
 		if y == 4 {
-			fmt.Printf("  koZ=%d,moves=%d", get81(koZ), moves)
+			fmt.Printf("  KoZ=%d,moves=%d", get81(e.KoZ), moves)
 		}
 		fmt.Printf("\n")
 	}
@@ -92,8 +93,8 @@ func playoutV8(turnColor int) int {
 		}
 		previousZ = z
 		// PrintBoard()
-		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,koZ=%d\n",
-		// 	loop, get81(z), color, emptyNum, get81(koZ))
+		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+		// 	loop, get81(z), color, emptyNum, get81(KoZ))
 		color = flipColor(color)
 	}
 	return countScoreV7(turnColor)
@@ -220,12 +221,12 @@ func getBestUctV8(color int) int {
 	next := createNode()
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
-		koZCopy := koZ
+		koZCopy := e.KoZ
 		copy(boardCopy[:], c.Board[:])
 
 		searchUctV8(color, next)
 
-		koZ = koZCopy
+		e.KoZ = koZCopy
 		copy(c.Board[:], boardCopy[:])
 	}
 	pN := &node[next]

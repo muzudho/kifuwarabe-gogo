@@ -34,7 +34,7 @@ func putStoneV2(tz int, color int) int {
 	koMaybe := 0
 
 	if tz == 0 {
-		koZ = 0
+		e.KoZ = 0
 		return 0
 	}
 	for i := 0; i < 4; i++ {
@@ -68,7 +68,7 @@ func putStoneV2(tz int, color int) int {
 	if captureSum == 0 && space == 0 && mycolSafe == 0 {
 		return 1
 	}
-	if tz == koZ {
+	if tz == e.KoZ {
 		return 2
 	}
 	// if wall+mycolSafe==4 {return 3}
@@ -88,9 +88,9 @@ func putStoneV2(tz int, color int) int {
 
 	countLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
-		koZ = koMaybe
+		e.KoZ = koMaybe
 	} else {
-		koZ = 0
+		e.KoZ = 0
 	}
 	return 0
 }

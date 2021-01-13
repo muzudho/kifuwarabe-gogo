@@ -99,8 +99,8 @@ func playoutV5(turnColor int) int {
 		}
 		previousZ = z
 		PrintBoardV3()
-		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,koZ=%d\n",
-			loop, get81(z), color, emptyNum, get81(koZ))
+		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+			loop, get81(z), color, emptyNum, get81(e.KoZ))
 		color = flipColor(color)
 	}
 	return countScoreV5(turnColor)

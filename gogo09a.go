@@ -17,6 +17,7 @@ import (
 	"time"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
+	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	// "unicode"
 	// "unsafe"
 )
@@ -62,7 +63,7 @@ func PrintBoardV9a() {
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
-			fmt.Fprintf(os.Stderr, "  koZ=%d,moves=%d", get81(koZ), moves)
+			fmt.Fprintf(os.Stderr, "  KoZ=%d,moves=%d", get81(e.KoZ), moves)
 		}
 		fmt.Fprintf(os.Stderr, "\n")
 	}
@@ -81,12 +82,12 @@ func getBestUctV9a(color int) int {
 	next := createNode()
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
-		koZCopy := koZ
+		koZCopy := e.KoZ
 		copy(boardCopy[:], c.Board[:])
 
 		searchUctV8(color, next)
 
-		koZ = koZCopy
+		e.KoZ = koZCopy
 		copy(c.Board[:], boardCopy[:])
 	}
 	pN := &node[next]
@@ -114,7 +115,7 @@ func initBoard() {
 		}
 	}
 	moves = 0
-	koZ = 0
+	e.KoZ = 0
 }
 
 func addMoves9a(z int, color int, sec float64) {

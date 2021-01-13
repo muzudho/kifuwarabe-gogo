@@ -31,7 +31,7 @@ func putStoneV4(tz int, color int, fillEyeErr int) int {
 	koMaybe := 0
 
 	if tz == 0 {
-		koZ = 0
+		e.KoZ = 0
 		return 0
 	}
 	for i := 0; i < 4; i++ {
@@ -65,7 +65,7 @@ func putStoneV4(tz int, color int, fillEyeErr int) int {
 	if captureSum == 0 && space == 0 && mycolSafe == 0 {
 		return 1
 	}
-	if tz == koZ {
+	if tz == e.KoZ {
 		return 2
 	}
 	if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
@@ -87,9 +87,9 @@ func putStoneV4(tz int, color int, fillEyeErr int) int {
 
 	countLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
-		koZ = koMaybe
+		e.KoZ = koMaybe
 	} else {
-		koZ = 0
+		e.KoZ = 0
 	}
 	return 0
 }
@@ -160,8 +160,8 @@ func playoutV4(turnColor int) int {
 		}
 		previousZ = z
 		PrintBoardV3()
-		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,koZ=%d\n",
-			loop, get81(z), color, emptyNum, get81(koZ))
+		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+			loop, get81(z), color, emptyNum, get81(e.KoZ))
 		color = flipColor(color)
 	}
 	return 0

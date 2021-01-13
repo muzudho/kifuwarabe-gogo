@@ -29,7 +29,6 @@ func main() {
 	// GoGoV9a()
 }
 
-var koZ int
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
 
