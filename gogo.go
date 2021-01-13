@@ -11,14 +11,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	"github.com/muzudho/kifuwarabe-uec12/entities"
 )
 
 func main() {
 	fmt.Printf("Author: %s\n", entities.Author)
-	GoGoV1()
-	// GoGoV2()
+	// GoGoV1()
+	GoGoV2()
 	// GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
@@ -193,7 +193,7 @@ var board = [BoardMax]int{
 */
 
 // gogo09a.go 用。
-var board = [controller.BoardMax]int{
+var board = [c.BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -207,18 +207,18 @@ var board = [controller.BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
 
-var dir4 = [4]int{1, controller.Width, -1, -controller.Width}
+var dir4 = [4]int{1, c.Width, -1, -c.Width}
 var koZ int
 var moves, allPlayouts, flagTestPlayout int
 var record [MaxMoves]int
 
 func getZ(x int, y int) int {
-	return y*controller.Width + x
+	return y*c.Width + x
 }
 
 func get81(z int) int {
-	y := z / controller.Width
-	x := z - y*controller.Width
+	y := z / c.Width
+	x := z - y*c.Width
 	if z == 0 {
 		return 0
 	}
@@ -229,7 +229,7 @@ func flipColor(col int) int {
 	return 3 - col
 }
 
-var checkBoard = [controller.BoardMax]int{}
+var checkBoard = [c.BoardMax]int{}
 
 func countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
 	checkBoard[tz] = 1
@@ -253,7 +253,7 @@ func countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
 func countLiberty(tz int, pLiberty *int, pStone *int) {
 	*pLiberty = 0
 	*pStone = 0
-	for i := 0; i < controller.BoardMax; i++ {
+	for i := 0; i < c.BoardMax; i++ {
 		checkBoard[i] = 0
 	}
 	countLibertySub(tz, board[tz], pLiberty, pStone)
@@ -418,7 +418,7 @@ func GoGoV9a() {
 				x--
 			}
 			y := int(ax[1] - '0')
-			z := getZ(int(x), controller.BoardSize-y+1)
+			z := getZ(int(x), c.BoardSize-y+1)
 			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, get81(z))
 			if ax == "pass" {
 				z = 0

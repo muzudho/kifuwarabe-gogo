@@ -6,20 +6,20 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 )
 
 func playoutV9(turnColor int) int {
 	color := turnColor
 	previousZ := 0
-	loopMax := controller.BoardSize*controller.BoardSize + 200
+	loopMax := c.BoardSize*c.BoardSize + 200
 
 	allPlayouts++
 	for loop := 0; loop < loopMax; loop++ {
-		var empty = [controller.BoardMax]int{}
+		var empty = [c.BoardMax]int{}
 		var emptyNum, r, z int
-		for y := 0; y <= controller.BoardSize; y++ {
-			for x := 0; x < controller.BoardSize; x++ {
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
 				z = getZ(x+1, y+1)
 				if board[z] != 0 {
 					continue
@@ -63,13 +63,13 @@ func primitiveMonteCalroV9(color int) int {
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
-	var boardCopy = [controller.BoardMax]int{}
+	var boardCopy = [c.BoardMax]int{}
 	koZCopy := koZ
 	copy(boardCopy[:], board[:])
 	bestValue = -100.0
 
-	for y := 0; y <= controller.BoardSize; y++ {
-		for x := 0; x < controller.BoardSize; x++ {
+	for y := 0; y <= c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
 			if board[z] != 0 {
 				continue
@@ -81,7 +81,7 @@ func primitiveMonteCalroV9(color int) int {
 
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = [controller.BoardMax]int{}
+				var boardCopy2 = [c.BoardMax]int{}
 				koZCopy2 := koZ
 				copy(boardCopy2[:], board[:])
 				win := -playoutV9(flipColor(color))
@@ -138,7 +138,7 @@ func getBestUctV9(color int) int {
 	var bestI = -1
 	next := createNode()
 	for i := 0; i < uctLoop; i++ {
-		var boardCopy = [controller.BoardMax]int{}
+		var boardCopy = [c.BoardMax]int{}
 		koZCopy := koZ
 		copy(boardCopy[:], board[:])
 
@@ -178,11 +178,11 @@ func getComputerMove(color int, fUCT int) int {
 }
 
 func printSgf() {
-	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", controller.BoardSize, komi)
+	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, komi)
 	for i := 0; i < moves; i++ {
 		z := record[i]
-		y := z / controller.Width
-		x := z - y*controller.Width
+		y := z / c.Width
+		x := z - y*c.Width
 		var sStone = [2]string{"B", "W"}
 		fmt.Printf(";%s", sStone[i&1])
 		if z == 0 {

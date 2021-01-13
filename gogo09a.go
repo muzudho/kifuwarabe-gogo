@@ -16,7 +16,7 @@ import (
 	// "sync"
 	"time"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	// "unicode"
 	// "unsafe"
 )
@@ -28,15 +28,15 @@ func getCharZ(z int) string {
 		return "pass"
 	}
 
-	y := z / controller.Width
-	x := z - y*controller.Width
+	y := z / c.Width
+	x := z - y*c.Width
 	ax := 'A' + x - 1
 	if ax >= 'I' {
 		ax++
 	}
 
 	//return string(ax) + string(BoardSize+1-y+'0')
-	return fmt.Sprintf("%d%d", ax, controller.BoardSize+1-y+'0')
+	return fmt.Sprintf("%d%d", ax, c.BoardSize+1-y+'0')
 }
 
 var usiKomaKanjiV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
@@ -47,18 +47,18 @@ func PrintBoardV9a() {
 	// var str = [4]string{"・", "●", "○", "＃"}
 	var str = [4]string{" .", " *", " o", " #"}
 	fmt.Fprintf(os.Stderr, "\n   ")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Fprintf(os.Stderr, "%2d", x+1)
 	}
 	fmt.Fprintf(os.Stderr, "\n  +")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Fprintf(os.Stderr, "--")
 	}
 	fmt.Fprintf(os.Stderr, "+\n")
-	for y := 0; y < controller.BoardSize; y++ {
+	for y := 0; y < c.BoardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", usiKomaKanjiV9a[y+1])
-		for x := 0; x < controller.BoardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", str[board[x+1+controller.Width*(y+1)]])
+		for x := 0; x < c.BoardSize; x++ {
+			fmt.Fprintf(os.Stderr, "%s", str[board[x+1+c.Width*(y+1)]])
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
@@ -67,7 +67,7 @@ func PrintBoardV9a() {
 		fmt.Fprintf(os.Stderr, "\n")
 	}
 	fmt.Fprintf(os.Stderr, "  +")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Fprintf(os.Stderr, "--")
 	}
 	fmt.Fprintf(os.Stderr, "+\n")
@@ -80,7 +80,7 @@ func getBestUctV9a(color int) int {
 	var bestI = -1
 	next := createNode()
 	for i := 0; i < uctLoop; i++ {
-		var boardCopy = [controller.BoardMax]int{}
+		var boardCopy = [c.BoardMax]int{}
 		koZCopy := koZ
 		copy(boardCopy[:], board[:])
 
@@ -105,11 +105,11 @@ func getBestUctV9a(color int) int {
 }
 
 func initBoard() {
-	for i := 0; i < controller.BoardMax; i++ {
+	for i := 0; i < c.BoardMax; i++ {
 		board[i] = 3
 	}
-	for y := 0; y < controller.BoardSize; y++ {
-		for x := 0; x < controller.BoardSize; x++ {
+	for y := 0; y < c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
 			board[getZ(x+1, y+1)] = 0
 		}
 	}

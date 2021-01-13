@@ -9,7 +9,7 @@ import (
 	// "math"
 	"math/rand"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	// "os"
 	// "sort"
 	// "strconv"
@@ -25,8 +25,8 @@ func countScoreV5(turnColor int) int {
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
 
-	for y := 0; y < controller.BoardSize; y++ {
-		for x := 0; x < controller.BoardSize; x++ {
+	for y := 0; y < c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
 			c := board[z]
 			kind[c]++
@@ -63,13 +63,13 @@ func countScoreV5(turnColor int) int {
 func playoutV5(turnColor int) int {
 	color := turnColor
 	previousZ := 0
-	loopMax := controller.BoardSize*controller.BoardSize + 200
+	loopMax := c.BoardSize*c.BoardSize + 200
 
 	for loop := 0; loop < loopMax; loop++ {
-		var empty = [controller.BoardMax]int{}
+		var empty = [c.BoardMax]int{}
 		var emptyNum, r, z int
-		for y := 0; y <= controller.BoardSize; y++ {
-			for x := 0; x < controller.BoardSize; x++ {
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
 				z = getZ(x+1, y+1)
 				if board[z] != 0 {
 					continue

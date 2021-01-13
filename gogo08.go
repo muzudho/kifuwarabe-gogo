@@ -11,7 +11,7 @@ import (
 	"math/rand"
 	"os"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	// "sort"
 	// "strconv"
 	// "strings"
@@ -26,18 +26,18 @@ func PrintBoardV8() {
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", "● ", "○ ", "＃"}
 	fmt.Printf("\n   ")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
 	fmt.Printf("\n  +")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-	for y := 0; y < controller.BoardSize; y++ {
+	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", usiKomaKanji[y+1])
-		for x := 0; x < controller.BoardSize; x++ {
-			fmt.Printf("%s", str[board[x+1+controller.Width*(y+1)]])
+		for x := 0; x < c.BoardSize; x++ {
+			fmt.Printf("%s", str[board[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|")
 		if y == 4 {
@@ -46,7 +46,7 @@ func PrintBoardV8() {
 		fmt.Printf("\n")
 	}
 	fmt.Printf("  +")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
@@ -55,14 +55,14 @@ func PrintBoardV8() {
 func playoutV8(turnColor int) int {
 	color := turnColor
 	previousZ := 0
-	loopMax := controller.BoardSize*controller.BoardSize + 200
+	loopMax := c.BoardSize*c.BoardSize + 200
 
 	allPlayouts++
 	for loop := 0; loop < loopMax; loop++ {
-		var empty = [controller.BoardMax]int{}
+		var empty = [c.BoardMax]int{}
 		var emptyNum, r, z int
-		for y := 0; y <= controller.BoardSize; y++ {
-			for x := 0; x < controller.BoardSize; x++ {
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
 				z = getZ(x+1, y+1)
 				if board[z] != 0 {
 					continue
@@ -100,7 +100,7 @@ func playoutV8(turnColor int) int {
 
 // UCT
 const (
-	Childrenize = controller.BoardSize*controller.BoardSize + 1
+	Childrenize = c.BoardSize*c.BoardSize + 1
 	NodeMax     = 10000
 	NodeEmpty   = -1
 	IllegalZ    = -1
@@ -141,8 +141,8 @@ func createNode() int {
 	pN := &node[nodeNum]
 	pN.ChildNum = 0
 	pN.ChildGameSum = 0
-	for y := 0; y <= controller.BoardSize; y++ {
-		for x := 0; x < controller.BoardSize; x++ {
+	for y := 0; y <= c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
 			if board[z] != 0 {
 				continue
@@ -218,7 +218,7 @@ func getBestUctV8(color int) int {
 	var bestI = -1
 	next := createNode()
 	for i := 0; i < uctLoop; i++ {
-		var boardCopy = [controller.BoardMax]int{}
+		var boardCopy = [c.BoardMax]int{}
 		koZCopy := koZ
 		copy(boardCopy[:], board[:])
 

@@ -9,7 +9,7 @@ import (
 	// "math"
 	"math/rand"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	// "os"
 	// "sort"
 	// "strconv"
@@ -99,23 +99,23 @@ func PrintBoardV3() {
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", "● ", "○ ", "＃"}
 	fmt.Printf("\n   ")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
 	fmt.Printf("\n  +")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-	for y := 0; y < controller.BoardSize; y++ {
+	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", usiKomaKanji[y+1])
-		for x := 0; x < controller.BoardSize; x++ {
-			fmt.Printf("%s", str[board[x+1+controller.Width*(y+1)]])
+		for x := 0; x < c.BoardSize; x++ {
+			fmt.Printf("%s", str[board[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
 	fmt.Printf("  +")
-	for x := 0; x < controller.BoardSize; x++ {
+	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")

@@ -8,7 +8,7 @@ import (
 	// "math"
 	"math/rand"
 
-	"github.com/muzudho/kifuwarabe-uec12/controller"
+	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	// "os"
 	// "sort"
 	// "strconv"
@@ -23,8 +23,8 @@ func countScoreV7(turnColor int) int {
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
 
-	for y := 0; y < controller.BoardSize; y++ {
-		for x := 0; x < controller.BoardSize; x++ {
+	for y := 0; y < c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
 			c := board[z]
 			kind[c]++
@@ -64,13 +64,13 @@ func countScoreV7(turnColor int) int {
 func playoutV7(turnColor int) int {
 	color := turnColor
 	previousZ := 0
-	loopMax := controller.BoardSize*controller.BoardSize + 200
+	loopMax := c.BoardSize*c.BoardSize + 200
 
 	for loop := 0; loop < loopMax; loop++ {
-		var empty = [controller.BoardMax]int{}
+		var empty = [c.BoardMax]int{}
 		var emptyNum, r, z int
-		for y := 0; y <= controller.BoardSize; y++ {
-			for x := 0; x < controller.BoardSize; x++ {
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
 				z = getZ(x+1, y+1)
 				if board[z] != 0 {
 					continue
@@ -110,13 +110,13 @@ func primitiveMonteCalroV7(color int) int {
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
-	var boardCopy = [controller.BoardMax]int{}
+	var boardCopy = [c.BoardMax]int{}
 	koZCopy := koZ
 	copy(boardCopy[:], board[:])
 	bestValue = -100.0
 
-	for y := 0; y <= controller.BoardSize; y++ {
-		for x := 0; x < controller.BoardSize; x++ {
+	for y := 0; y <= c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
 			z := getZ(x+1, y+1)
 			if board[z] != 0 {
 				continue
@@ -128,7 +128,7 @@ func primitiveMonteCalroV7(color int) int {
 
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = [controller.BoardMax]int{}
+				var boardCopy2 = [c.BoardMax]int{}
 				koZCopy2 := koZ
 				copy(boardCopy2[:], board[:])
 				win := -playoutV7(flipColor(color))
