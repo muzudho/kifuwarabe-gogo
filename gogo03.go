@@ -99,7 +99,7 @@ func getEmptyZ() int {
 	for {
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
-		z = getZ(x, y)
+		z = e.GetZ(x, y)
 		if c.Board[z] == 0 {
 			break
 		}

@@ -29,7 +29,7 @@ func countScoreV5(turnColor int) int {
 
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := getZ(x+1, y+1)
+			z := e.GetZ(x+1, y+1)
 			color2 := c.Board[z]
 			kind[color2]++
 			if color2 != 0 {
@@ -72,7 +72,7 @@ func playoutV5(turnColor int) int {
 		var emptyNum, r, z int
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = getZ(x+1, y+1)
+				z = e.GetZ(x+1, y+1)
 				if c.Board[z] != 0 {
 					continue
 				}

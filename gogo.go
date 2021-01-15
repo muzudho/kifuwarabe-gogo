@@ -33,10 +33,6 @@ func main() {
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
 
-func getZ(x int, y int) int {
-	return y*c.Width + x
-}
-
 func flipColor(col int) int {
 	return 3 - col
 }
@@ -96,7 +92,7 @@ func GoGoV1() {
 // GoGoV2 - バージョン２。
 func GoGoV2() {
 	p.PrintBoardV2()
-	err := putStoneV2(getZ(7, 5), 2)
+	err := putStoneV2(e.GetZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
 	p.PrintBoardV2()
 }
@@ -230,7 +226,7 @@ func GoGoV9a() {
 				x--
 			}
 			y := int(ax[1] - '0')
-			z := getZ(int(x), c.BoardSize-y+1)
+			z := e.GetZ(int(x), c.BoardSize-y+1)
 			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, e.Get81(z))
 			if ax == "pass" {
 				z = 0

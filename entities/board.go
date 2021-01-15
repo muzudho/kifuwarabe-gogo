@@ -19,3 +19,8 @@ func Get81(z int) int {
 	}
 	return x*10 + y
 }
+
+// GetZ - YX形式の座標？
+func GetZ(x int, y int) int {
+	return y*c.Width + x
+}

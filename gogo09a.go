@@ -78,7 +78,7 @@ func initBoard() {
 	}
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			c.Board[getZ(x+1, y+1)] = 0
+			c.Board[e.GetZ(x+1, y+1)] = 0
 		}
 	}
 	moves = 0
