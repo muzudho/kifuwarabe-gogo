@@ -51,7 +51,7 @@ func GoGoV3() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for {
-		z := playOneMove(color)
+		z := e.PlayOneMove(color)
 		fmt.Printf("moves=%4d, color=%d, z=%d\n", moves, color, e.Get81(z))
 		p.PrintBoardV3()
 

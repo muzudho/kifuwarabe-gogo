@@ -318,3 +318,18 @@ func PutStoneV4(tz int, color int, fillEyeErr int) int {
 	}
 	return 0
 }
+
+// PlayOneMove - 置けるとこに置く。
+func PlayOneMove(color int) int {
+	var z int
+	for i := 0; i < 100; i++ {
+		z := GetEmptyZ()
+		err := PutStoneV3(z, color)
+		if err == 0 {
+			return z
+		}
+	}
+	z = 0
+	PutStoneV3(0, color)
+	return z
+}

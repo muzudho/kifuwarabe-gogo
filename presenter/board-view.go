@@ -19,7 +19,7 @@ var usiKomaKanjiV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7",
 func PrintBoardV1() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", "● ", "○ ", "＃"}
+	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("%2d", x+1)
@@ -47,7 +47,7 @@ func PrintBoardV1() {
 func PrintBoardV2() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", "● ", "○ ", "＃"}
+	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("%2d", x+1)
@@ -75,7 +75,7 @@ func PrintBoardV2() {
 func PrintBoardV3() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", "● ", "○ ", "＃"}
+	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("%2d", x+1)
@@ -103,7 +103,7 @@ func PrintBoardV3() {
 func PrintBoardV8(moves int) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", "● ", "○ ", "＃"}
+	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	for x := 0; x < c.BoardSize; x++ {
 		fmt.Printf("%2d", x+1)
