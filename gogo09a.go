@@ -18,6 +18,7 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 	// "unicode"
 	// "unsafe"
 )
@@ -38,40 +39,6 @@ func getCharZ(z int) string {
 
 	//return string(ax) + string(BoardSize+1-y+'0')
 	return fmt.Sprintf("%d%d", ax, c.BoardSize+1-y+'0')
-}
-
-var usiKomaKanjiV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
-	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
-
-// PrintBoardV9a - 盤を描画。
-func PrintBoardV9a() {
-	// var str = [4]string{"・", "●", "○", "＃"}
-	var str = [4]string{" .", " *", " o", " #"}
-	fmt.Fprintf(os.Stderr, "\n   ")
-	for x := 0; x < c.BoardSize; x++ {
-		fmt.Fprintf(os.Stderr, "%2d", x+1)
-	}
-	fmt.Fprintf(os.Stderr, "\n  +")
-	for x := 0; x < c.BoardSize; x++ {
-		fmt.Fprintf(os.Stderr, "--")
-	}
-	fmt.Fprintf(os.Stderr, "+\n")
-	for y := 0; y < c.BoardSize; y++ {
-		fmt.Fprintf(os.Stderr, "%s|", usiKomaKanjiV9a[y+1])
-		for x := 0; x < c.BoardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", str[c.Board[x+1+c.Width*(y+1)]])
-		}
-		fmt.Fprintf(os.Stderr, "|")
-		if y == 4 {
-			fmt.Fprintf(os.Stderr, "  KoZ=%d,moves=%d", get81(e.KoZ), moves)
-		}
-		fmt.Fprintf(os.Stderr, "\n")
-	}
-	fmt.Fprintf(os.Stderr, "  +")
-	for x := 0; x < c.BoardSize; x++ {
-		fmt.Fprintf(os.Stderr, "--")
-	}
-	fmt.Fprintf(os.Stderr, "+\n")
 }
 
 func getBestUctV9a(color int) int {
@@ -97,11 +64,11 @@ func getBestUctV9a(color int) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Fprintf(os.Stderr,"%2d:z=%2d,rate=%.4f,games=%3d\n", i, get81(c.Z), c.Rate, c.Games)
+		// fmt.Fprintf(os.Stderr,"%2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Fprintf(os.Stderr, "bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
+		e.Get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
 	return bestZ
 }
 
@@ -127,7 +94,7 @@ func addMoves9a(z int, color int, sec float64) {
 	record[moves] = z
 	recordTime[moves] = sec
 	moves++
-	PrintBoardV9a()
+	p.PrintBoardV9a(moves)
 }
 
 func playComputerMove(color int, fUCT int) int {
@@ -141,7 +108,7 @@ func playComputerMove(color int, fUCT int) int {
 	}
 	t := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
-		t, float64(allPlayouts)/t, get81(z), moves, color, allPlayouts)
+		t, float64(allPlayouts)/t, e.Get81(z), moves, color, allPlayouts)
 	addMoves9a(z, color, t)
 	return z
 }
@@ -151,6 +118,6 @@ func undo() {
 func testPlayoutV9a() {
 	flagTestPlayout = 1
 	playoutV9(1)
-	PrintBoardV9a()
+	p.PrintBoardV9a(moves)
 	printSgf()
 }

@@ -13,6 +13,7 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 )
 
 func main() {
@@ -34,15 +35,6 @@ var record [c.MaxMoves]int
 
 func getZ(x int, y int) int {
 	return y*c.Width + x
-}
-
-func get81(z int) int {
-	y := z / c.Width
-	x := z - y*c.Width
-	if z == 0 {
-		return 0
-	}
-	return x*10 + y
 }
 
 func flipColor(col int) int {
@@ -98,15 +90,15 @@ const (
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
-	PrintBoardV1()
+	p.PrintBoardV1()
 }
 
 // GoGoV2 - バージョン２。
 func GoGoV2() {
-	PrintBoardV2()
+	p.PrintBoardV2()
 	err := putStoneV2(getZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
-	PrintBoardV2()
+	p.PrintBoardV2()
 }
 
 // GoGoV3 - バージョン３。
@@ -115,8 +107,8 @@ func GoGoV3() {
 	rand.Seed(time.Now().UnixNano())
 	for {
 		z := playOneMove(color)
-		fmt.Printf("moves=%4d, color=%d, z=%d\n", moves, color, get81(z))
-		PrintBoardV3()
+		fmt.Printf("moves=%4d, color=%d, z=%d\n", moves, color, e.Get81(z))
+		p.PrintBoardV3()
 
 		record[moves] = z
 		moves++
@@ -153,7 +145,7 @@ func GoGoV6() {
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV6(color)
 		putStoneV4(z, color, FillEyeOk)
-		PrintBoardV3()
+		p.PrintBoardV3()
 		color = flipColor(color)
 	}
 }
@@ -165,7 +157,7 @@ func GoGoV7() {
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV7(color)
 		putStoneV4(z, color, FillEyeOk)
-		PrintBoardV3()
+		p.PrintBoardV3()
 		color = flipColor(color)
 	}
 }
@@ -239,7 +231,7 @@ func GoGoV9a() {
 			}
 			y := int(ax[1] - '0')
 			z := getZ(int(x), c.BoardSize-y+1)
-			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, get81(z))
+			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, e.Get81(z))
 			if ax == "pass" {
 				z = 0
 			}

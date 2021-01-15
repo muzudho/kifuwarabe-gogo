@@ -9,3 +9,13 @@ var Dir4 = [4]int{1, c.Width, -1, -c.Width}
 
 // KoZ - コウのZ（番地）。 XXYY だろうか？ 0 ならコウは無し？
 var KoZ int
+
+// Get81 - XY形式の座標？
+func Get81(z int) int {
+	y := z / c.Width
+	x := z - y*c.Width
+	if z == 0 {
+		return 0
+	}
+	return x*10 + y
+}

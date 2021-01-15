@@ -8,6 +8,7 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 )
 
 func playoutV9(turnColor int) int {
@@ -54,7 +55,7 @@ func playoutV9(turnColor int) int {
 		previousZ = z
 		// PrintBoard()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, get81(z), color, emptyNum, get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = flipColor(color)
 	}
 	return countScoreV7(turnColor)
@@ -94,7 +95,7 @@ func primitiveMonteCalroV9(color int) int {
 			if winRate > bestValue {
 				bestValue = winRate
 				bestZ = z
-				// fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", get81(bestZ), color, bestValue, tryNum)
+				// fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
 			}
 			e.KoZ = koZCopy
 			copy(c.Board[:], boardCopy[:])
@@ -116,7 +117,7 @@ func searchUctV9(color int, nodeN int) int {
 			break
 		}
 		c.Z = IllegalZ
-		// fmt.Printf("ILLEGAL:z=%2d\n", get81(z))
+		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
 		win = -playoutV9(flipColor(color))
@@ -155,11 +156,11 @@ func getBestUctV9(color int) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, get81(c.Z), c.Rate, c.Games)
+		// fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
+		e.Get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
 	return bestZ
 }
 
@@ -174,7 +175,7 @@ func getComputerMove(color int, fUCT int) int {
 	}
 	t := time.Since(st).Seconds()
 	fmt.Printf("%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
-		t, float64(allPlayouts)/t, get81(z), moves, color, allPlayouts)
+		t, float64(allPlayouts)/t, e.Get81(z), moves, color, allPlayouts)
 	return z
 }
 
@@ -222,6 +223,6 @@ func selfplay() {
 func testPlayout() {
 	flagTestPlayout = 1
 	playoutV9(1)
-	PrintBoardV8()
+	p.PrintBoardV8(moves)
 	printSgf()
 }

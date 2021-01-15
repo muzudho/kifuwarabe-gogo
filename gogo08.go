@@ -22,38 +22,6 @@ import (
 	// "unsafe"
 )
 
-// PrintBoardV8 - 盤の描画。
-func PrintBoardV8() {
-	// "● " - Visual Studio Code の 全角半角崩れ対応。
-	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", "● ", "○ ", "＃"}
-	fmt.Printf("\n   ")
-	for x := 0; x < c.BoardSize; x++ {
-		fmt.Printf("%2d", x+1)
-	}
-	fmt.Printf("\n  +")
-	for x := 0; x < c.BoardSize; x++ {
-		fmt.Printf("--")
-	}
-	fmt.Printf("+\n")
-	for y := 0; y < c.BoardSize; y++ {
-		fmt.Printf("%s|", p.LabelOfRows[y+1])
-		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
-		}
-		fmt.Printf("|")
-		if y == 4 {
-			fmt.Printf("  KoZ=%d,moves=%d", get81(e.KoZ), moves)
-		}
-		fmt.Printf("\n")
-	}
-	fmt.Printf("  +")
-	for x := 0; x < c.BoardSize; x++ {
-		fmt.Printf("--")
-	}
-	fmt.Printf("+\n")
-}
-
 func playoutV8(turnColor int) int {
 	color := turnColor
 	previousZ := 0
@@ -94,7 +62,7 @@ func playoutV8(turnColor int) int {
 		previousZ = z
 		// PrintBoard()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, get81(z), color, emptyNum, get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = flipColor(color)
 	}
 	return countScoreV7(turnColor)
@@ -197,7 +165,7 @@ func searchUctV8(color int, nodeN int) int {
 			break
 		}
 		c.Z = IllegalZ
-		// fmt.Printf("ILLEGAL:z=%2d\n", get81(z))
+		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
 		win = -playoutV8(flipColor(color))
@@ -236,11 +204,11 @@ func getBestUctV8(color int) int {
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, get81(c.Z), c.Rate, c.Games)
+		fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
+		e.Get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
 	return bestZ
 }
 
@@ -252,5 +220,5 @@ func addMovesV8(z int, color int) {
 	}
 	record[moves] = z
 	moves++
-	PrintBoardV8()
+	p.PrintBoardV8(moves)
 }

@@ -97,7 +97,7 @@ func playoutV6(turnColor int) int {
 		previousZ = z
 		// PrintBoard()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, get81(z), color, emptyNum, get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = flipColor(color)
 	}
 	return countScoreV6(turnColor)
@@ -142,7 +142,7 @@ func primitiveMonteCalroV6(color int) int {
 				(color == 2 && winRate < bestValue) {
 				bestValue = winRate
 				bestZ = z
-				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", get81(bestZ), color, bestValue, tryNum)
+				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
 			}
 			e.KoZ = koZCopy
 			copy(c.Board[:], boardCopy[:])
