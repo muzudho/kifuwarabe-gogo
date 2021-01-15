@@ -56,7 +56,7 @@ func playoutV9(turnColor int) int {
 		// PrintBoard()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 	return countScoreV7(turnColor)
 }
@@ -86,7 +86,7 @@ func primitiveMonteCalroV9(color int) int {
 				var boardCopy2 = [c.BoardMax]int{}
 				koZCopy2 := e.KoZ
 				copy(boardCopy2[:], c.Board[:])
-				win := -playoutV9(flipColor(color))
+				win := -playoutV9(e.FlipColor(color))
 				winSum += win
 				e.KoZ = koZCopy2
 				copy(c.Board[:], boardCopy2[:])
@@ -120,12 +120,12 @@ func searchUctV9(color int, nodeN int) int {
 		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
-		win = -playoutV9(flipColor(color))
+		win = -playoutV9(e.FlipColor(color))
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = createNode()
 		}
-		win = -searchUctV9(flipColor(color), c.Next)
+		win = -searchUctV9(e.FlipColor(color), c.Next)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -195,7 +195,7 @@ func selfplay() {
 		if moves > 300 {
 			break
 		} // too long
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 
 	p.PrintSgf(moves, record)

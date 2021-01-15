@@ -33,10 +33,6 @@ func main() {
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
 
-func flipColor(col int) int {
-	return 3 - col
-}
-
 var checkBoard = [c.BoardMax]int{}
 
 func countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
@@ -116,7 +112,7 @@ func GoGoV3() {
 			fmt.Printf("two pass\n")
 			break
 		}
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 }
 
@@ -142,7 +138,7 @@ func GoGoV6() {
 		z := primitiveMonteCalroV6(color)
 		putStoneV4(z, color, FillEyeOk)
 		p.PrintBoardV3()
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 }
 
@@ -154,7 +150,7 @@ func GoGoV7() {
 		z := primitiveMonteCalroV7(color)
 		putStoneV4(z, color, FillEyeOk)
 		p.PrintBoardV3()
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 }
 
@@ -166,7 +162,7 @@ func GoGoV8() {
 		allPlayouts = 0
 		z := getBestUctV8(color)
 		addMovesV8(z, color)
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 }
 

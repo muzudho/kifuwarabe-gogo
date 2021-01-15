@@ -102,7 +102,7 @@ func playoutV7(turnColor int) int {
 		// PrintBoard()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 	return countScoreV7(turnColor)
 }
@@ -132,7 +132,7 @@ func primitiveMonteCalroV7(color int) int {
 				var boardCopy2 = [c.BoardMax]int{}
 				koZCopy2 := e.KoZ
 				copy(boardCopy2[:], c.Board[:])
-				win := -playoutV7(flipColor(color))
+				win := -playoutV7(e.FlipColor(color))
 				winSum += win
 				e.KoZ = koZCopy2
 				copy(c.Board[:], boardCopy2[:])

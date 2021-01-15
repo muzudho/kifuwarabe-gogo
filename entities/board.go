@@ -40,3 +40,8 @@ func GetEmptyZ() int {
 	}
 	return z
 }
+
+// FlipColor - 白黒反転させます。
+func FlipColor(col int) int {
+	return 3 - col
+}

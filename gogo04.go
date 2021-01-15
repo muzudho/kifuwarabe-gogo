@@ -24,7 +24,7 @@ import (
 func putStoneV4(tz int, color int, fillEyeErr int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
-	unCol := flipColor(color)
+	unCol := e.FlipColor(color)
 	space := 0
 	wall := 0
 	mycolSafe := 0
@@ -163,7 +163,7 @@ func playoutV4(turnColor int) int {
 		p.PrintBoardV3()
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, e.Get81(z), color, emptyNum, e.Get81(e.KoZ))
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 	return 0
 }

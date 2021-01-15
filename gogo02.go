@@ -24,7 +24,7 @@ import (
 func putStoneV2(tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
-	unCol := flipColor(color)
+	unCol := e.FlipColor(color)
 	space := 0
 	wall := 0
 	mycolSafe := 0

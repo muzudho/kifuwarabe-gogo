@@ -63,7 +63,7 @@ func playoutV8(turnColor int) int {
 		// PrintBoard()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
-		color = flipColor(color)
+		color = e.FlipColor(color)
 	}
 	return countScoreV7(turnColor)
 }
@@ -168,12 +168,12 @@ func searchUctV8(color int, nodeN int) int {
 		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
-		win = -playoutV8(flipColor(color))
+		win = -playoutV8(e.FlipColor(color))
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = createNode()
 		}
-		win = -searchUctV8(flipColor(color), c.Next)
+		win = -searchUctV8(e.FlipColor(color), c.Next)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
