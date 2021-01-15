@@ -49,7 +49,7 @@ func playoutV8(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := putStoneV4(z, color, FillEyeErr)
+			err := e.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -160,7 +160,7 @@ func searchUctV8(color int, nodeN int) int {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		z := c.Z
-		err := putStoneV4(z, color, FillEyeErr)
+		err := e.PutStoneV4(z, color, e.FillEyeErr)
 		if err == 0 {
 			break
 		}
@@ -213,7 +213,7 @@ func getBestUctV8(color int) int {
 }
 
 func addMovesV8(z int, color int) {
-	err := putStoneV4(z, color, FillEyeOk)
+	err := e.PutStoneV4(z, color, e.FillEyeOk)
 	if err != 0 {
 		fmt.Printf("Err!\n")
 		os.Exit(0)

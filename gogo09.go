@@ -38,7 +38,7 @@ func playoutV9(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := putStoneV4(z, color, FillEyeErr)
+			err := e.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -76,7 +76,7 @@ func primitiveMonteCalroV9(color int) int {
 			if c.Board[z] != 0 {
 				continue
 			}
-			err := putStoneV4(z, color, FillEyeErr)
+			err := e.PutStoneV4(z, color, e.FillEyeErr)
 			if err != 0 {
 				continue
 			}
@@ -112,7 +112,7 @@ func searchUctV9(color int, nodeN int) int {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		z := c.Z
-		err := putStoneV4(z, color, FillEyeErr)
+		err := e.PutStoneV4(z, color, e.FillEyeErr)
 		if err == 0 {
 			break
 		}

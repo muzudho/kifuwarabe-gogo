@@ -70,7 +70,7 @@ func initBoard() {
 }
 
 func addMoves9a(z int, color int, sec float64) {
-	err := putStoneV4(z, color, FillEyeOk)
+	err := e.PutStoneV4(z, color, e.FillEyeOk)
 	if err != 0 {
 		fmt.Fprintf(os.Stderr, "Err!\n")
 		os.Exit(0)

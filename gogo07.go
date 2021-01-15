@@ -88,7 +88,7 @@ func playoutV7(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := putStoneV4(z, color, FillEyeErr)
+			err := e.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -122,7 +122,7 @@ func primitiveMonteCalroV7(color int) int {
 			if c.Board[z] != 0 {
 				continue
 			}
-			err := putStoneV4(z, color, FillEyeErr)
+			err := e.PutStoneV4(z, color, e.FillEyeErr)
 			if err != 0 {
 				continue
 			}

@@ -33,13 +33,6 @@ func main() {
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
 
-const (
-	// FillEyeErr - 自分の眼を埋めるなってこと☆（＾～＾）？
-	FillEyeErr = 1
-	// FillEyeOk - 自分の眼を埋めてもいいってこと☆（＾～＾）？
-	FillEyeOk = 0
-)
-
 // GoGoV1 - バージョン１。
 func GoGoV1() {
 	p.PrintBoardV1()
@@ -96,7 +89,7 @@ func GoGoV6() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV6(color)
-		putStoneV4(z, color, FillEyeOk)
+		e.PutStoneV4(z, color, e.FillEyeOk)
 		p.PrintBoardV3()
 		color = e.FlipColor(color)
 	}
@@ -108,7 +101,7 @@ func GoGoV7() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV7(color)
-		putStoneV4(z, color, FillEyeOk)
+		e.PutStoneV4(z, color, e.FillEyeOk)
 		p.PrintBoardV3()
 		color = e.FlipColor(color)
 	}
