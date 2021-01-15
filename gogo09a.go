@@ -34,12 +34,12 @@ func getBestUctV9a(color int) int {
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
 		koZCopy := e.KoZ
-		copy(boardCopy[:], c.Board[:])
+		copy(boardCopy[:], c.BoardData[:])
 
 		searchUctV8(color, next)
 
 		e.KoZ = koZCopy
-		copy(c.Board[:], boardCopy[:])
+		copy(c.BoardData[:], boardCopy[:])
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {
@@ -58,11 +58,11 @@ func getBestUctV9a(color int) int {
 
 func initBoard() {
 	for i := 0; i < c.BoardMax; i++ {
-		c.Board[i] = 3
+		c.BoardData[i] = 3
 	}
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			c.Board[e.GetZ(x+1, y+1)] = 0
+			c.BoardData[e.GetZ(x+1, y+1)] = 0
 		}
 	}
 	moves = 0

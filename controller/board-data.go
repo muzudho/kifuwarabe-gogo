@@ -14,8 +14,8 @@ const (
 )
 
 /*
-// Board - gogo01.go 用
-var Board = [BoardMax]int{
+// BoardData - gogo01.go 用
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 2, 1, 1, 0, 1, 0, 0, 0, 0, 3,
 	3, 2, 2, 1, 1, 0, 1, 2, 0, 0, 3,
@@ -31,8 +31,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo02.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo02.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 2, 1, 2, 2, 2, 3,
@@ -48,8 +48,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo03.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo03.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -65,8 +65,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo04.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo04.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -82,8 +82,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo05.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo05.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -99,8 +99,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo06.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo06.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -116,8 +116,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo07.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo07.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -133,8 +133,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo08.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo08.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -150,8 +150,8 @@ var Board = [BoardMax]int{
 */
 
 /*
-// Board - gogo09.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo09.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
@@ -166,8 +166,8 @@ var Board = [BoardMax]int{
 }
 */
 
-// Board - gogo09a.go 用。
-var Board = [BoardMax]int{
+// BoardData - gogo09a.go 用。
+var BoardData = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,

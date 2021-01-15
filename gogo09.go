@@ -23,7 +23,7 @@ func playoutV9(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if c.Board[z] != 0 {
+				if c.BoardData[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -67,13 +67,13 @@ func primitiveMonteCalroV9(color int) int {
 	var bestValue, winRate float64
 	var boardCopy = [c.BoardMax]int{}
 	koZCopy := e.KoZ
-	copy(boardCopy[:], c.Board[:])
+	copy(boardCopy[:], c.BoardData[:])
 	bestValue = -100.0
 
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := e.GetZ(x+1, y+1)
-			if c.Board[z] != 0 {
+			if c.BoardData[z] != 0 {
 				continue
 			}
 			err := e.PutStoneV4(z, color, e.FillEyeErr)
@@ -85,11 +85,11 @@ func primitiveMonteCalroV9(color int) int {
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = [c.BoardMax]int{}
 				koZCopy2 := e.KoZ
-				copy(boardCopy2[:], c.Board[:])
+				copy(boardCopy2[:], c.BoardData[:])
 				win := -playoutV9(e.FlipColor(color))
 				winSum += win
 				e.KoZ = koZCopy2
-				copy(c.Board[:], boardCopy2[:])
+				copy(c.BoardData[:], boardCopy2[:])
 			}
 			winRate = float64(winSum) / float64(tryNum)
 			if winRate > bestValue {
@@ -98,7 +98,7 @@ func primitiveMonteCalroV9(color int) int {
 				// fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
 			}
 			e.KoZ = koZCopy
-			copy(c.Board[:], boardCopy[:])
+			copy(c.BoardData[:], boardCopy[:])
 		}
 	}
 	return bestZ
@@ -142,12 +142,12 @@ func getBestUctV9(color int) int {
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
 		koZCopy := e.KoZ
-		copy(boardCopy[:], c.Board[:])
+		copy(boardCopy[:], c.BoardData[:])
 
 		searchUctV9(color, next)
 
 		e.KoZ = koZCopy
-		copy(c.Board[:], boardCopy[:])
+		copy(c.BoardData[:], boardCopy[:])
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {

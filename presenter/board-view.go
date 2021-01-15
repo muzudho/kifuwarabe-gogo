@@ -32,7 +32,7 @@ func PrintBoardV1() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[c.BoardData[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -60,7 +60,7 @@ func PrintBoardV2() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[c.BoardData[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -88,7 +88,7 @@ func PrintBoardV3() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[c.BoardData[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -116,7 +116,7 @@ func PrintBoardV8(moves int) {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[c.Board[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[c.BoardData[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|")
 		if y == 4 {
@@ -147,7 +147,7 @@ func PrintBoardV9a(moves int) {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", usiKomaKanjiV9a[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", str[c.Board[x+1+c.Width*(y+1)]])
+			fmt.Fprintf(os.Stderr, "%s", str[c.BoardData[x+1+c.Width*(y+1)]])
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {

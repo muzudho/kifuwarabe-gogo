@@ -34,7 +34,7 @@ func playoutV8(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if c.Board[z] != 0 {
+				if c.BoardData[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -114,7 +114,7 @@ func createNode() int {
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := e.GetZ(x+1, y+1)
-			if c.Board[z] != 0 {
+			if c.BoardData[z] != 0 {
 				continue
 			}
 			addChild(pN, z)
@@ -190,12 +190,12 @@ func getBestUctV8(color int) int {
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = [c.BoardMax]int{}
 		koZCopy := e.KoZ
-		copy(boardCopy[:], c.Board[:])
+		copy(boardCopy[:], c.BoardData[:])
 
 		searchUctV8(color, next)
 
 		e.KoZ = koZCopy
-		copy(c.Board[:], boardCopy[:])
+		copy(c.BoardData[:], boardCopy[:])
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {
