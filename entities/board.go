@@ -45,3 +45,35 @@ func GetEmptyZ() int {
 func FlipColor(col int) int {
 	return 3 - col
 }
+
+// For count liberty.
+var checkBoard = [c.BoardMax]int{}
+
+func countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
+	checkBoard[tz] = 1
+	*pStone++
+	for i := 0; i < 4; i++ {
+		z := tz + Dir4[i]
+		if checkBoard[z] != 0 {
+			continue
+		}
+		if c.Board[z] == 0 {
+			checkBoard[z] = 1
+			*pLiberty++
+		}
+		if c.Board[z] == color {
+			countLibertySub(z, color, pLiberty, pStone)
+		}
+	}
+
+}
+
+// CountLiberty - 呼吸点を数えます。
+func CountLiberty(tz int, pLiberty *int, pStone *int) {
+	*pLiberty = 0
+	*pStone = 0
+	for i := 0; i < c.BoardMax; i++ {
+		checkBoard[i] = 0
+	}
+	countLibertySub(tz, c.Board[tz], pLiberty, pStone)
+}

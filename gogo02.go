@@ -50,7 +50,7 @@ func putStoneV2(tz int, color int) int {
 		if color2 == 0 || color2 == 3 {
 			continue
 		}
-		countLiberty(z, &liberty, &stone)
+		e.CountLiberty(z, &liberty, &stone)
 		around[i][0] = liberty
 		around[i][1] = stone
 		around[i][2] = color2
@@ -84,7 +84,7 @@ func putStoneV2(tz int, color int) int {
 
 	c.Board[tz] = color
 
-	countLiberty(tz, &liberty, &stone)
+	e.CountLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
 		e.KoZ = koMaybe
 	} else {

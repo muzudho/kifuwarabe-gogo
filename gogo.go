@@ -33,36 +33,6 @@ func main() {
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
 
-var checkBoard = [c.BoardMax]int{}
-
-func countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
-	checkBoard[tz] = 1
-	*pStone++
-	for i := 0; i < 4; i++ {
-		z := tz + e.Dir4[i]
-		if checkBoard[z] != 0 {
-			continue
-		}
-		if c.Board[z] == 0 {
-			checkBoard[z] = 1
-			*pLiberty++
-		}
-		if c.Board[z] == color {
-			countLibertySub(z, color, pLiberty, pStone)
-		}
-	}
-
-}
-
-func countLiberty(tz int, pLiberty *int, pStone *int) {
-	*pLiberty = 0
-	*pStone = 0
-	for i := 0; i < c.BoardMax; i++ {
-		checkBoard[i] = 0
-	}
-	countLibertySub(tz, c.Board[tz], pLiberty, pStone)
-}
-
 func takeStone(tz int, color int) {
 	c.Board[tz] = 0
 	for i := 0; i < 4; i++ {
