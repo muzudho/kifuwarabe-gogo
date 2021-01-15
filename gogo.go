@@ -18,9 +18,9 @@ import (
 
 func main() {
 	fmt.Printf("Author: %s\n", e.Author)
-	GoGoV1()
-	//GoGoV2()
-	// GoGoV3()
+	// GoGoV1()
+	// GoGoV2()
+	GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
