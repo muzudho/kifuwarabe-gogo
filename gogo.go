@@ -18,9 +18,9 @@ import (
 
 func main() {
 	fmt.Printf("Author: %s\n", e.Author)
-	// GoGoV1()
+	GoGoV1()
 	// GoGoV2()
-	GoGoV3()
+	// GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
@@ -35,7 +35,8 @@ var record [c.MaxMoves]int
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
-	p.PrintBoardV1()
+	board := e.NewBoard(c.BoardDataV1)
+	p.PrintBoardV1(board)
 }
 
 // GoGoV2 - バージョン２。

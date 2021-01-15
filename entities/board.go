@@ -6,6 +6,28 @@ import (
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 )
 
+// Board - 盤。
+type Board struct {
+	data [c.BoardMax]int
+}
+
+// NewBoard - 盤を作成します。
+func NewBoard(data [c.BoardMax]int) *Board {
+	obj := new(Board)
+	obj.data = data
+	return obj
+}
+
+// IBoard - 盤。
+type IBoard interface {
+	GetData() [c.BoardMax]int
+}
+
+// GetData - 盤データ。
+func (board Board) GetData() [c.BoardMax]int {
+	return board.data
+}
+
 // Dir4 - ４方向（右、下、左、上）の番地。
 var Dir4 = [4]int{1, c.Width, -1, -c.Width}
 
