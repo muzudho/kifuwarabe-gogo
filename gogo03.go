@@ -7,7 +7,6 @@ import (
 
 	// "log"
 	// "math"
-	"math/rand"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
@@ -94,23 +93,10 @@ func putStoneV3(tz int, color int) int {
 	return 0
 }
 
-func getEmptyZ() int {
-	var x, y, z int
-	for {
-		x = rand.Intn(9) + 1
-		y = rand.Intn(9) + 1
-		z = e.GetZ(x, y)
-		if c.Board[z] == 0 {
-			break
-		}
-	}
-	return z
-}
-
 func playOneMove(color int) int {
 	var z int
 	for i := 0; i < 100; i++ {
-		z := getEmptyZ()
+		z := e.GetEmptyZ()
 		err := putStoneV3(z, color)
 		if err == 0 {
 			return z

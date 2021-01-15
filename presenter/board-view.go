@@ -182,3 +182,20 @@ func PrintSgf(moves int, record [c.MaxMoves]int) {
 	}
 	fmt.Printf(")\n")
 }
+
+// GetCharZ - YX座標の文字表示？
+func GetCharZ(z int) string {
+	if z == 0 {
+		return "pass"
+	}
+
+	y := z / c.Width
+	x := z - y*c.Width
+	ax := 'A' + x - 1
+	if ax >= 'I' {
+		ax++
+	}
+
+	//return string(ax) + string(BoardSize+1-y+'0')
+	return fmt.Sprintf("%d%d", ax, c.BoardSize+1-y+'0')
+}

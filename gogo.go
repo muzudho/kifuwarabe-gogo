@@ -213,7 +213,7 @@ func GoGoV9a() {
 				color = 2
 			}
 			z := playComputerMove(color, 1)
-			fmt.Printf("= %s\n\n", getCharZ(z))
+			fmt.Printf("= %s\n\n", p.GetCharZ(z))
 		case "play":
 			color := 1
 			if strings.ToLower(str[1]) == "w" {

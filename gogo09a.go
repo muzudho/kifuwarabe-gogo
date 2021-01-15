@@ -25,22 +25,6 @@ import (
 
 var recordTime [c.MaxMoves]float64
 
-func getCharZ(z int) string {
-	if z == 0 {
-		return "pass"
-	}
-
-	y := z / c.Width
-	x := z - y*c.Width
-	ax := 'A' + x - 1
-	if ax >= 'I' {
-		ax++
-	}
-
-	//return string(ax) + string(BoardSize+1-y+'0')
-	return fmt.Sprintf("%d%d", ax, c.BoardSize+1-y+'0')
-}
-
 func getBestUctV9a(color int) int {
 	max := -999
 	nodeNum = 0
