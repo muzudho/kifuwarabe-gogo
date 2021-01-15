@@ -119,5 +119,5 @@ func testPlayoutV9a() {
 	flagTestPlayout = 1
 	playoutV9(1)
 	p.PrintBoardV9a(moves)
-	printSgf()
+	p.PrintSgf(moves, record)
 }

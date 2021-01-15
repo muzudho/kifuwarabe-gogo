@@ -161,3 +161,24 @@ func PrintBoardV9a(moves int) {
 	}
 	fmt.Fprintf(os.Stderr, "+\n")
 }
+
+// PrintSgf - SGF形式の棋譜表示。
+func PrintSgf(moves int, record [c.MaxMoves]int) {
+	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, c.Komi)
+	for i := 0; i < moves; i++ {
+		z := record[i]
+		y := z / c.Width
+		x := z - y*c.Width
+		var sStone = [2]string{"B", "W"}
+		fmt.Printf(";%s", sStone[i&1])
+		if z == 0 {
+			fmt.Printf("[]")
+		} else {
+			fmt.Printf("[%c%c]", x+'a'-1, y+'a'-1)
+		}
+		if ((i + 1) % 10) == 0 {
+			fmt.Printf("\n")
+		}
+	}
+	fmt.Printf(")\n")
+}

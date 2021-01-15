@@ -179,25 +179,6 @@ func getComputerMove(color int, fUCT int) int {
 	return z
 }
 
-func printSgf() {
-	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, c.Komi)
-	for i := 0; i < moves; i++ {
-		z := record[i]
-		y := z / c.Width
-		x := z - y*c.Width
-		var sStone = [2]string{"B", "W"}
-		fmt.Printf(";%s", sStone[i&1])
-		if z == 0 {
-			fmt.Printf("[]")
-		} else {
-			fmt.Printf("[%c%c]", x+'a'-1, y+'a'-1)
-		}
-		if ((i + 1) % 10) == 0 {
-			fmt.Printf("\n")
-		}
-	}
-	fmt.Printf(")\n")
-}
 func selfplay() {
 	color := 1
 
@@ -217,12 +198,12 @@ func selfplay() {
 		color = flipColor(color)
 	}
 
-	printSgf()
+	p.PrintSgf(moves, record)
 }
 
 func testPlayout() {
 	flagTestPlayout = 1
 	playoutV9(1)
 	p.PrintBoardV8(moves)
-	printSgf()
+	p.PrintSgf(moves, record)
 }
