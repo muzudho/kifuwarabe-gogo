@@ -33,16 +33,6 @@ func main() {
 var moves, allPlayouts, flagTestPlayout int
 var record [c.MaxMoves]int
 
-func takeStone(tz int, color int) {
-	c.Board[tz] = 0
-	for i := 0; i < 4; i++ {
-		z := tz + e.Dir4[i]
-		if c.Board[z] == color {
-			takeStone(z, color)
-		}
-	}
-}
-
 const (
 	// FillEyeErr - 自分の眼を埋めるなってこと☆（＾～＾）？
 	FillEyeErr = 1

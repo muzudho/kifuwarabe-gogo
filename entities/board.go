@@ -77,3 +77,14 @@ func CountLiberty(tz int, pLiberty *int, pStone *int) {
 	}
 	countLibertySub(tz, c.Board[tz], pLiberty, pStone)
 }
+
+// TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
+func TakeStone(tz int, color int) {
+	c.Board[tz] = 0
+	for i := 0; i < 4; i++ {
+		z := tz + Dir4[i]
+		if c.Board[z] == color {
+			TakeStone(z, color)
+		}
+	}
+}

@@ -78,7 +78,7 @@ func putStoneV2(tz int, color int) int {
 		lib := around[i][0]
 		color2 := around[i][2]
 		if color2 == unCol && lib == 1 && c.Board[tz+e.Dir4[i]] != 0 {
-			takeStone(tz+e.Dir4[i], unCol)
+			e.TakeStone(tz+e.Dir4[i], unCol)
 		}
 	}
 
