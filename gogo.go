@@ -18,8 +18,8 @@ import (
 
 func main() {
 	fmt.Printf("Author: %s\n", e.Author)
-	GoGoV1()
-	// GoGoV2()
+	// GoGoV1()
+	GoGoV2()
 	// GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
@@ -41,10 +41,11 @@ func GoGoV1() {
 
 // GoGoV2 - バージョン２。
 func GoGoV2() {
-	p.PrintBoardV2()
+	board := e.NewBoard(c.BoardDataV2)
+	p.PrintBoardV2(board)
 	err := e.PutStoneV2(e.GetZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
-	p.PrintBoardV2()
+	p.PrintBoardV2(board)
 }
 
 // GoGoV3 - バージョン３。

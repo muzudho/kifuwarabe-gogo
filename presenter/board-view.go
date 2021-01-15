@@ -44,7 +44,7 @@ func PrintBoardV1(board e.IBoard) {
 }
 
 // PrintBoardV2 - 盤の描画。
-func PrintBoardV2() {
+func PrintBoardV2(board e.IBoard) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -60,7 +60,7 @@ func PrintBoardV2() {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", LabelOfRows[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[c.BoardData[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[board.GetData()[x+1+c.Width*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}

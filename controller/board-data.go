@@ -28,9 +28,8 @@ var BoardDataV1 = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
 
-/*
-// BoardData - gogo02.go 用。
-var BoardData = [BoardMax]int{
+// BoardDataV2 - gogo02.go 用。
+var BoardDataV2 = [BoardMax]int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 2, 1, 2, 2, 2, 3,
@@ -43,7 +42,6 @@ var BoardData = [BoardMax]int{
 	3, 0, 0, 0, 0, 2, 1, 0, 2, 1, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
-*/
 
 /*
 // BoardData - gogo03.go 用。
