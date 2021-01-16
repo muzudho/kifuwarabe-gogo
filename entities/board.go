@@ -1483,7 +1483,7 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = board.GetData()
+				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoZ
 
 				win := -board.Playout(FlipColor(color), printBoardType1)
