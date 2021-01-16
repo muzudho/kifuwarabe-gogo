@@ -10,121 +10,101 @@ import (
 
 // PresenterV1 - 表示機能 Version 1.
 type PresenterV1 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV1 - 表示機能を作成します。
-func NewPresenterV1(board e.Board) *PresenterV1 {
+func NewPresenterV1() *PresenterV1 {
 	presenter := new(PresenterV1)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV2 - 表示機能 Version 2.
 type PresenterV2 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV2 - 表示機能を作成します。
-func NewPresenterV2(board e.Board) *PresenterV2 {
+func NewPresenterV2() *PresenterV2 {
 	presenter := new(PresenterV2)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV3 - 表示機能 Version 3.
 type PresenterV3 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV3 - 表示機能を作成します。
-func NewPresenterV3(board e.Board) *PresenterV3 {
+func NewPresenterV3() *PresenterV3 {
 	presenter := new(PresenterV3)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV4 - 表示機能 Version 4.
 type PresenterV4 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV4 - 表示機能を作成します。
-func NewPresenterV4(board e.Board) *PresenterV4 {
+func NewPresenterV4() *PresenterV4 {
 	presenter := new(PresenterV4)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV5 - 表示機能 Version 5.
 type PresenterV5 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV5 - 表示機能を作成します。
-func NewPresenterV5(board e.Board) *PresenterV5 {
+func NewPresenterV5() *PresenterV5 {
 	presenter := new(PresenterV5)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV6 - 表示機能 Version 6.
 type PresenterV6 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV6 - 表示機能を作成します。
-func NewPresenterV6(board e.Board) *PresenterV6 {
+func NewPresenterV6() *PresenterV6 {
 	presenter := new(PresenterV6)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV7 - 表示機能 Version 7.
 type PresenterV7 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV7 - 表示機能を作成します。
-func NewPresenterV7(board e.Board) *PresenterV7 {
+func NewPresenterV7() *PresenterV7 {
 	presenter := new(PresenterV7)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV8 - 表示機能 Version 8.
 type PresenterV8 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV8 - 表示機能を作成します。
-func NewPresenterV8(board e.Board) *PresenterV8 {
+func NewPresenterV8() *PresenterV8 {
 	presenter := new(PresenterV8)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV9 - 表示機能 Version 9.
 type PresenterV9 struct {
-	Board e.IBoard
 }
 
 // NewPresenterV9 - 表示機能を作成します。
-func NewPresenterV9(board e.Board) *PresenterV9 {
+func NewPresenterV9() *PresenterV9 {
 	presenter := new(PresenterV9)
-	presenter.Board = board
 	return presenter
 }
 
 // PresenterV9a - 表示機能 Version 9a.
 type PresenterV9a struct {
-	Board e.IBoard
 }
 
 // NewPresenterV9a - 表示機能を作成します。
-func NewPresenterV9a(board e.Board) *PresenterV9a {
+func NewPresenterV9a() *PresenterV9a {
 	presenter := new(PresenterV9a)
-	presenter.Board = board
 	return presenter
 }
 
@@ -137,7 +117,7 @@ var labelOfRowsV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", 
 	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV1) PrintBoardType1() {
+func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -165,7 +145,7 @@ func (board BoardV1) PrintBoardType1() {
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV2) PrintBoardType1() {
+func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -221,42 +201,42 @@ func printBoardType1V3(board e.IBoard) {
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV3) PrintBoardType1() {
+func (presenter *PresenterV3) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV4) PrintBoardType1() {
+func (presenter *PresenterV4) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV5) PrintBoardType1() {
+func (presenter *PresenterV5) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV6) PrintBoardType1() {
+func (presenter *PresenterV6) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV7) PrintBoardType1() {
+func (presenter *PresenterV7) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV8) PrintBoardType1() {
+func (presenter *PresenterV8) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV9) PrintBoardType1() {
+func (presenter *PresenterV9) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board *BoardV9a) PrintBoardType1() {
+func (presenter *PresenterV9a) PrintBoardType1(board e.IBoard) {
 	printBoardType1V3(board)
 }
 
@@ -293,52 +273,52 @@ func printBoardType2(board e.IBoard, moves int) {
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV1) PrintBoardType2(moves int) {
+func (presenter *PresenterV1) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV2) PrintBoardType2(moves int) {
+func (presenter *PresenterV2) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV3) PrintBoardType2(moves int) {
+func (presenter *PresenterV3) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV4) PrintBoardType2(moves int) {
+func (presenter *PresenterV4) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV5) PrintBoardType2(moves int) {
+func (presenter *PresenterV5) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV6) PrintBoardType2(moves int) {
+func (presenter *PresenterV6) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV7) PrintBoardType2(moves int) {
+func (presenter *PresenterV7) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV8) PrintBoardType2(moves int) {
+func (presenter *PresenterV8) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board *BoardV9) PrintBoardType2(moves int) {
+func (presenter *PresenterV9) PrintBoardType2(moves int, board e.IBoard) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤を描画。
-func (board BoardV9a) PrintBoardType2(moves int) {
+func (presenter *PresenterV9a) PrintBoardType2(moves int, board e.IBoard) {
 	// var str = [4]string{"・", "●", "○", "＃"}
 	var str = [4]string{" .", " *", " o", " #"}
 	fmt.Fprintf(os.Stderr, "\n   ")

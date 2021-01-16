@@ -25,7 +25,7 @@ import (
 
 var recordTime [c.MaxMoves]float64
 
-func getBestUctV9a(board e.IBoard, color int) int {
+func getBestUctV9a(board e.IBoard, color int, printBoardType1 func(e.IBoard)) int {
 	max := -999
 	nodeNum = 0
 	uctLoop := 10000 // 多め
@@ -35,7 +35,7 @@ func getBestUctV9a(board e.IBoard, color int) int {
 		var boardCopy = board.CopyData()
 		koZCopy := e.KoZ
 
-		searchUctV8(board, color, next)
+		searchUctV8(board, color, next, printBoardType1)
 
 		e.KoZ = koZCopy
 		board.ImportData(boardCopy)
@@ -80,14 +80,14 @@ func addMoves9a(board e.IBoard, z int, color int, sec float64) {
 	board.PrintBoardType2(e.Moves)
 }
 
-func playComputerMove(board e.IBoard, color int, fUCT int) int {
+func playComputerMove(board e.IBoard, color int, fUCT int, printBoardType1 func(e.IBoard)) int {
 	var z int
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		z = getBestUctV9a(board, color)
+		z = getBestUctV9a(board, color, printBoardType1)
 	} else {
-		z = primitiveMonteCalroV9(board, color)
+		z = primitiveMonteCalroV9(board, color, printBoardType1)
 	}
 	t := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
@@ -98,9 +98,9 @@ func playComputerMove(board e.IBoard, color int, fUCT int) int {
 func undo() {
 
 }
-func testPlayoutV9a(board e.IBoard) {
+func testPlayoutV9a(board e.IBoard, printBoardType1 func(e.IBoard)) {
 	e.FlagTestPlayout = 1
-	board.Playout(1)
+	board.Playout(1, printBoardType1)
 	board.PrintBoardType2(e.Moves)
 	p.PrintSgf(e.Moves, e.Record)
 }

@@ -32,28 +32,37 @@ func main() {
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
-	board := p.NewBoardV1(c.BoardDataV1)
-	board.PrintBoardType1()
+	board := e.NewBoardV1(c.BoardDataV1)
+	presenter := p.NewPresenterV1()
+
+	presenter.PrintBoardType1(board)
 }
 
 // GoGoV2 - バージョン２。
 func GoGoV2() {
-	board := p.NewBoardV2(c.BoardDataV2)
-	board.PrintBoardType1()
+	board := e.NewBoardV2(c.BoardDataV2)
+	presenter := p.NewPresenterV2()
+
+	presenter.PrintBoardType1(board)
+
 	err := board.PutStoneType1(e.GetZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
-	board.PrintBoardType1()
+
+	presenter.PrintBoardType1(board)
 }
 
 // GoGoV3 - バージョン３。
 func GoGoV3() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := e.NewBoardV3(c.BoardDataV3)
+	presenter := p.NewPresenterV3()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for {
 		z := board.PlayOneMove(color)
+
 		fmt.Printf("moves=%4d, color=%d, z=%d\n", e.Moves, color, e.Get81(z))
-		board.PrintBoardType1()
+		presenter.PrintBoardType1(board)
 
 		e.Record[e.Moves] = z
 		e.Moves++
@@ -71,59 +80,79 @@ func GoGoV3() {
 
 // GoGoV4 - バージョン４。
 func GoGoV4() {
-	board := p.NewBoardV4(c.BoardDataV3)
+	board := e.NewBoardV4(c.BoardDataV3)
+	presenter := p.NewPresenterV4()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 
 	// Debug
 	fmt.Printf("(Debug) GoGoV4 PrintBoardType1\n")
-	board.PrintBoardType1()
+	presenter.PrintBoardType1(board)
 
-	board.Playout(color)
+	board.Playout(color, presenter.PrintBoardType1)
 }
 
 // GoGoV5 - バージョン５。
 func GoGoV5() {
-	board := p.NewBoardV5(c.BoardDataV3)
+	board := e.NewBoardV5(c.BoardDataV3)
+	presenter := p.NewPresenterV5()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
-	board.Playout(color)
+	board.Playout(color, presenter.PrintBoardType1)
 }
 
 // GoGoV6 - バージョン５。
 func GoGoV6() {
-	board := p.NewBoardV6(c.BoardDataV3)
+	board := e.NewBoardV6(c.BoardDataV3)
+	presenter := p.NewPresenterV6()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
-		z := primitiveMonteCalroV6(board, color)
+
+		z := primitiveMonteCalroV6(board, color, presenter.PrintBoardType1)
+
 		board.PutStoneType2(z, color, e.FillEyeOk)
-		board.PrintBoardType1()
+
+		presenter.PrintBoardType1(board)
+
 		color = e.FlipColor(color)
 	}
 }
 
 // GoGoV7 - バージョン７。
 func GoGoV7() {
-	board := p.NewBoardV7(c.BoardDataV3)
+	board := e.NewBoardV7(c.BoardDataV3)
+	presenter := p.NewPresenterV7()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
-		z := primitiveMonteCalroV7(board, color)
+
+		z := primitiveMonteCalroV7(board, color, presenter.PrintBoardType1)
+
 		board.PutStoneType2(z, color, e.FillEyeOk)
-		board.PrintBoardType1()
+
+		presenter.PrintBoardType1(board)
+
 		color = e.FlipColor(color)
 	}
 }
 
 // GoGoV8 - バージョン８。
 func GoGoV8() {
-	board := p.NewBoardV8(c.BoardDataV3)
+	board := e.NewBoardV8(c.BoardDataV3)
+	presenter := p.NewPresenterV8()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 20; i++ {
 		e.AllPlayouts = 0
-		z := getBestUctV8(board, color)
+
+		z := getBestUctV8(board, color, presenter.PrintBoardType1)
+
 		addMovesV8(board, z, color)
 		color = e.FlipColor(color)
 	}
@@ -131,15 +160,19 @@ func GoGoV8() {
 
 // GoGoV9 - バージョン９。
 func GoGoV9() {
-	board := p.NewBoardV9(c.BoardDataV3)
+	board := e.NewBoardV9(c.BoardDataV3)
+	presenter := p.NewPresenterV9()
+
 	rand.Seed(time.Now().UnixNano())
 	// testPlayout()
-	selfplay(board)
+	selfplay(board, presenter.PrintBoardType1)
 }
 
 // GoGoV9a - バージョン９a。
 func GoGoV9a() {
-	board := p.NewBoardV9a(c.BoardDataV3)
+	board := e.NewBoardV9a(c.BoardDataV3)
+	presenter := p.NewPresenterV9a()
+
 	rand.Seed(time.Now().UnixNano())
 	initBoard(board)
 	scanner := bufio.NewScanner(os.Stdin)
@@ -173,7 +206,7 @@ func GoGoV9a() {
 			if strings.ToLower(str[1]) == "w" {
 				color = 2
 			}
-			z := playComputerMove(board, color, 1)
+			z := playComputerMove(board, color, 1, presenter.PrintBoardType1)
 			fmt.Printf("= %s\n\n", p.GetCharZ(z))
 		case "play":
 			color := 1

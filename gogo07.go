@@ -18,7 +18,7 @@ import (
 	// "unsafe"
 )
 
-func primitiveMonteCalroV7(board e.IBoard, color int) int {
+func primitiveMonteCalroV7(board e.IBoard, color int, printBoardType1 func(e.IBoard)) int {
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
@@ -41,7 +41,9 @@ func primitiveMonteCalroV7(board e.IBoard, color int) int {
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := e.KoZ
-				win := -board.Playout(e.FlipColor(color))
+
+				win := -board.Playout(e.FlipColor(color), printBoardType1)
+
 				winSum += win
 				e.KoZ = koZCopy2
 				board.ImportData(boardCopy2)

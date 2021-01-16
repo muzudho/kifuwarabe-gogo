@@ -105,7 +105,7 @@ func selectBestUcb(nodeN int) int {
 	return selectI
 }
 
-func searchUctV8(board e.IBoard, color int, nodeN int) int {
+func searchUctV8(board e.IBoard, color int, nodeN int, printBoardType1 func(e.IBoard)) int {
 	pN := &node[nodeN]
 	var c *Child
 	var win int
@@ -121,12 +121,12 @@ func searchUctV8(board e.IBoard, color int, nodeN int) int {
 		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
-		win = -board.Playout(e.FlipColor(color))
+		win = -board.Playout(e.FlipColor(color), printBoardType1)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = createNode(board)
 		}
-		win = -searchUctV8(board, e.FlipColor(color), c.Next)
+		win = -searchUctV8(board, e.FlipColor(color), c.Next, printBoardType1)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -134,7 +134,7 @@ func searchUctV8(board e.IBoard, color int, nodeN int) int {
 	return win
 }
 
-func getBestUctV8(board e.IBoard, color int) int {
+func getBestUctV8(board e.IBoard, color int, printBoardType1 func(e.IBoard)) int {
 	max := -999
 	nodeNum = 0
 	uctLoop := 10000
@@ -144,7 +144,7 @@ func getBestUctV8(board e.IBoard, color int) int {
 		var boardCopy = board.CopyData()
 		koZCopy := e.KoZ
 
-		searchUctV8(board, color, next)
+		searchUctV8(board, color, next, printBoardType1)
 
 		e.KoZ = koZCopy
 		board.ImportData(boardCopy)

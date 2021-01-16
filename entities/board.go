@@ -23,13 +23,10 @@ type IBoard interface {
 	PrintBoardType2(moves int)
 
 	// Playout - 最後まで石を打ちます。
-	Playout(turnColor int) int
+	Playout(turnColor int, printBoardType1 func(IBoard)) int
 	CountLiberty(tz int, pLiberty *int, pStone *int)
 	TakeStone(tz int, color int)
 	GetEmptyZ() int
-
-	// Presenter
-	GetPresenter() IPresenter
 }
 
 // IPresenter - 表示用。
@@ -817,10 +814,10 @@ func countScoreV7(board IBoard, turnColor int) int {
 	return win
 }
 
-func playoutV1(board IBoard, turnColor int) int {
+func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	// Debug
 	fmt.Printf("(Debug) playoutV1 PrintBoardType1\n")
-	board.GetPresenter().PrintBoardType1()
+	printBoardType1(board)
 
 	color := turnColor
 	previousZ := 0
@@ -859,7 +856,7 @@ func playoutV1(board IBoard, turnColor int) int {
 		}
 		previousZ = z
 
-		board.GetPresenter().PrintBoardType1()
+		printBoardType1(board)
 
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, Get81(z), color, emptyNum, Get81(KoZ))
@@ -869,32 +866,32 @@ func playoutV1(board IBoard, turnColor int) int {
 }
 
 // Playout - 最後まで石を打ちます。
-func (board *BoardV1) Playout(turnColor int) int {
-	return playoutV1(board, turnColor)
+func (board *BoardV1) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	return playoutV1(board, turnColor, printBoardType1)
 }
 
 // Playout - 最後まで石を打ちます。
-func (board *BoardV2) Playout(turnColor int) int {
-	return playoutV1(board, turnColor)
+func (board *BoardV2) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	return playoutV1(board, turnColor, printBoardType1)
 }
 
 // Playout - 最後まで石を打ちます。
-func (board *BoardV3) Playout(turnColor int) int {
-	return playoutV1(board, turnColor)
+func (board *BoardV3) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	return playoutV1(board, turnColor, printBoardType1)
 }
 
 // Playout - 最後まで石を打ちます。
-func (board *BoardV4) Playout(turnColor int) int {
+func (board *BoardV4) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 
 	// Debug
-	fmt.Printf("(Debug) BoardV4 Playout PrintBoardType1\n")
-	board.PrintBoardType1()
+	fmt.Printf("(Debug) BoardV4 Playout printBoardType1\n")
+	printBoardType1(board)
 
-	return playoutV1(board, turnColor)
+	return playoutV1(board, turnColor, printBoardType1)
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV5) Playout(turnColor int) int {
+func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -931,7 +928,7 @@ func (board *BoardV5) Playout(turnColor int) int {
 			break
 		}
 		previousZ = z
-		board.PrintBoardType1()
+		printBoardType1(board)
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, Get81(z), color, emptyNum, Get81(KoZ))
 		color = FlipColor(color)
@@ -940,7 +937,7 @@ func (board *BoardV5) Playout(turnColor int) int {
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV6) Playout(turnColor int) int {
+func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -977,7 +974,7 @@ func (board *BoardV6) Playout(turnColor int) int {
 			break
 		}
 		previousZ = z
-		// PrintBoardType1()
+		// printBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = FlipColor(color)
@@ -986,7 +983,7 @@ func (board *BoardV6) Playout(turnColor int) int {
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV7) Playout(turnColor int) int {
+func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -1023,7 +1020,7 @@ func (board *BoardV7) Playout(turnColor int) int {
 			break
 		}
 		previousZ = z
-		// PrintBoardType1()
+		// printBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = FlipColor(color)
@@ -1038,7 +1035,7 @@ var AllPlayouts int
 var Record [c.MaxMoves]int
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func playoutV8(board IBoard, turnColor int) int {
+func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -1076,7 +1073,7 @@ func playoutV8(board IBoard, turnColor int) int {
 			break
 		}
 		previousZ = z
-		// PrintBoardType1()
+		// printBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = FlipColor(color)
@@ -1085,18 +1082,18 @@ func playoutV8(board IBoard, turnColor int) int {
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV8) Playout(turnColor int) int {
-	return playoutV8(board, turnColor)
+func (board *BoardV8) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	return playoutV8(board, turnColor, printBoardType1)
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV9) Playout(turnColor int) int {
-	return playoutV8(board, turnColor)
+func (board *BoardV9) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	return playoutV8(board, turnColor, printBoardType1)
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV9a) Playout(turnColor int) int {
-	return playoutV8(board, turnColor)
+func (board *BoardV9a) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	return playoutV8(board, turnColor, printBoardType1)
 }
 
 // Moves - 手数？

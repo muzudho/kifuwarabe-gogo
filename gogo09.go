@@ -10,7 +10,7 @@ import (
 	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 )
 
-func primitiveMonteCalroV9(board e.IBoard, color int) int {
+func primitiveMonteCalroV9(board e.IBoard, color int, printBoardType1 func(e.IBoard)) int {
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
@@ -33,7 +33,9 @@ func primitiveMonteCalroV9(board e.IBoard, color int) int {
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.GetData()
 				koZCopy2 := e.KoZ
-				win := -board.Playout(e.FlipColor(color))
+
+				win := -board.Playout(e.FlipColor(color), printBoardType1)
+
 				winSum += win
 				e.KoZ = koZCopy2
 				board.ImportData(boardCopy2)
@@ -51,7 +53,7 @@ func primitiveMonteCalroV9(board e.IBoard, color int) int {
 	return bestZ
 }
 
-func searchUctV9(board e.IBoard, color int, nodeN int) int {
+func searchUctV9(board e.IBoard, color int, nodeN int, printBoardType1 func(e.IBoard)) int {
 	pN := &node[nodeN]
 	var c *Child
 	var win int
@@ -67,12 +69,12 @@ func searchUctV9(board e.IBoard, color int, nodeN int) int {
 		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
-		win = -board.Playout(e.FlipColor(color))
+		win = -board.Playout(e.FlipColor(color), printBoardType1)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = createNode(board)
 		}
-		win = -searchUctV9(board, e.FlipColor(color), c.Next)
+		win = -searchUctV9(board, e.FlipColor(color), c.Next, printBoardType1)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -80,7 +82,7 @@ func searchUctV9(board e.IBoard, color int, nodeN int) int {
 	return win
 }
 
-func getBestUctV9(board e.IBoard, color int) int {
+func getBestUctV9(board e.IBoard, color int, printBoardType1 func(e.IBoard)) int {
 	max := -999
 	nodeNum = 0
 	uctLoop := 1000 // 少な目
@@ -90,7 +92,7 @@ func getBestUctV9(board e.IBoard, color int) int {
 		var boardCopy = board.CopyData()
 		koZCopy := e.KoZ
 
-		searchUctV9(board, color, next)
+		searchUctV9(board, color, next, printBoardType1)
 
 		e.KoZ = koZCopy
 		board.ImportData(boardCopy)
@@ -110,14 +112,14 @@ func getBestUctV9(board e.IBoard, color int) int {
 	return bestZ
 }
 
-func getComputerMove(board e.IBoard, color int, fUCT int) int {
+func getComputerMove(board e.IBoard, color int, fUCT int, printBoardType1 func(e.IBoard)) int {
 	var z int
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		z = getBestUctV9(board, color)
+		z = getBestUctV9(board, color, printBoardType1)
 	} else {
-		z = primitiveMonteCalroV9(board, color)
+		z = primitiveMonteCalroV9(board, color, printBoardType1)
 	}
 	t := time.Since(st).Seconds()
 	fmt.Printf("%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
@@ -125,7 +127,7 @@ func getComputerMove(board e.IBoard, color int, fUCT int) int {
 	return z
 }
 
-func selfplay(board e.IBoard) {
+func selfplay(board e.IBoard, printBoardType1 func(e.IBoard)) {
 	color := 1
 
 	for {
@@ -133,7 +135,7 @@ func selfplay(board e.IBoard) {
 		if color == 1 {
 			fUCT = 0
 		}
-		z := getComputerMove(board, color, fUCT)
+		z := getComputerMove(board, color, fUCT, printBoardType1)
 		addMovesV8(board, z, color)
 		if z == 0 && e.Moves > 1 && e.Record[e.Moves-2] == 0 {
 			break
@@ -147,9 +149,9 @@ func selfplay(board e.IBoard) {
 	p.PrintSgf(e.Moves, e.Record)
 }
 
-func testPlayout(board e.IBoard) {
+func testPlayout(board e.IBoard, printBoardType1 func(e.IBoard)) {
 	e.FlagTestPlayout = 1
-	board.Playout(1)
+	board.Playout(1, printBoardType1)
 	board.PrintBoardType2(e.Moves)
 	p.PrintSgf(e.Moves, e.Record)
 }
