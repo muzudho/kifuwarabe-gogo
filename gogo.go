@@ -14,6 +14,7 @@ import (
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	p "github.com/muzudho/kifuwarabe-uec12/presenter"
+	u "github.com/muzudho/kifuwarabe-uec12/usecases"
 )
 
 func main() {
@@ -165,7 +166,7 @@ func GoGoV9() {
 
 	rand.Seed(time.Now().UnixNano())
 	// testPlayout()
-	selfplay(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
+	u.SelfplayV9(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
 }
 
 // GoGoV9a - バージョン９a。

@@ -173,18 +173,6 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	return bestZ
 }
 
-// AddMovesV8 - GoGoV8, selfplay から呼び出されます。
-func AddMovesV8(board IBoard, z int, color int, printBoardType2 func(IBoard, int)) {
-	err := board.PutStoneType2(z, color, FillEyeOk)
-	if err != 0 {
-		fmt.Printf("Err!\n")
-		os.Exit(0)
-	}
-	Record[Moves] = z
-	Moves++
-	printBoardType2(board, Moves)
-}
-
 func searchUctV9(board IBoard, color int, nodeN int, printBoardType1 func(IBoard)) int {
 	pN := &Nodes[nodeN]
 	var c *Child
@@ -274,20 +262,4 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	fmt.Fprintf(os.Stderr, "bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
-}
-
-// 一手にかかった時間。
-var recordTime [c.MaxMoves]float64
-
-// AddMoves9a - 指し手の追加？
-func AddMoves9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	err := board.PutStoneType2(z, color, FillEyeOk)
-	if err != 0 {
-		fmt.Fprintf(os.Stderr, "Err!\n")
-		os.Exit(0)
-	}
-	Record[Moves] = z
-	recordTime[Moves] = sec
-	Moves++
-	printBoardType2(board, Moves)
 }

@@ -3,9 +3,14 @@ package entities
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"time"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 )
+
+// RecordTime - 一手にかかった時間。
+var RecordTime [c.MaxMoves]float64
 
 // IBoard - 盤。
 type IBoard interface {
@@ -1337,4 +1342,45 @@ func (board *BoardV9) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 9a.
 func (board *BoardV9a) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
 	return primitiveMonteCalroV9(board, color, printBoardType1)
+}
+
+// AddMovesV8 - GoGoV8, SelfplayV9 から呼び出されます。
+func AddMovesV8(board IBoard, z int, color int, printBoardType2 func(IBoard, int)) {
+	err := board.PutStoneType2(z, color, FillEyeOk)
+	if err != 0 {
+		fmt.Printf("Err!\n")
+		os.Exit(0)
+	}
+	Record[Moves] = z
+	Moves++
+	printBoardType2(board, Moves)
+}
+
+// AddMoves9a - 指し手の追加？
+func AddMoves9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	err := board.PutStoneType2(z, color, FillEyeOk)
+	if err != 0 {
+		fmt.Fprintf(os.Stderr, "Err!\n")
+		os.Exit(0)
+	}
+	Record[Moves] = z
+	RecordTime[Moves] = sec
+	Moves++
+	printBoardType2(board, Moves)
+}
+
+// GetComputerMoveV9 - コンピューターの指し手。
+func GetComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(IBoard)) int {
+	var z int
+	st := time.Now()
+	AllPlayouts = 0
+	if fUCT != 0 {
+		z = GetBestUctV9(board, color, printBoardType1)
+	} else {
+		z = board.PrimitiveMonteCalro(color, printBoardType1)
+	}
+	t := time.Since(st).Seconds()
+	fmt.Printf("%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
+		t, float64(AllPlayouts)/t, Get81(z), Moves, color, AllPlayouts)
+	return z
 }
