@@ -553,118 +553,8 @@ func (board *BoardV2) PutStoneType1(tz int, color int) int {
 	return putStoneType1V1(board, tz, color)
 }
 
-// PutStoneType1 - 石を置きます。
-func (board *BoardV3) PutStoneType1(tz int, color int) int {
-	var around = [4][3]int{}
-	var liberty, stone int
-	unCol := FlipColor(color)
-	space := 0
-	wall := 0
-	mycolSafe := 0
-	captureSum := 0
-	koMaybe := 0
-
-	if tz == 0 {
-		KoZ = 0
-		return 0
-	}
-	for i := 0; i < 4; i++ {
-		around[i][0] = 0
-		around[i][1] = 0
-		around[i][2] = 0
-		z := tz + Dir4[i]
-		color2 := board.Data[z]
-		if color2 == 0 {
-			space++
-		}
-		if color2 == 3 {
-			wall++
-		}
-		if color2 == 0 || color2 == 3 {
-			continue
-		}
-		board.CountLiberty(z, &liberty, &stone)
-		around[i][0] = liberty
-		around[i][1] = stone
-		around[i][2] = color2
-		if color2 == unCol && liberty == 1 {
-			captureSum += stone
-			koMaybe = z
-		}
-		if color2 == color && liberty >= 2 {
-			mycolSafe++
-		}
-
-	}
-	if captureSum == 0 && space == 0 && mycolSafe == 0 {
-		return 1
-	}
-	if tz == KoZ {
-		return 2
-	}
-	if wall+mycolSafe == 4 {
-		return 3
-	}
-	if board.Data[tz] != 0 {
-		return 4
-	}
-
-	for i := 0; i < 4; i++ {
-		lib := around[i][0]
-		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.Data[tz+Dir4[i]] != 0 {
-			board.TakeStone(tz+Dir4[i], unCol)
-		}
-	}
-
-	board.Data[tz] = color
-
-	board.CountLiberty(tz, &liberty, &stone)
-	if captureSum == 1 && stone == 1 && liberty == 1 {
-		KoZ = koMaybe
-	} else {
-		KoZ = 0
-	}
-	return 0
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV4) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV5) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV6) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV7) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV8) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV9) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// PutStoneType1 - 石を置きます。
-func (board *BoardV9a) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
-}
-
-// putStoneType2 - 石を置きます。
-func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
+// putStoneType1V3 - 石を置きます。
+func putStoneType1V3(board IBoard, tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -712,11 +602,125 @@ func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 	if tz == KoZ {
 		return 2
 	}
+	if wall+mycolSafe == 4 {
+		return 3
+	}
+	if board.Exists(tz) {
+		return 4
+	}
+
+	for i := 0; i < 4; i++ {
+		lib := around[i][0]
+		color2 := around[i][2]
+		if color2 == unCol && lib == 1 && board.Exists(tz+Dir4[i]) {
+			board.TakeStone(tz+Dir4[i], unCol)
+		}
+	}
+
+	board.SetData(tz, color)
+
+	board.CountLiberty(tz, &liberty, &stone)
+	if captureSum == 1 && stone == 1 && liberty == 1 {
+		KoZ = koMaybe
+	} else {
+		KoZ = 0
+	}
+	return 0
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV3) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV4) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV5) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV6) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV7) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV8) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV9) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// PutStoneType1 - 石を置きます。
+func (board *BoardV9a) PutStoneType1(tz int, color int) int {
+	return putStoneType1V3(board, tz, color)
+}
+
+// putStoneTypeV4Type2 - 石を置きます。
+func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
+	var around = [4][3]int{}
+	var liberty, stone int
+	unCol := FlipColor(color)
+	space := 0
+	wall := 0
+	mycolSafe := 0
+	captureSum := 0
+	koMaybe := 0
+
+	if tz == 0 {
+		KoZ = 0
+		return 0
+	}
+	for i := 0; i < 4; i++ {
+		around[i][0] = 0
+		around[i][1] = 0
+		around[i][2] = 0
+		z := tz + Dir4[i]
+		color2 := board.GetData()[z]
+		if color2 == 0 {
+			space++
+		}
+		if color2 == 3 {
+			wall++
+		}
+		if color2 == 0 || color2 == 3 {
+			continue
+		}
+		board.CountLiberty(z, &liberty, &stone)
+		around[i][0] = liberty
+		around[i][1] = stone
+		around[i][2] = color2
+		if color2 == unCol && liberty == 1 {
+			captureSum += stone
+			koMaybe = z
+		}
+		if color2 == color && 2 <= liberty {
+			mycolSafe++
+		}
+
+	}
+	if captureSum == 0 && space == 0 && mycolSafe == 0 {
+		return 1
+	}
+	if tz == KoZ {
+		return 2
+	}
 	if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
 		return 3
 	}
 	if board.Exists(tz) {
-		// if (*board).GetData()[tz] != 0 {
 		return 4
 	}
 
@@ -742,52 +746,52 @@ func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV1) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV2) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV3) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV4) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV5) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV6) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV7) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV8) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV9) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV9a) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneType2(board, tz, color, fillEyeErr)
+	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
 }
 
 // playOneMove - 置けるとこに置く。
@@ -997,7 +1001,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) { // (*board).Exists(z)
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z
@@ -1073,7 +1077,7 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z
@@ -1122,7 +1126,7 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z
@@ -1171,7 +1175,7 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z
@@ -1221,7 +1225,7 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z
@@ -1285,7 +1289,7 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 		for y := 0; y <= boardMax; y++ {
 			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z
