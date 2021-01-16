@@ -30,6 +30,18 @@ func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
 	return obj
 }
 
+// BoardV3 - 盤 Version 3。
+type BoardV3 struct {
+	Board
+}
+
+// NewBoardV3 - 盤を作成します。
+func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
+	obj := new(BoardV3)
+	obj.Data = data
+	return obj
+}
+
 // BoardV4 - 盤 Version 4。
 type BoardV4 struct {
 	Board
@@ -48,11 +60,11 @@ type IBoard interface {
 	CopyData() [c.BoardMax]int
 	ImportData(boardCopy2 [c.BoardMax]int)
 	SetData(i int, color int)
-	PutStoneV4(tz int, color int, fillEyeErr int) int
 	Exists(z int) bool
 
 	// 石を置きます。
 	PutStoneType1(tz int, color int) int
+	PutStoneType2(tz int, color int, fillEyeErr int) int
 
 	// 盤の描画。
 	PrintBoardType1()
@@ -72,12 +84,12 @@ func (board Board) Exists(z int) bool {
 }
 
 // SetData - 盤データ。
-func (board Board) SetData(i int, color int) {
+func (board *Board) SetData(i int, color int) {
 	board.Data[i] = color
 }
 
 // CopyData - 盤データのコピー。
-func (board *Board) CopyData() [c.BoardMax]int {
+func (board Board) CopyData() [c.BoardMax]int {
 	var boardCopy2 = [c.BoardMax]int{}
 	copy(boardCopy2[:], board.Data[:])
 	return boardCopy2
@@ -161,7 +173,7 @@ func (board Board) CountLiberty(tz int, pLiberty *int, pStone *int) {
 }
 
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
-func (board Board) TakeStone(tz int, color int) {
+func (board *Board) TakeStone(tz int, color int) {
 	board.Data[tz] = 0
 	for i := 0; i < 4; i++ {
 		z := tz + Dir4[i]
@@ -172,7 +184,7 @@ func (board Board) TakeStone(tz int, color int) {
 }
 
 // PutStoneType1 - 石を置きます。
-func (board Board) PutStoneType1(tz int, color int) int {
+func (board *Board) PutStoneType1(tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -244,8 +256,8 @@ func (board Board) PutStoneType1(tz int, color int) int {
 	return 0
 }
 
-// PutStoneV3 - 石を置きます。
-func (board *Board) PutStoneV3(tz int, color int) int {
+// PutStoneType1 - 石を置きます。
+func (board *BoardV3) PutStoneType1(tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -319,6 +331,12 @@ func (board *Board) PutStoneV3(tz int, color int) int {
 	return 0
 }
 
+// PutStoneType2 - 石を置きます。
+func (board *BoardV3) PutStoneType2(tz int, color int, fillEyeErr int) int {
+	// 未実装
+	return board.PutStoneType1(tz, fillEyeErr)
+}
+
 const (
 	// FillEyeErr - 自分の眼を埋めるなってこと☆（＾～＾）？
 	FillEyeErr = 1
@@ -326,8 +344,13 @@ const (
 	FillEyeOk = 0
 )
 
-// PutStoneV4 - 石を置きます。
-func (board *Board) PutStoneV4(tz int, color int, fillEyeErr int) int {
+// PutStoneType1 - 石を置きます。
+func (board *BoardV4) PutStoneType1(tz int, color int) int {
+	return board.PutStoneType2(tz, color, FillEyeErr)
+}
+
+// PutStoneType2 - 石を置きます。
+func (board *BoardV4) PutStoneType2(tz int, color int, fillEyeErr int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -406,12 +429,12 @@ func (board *Board) PlayOneMove(color int) int {
 	var z int
 	for i := 0; i < 100; i++ {
 		z := board.GetEmptyZ()
-		err := board.PutStoneV3(z, color)
+		err := board.PutStoneType1(z, color)
 		if err == 0 {
 			return z
 		}
 	}
 	z = 0
-	board.PutStoneV3(0, color)
+	board.PutStoneType1(0, color)
 	return z
 }

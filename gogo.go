@@ -95,7 +95,7 @@ func GoGoV6() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV6(board, color)
-		board.PutStoneV4(z, color, e.FillEyeOk)
+		board.PutStoneType2(z, color, e.FillEyeOk)
 		board.PrintBoardType1()
 		color = e.FlipColor(color)
 	}
@@ -108,7 +108,7 @@ func GoGoV7() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV7(board, color)
-		board.PutStoneV4(z, color, e.FillEyeOk)
+		board.PutStoneType2(z, color, e.FillEyeOk)
 		board.PrintBoardType1()
 		color = e.FlipColor(color)
 	}
@@ -129,14 +129,15 @@ func GoGoV8() {
 
 // GoGoV9 - バージョン９。
 func GoGoV9() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := p.NewBoardV8(c.BoardDataV3)
 	rand.Seed(time.Now().UnixNano())
 	// testPlayout()
 	selfplay(board)
 }
 
 // GoGoV9a - バージョン９a。
-func GoGoV9a(board e.IBoard) {
+func GoGoV9a() {
+	board := p.NewBoardV8(c.BoardDataV3)
 	rand.Seed(time.Now().UnixNano())
 	initBoard(board)
 	scanner := bufio.NewScanner(os.Stdin)

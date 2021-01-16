@@ -87,7 +87,7 @@ func playoutV5(board e.IBoard, turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := board.PutStoneV4(z, color, e.FillEyeErr)
+			err := board.PutStoneType2(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}

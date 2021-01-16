@@ -108,7 +108,7 @@ func (board BoardV2) PrintBoardType2(moves int) {
 
 // BoardV3 - 盤 Version 3.
 type BoardV3 struct {
-	e.Board
+	e.BoardV3
 }
 
 // NewBoardV3 - 盤を作成します。
@@ -153,7 +153,7 @@ func (board BoardV3) PrintBoardType2(moves int) {
 
 // BoardV8 - 盤 Version 8.
 type BoardV8 struct {
-	e.Board
+	e.BoardV4
 }
 
 // NewBoardV8 - 盤を作成します。
