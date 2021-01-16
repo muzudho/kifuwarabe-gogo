@@ -11,9 +11,10 @@ import (
 type IBoard interface {
 	// 指定した交点の石の色
 	ColorAt(z int) int
+	SetColor(i int, color int)
+
 	CopyData() []int
 	ImportData(boardCopy2 []int)
-	SetData(i int, color int)
 	Exists(z int) bool
 
 	// 石を置きます。
@@ -139,8 +140,8 @@ func (board Board0) Exists(z int) bool {
 	return board.data[z] != 0
 }
 
-// SetData - 盤データ。
-func (board *Board0) SetData(i int, color int) {
+// SetColor - 盤データ。
+func (board *Board0) SetColor(i int, color int) {
 	board.data[i] = color
 }
 
@@ -458,12 +459,12 @@ func (board *Board0) InitBoard() {
 
 	// 枠線
 	for i := 0; i < boardMax; i++ {
-		board.SetData(i, 3)
+		board.SetColor(i, 3)
 	}
 	// 盤上
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			board.SetData(board.GetZ(x+1, y+1), 0)
+			board.SetColor(board.GetZ(x+1, y+1), 0)
 		}
 	}
 	Moves = 0
@@ -532,7 +533,7 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 		}
 	}
 
-	board.SetData(tz, color)
+	board.SetColor(tz, color)
 
 	board.CountLiberty(tz, &liberty, &stone)
 
@@ -618,7 +619,7 @@ func putStoneType1V3(board IBoard, tz int, color int) int {
 		}
 	}
 
-	board.SetData(tz, color)
+	board.SetColor(tz, color)
 
 	board.CountLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
@@ -733,7 +734,7 @@ func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
 		}
 	}
 
-	board.SetData(tz, color)
+	board.SetColor(tz, color)
 
 	board.CountLiberty(tz, &liberty, &stone)
 
