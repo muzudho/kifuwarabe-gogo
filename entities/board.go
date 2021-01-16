@@ -29,6 +29,10 @@ type IBoard interface {
 	GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int
 	// Monte Calro Tree Search
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
+	// AddMovesType1 - 指し手の追加？
+	AddMovesType1(z int, color int, printBoardType2 func(IBoard, int))
+	// AddMovesType2 - 指し手の追加？
+	AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int))
 
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
@@ -1336,7 +1340,7 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			if board.GetData()[z] != 0 {
+			if board.Exists(z) {
 				continue
 			}
 			err := board.PutStoneType2(z, color, FillEyeErr)
@@ -1354,11 +1358,11 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
-			if (color == 1 && winRate > bestValue) ||
+			if (color == 1 && bestValue < winRate) ||
 				(color == 2 && winRate < bestValue) {
 				bestValue = winRate
 				bestZ = z
-				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
+				fmt.Printf("(primitiveMonteCalroV6) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
 			}
 			KoZ = koZCopy
 			board.ImportData(boardCopy)
@@ -1410,7 +1414,7 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			if board.GetData()[z] != 0 {
+			if board.Exists(z) {
 				continue
 			}
 			err := board.PutStoneType2(z, color, FillEyeErr)
@@ -1430,10 +1434,10 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
-			if winRate > bestValue {
+			if bestValue < winRate {
 				bestValue = winRate
 				bestZ = z
-				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
+				fmt.Printf("(primitiveMonteCalroV7) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
 			}
 			KoZ = koZCopy
 			board.ImportData(boardCopy)
@@ -1465,7 +1469,7 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			if board.GetData()[z] != 0 {
+			if board.Exists(z) {
 				continue
 			}
 			err := board.PutStoneType2(z, color, FillEyeErr)
@@ -1485,10 +1489,10 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
-			if winRate > bestValue {
+			if bestValue < winRate {
 				bestValue = winRate
 				bestZ = z
-				// fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
+				// fmt.Printf("(primitiveMonteCalroV9) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
 			}
 			KoZ = koZCopy
 			board.ImportData(boardCopy)
@@ -1507,8 +1511,8 @@ func (board *BoardV9a) PrimitiveMonteCalro(color int, printBoardType1 func(IBoar
 	return primitiveMonteCalroV9(board, color, printBoardType1)
 }
 
-// AddMovesV8 - GoGoV8, SelfplayV9 から呼び出されます。
-func AddMovesV8(board IBoard, z int, color int, printBoardType2 func(IBoard, int)) {
+// addMovesType1V8 - GoGoV8, SelfplayV9 から呼び出されます。
+func addMovesType1V8(board IBoard, z int, color int, printBoardType2 func(IBoard, int)) {
 	err := board.PutStoneType2(z, color, FillEyeOk)
 	if err != 0 {
 		fmt.Println("(AddMovesV8) Err!", err)
@@ -1519,17 +1523,117 @@ func AddMovesV8(board IBoard, z int, color int, printBoardType2 func(IBoard, int
 	printBoardType2(board, Moves)
 }
 
-// AddMoves9a - 指し手の追加？
-func AddMoves9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV1) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV2) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV3) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV4) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV5) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV6) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV7) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV8) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV9) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+func (board *BoardV9a) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, z, color, printBoardType2)
+}
+
+// addMovesV9a - 指し手の追加？
+func addMovesType2V9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
 	err := board.PutStoneType2(z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(AddMoves9a) Err!\n")
+		fmt.Fprintf(os.Stderr, "(addMoves9a) Err!\n")
 		os.Exit(0)
 	}
 	Record[Moves] = z
 	RecordTime[Moves] = sec
 	Moves++
 	printBoardType2(board, Moves)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV1) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV2) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV3) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV4) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV5) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV6) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV7) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV8) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV9) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
+}
+
+// AddMovesType2 - 指し手の追加？
+func (board *BoardV9a) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, z, color, sec, printBoardType2)
 }
 
 // getComputerMoveV9 - コンピューターの指し手。

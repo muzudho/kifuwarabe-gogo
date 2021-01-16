@@ -19,7 +19,7 @@ func SelfplayV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 
 			fUCT = 0
 		}
 		z := board.GetComputerMove(color, fUCT, printBoardType1)
-		e.AddMovesV8(board, z, color, printBoardType2)
+		board.AddMovesType1(z, color, printBoardType2)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
 		if z == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
 			break
@@ -52,10 +52,10 @@ func PlayComputerMoveV9a(board e.IBoard, color int, fUCT int, printBoardType1 fu
 	} else {
 		z = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
-	t := time.Since(st).Seconds()
-	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
-		t, float64(e.AllPlayouts)/t, board.Get81(z), e.Moves, color, e.AllPlayouts)
-	e.AddMoves9a(board, z, color, t, printBoardType2)
+	sec := time.Since(st).Seconds()
+	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
+		sec, float64(e.AllPlayouts)/sec, board.Get81(z), e.Moves, color, e.AllPlayouts, fUCT)
+	board.AddMovesType2(z, color, sec, printBoardType2)
 	return z
 }
 

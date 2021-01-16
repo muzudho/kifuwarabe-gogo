@@ -182,7 +182,7 @@ func GoGoV8() {
 
 		z := e.GetBestUctV8(board, color, presenter.PrintBoardType1)
 
-		e.AddMovesV8(board, z, color, presenter.PrintBoardType2)
+		board.AddMovesType1(z, color, presenter.PrintBoardType2)
 		color = e.FlipColor(color)
 	}
 }
@@ -258,7 +258,7 @@ func GoGoV9a() {
 			if ax == "pass" {
 				z = 0
 			}
-			e.AddMoves9a(board, z, color, 0, presenter.PrintBoardType2)
+			board.AddMovesType2(z, color, 0, presenter.PrintBoardType2)
 			fmt.Printf("= \n\n")
 		default:
 			fmt.Printf("? unknown_command\n\n")
