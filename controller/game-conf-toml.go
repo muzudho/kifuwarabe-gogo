@@ -41,7 +41,7 @@ func (config Config) GetBoardArray() []int {
 }
 
 // GetBoardSize - 何路盤か。
-func (config Config) GetBoardSize() int {
+func (config Config) BoardSize() int {
 	return int(config.Game.BoardSize)
 }
 

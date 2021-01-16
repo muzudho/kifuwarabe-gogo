@@ -121,7 +121,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
@@ -146,7 +146,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 
 // PrintBoardType1 - 盤の描画。
 func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
@@ -176,7 +176,7 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 
 // PrintBoardType1 - 盤の描画。
 func printBoardType1V3(board e.IBoard) {
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
@@ -246,7 +246,7 @@ func (presenter *PresenterV9a) PrintBoardType1(board e.IBoard) {
 
 // PrintBoardType2 - 盤の描画。
 func printBoardType2(board e.IBoard, moves int) {
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
@@ -325,7 +325,7 @@ func (presenter *PresenterV9) PrintBoardType2(board e.IBoard, moves int) {
 
 // PrintBoardType2 - 盤を描画。
 func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	// var str = [4]string{"・", "●", "○", "＃"}
 	var str = [4]string{" .", " *", " o", " #"}
@@ -358,7 +358,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 
 // PrintSgf - SGF形式の棋譜表示。
 func PrintSgf(board e.IBoard, moves int, record []int) {
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", boardSize, board.GetKomi())
 	for i := 0; i < moves; i++ {
@@ -385,7 +385,7 @@ func GetCharZ(board e.IBoard, z int) string {
 		return "pass"
 	}
 
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	y := z / board.SentinelWidth()
 	x := z - y*board.SentinelWidth()

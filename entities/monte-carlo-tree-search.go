@@ -47,7 +47,7 @@ func addChild(pN *Node, z int) {
 
 // CreateNode - ノード作成。 searchUctV8, e.GetBestUctV8, searchUctV9, e.GetBestUctV9, e.GetBestUctV9a から呼び出されます。
 func CreateNode(board IBoard) int {
-	boardSize := board.GetBoardSize()
+	boardSize := board.BoardSize()
 
 	if NodeNum == NodeMax {
 		fmt.Printf("node over Err\n")
