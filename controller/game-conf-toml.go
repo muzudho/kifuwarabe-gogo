@@ -35,6 +35,14 @@ func (config Config) GetBoardArray() []int {
 	return array
 }
 
+// GetSentinelBoardMax - 枠付きの盤上の交点の数
+func (config Config) GetSentinelBoardMax() int16 {
+	// Width - 枠込み。
+	Width := config.Game.BoardSize + 2
+	// BoardMax - 枠込み盤の配列サイズ。
+	return int16(Width) * int16(Width)
+}
+
 // LoadGameConf - ゲーム設定ファイルを読み込みます。
 func LoadGameConf(path string) Config {
 

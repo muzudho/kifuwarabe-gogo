@@ -38,6 +38,7 @@ func GoGoV1() {
 	fmt.Println("BoardSize=", config.Game.BoardSize)
 	fmt.Println("MaxMoves=", config.Game.MaxMoves)
 	fmt.Println("BoardData=", config.Game.BoardData)
+	fmt.Println("GetSentinelBoardMax()=", config.GetSentinelBoardMax())
 
 	config.GetBoardArray()
 
