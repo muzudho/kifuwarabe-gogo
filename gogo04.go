@@ -60,7 +60,7 @@ func playoutV4(board e.IBoard, turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
+				if board.Exists(z) {
 					continue
 				}
 				empty[emptyNum] = z

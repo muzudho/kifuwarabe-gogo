@@ -25,11 +25,17 @@ type IBoard interface {
 	ImportData(boardCopy2 [c.BoardMax]int)
 	SetData(i int, color int)
 	PutStoneV4(tz int, color int, fillEyeErr int) int
+	Exists(z int) bool
 }
 
 // GetData - 盤データ。
 func (board Board) GetData() [c.BoardMax]int {
 	return board.data
+}
+
+// Exists - 指定の交点に石があるか？
+func (board Board) Exists(z int) bool {
+	return board.data[z] != 0
 }
 
 // SetData - 盤データ。
@@ -288,7 +294,7 @@ const (
 )
 
 // PutStoneV4 - 石を置きます。
-func (board Board) PutStoneV4(tz int, color int, fillEyeErr int) int {
+func (board *Board) PutStoneV4(tz int, color int, fillEyeErr int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
