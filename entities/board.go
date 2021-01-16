@@ -43,9 +43,9 @@ type IBoard interface {
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	GetKomi() float64
 	GetMaxMoves() int
-	// GetZ - YX形式の座標？
+	// GetZ - YX形式の座標を、z（配列のインデックス）へ変換します。
 	GetZ(x int, y int) int
-	// Get81 - XY形式の座標？
+	// Get81 - z（配列のインデックス）を XY形式へ変換します。
 	Get81(z int) int
 	// GetUctChildrenSize - UCTの最大手数
 	GetUctChildrenSize() int
@@ -159,25 +159,26 @@ func (board *Board0) ImportData(boardCopy2 []int) {
 	copy(board.data[:], boardCopy2[:])
 }
 
-// Get81 - XY形式の座標？
+// Get81 - z（配列のインデックス）を XY形式の座標へ変換します。
 func (board Board0) Get81(z int) int {
-	y := z / board.SentinelWidth()
-	x := z - y*board.SentinelWidth()
 	if z == 0 {
 		return 0
 	}
+	y := z / board.SentinelWidth()
+	x := z - y*board.SentinelWidth()
 	return x*10 + y
 }
 
-// GetZ - YX形式の座標？
+// GetZ - x,y を z（配列のインデックス）へ変換します。
 func (board Board0) GetZ(x int, y int) int {
 	return y*board.SentinelWidth() + x
 }
 
-// GetEmptyZ - 空交点のYX座標を返します。
+// GetEmptyZ - 空点の z（配列のインデックス）を返します。
 func (board Board0) GetEmptyZ() int {
 	var x, y, z int
 	for {
+		// ランダムに交点を選んで、空点を見つけるまで繰り返します。
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
 		z = board.GetZ(x, y)
@@ -987,9 +988,6 @@ func countScoreV7(board IBoard, turnColor int) int {
 }
 
 func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
-	// Debug
-	fmt.Printf("(Debug) playoutV1 PrintBoardType1\n")
-	printBoardType1(board)
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -1056,11 +1054,6 @@ func (board *BoardV3) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 
 // Playout - 最後まで石を打ちます。
 func (board *BoardV4) Playout(turnColor int, printBoardType1 func(IBoard)) int {
-
-	// Debug
-	fmt.Printf("(Debug) BoardV4 Playout printBoardType1\n")
-	printBoardType1(board)
-
 	return playoutV1(board, turnColor, printBoardType1)
 }
 

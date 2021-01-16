@@ -107,10 +107,6 @@ func GoGoV4() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 
-	// Debug
-	fmt.Printf("(Debug) GoGoV4 PrintBoardType1\n")
-	presenter.PrintBoardType1(board)
-
 	board.Playout(color, presenter.PrintBoardType1)
 }
 
