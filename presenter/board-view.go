@@ -107,6 +107,11 @@ func NewPresenterV9a() *PresenterV9a {
 	return presenter
 }
 
+// labelOfColumns - 各列の表示符号。
+// 文字が詰まってしまうので、１に似たギリシャ文字で隙間を空けています。
+var labelOfColumns = [20]string{"零", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
+	"ι0", "ι1", "ι2", "ι3", "ι4", "ι5", "ι6", "ι7", "ι8", "ι9"}
+
 // labelOfRowsV1 - 各行の表示符号。
 var labelOfRowsV1 = [20]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九",
 	"10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}
@@ -115,30 +120,20 @@ var labelOfRowsV1 = [20]string{"零", "一", "二", "三", "四", "五", "六", 
 var labelOfRowsV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
 	"10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}
 
-// "● " - Visual Studio Code の 全角半角崩れ対応。
-// "○ " - Visual Studio Code の 全角半角崩れ対応。
-var stoneLabelsV1 = [4]string{"・", " ●", " ○", "＃"}
+// " ●" - Visual Studio Code の 全角半角崩れ対応。
+// " ○" - Visual Studio Code の 全角半角崩れ対応。
+var stoneLabelsType1 = [4]string{"・", " ●", " ○", "＃"}
 
-// "● " - Visual Studio Code の 全角半角崩れ対応。
-// "○ " - Visual Studio Code の 全角半角崩れ対応。
-var stoneLabelsV2 = [4]string{"・", " ●", " ○", "＃"}
-
-// "● " - Visual Studio Code の 全角半角崩れ対応。
-// "○ " - Visual Studio Code の 全角半角崩れ対応。
-var stoneLabelsV3 = [4]string{"・", " ●", " ○", "＃"}
-
-// "● " - Visual Studio Code の 全角半角崩れ対応。
-// "○ " - Visual Studio Code の 全角半角崩れ対応。
-var stoneLabelsType2 = [4]string{"・", " ●", " ○", "＃"}
-
-var stoneLabelsType2V9a = [4]string{" .", " *", " o", " #"}
+// " *" - Visual Studio Code の 全角半角崩れ対応。
+// " ○" - Visual Studio Code の 全角半角崩れ対応。
+var stoneLabelsType2 = [4]string{" .", " *", " o", " #"}
 
 // PrintBoardType1 - 盤の描画。
 func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	fmt.Printf("\n   ")
 	boardSize := board.BoardSize()
 	for x := 0; x < boardSize; x++ {
-		fmt.Printf("%2d", x+1)
+		fmt.Printf("%s", labelOfColumns[x+1])
 	}
 	fmt.Printf("\n  +")
 	for x := 0; x < boardSize; x++ {
@@ -148,7 +143,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", stoneLabelsV1[board.ColorAtXy(x, y)])
+			fmt.Printf("%s", stoneLabelsType1[board.ColorAtXy(x, y)])
 		}
 		fmt.Printf("|\n")
 	}
@@ -165,7 +160,7 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 
 	fmt.Printf("\n   ")
 	for x := 0; x < boardSize; x++ {
-		fmt.Printf("%2d", x+1)
+		fmt.Printf("%s", labelOfColumns[x+1])
 	}
 	fmt.Printf("\n  +")
 	for x := 0; x < boardSize; x++ {
@@ -175,7 +170,7 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", stoneLabelsV2[board.ColorAtXy(x, y)])
+			fmt.Printf("%s", stoneLabelsType1[board.ColorAtXy(x, y)])
 		}
 		fmt.Printf("|\n")
 	}
@@ -192,7 +187,7 @@ func printBoardType1V3(board e.IBoard) {
 
 	fmt.Printf("\n   ")
 	for x := 0; x < boardSize; x++ {
-		fmt.Printf("%2d", x+1)
+		fmt.Printf("%s", labelOfColumns[x+1])
 	}
 	fmt.Printf("\n  +")
 	for x := 0; x < boardSize; x++ {
@@ -202,7 +197,7 @@ func printBoardType1V3(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", stoneLabelsV3[board.ColorAtXy(x, y)])
+			fmt.Printf("%s", stoneLabelsType1[board.ColorAtXy(x, y)])
 		}
 		fmt.Printf("|\n")
 	}
@@ -259,7 +254,7 @@ func printBoardType2(board e.IBoard, moves int) {
 
 	fmt.Printf("\n   ")
 	for x := 0; x < boardSize; x++ {
-		fmt.Printf("%2d", x+1)
+		fmt.Printf("%s", labelOfColumns[x+1])
 	}
 	fmt.Printf("\n  +")
 	for x := 0; x < boardSize; x++ {
@@ -269,7 +264,7 @@ func printBoardType2(board e.IBoard, moves int) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", stoneLabelsType2[board.ColorAtXy(x, y)])
+			fmt.Printf("%s", stoneLabelsType1[board.ColorAtXy(x, y)])
 		}
 		fmt.Printf("|")
 		if y == 4 {
@@ -335,7 +330,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 
 	fmt.Fprintf(os.Stderr, "\n   ")
 	for x := 0; x < boardSize; x++ {
-		fmt.Fprintf(os.Stderr, "%2d", x+1)
+		fmt.Fprintf(os.Stderr, "%s", labelOfColumns[x+1])
 	}
 	fmt.Fprintf(os.Stderr, "\n  +")
 	for x := 0; x < boardSize; x++ {
@@ -345,7 +340,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", labelOfRowsV9a[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", stoneLabelsType2V9a[board.ColorAtXy(x, y)])
+			fmt.Fprintf(os.Stderr, "%s", stoneLabelsType2[board.ColorAtXy(x, y)])
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
