@@ -25,21 +25,20 @@ import (
 
 var recordTime [c.MaxMoves]float64
 
-func getBestUctV9a(color int) int {
+func getBestUctV9a(board e.IBoard, color int) int {
 	max := -999
 	nodeNum = 0
 	uctLoop := 10000 // 多め
 	var bestI = -1
-	next := createNode()
+	next := createNode(board)
 	for i := 0; i < uctLoop; i++ {
-		var boardCopy = [c.BoardMax]int{}
+		var boardCopy = board.CopyData()
 		koZCopy := e.KoZ
-		copy(boardCopy[:], c.BoardData[:])
 
-		searchUctV8(color, next)
+		searchUctV8(board, color, next)
 
 		e.KoZ = koZCopy
-		copy(c.BoardData[:], boardCopy[:])
+		board.ImportData(boardCopy)
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {
@@ -56,21 +55,21 @@ func getBestUctV9a(color int) int {
 	return bestZ
 }
 
-func initBoard() {
+func initBoard(board e.IBoard) {
 	for i := 0; i < c.BoardMax; i++ {
-		c.BoardData[i] = 3
+		board.SetData(i, 3)
 	}
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			c.BoardData[e.GetZ(x+1, y+1)] = 0
+			board.SetData(e.GetZ(x+1, y+1), 0)
 		}
 	}
 	moves = 0
 	e.KoZ = 0
 }
 
-func addMoves9a(z int, color int, sec float64) {
-	err := e.PutStoneV4(z, color, e.FillEyeOk)
+func addMoves9a(board e.IBoard, z int, color int, sec float64) {
+	err := board.PutStoneV4(z, color, e.FillEyeOk)
 	if err != 0 {
 		fmt.Fprintf(os.Stderr, "Err!\n")
 		os.Exit(0)
@@ -78,30 +77,30 @@ func addMoves9a(z int, color int, sec float64) {
 	record[moves] = z
 	recordTime[moves] = sec
 	moves++
-	p.PrintBoardV9a(moves)
+	p.PrintBoardV9a(board, moves)
 }
 
-func playComputerMove(color int, fUCT int) int {
+func playComputerMove(board e.IBoard, color int, fUCT int) int {
 	var z int
 	st := time.Now()
 	allPlayouts = 0
 	if fUCT != 0 {
-		z = getBestUctV9a(color)
+		z = getBestUctV9a(board, color)
 	} else {
-		z = primitiveMonteCalroV9(color)
+		z = primitiveMonteCalroV9(board, color)
 	}
 	t := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
 		t, float64(allPlayouts)/t, e.Get81(z), moves, color, allPlayouts)
-	addMoves9a(z, color, t)
+	addMoves9a(board, z, color, t)
 	return z
 }
 func undo() {
 
 }
-func testPlayoutV9a() {
+func testPlayoutV9a(board e.IBoard) {
 	flagTestPlayout = 1
-	playoutV9(1)
-	p.PrintBoardV9a(moves)
+	playoutV9(board, 1)
+	p.PrintBoardV9a(board, moves)
 	p.PrintSgf(moves, record)
 }

@@ -22,7 +22,7 @@ import (
 	// "unsafe"
 )
 
-func playoutV8(turnColor int) int {
+func playoutV8(board e.IBoard, turnColor int) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -34,7 +34,7 @@ func playoutV8(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if c.BoardData[z] != 0 {
+				if board.GetData()[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -49,7 +49,7 @@ func playoutV8(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := e.PutStoneV4(z, color, e.FillEyeErr)
+			err := board.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -65,7 +65,7 @@ func playoutV8(turnColor int) int {
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = e.FlipColor(color)
 	}
-	return countScoreV7(turnColor)
+	return countScoreV7(board, turnColor)
 }
 
 // UCT
@@ -103,7 +103,7 @@ func addChild(pN *Node, z int) {
 	pN.ChildNum++
 }
 
-func createNode() int {
+func createNode(board e.IBoard) int {
 	if nodeNum == NodeMax {
 		fmt.Printf("node over Err\n")
 		os.Exit(0)
@@ -114,7 +114,7 @@ func createNode() int {
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := e.GetZ(x+1, y+1)
-			if c.BoardData[z] != 0 {
+			if board.GetData()[z] != 0 {
 				continue
 			}
 			addChild(pN, z)
@@ -152,7 +152,7 @@ func selectBestUcb(nodeN int) int {
 	return selectI
 }
 
-func searchUctV8(color int, nodeN int) int {
+func searchUctV8(board e.IBoard, color int, nodeN int) int {
 	pN := &node[nodeN]
 	var c *Child
 	var win int
@@ -160,7 +160,7 @@ func searchUctV8(color int, nodeN int) int {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		z := c.Z
-		err := e.PutStoneV4(z, color, e.FillEyeErr)
+		err := board.PutStoneV4(z, color, e.FillEyeErr)
 		if err == 0 {
 			break
 		}
@@ -168,12 +168,12 @@ func searchUctV8(color int, nodeN int) int {
 		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
-		win = -playoutV8(e.FlipColor(color))
+		win = -playoutV8(board, e.FlipColor(color))
 	} else {
 		if c.Next == NodeEmpty {
-			c.Next = createNode()
+			c.Next = createNode(board)
 		}
-		win = -searchUctV8(e.FlipColor(color), c.Next)
+		win = -searchUctV8(board, e.FlipColor(color), c.Next)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -181,21 +181,20 @@ func searchUctV8(color int, nodeN int) int {
 	return win
 }
 
-func getBestUctV8(color int) int {
+func getBestUctV8(board e.IBoard, color int) int {
 	max := -999
 	nodeNum = 0
 	uctLoop := 10000
 	var bestI = -1
-	next := createNode()
+	next := createNode(board)
 	for i := 0; i < uctLoop; i++ {
-		var boardCopy = [c.BoardMax]int{}
+		var boardCopy = board.CopyData()
 		koZCopy := e.KoZ
-		copy(boardCopy[:], c.BoardData[:])
 
-		searchUctV8(color, next)
+		searchUctV8(board, color, next)
 
 		e.KoZ = koZCopy
-		copy(c.BoardData[:], boardCopy[:])
+		board.ImportData(boardCopy)
 	}
 	pN := &node[next]
 	for i := 0; i < pN.ChildNum; i++ {
@@ -212,13 +211,13 @@ func getBestUctV8(color int) int {
 	return bestZ
 }
 
-func addMovesV8(z int, color int) {
-	err := e.PutStoneV4(z, color, e.FillEyeOk)
+func addMovesV8(board e.IBoard, z int, color int) {
+	err := board.PutStoneV4(z, color, e.FillEyeOk)
 	if err != 0 {
 		fmt.Printf("Err!\n")
 		os.Exit(0)
 	}
 	record[moves] = z
 	moves++
-	p.PrintBoardV8(moves)
+	p.PrintBoardV8(board, moves)
 }

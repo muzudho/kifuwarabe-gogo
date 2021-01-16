@@ -19,7 +19,7 @@ import (
 	// "unsafe"
 )
 
-func countScoreV7(turnColor int) int {
+func countScoreV7(board e.IBoard, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -27,7 +27,7 @@ func countScoreV7(turnColor int) int {
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := e.GetZ(x+1, y+1)
-			color2 := c.BoardData[z]
+			color2 := board.GetData()[z]
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -35,7 +35,7 @@ func countScoreV7(turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[c.BoardData[z+e.Dir4[i]]]++
+				mk[board.GetData()[z+e.Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -62,7 +62,7 @@ func countScoreV7(turnColor int) int {
 	return win
 }
 
-func playoutV7(turnColor int) int {
+func playoutV7(board e.IBoard, turnColor int) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -73,7 +73,7 @@ func playoutV7(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if c.BoardData[z] != 0 {
+				if board.GetData()[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -88,7 +88,7 @@ func playoutV7(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := e.PutStoneV4(z, color, e.FillEyeErr)
+			err := board.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -104,38 +104,36 @@ func playoutV7(turnColor int) int {
 		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
 		color = e.FlipColor(color)
 	}
-	return countScoreV7(turnColor)
+	return countScoreV7(board, turnColor)
 }
 
-func primitiveMonteCalroV7(color int) int {
+func primitiveMonteCalroV7(board e.IBoard, color int) int {
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
-	var boardCopy = [c.BoardMax]int{}
+	var boardCopy = board.CopyData()
 	koZCopy := e.KoZ
-	copy(boardCopy[:], c.BoardData[:])
 	bestValue = -100.0
 
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := e.GetZ(x+1, y+1)
-			if c.BoardData[z] != 0 {
+			if board.GetData()[z] != 0 {
 				continue
 			}
-			err := e.PutStoneV4(z, color, e.FillEyeErr)
+			err := board.PutStoneV4(z, color, e.FillEyeErr)
 			if err != 0 {
 				continue
 			}
 
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = [c.BoardMax]int{}
+				var boardCopy2 = board.CopyData()
 				koZCopy2 := e.KoZ
-				copy(boardCopy2[:], c.BoardData[:])
-				win := -playoutV7(e.FlipColor(color))
+				win := -playoutV7(board, e.FlipColor(color))
 				winSum += win
 				e.KoZ = koZCopy2
-				copy(c.BoardData[:], boardCopy2[:])
+				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
 			if winRate > bestValue {
@@ -144,7 +142,7 @@ func primitiveMonteCalroV7(color int) int {
 				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
 			}
 			e.KoZ = koZCopy
-			copy(c.BoardData[:], boardCopy[:])
+			board.ImportData(boardCopy)
 		}
 	}
 	return bestZ

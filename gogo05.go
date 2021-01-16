@@ -22,7 +22,7 @@ import (
 )
 
 // countScore - 得点計算。
-func countScoreV5(turnColor int) int {
+func countScoreV5(board e.IBoard, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -30,7 +30,7 @@ func countScoreV5(turnColor int) int {
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
 			z := e.GetZ(x+1, y+1)
-			color2 := c.BoardData[z]
+			color2 := board.GetData()[z]
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -38,7 +38,7 @@ func countScoreV5(turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[c.BoardData[z+e.Dir4[i]]]++
+				mk[board.GetData()[z+e.Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -62,7 +62,7 @@ func countScoreV5(turnColor int) int {
 }
 
 // playoutV5 - 最後まで石を打ちます。得点を返します。
-func playoutV5(turnColor int) int {
+func playoutV5(board e.IBoard, turnColor int) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -73,7 +73,7 @@ func playoutV5(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if c.BoardData[z] != 0 {
+				if board.GetData()[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -88,7 +88,7 @@ func playoutV5(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := e.PutStoneV4(z, color, e.FillEyeErr)
+			err := board.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -99,10 +99,10 @@ func playoutV5(turnColor int) int {
 			break
 		}
 		previousZ = z
-		p.PrintBoardV3()
+		p.PrintBoardV3(board)
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, e.Get81(z), color, emptyNum, e.Get81(e.KoZ))
 		color = e.FlipColor(color)
 	}
-	return countScoreV5(turnColor)
+	return countScoreV5(board, turnColor)
 }

@@ -49,7 +49,7 @@ import (
 // }
 
 // playoutV4 - 最後まで石を打ちます。
-func playoutV4(turnColor int) int {
+func playoutV4(board e.IBoard, turnColor int) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -60,7 +60,7 @@ func playoutV4(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = e.GetZ(x+1, y+1)
-				if c.BoardData[z] != 0 {
+				if board.GetData()[z] != 0 {
 					continue
 				}
 				empty[emptyNum] = z
@@ -75,7 +75,7 @@ func playoutV4(turnColor int) int {
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := e.PutStoneV4(z, color, e.FillEyeErr)
+			err := board.PutStoneV4(z, color, e.FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -86,7 +86,7 @@ func playoutV4(turnColor int) int {
 			break
 		}
 		previousZ = z
-		p.PrintBoardV3()
+		p.PrintBoardV3(board)
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, e.Get81(z), color, emptyNum, e.Get81(e.KoZ))
 		color = e.FlipColor(color)
