@@ -273,52 +273,52 @@ func printBoardType2(board e.IBoard, moves int) {
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV1) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV1) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV2) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV2) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV3) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV3) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV4) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV4) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV5) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV5) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV6) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV6) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV7) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV7) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV8) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV8) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV9) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV9) PrintBoardType2(board e.IBoard, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤を描画。
-func (presenter *PresenterV9a) PrintBoardType2(moves int, board e.IBoard) {
+func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 	// var str = [4]string{"・", "●", "○", "＃"}
 	var str = [4]string{" .", " *", " o", " #"}
 	fmt.Fprintf(os.Stderr, "\n   ")

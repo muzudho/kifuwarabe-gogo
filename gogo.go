@@ -24,8 +24,8 @@ func main() {
 	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
-	GoGoV7()
-	// GoGoV8()
+	// GoGoV7()
+	GoGoV8()
 	// GoGoV9()
 	// GoGoV9a()
 }
@@ -151,9 +151,9 @@ func GoGoV8() {
 	for i := 0; i < 20; i++ {
 		e.AllPlayouts = 0
 
-		z := getBestUctV8(board, color, presenter.PrintBoardType1)
+		z := e.GetBestUctV8(board, color, presenter.PrintBoardType1)
 
-		addMovesV8(board, z, color)
+		e.AddMovesV8(board, z, color, presenter.PrintBoardType2)
 		color = e.FlipColor(color)
 	}
 }
@@ -165,7 +165,7 @@ func GoGoV9() {
 
 	rand.Seed(time.Now().UnixNano())
 	// testPlayout()
-	selfplay(board, presenter.PrintBoardType1)
+	selfplay(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
 }
 
 // GoGoV9a - バージョン９a。
@@ -206,7 +206,7 @@ func GoGoV9a() {
 			if strings.ToLower(str[1]) == "w" {
 				color = 2
 			}
-			z := playComputerMove(board, color, 1, presenter.PrintBoardType1)
+			z := playComputerMove(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
 			fmt.Printf("= %s\n\n", p.GetCharZ(z))
 		case "play":
 			color := 1
@@ -225,7 +225,7 @@ func GoGoV9a() {
 			if ax == "pass" {
 				z = 0
 			}
-			addMoves9a(board, z, color, 0)
+			addMoves9a(board, z, color, 0, presenter.PrintBoardType2)
 			fmt.Printf("= \n\n")
 		default:
 			fmt.Printf("? unknown_command\n\n")

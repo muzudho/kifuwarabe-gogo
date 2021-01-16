@@ -19,9 +19,6 @@ type IBoard interface {
 	PutStoneType1(tz int, color int) int
 	PutStoneType2(tz int, color int, fillEyeErr int) int
 
-	// 盤の描画。
-	PrintBoardType2(moves int)
-
 	// Playout - 最後まで石を打ちます。
 	Playout(turnColor int, printBoardType1 func(IBoard)) int
 	CountLiberty(tz int, pLiberty *int, pStone *int)
@@ -35,7 +32,8 @@ type IBoard interface {
 // IPresenter - 表示用。
 type IPresenter interface {
 	// 盤の描画。
-	PrintBoardType1()
+	PrintBoardType1(board IBoard)
+	PrintBoardType2(board IBoard, moves int)
 }
 
 // Board0 - 盤。
@@ -683,16 +681,6 @@ func (board *BoardV9) PlayOneMove(color int) int {
 // PlayOneMove - 置けるとこに置く。
 func (board *BoardV9a) PlayOneMove(color int) int {
 	return playOneMove(board, color)
-}
-
-// PrintBoardType1 - 盤の描画。
-func (board Board0) PrintBoardType1() {
-	fmt.Printf("Unimplemented Board0 PrintBoardType1.\n")
-}
-
-// PrintBoardType2 - 盤の描画。
-func (board Board0) PrintBoardType2(moves int) {
-	fmt.Printf("Unimplemented Board0 PrintBoardType2.\n")
 }
 
 // countScore - 得点計算。
