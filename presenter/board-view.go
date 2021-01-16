@@ -14,10 +14,9 @@ type BoardV1 struct {
 }
 
 // NewBoardV1 - 盤を作成します。
-func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
-	obj := new(BoardV1)
-	obj.Data = data
-	return obj
+func NewBoardV1(data [c.BoardMax]int, presenter e.IPresenter) *BoardV1 {
+	board := NewBoardV1(data, presenter)
+	return board
 }
 
 // BoardV2 - 盤 Version 2.
@@ -26,10 +25,9 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
-	obj := new(BoardV2)
-	obj.Data = data
-	return obj
+func NewBoardV2(data [c.BoardMax]int, presenter e.IPresenter) *BoardV2 {
+	board := NewBoardV2(data, presenter)
+	return board
 }
 
 // BoardV3 - 盤 Version 3.
@@ -38,10 +36,9 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
-	obj := new(BoardV3)
-	obj.Data = data
-	return obj
+func NewBoardV3(data [c.BoardMax]int, presenter e.IPresenter) *BoardV3 {
+	board := NewBoardV3(data, presenter)
+	return board
 }
 
 // BoardV4 - 盤 Version 4.
@@ -50,10 +47,9 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
-	obj := new(BoardV4)
-	obj.Data = data
-	return obj
+func NewBoardV4(data [c.BoardMax]int, presenter e.IPresenter) *BoardV4 {
+	board := NewBoardV4(data, presenter)
+	return board
 }
 
 // BoardV5 - 盤 Version 5.
@@ -62,10 +58,9 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
-	obj := new(BoardV5)
-	obj.Data = data
-	return obj
+func NewBoardV5(data [c.BoardMax]int, presenter e.IPresenter) *BoardV5 {
+	board := NewBoardV5(data, presenter)
+	return board
 }
 
 // BoardV6 - 盤 Version 6.
@@ -74,10 +69,9 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
-	obj := new(BoardV6)
-	obj.Data = data
-	return obj
+func NewBoardV6(data [c.BoardMax]int, presenter e.IPresenter) *BoardV6 {
+	board := NewBoardV6(data, presenter)
+	return board
 }
 
 // BoardV7 - 盤 Version 7.
@@ -86,10 +80,9 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data [c.BoardMax]int) *BoardV7 {
-	obj := new(BoardV7)
-	obj.Data = data
-	return obj
+func NewBoardV7(data [c.BoardMax]int, presenter e.IPresenter) *BoardV7 {
+	board := NewBoardV7(data, presenter)
+	return board
 }
 
 // BoardV8 - 盤 Version 8.
@@ -98,10 +91,9 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
-	obj := new(BoardV8)
-	obj.Data = data
-	return obj
+func NewBoardV8(data [c.BoardMax]int, presenter e.IPresenter) *BoardV8 {
+	board := NewBoardV8(data, presenter)
+	return board
 }
 
 // BoardV9 - 盤 Version 9.
@@ -110,10 +102,9 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
-	obj := new(BoardV9)
-	obj.Data = data
-	return obj
+func NewBoardV9(data [c.BoardMax]int, presenter e.IPresenter) *BoardV9 {
+	board := NewBoardV9(data, presenter)
+	return board
 }
 
 // BoardV9a - 盤 Version 9a.
@@ -122,10 +113,9 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
-	obj := new(BoardV9a)
-	obj.Data = data
-	return obj
+func NewBoardV9a(data [c.BoardMax]int, presenter e.IPresenter) *BoardV9a {
+	board := NewBoardV9a(data, presenter)
+	return board
 }
 
 // labelOfRowsV1 - 各行の表示符号。

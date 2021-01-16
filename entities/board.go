@@ -20,7 +20,6 @@ type IBoard interface {
 	PutStoneType2(tz int, color int, fillEyeErr int) int
 
 	// 盤の描画。
-	PrintBoardType1()
 	PrintBoardType2(moves int)
 
 	// Playout - 最後まで石を打ちます。
@@ -35,6 +34,8 @@ type IBoard interface {
 
 // IPresenter - 表示用。
 type IPresenter interface {
+	// 盤の描画。
+	PrintBoardType1()
 }
 
 // Board0 - 盤。
@@ -43,10 +44,11 @@ type Board0 struct {
 	Presenter IPresenter
 }
 
-// NewBoard - 盤を作成します。
-func NewBoard(data [c.BoardMax]int) *Board0 {
+// NewBoard0 - 盤を作成します。
+func NewBoard0(data [c.BoardMax]int, presenter IPresenter) *Board0 {
 	board := new(Board0)
 	board.Data = data
+	board.Presenter = presenter
 	return board
 }
 
@@ -111,10 +113,11 @@ type BoardV1 struct {
 }
 
 // NewBoardV1 - 盤を作成します。
-func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
-	obj := new(BoardV1)
-	obj.Data = data
-	return obj
+func NewBoardV1(data [c.BoardMax]int, presenter IPresenter) *BoardV1 {
+	board := new(BoardV1)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV2 - 盤 Version 2。
@@ -123,10 +126,11 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
-	obj := new(BoardV2)
-	obj.Data = data
-	return obj
+func NewBoardV2(data [c.BoardMax]int, presenter IPresenter) *BoardV2 {
+	board := new(BoardV2)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV3 - 盤 Version 3。
@@ -135,10 +139,11 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
-	obj := new(BoardV3)
-	obj.Data = data
-	return obj
+func NewBoardV3(data [c.BoardMax]int, presenter IPresenter) *BoardV3 {
+	board := new(BoardV3)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV4 - 盤 Version 4。
@@ -147,10 +152,11 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
-	obj := new(BoardV4)
-	obj.Data = data
-	return obj
+func NewBoardV4(data [c.BoardMax]int, presenter IPresenter) *BoardV4 {
+	board := new(BoardV4)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV5 - 盤 Version 5。
@@ -159,10 +165,11 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
-	obj := new(BoardV5)
-	obj.Data = data
-	return obj
+func NewBoardV5(data [c.BoardMax]int, presenter IPresenter) *BoardV5 {
+	board := new(BoardV5)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV6 - 盤 Version 6。
@@ -171,10 +178,11 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
-	obj := new(BoardV6)
-	obj.Data = data
-	return obj
+func NewBoardV6(data [c.BoardMax]int, presenter IPresenter) *BoardV6 {
+	board := new(BoardV6)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV7 - 盤 Version 7。
@@ -183,10 +191,11 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data [c.BoardMax]int) *BoardV7 {
-	obj := new(BoardV7)
-	obj.Data = data
-	return obj
+func NewBoardV7(data [c.BoardMax]int, presenter IPresenter) *BoardV7 {
+	board := new(BoardV7)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV8 - 盤 Version 8。
@@ -195,10 +204,11 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
-	obj := new(BoardV8)
-	obj.Data = data
-	return obj
+func NewBoardV8(data [c.BoardMax]int, presenter IPresenter) *BoardV8 {
+	board := new(BoardV8)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV9 - 盤 Version 9。
@@ -207,10 +217,11 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
-	obj := new(BoardV9)
-	obj.Data = data
-	return obj
+func NewBoardV9(data [c.BoardMax]int, presenter IPresenter) *BoardV9 {
+	board := new(BoardV9)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // BoardV9a - 盤 Version 9a。
@@ -219,10 +230,11 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
-	obj := new(BoardV9a)
-	obj.Data = data
-	return obj
+func NewBoardV9a(data [c.BoardMax]int, presenter IPresenter) *BoardV9a {
+	board := new(BoardV9a)
+	board.Data = data
+	board.Presenter = presenter
+	return board
 }
 
 // GetData - 盤データ。
@@ -875,7 +887,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 func playoutV1(board IBoard, turnColor int) int {
 	// Debug
 	fmt.Printf("(Debug) playoutV1 PrintBoardType1\n")
-	board.PrintBoardType1()
+	board.GetPresenter().PrintBoardType1()
 
 	color := turnColor
 	previousZ := 0
@@ -914,7 +926,7 @@ func playoutV1(board IBoard, turnColor int) int {
 		}
 		previousZ = z
 
-		board.PrintBoardType1()
+		board.GetPresenter().PrintBoardType1()
 
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, Get81(z), color, emptyNum, Get81(KoZ))
