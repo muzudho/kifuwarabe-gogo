@@ -263,7 +263,7 @@ func printBoardType2(board e.IBoard, moves int) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", str[board.Data()[x+1+board.SentinelWidth()*(y+1)]])
+			fmt.Printf("%s", str[board.ColorAt(x+1+board.SentinelWidth()*(y+1))])
 		}
 		fmt.Printf("|")
 		if y == 4 {
@@ -341,7 +341,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", labelOfRowsV9a[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", str[board.Data()[x+1+board.SentinelWidth()*(y+1)]])
+			fmt.Fprintf(os.Stderr, "%s", str[board.ColorAt(x+1+board.SentinelWidth()*(y+1))])
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {

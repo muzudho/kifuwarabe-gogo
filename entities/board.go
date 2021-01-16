@@ -9,7 +9,6 @@ import (
 
 // IBoard - 盤。
 type IBoard interface {
-	Data() []int
 	// 指定した交点の石の色
 	ColorAt(z int) int
 	CopyData() []int
@@ -128,11 +127,6 @@ func (board Board0) GetMaxMoves() int {
 // GetUctChildrenSize - UCTの最大手数
 func (board Board0) GetUctChildrenSize() int {
 	return board.UctChildrenSize
-}
-
-// Data - 盤データ。
-func (board Board0) Data() []int {
-	return board.data
 }
 
 // ColorAt - 指定した交点の石の色
