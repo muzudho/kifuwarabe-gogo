@@ -7,13 +7,6 @@ import (
 	"time"
 )
 
-// RecordTime - 一手にかかった時間。
-// var RecordTime [c.MaxMoves]float64
-var RecordTime []float64
-
-// Dir4 - ４方向（右、下、左、上）の番地。初期値は仮の値。
-var Dir4 = [4]int{1, 9, -1, 9}
-
 // IBoard - 盤。
 type IBoard interface {
 	GetData() []int
@@ -55,6 +48,30 @@ type IPresenter interface {
 	PrintBoardType1(board IBoard)
 	PrintBoardType2(board IBoard, moves int)
 }
+
+// AllPlayouts - プレイアウトした回数。
+var AllPlayouts int
+
+// Record - 棋譜？
+var Record []int
+
+// RecordTime - 一手にかかった時間。
+var RecordTime []float64
+
+// Dir4 - ４方向（右、下、左、上）の番地。初期値は仮の値。
+var Dir4 = [4]int{1, 9, -1, 9}
+
+// KoZ - コウのZ（番地）。 XXYY だろうか？ 0 ならコウは無し？
+var KoZ int
+
+// For count liberty.
+var checkBoard = []int{}
+
+// Moves - 手数？
+var Moves int
+
+// FlagTestPlayout - ？。
+var FlagTestPlayout int
 
 // Board0 - 盤。
 type Board0 struct {
@@ -101,6 +118,13 @@ type BoardV1 struct {
 	Board0
 }
 
+func newBoard(board IBoard) {
+	checkBoard = make([]int, board.GetSentinelBoardMax())
+	Record = make([]int, board.GetMaxMoves())
+	RecordTime = make([]float64, board.GetMaxMoves())
+	Dir4 = [4]int{1, board.GetWidth(), -1, -board.GetWidth()}
+}
+
 // NewBoardV1 - 盤を作成します。
 func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV1 {
 	board := new(BoardV1)
@@ -111,9 +135,7 @@ func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -133,9 +155,7 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -155,9 +175,7 @@ func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -177,9 +195,7 @@ func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -199,9 +215,7 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -221,9 +235,7 @@ func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -243,9 +255,7 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -265,9 +275,7 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -287,9 +295,7 @@ func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
+	newBoard(board)
 
 	return board
 }
@@ -309,10 +315,7 @@ func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, 
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
-	checkBoard = make([]int, sentinelBoardMax)
-	Record = make([]int, maxMoves)
-	RecordTime = make([]float64, maxMoves)
-	Dir4 = [4]int{1, board.GetWidth(), -1, -board.GetWidth()}
+	newBoard(board)
 
 	return board
 }
@@ -343,9 +346,6 @@ func (board Board0) CopyData() []int {
 func (board *Board0) ImportData(boardCopy2 []int) {
 	copy(board.Data[:], boardCopy2[:])
 }
-
-// KoZ - コウのZ（番地）。 XXYY だろうか？ 0 ならコウは無し？
-var KoZ int
 
 // Get81 - XY形式の座標？
 func (board Board0) Get81(z int) int {
@@ -380,9 +380,6 @@ func (board Board0) GetEmptyZ() int {
 func FlipColor(col int) int {
 	return 3 - col
 }
-
-// For count liberty.
-var checkBoard = []int{}
 
 func (board Board0) countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
 	checkBoard[tz] = 1
@@ -1198,13 +1195,6 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	return countScoreV7(board, turnColor)
 }
 
-// AllPlayouts - プレイアウトした回数。
-var AllPlayouts int
-
-// Record - 棋譜？
-// var Record [c.MaxMoves]int
-var Record []int
-
 // Playout - 最後まで石を打ちます。得点を返します。
 func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.GetBoardSize()
@@ -1269,12 +1259,6 @@ func (board *BoardV9) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 func (board *BoardV9a) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	return playoutV8(board, turnColor, printBoardType1)
 }
-
-// Moves - 手数？
-var Moves int
-
-// FlagTestPlayout - ？。
-var FlagTestPlayout int
 
 func (board *BoardV9) playoutV9(turnColor int) int {
 	boardSize := board.GetBoardSize()
