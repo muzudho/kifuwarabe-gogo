@@ -119,7 +119,7 @@ var labelOfRowsV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", 
 func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", " ●", " ○", "＃"}
+	var stoneLabels = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	boardSize := board.BoardSize()
 	for x := 0; x < boardSize; x++ {
@@ -133,7 +133,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", str[board.Data()[x+1+board.SentinelWidth()*(y+1)]])
+			fmt.Printf("%s", stoneLabels[board.ColorAt(x+1+board.SentinelWidth()*(y+1))])
 		}
 		fmt.Printf("|\n")
 	}
@@ -150,7 +150,7 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", " ●", " ○", "＃"}
+	var stoneLabels = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
@@ -163,7 +163,7 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", str[board.Data()[x+1+board.SentinelWidth()*(y+1)]])
+			fmt.Printf("%s", stoneLabels[board.ColorAt(x+1+board.SentinelWidth()*(y+1))])
 		}
 		fmt.Printf("|\n")
 	}
@@ -180,7 +180,7 @@ func printBoardType1V3(board e.IBoard) {
 
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
-	var str = [4]string{"・", " ●", " ○", "＃"}
+	var stoneLabels = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
 	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
@@ -193,7 +193,7 @@ func printBoardType1V3(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", str[board.Data()[x+1+board.SentinelWidth()*(y+1)]])
+			fmt.Printf("%s", stoneLabels[board.ColorAt(x+1+board.SentinelWidth()*(y+1))])
 		}
 		fmt.Printf("|\n")
 	}

@@ -10,6 +10,8 @@ import (
 // IBoard - 盤。
 type IBoard interface {
 	Data() []int
+	// 指定した交点の石の色
+	ColorAt(z int) int
 	CopyData() []int
 	ImportData(boardCopy2 []int)
 	SetData(i int, color int)
@@ -126,6 +128,69 @@ func (board Board0) GetMaxMoves() int {
 // GetUctChildrenSize - UCTの最大手数
 func (board Board0) GetUctChildrenSize() int {
 	return board.UctChildrenSize
+}
+
+// Data - 盤データ。
+func (board Board0) Data() []int {
+	return board.data
+}
+
+// ColorAt - 指定した交点の石の色
+func (board Board0) ColorAt(z int) int {
+	return board.data[z]
+}
+
+// Exists - 指定の交点に石があるか？
+func (board Board0) Exists(z int) bool {
+	return board.data[z] != 0
+}
+
+// SetData - 盤データ。
+func (board *Board0) SetData(i int, color int) {
+	board.data[i] = color
+}
+
+// CopyData - 盤データのコピー。
+func (board Board0) CopyData() []int {
+	boardMax := board.GetSentinelBoardMax()
+
+	var boardCopy2 = make([]int, boardMax)
+	copy(boardCopy2[:], board.data[:])
+	return boardCopy2
+}
+
+// ImportData - 盤データのコピー。
+func (board *Board0) ImportData(boardCopy2 []int) {
+	copy(board.data[:], boardCopy2[:])
+}
+
+// Get81 - XY形式の座標？
+func (board Board0) Get81(z int) int {
+	y := z / board.SentinelWidth()
+	x := z - y*board.SentinelWidth()
+	if z == 0 {
+		return 0
+	}
+	return x*10 + y
+}
+
+// GetZ - YX形式の座標？
+func (board Board0) GetZ(x int, y int) int {
+	return y*board.SentinelWidth() + x
+}
+
+// GetEmptyZ - 空交点のYX座標を返します。
+func (board Board0) GetEmptyZ() int {
+	var x, y, z int
+	for {
+		x = rand.Intn(9) + 1
+		y = rand.Intn(9) + 1
+		z = board.GetZ(x, y)
+		if !board.Exists(z) {
+			break
+		}
+	}
+	return z
 }
 
 // BoardV1 - 盤 Version 1。
@@ -345,64 +410,6 @@ func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, 
 	return board
 }
 
-// Data - 盤データ。
-func (board Board0) Data() []int {
-	return board.data
-}
-
-// Exists - 指定の交点に石があるか？
-func (board Board0) Exists(z int) bool {
-	return board.data[z] != 0
-}
-
-// SetData - 盤データ。
-func (board *Board0) SetData(i int, color int) {
-	board.data[i] = color
-}
-
-// CopyData - 盤データのコピー。
-func (board Board0) CopyData() []int {
-	boardMax := board.GetSentinelBoardMax()
-
-	var boardCopy2 = make([]int, boardMax)
-	copy(boardCopy2[:], board.data[:])
-	return boardCopy2
-}
-
-// ImportData - 盤データのコピー。
-func (board *Board0) ImportData(boardCopy2 []int) {
-	copy(board.data[:], boardCopy2[:])
-}
-
-// Get81 - XY形式の座標？
-func (board Board0) Get81(z int) int {
-	y := z / board.SentinelWidth()
-	x := z - y*board.SentinelWidth()
-	if z == 0 {
-		return 0
-	}
-	return x*10 + y
-}
-
-// GetZ - YX形式の座標？
-func (board Board0) GetZ(x int, y int) int {
-	return y*board.SentinelWidth() + x
-}
-
-// GetEmptyZ - 空交点のYX座標を返します。
-func (board Board0) GetEmptyZ() int {
-	var x, y, z int
-	for {
-		x = rand.Intn(9) + 1
-		y = rand.Intn(9) + 1
-		z = board.GetZ(x, y)
-		if !board.Exists(z) {
-			break
-		}
-	}
-	return z
-}
-
 // FlipColor - 白黒反転させます。
 func FlipColor(col int) int {
 	return 3 - col
@@ -489,7 +496,7 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.Data()[z]
+		color2 := board.ColorAt(z)
 		if color2 == 0 {
 			space++
 		}
@@ -573,7 +580,7 @@ func putStoneType1V3(board IBoard, tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.Data()[z]
+		color2 := board.ColorAt(z)
 		if color2 == 0 {
 			space++
 		}
@@ -688,7 +695,7 @@ func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.Data()[z]
+		color2 := board.ColorAt(z)
 		if color2 == 0 {
 			space++
 		}
@@ -869,7 +876,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			color2 := board.Data()[z]
+			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -877,7 +884,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board.Data()[z+Dir4[i]]]++
+				mk[board.ColorAt(z+Dir4[i])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -909,7 +916,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			color2 := board.Data()[z]
+			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -917,7 +924,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board.Data()[z+Dir4[i]]]++
+				mk[board.ColorAt(z+Dir4[i])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -949,7 +956,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			color2 := board.Data()[z]
+			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -957,7 +964,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board.Data()[z+Dir4[i]]]++
+				mk[board.ColorAt(z+Dir4[i])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
