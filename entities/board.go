@@ -206,7 +206,7 @@ func (board Board) PutStoneV2(tz int, color int) int {
 }
 
 // PutStoneV3 - 石を置きます。
-func (board Board) PutStoneV3(tz int, color int) int {
+func (board *Board) PutStoneV3(tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -363,7 +363,7 @@ func (board Board) PutStoneV4(tz int, color int, fillEyeErr int) int {
 }
 
 // PlayOneMove - 置けるとこに置く。
-func (board Board) PlayOneMove(color int) int {
+func (board *Board) PlayOneMove(color int) int {
 	var z int
 	for i := 0; i < 100; i++ {
 		z := board.GetEmptyZ()
