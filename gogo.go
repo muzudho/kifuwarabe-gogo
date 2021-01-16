@@ -80,7 +80,7 @@ func GoGoV3() {
 	for {
 		tIdx := board.PlayOneMove(color)
 
-		fmt.Printf("moves=%4d, color=%d, z=%4d\n", e.Moves, color, board.GetZ4(tIdx))
+		fmt.Printf("moves=%4d, color=%d, z=%04d\n", e.Moves, color, board.GetZ4(tIdx))
 		presenter.PrintBoardType1(board)
 
 		e.Record[e.Moves] = tIdx
@@ -253,7 +253,7 @@ func GoGoV9a() {
 				}
 				y := int(ax[1] - '0')
 				tIdx := board.GetTIdxFromXy(int(x)-1, board.BoardSize()-y)
-				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%4d\n", x, y, board.GetZ4(tIdx))
+				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%04d\n", x, y, board.GetZ4(tIdx))
 				if ax == "pass" {
 					tIdx = 0
 				}

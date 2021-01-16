@@ -113,7 +113,7 @@ func SearchUctV8(board IBoard, color int, nodeN int, printBoardType1 func(IBoard
 			break
 		}
 		c.Z = IllegalZ
-		// fmt.Printf("ILLEGAL:z=%4d\n", e.GetZ4(tIdx))
+		// fmt.Printf("ILLEGAL:z=%04d\n", e.GetZ4(tIdx))
 	}
 
 	if c.Games <= 0 {
@@ -155,7 +155,7 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("(GetBestUctV8) %2d:z=%4d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
+		fmt.Printf("(GetBestUctV8) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
 	}
 	bestTIdx := pN.Children[bestI].Z
 	fmt.Printf("(GetBestUctV8) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
@@ -176,7 +176,7 @@ func searchUctV9(board IBoard, color int, nodeN int, printBoardType1 func(IBoard
 			break
 		}
 		c.Z = IllegalZ
-		// fmt.Printf("ILLEGAL:z=%4d\n", e.GetZ4(tIdx))
+		// fmt.Printf("ILLEGAL:z=%04d\n", e.GetZ4(tIdx))
 	}
 	if c.Games <= 0 {
 		win = -board.Playout(FlipColor(color), printBoardType1)
@@ -215,7 +215,7 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Printf("(GetBestUctV9) %2d:z=%4d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.Z), c.Rate, c.Games)
+		// fmt.Printf("(GetBestUctV9) %2d:z=%04d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.Z), c.Rate, c.Games)
 	}
 	bestTIdx := pN.Children[bestI].Z
 	fmt.Printf("(GetBestUctV9) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
@@ -246,10 +246,10 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%4d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.Z), c.Rate, c.Games)
+		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%04d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.Z), c.Rate, c.Games)
 	}
 	bestTIdx := pN.Children[bestI].Z
-	fmt.Fprintf(os.Stderr, "(GetBestUctV9a) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	fmt.Fprintf(os.Stderr, "(GetBestUctV9a) bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestTIdx
 }

@@ -53,7 +53,7 @@ func PlayComputerMoveV9a(board e.IBoard, color int, fUCT int, printBoardType1 fu
 		tIdx = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	sec := time.Since(st).Seconds()
-	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%4d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
+	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(e.AllPlayouts)/sec, board.GetZ4(tIdx), e.Moves, color, e.AllPlayouts, fUCT)
 	board.AddMovesType2(tIdx, color, sec, printBoardType2)
 	return tIdx

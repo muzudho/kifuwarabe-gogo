@@ -1038,7 +1038,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 
 		printBoardType1(board)
 
-		fmt.Printf("loop=%d,z=%4d,c=%d,emptyNum=%d,KoZ=%4d\n",
+		fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
 			loop, board.GetZ4(tIdx), color, emptyNum, board.GetZ4(KoIdx))
 		color = FlipColor(color)
 	}
@@ -1107,7 +1107,7 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		}
 		previousTIdx = tIdx
 		printBoardType1(board)
-		fmt.Printf("loop=%d,z=%4d,c=%d,emptyNum=%d,KoZ=%4d\n",
+		fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
 			loop, board.GetZ4(tIdx), color, emptyNum, board.GetZ4(KoIdx))
 		color = FlipColor(color)
 	}
@@ -1156,7 +1156,7 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		}
 		previousTIdx = tIdx
 		// printBoardType1()
-		// fmt.Printf("loop=%d,z=%4d,c=%d,emptyNum=%d,KoZ=%4d\n",
+		// fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
 		// 	loop, e.GetZ4(z), color, emptyNum, e.GetZ4(KoIdx))
 		color = FlipColor(color)
 	}
@@ -1205,7 +1205,7 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		}
 		previousTIdx = tIdx
 		// printBoardType1()
-		// fmt.Printf("loop=%d,z=%4d,c=%d,emptyNum=%d,KoZ=%4d\n",
+		// fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
 		// 	loop, e.GetZ4(tIdx), color, emptyNum, e.GetZ4(KoIdx))
 		color = FlipColor(color)
 	}
@@ -1255,7 +1255,7 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		}
 		previousTIdx = tIdx
 		// printBoardType1()
-		// fmt.Printf("loop=%d,z=%4d,c=%d,emptyNum=%d,KoZ=%4d\n",
+		// fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
 		// 	loop, e.GetZ4(tIdx), color, emptyNum, e.GetZ4(KoIdx))
 		color = FlipColor(color)
 	}
@@ -1323,7 +1323,7 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 		}
 		previousTIdx = tIdx
 		// PrintBoardType1()
-		// fmt.Printf("loop=%d,z=%4d,c=%d,emptyNum=%d,KoZ=%4d\n",
+		// fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
 		// 	loop, e.GetZ4(tIdx), color, emptyNum, e.GetZ4(KoIdx))
 		color = FlipColor(color)
 	}
@@ -1369,7 +1369,7 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 				(color == 2 && winRate < bestValue) {
 				bestValue = winRate
 				bestTIdx = tIdx
-				fmt.Printf("(primitiveMonteCalroV6) bestZ=%4d,color=%d,v=%5.3f,tryNum=%d\n", board.GetZ4(bestTIdx), color, bestValue, tryNum)
+				fmt.Printf("(primitiveMonteCalroV6) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", board.GetZ4(bestTIdx), color, bestValue, tryNum)
 			}
 			KoIdx = koZCopy
 			board.ImportData(boardCopy)
@@ -1444,7 +1444,7 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 			if bestValue < winRate {
 				bestValue = winRate
 				bestTIdx = tIdx
-				fmt.Printf("(primitiveMonteCalroV7) bestZ=%4d,color=%d,v=%5.3f,tryNum=%d\n", board.GetZ4(bestTIdx), color, bestValue, tryNum)
+				fmt.Printf("(primitiveMonteCalroV7) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", board.GetZ4(bestTIdx), color, bestValue, tryNum)
 			}
 			KoIdx = koZCopy
 			board.ImportData(boardCopy)
@@ -1499,7 +1499,7 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 			if bestValue < winRate {
 				bestValue = winRate
 				bestTIdx = z
-				// fmt.Printf("(primitiveMonteCalroV9) bestZ=%4d,color=%d,v=%5.3f,tryNum=%d\n", e.GetZ4(bestZ), color, bestValue, tryNum)
+				// fmt.Printf("(primitiveMonteCalroV9) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", e.GetZ4(bestZ), color, bestValue, tryNum)
 			}
 			KoIdx = koZCopy
 			board.ImportData(boardCopy)
@@ -1654,7 +1654,7 @@ func getComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(I
 		tIdx = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	sec := time.Since(start).Seconds()
-	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%4d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
+	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(AllPlayouts)/sec, board.GetZ4(tIdx), Moves, color, AllPlayouts, fUCT)
 	return tIdx
 }
