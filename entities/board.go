@@ -278,6 +278,20 @@ func (board *Board0) TakeStone(tz int, color int) {
 	}
 }
 
+// InitBoard - 盤の初期化。
+func InitBoard(board IBoard) {
+	for i := 0; i < c.BoardMax; i++ {
+		board.SetData(i, 3)
+	}
+	for y := 0; y < c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
+			board.SetData(GetZ(x+1, y+1), 0)
+		}
+	}
+	Moves = 0
+	KoZ = 0
+}
+
 // PutStoneType1 - 石を置きます。
 func putStoneType1V1(board IBoard, tz int, color int) int {
 	var around = [4][3]int{}

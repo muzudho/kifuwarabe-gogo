@@ -58,7 +58,7 @@ func addChild(pN *Node, z int) {
 	pN.ChildNum++
 }
 
-// CreateNode - ノード作成。 searchUctV8, e.GetBestUctV8, searchUctV9, e.GetBestUctV9, getBestUctV9a から呼び出されます。
+// CreateNode - ノード作成。 searchUctV8, e.GetBestUctV8, searchUctV9, e.GetBestUctV9, e.GetBestUctV9a から呼び出されます。
 func CreateNode(board IBoard) int {
 	if NodeNum == NodeMax {
 		fmt.Printf("node over Err\n")
@@ -243,4 +243,51 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
+}
+
+// GetBestUctV9a - playComputerMove から呼び出されます。
+func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	max := -999
+	NodeNum = 0
+	uctLoop := 10000 // 多め
+	var bestI = -1
+	next := CreateNode(board)
+	for i := 0; i < uctLoop; i++ {
+		var boardCopy = board.CopyData()
+		koZCopy := KoZ
+
+		SearchUctV8(board, color, next, printBoardType1)
+
+		KoZ = koZCopy
+		board.ImportData(boardCopy)
+	}
+	pN := &Nodes[next]
+	for i := 0; i < pN.ChildNum; i++ {
+		c := &pN.Children[i]
+		if c.Games > max {
+			bestI = i
+			max = c.Games
+		}
+		// fmt.Fprintf(os.Stderr,"%2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
+	}
+	bestZ := pN.Children[bestI].Z
+	fmt.Fprintf(os.Stderr, "bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+		Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestZ
+}
+
+// 一手にかかった時間。
+var recordTime [c.MaxMoves]float64
+
+// AddMoves9a - 指し手の追加？
+func AddMoves9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	err := board.PutStoneType2(z, color, FillEyeOk)
+	if err != 0 {
+		fmt.Fprintf(os.Stderr, "Err!\n")
+		os.Exit(0)
+	}
+	Record[Moves] = z
+	recordTime[Moves] = sec
+	Moves++
+	printBoardType2(board, Moves)
 }
