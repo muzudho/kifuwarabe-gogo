@@ -13,7 +13,6 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
-	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 	// "sort"
 	// "strconv"
 	// "strings"
@@ -219,5 +218,5 @@ func addMovesV8(board e.IBoard, z int, color int) {
 	}
 	record[moves] = z
 	moves++
-	p.PrintBoardV8(board, moves)
+	board.PrintBoardType2(moves)
 }

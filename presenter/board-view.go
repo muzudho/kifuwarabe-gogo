@@ -56,6 +56,11 @@ func (board BoardV1) PrintBoard() {
 	fmt.Printf("+\n")
 }
 
+// PrintBoardType2 - 盤の描画。
+func (board BoardV1) PrintBoardType2(moves int) {
+	board.PrintBoard()
+}
+
 // BoardV2 - 盤 Version 2.
 type BoardV2 struct {
 	e.Board
@@ -94,6 +99,11 @@ func (board BoardV2) PrintBoard() {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board BoardV2) PrintBoardType2(moves int) {
+	board.PrintBoard()
 }
 
 // BoardV3 - 盤 Version 3.
@@ -136,8 +146,30 @@ func (board BoardV3) PrintBoard() {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardV8 - 盤の描画。
-func PrintBoardV8(board e.IBoard, moves int) {
+// PrintBoardType2 - 盤の描画。
+func (board BoardV3) PrintBoardType2(moves int) {
+	board.PrintBoard()
+}
+
+// BoardV8 - 盤 Version 8.
+type BoardV8 struct {
+	e.Board
+}
+
+// NewBoardV8 - 盤を作成します。
+func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
+	obj := new(BoardV8)
+	obj.Data = data
+	return obj
+}
+
+// PrintBoard - 盤の描画。
+func (board BoardV8) PrintBoard() {
+	board.PrintBoardType2(-1) // 不正な値
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board BoardV8) PrintBoardType2(moves int) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -168,8 +200,25 @@ func PrintBoardV8(board e.IBoard, moves int) {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardV9a - 盤を描画。
-func PrintBoardV9a(board e.IBoard, moves int) {
+// BoardV9a - 盤 Version 9a.
+type BoardV9a struct {
+	e.Board
+}
+
+// NewBoardV9a - 盤を作成します。
+func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
+	obj := new(BoardV9a)
+	obj.Data = data
+	return obj
+}
+
+// PrintBoard - 盤の描画。
+func (board BoardV9a) PrintBoard() {
+	board.PrintBoardType2(-1) // 不正な値
+}
+
+// PrintBoardType2 - 盤を描画。
+func (board BoardV9a) PrintBoardType2(moves int) {
 	// var str = [4]string{"・", "●", "○", "＃"}
 	var str = [4]string{" .", " *", " o", " #"}
 	fmt.Fprintf(os.Stderr, "\n   ")

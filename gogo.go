@@ -116,7 +116,7 @@ func GoGoV7() {
 
 // GoGoV8 - バージョン８。
 func GoGoV8() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := p.NewBoardV8(c.BoardDataV3)
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 20; i++ {

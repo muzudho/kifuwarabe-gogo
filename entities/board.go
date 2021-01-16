@@ -29,6 +29,7 @@ type IBoard interface {
 
 	// 盤の描画。
 	PrintBoard()
+	PrintBoardType2(moves int)
 	// playoutVX - 最後まで石を打ちます。
 	// PlayoutVX(turnColor int) int
 }

@@ -201,6 +201,6 @@ func selfplay(board e.IBoard) {
 func testPlayout(board e.IBoard) {
 	flagTestPlayout = 1
 	playoutV9(board, 1)
-	p.PrintBoardV8(board, moves)
+	board.PrintBoardType2(moves)
 	p.PrintSgf(moves, record)
 }

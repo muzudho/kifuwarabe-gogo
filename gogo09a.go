@@ -77,7 +77,7 @@ func addMoves9a(board e.IBoard, z int, color int, sec float64) {
 	record[moves] = z
 	recordTime[moves] = sec
 	moves++
-	p.PrintBoardV9a(board, moves)
+	board.PrintBoardType2(moves)
 }
 
 func playComputerMove(board e.IBoard, color int, fUCT int) int {
@@ -101,6 +101,6 @@ func undo() {
 func testPlayoutV9a(board e.IBoard) {
 	flagTestPlayout = 1
 	playoutV9(board, 1)
-	p.PrintBoardV9a(board, moves)
+	board.PrintBoardType2(moves)
 	p.PrintSgf(moves, record)
 }
