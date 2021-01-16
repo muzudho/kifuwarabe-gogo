@@ -33,7 +33,13 @@ func main() {
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
-	c.LoadGameConf()
+	config := c.LoadGameConf("resources/example-v1.gameConf.toml")
+	fmt.Println("Komi=", config.Game.Komi)
+	fmt.Println("BoardSize=", config.Game.BoardSize)
+	fmt.Println("MaxMoves=", config.Game.MaxMoves)
+	fmt.Println("BoardData=", config.Game.BoardData)
+
+	config.GetBoardArray()
 
 	board := e.NewBoardV1(c.BoardDataV1)
 	presenter := p.NewPresenterV1()

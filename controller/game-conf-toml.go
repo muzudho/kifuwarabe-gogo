@@ -1,7 +1,10 @@
 package controller
 
 import (
+	"fmt"
 	"io/ioutil"
+	"strconv"
+	"strings"
 
 	"github.com/pelletier/go-toml"
 )
@@ -16,13 +19,27 @@ type Game struct {
 	Komi      float32
 	BoardSize int8
 	MaxMoves  int16
+	BoardData string
+}
+
+// GetBoardArray - 盤上の石の色の配列。
+func (config Config) GetBoardArray() []int {
+	nodes := strings.Split(config.Game.BoardData, ",")
+	array := make([]int, len(nodes))
+	for i, s := range nodes {
+		color, _ := strconv.Atoi(s)
+		array[i] = color
+	}
+
+	fmt.Println("nodes=", nodes)
+	return array
 }
 
 // LoadGameConf - ゲーム設定ファイルを読み込みます。
-func LoadGameConf() Config {
+func LoadGameConf(path string) Config {
 
 	// ファイル読込
-	fileData, err := ioutil.ReadFile("resources/v1.gameConf.toml")
+	fileData, err := ioutil.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}
