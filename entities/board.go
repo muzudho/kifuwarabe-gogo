@@ -11,6 +11,7 @@ import (
 type IBoard interface {
 	// 指定した交点の石の色
 	ColorAt(z int) int
+	ColorAtXy(x int, y int) int
 	SetColor(i int, color int)
 
 	CopyData() []int
@@ -77,7 +78,7 @@ const (
 	FillEyeOk = 0
 )
 
-// KoZ - コウのZ（番地）。 XXYY だろうか？ 0 ならコウは無し？
+// KoZ - コウの z（配列のインデックス）だろうか？ 0 ならコウは無し？
 var KoZ int
 
 // For count liberty.
@@ -133,6 +134,11 @@ func (board Board0) GetUctChildrenSize() int {
 // ColorAt - 指定した交点の石の色
 func (board Board0) ColorAt(z int) int {
 	return board.data[z]
+}
+
+// ColorAtXY - 指定した交点の石の色
+func (board Board0) ColorAtXy(x int, y int) int {
+	return board.data[(y+1)*board.sentinelWidth+x+1]
 }
 
 // Exists - 指定の交点に石があるか？
