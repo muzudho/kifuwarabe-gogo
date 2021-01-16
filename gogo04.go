@@ -11,7 +11,6 @@ import (
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
-	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 	// "os"
 	// "sort"
 	// "strconv"
@@ -86,7 +85,9 @@ func playoutV4(board e.IBoard, turnColor int) int {
 			break
 		}
 		previousZ = z
-		p.PrintBoardV3(board)
+
+		board.PrintBoard()
+
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, e.Get81(z), color, emptyNum, e.Get81(e.KoZ))
 		color = e.FlipColor(color)

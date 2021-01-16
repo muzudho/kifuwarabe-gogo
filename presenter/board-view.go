@@ -16,8 +16,20 @@ var labelOfRowsV1 = [20]string{"零", "一", "二", "三", "四", "五", "六", 
 var labelOfRowsV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
 	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
 
-// PrintBoardV1 - 盤の描画。
-func PrintBoardV1(board e.IBoard) {
+// BoardV1 - 盤 Version 1.
+type BoardV1 struct {
+	e.Board
+}
+
+// NewBoardV1 - 盤を作成します。
+func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
+	obj := new(BoardV1)
+	obj.Data = data
+	return obj
+}
+
+// PrintBoard - 盤の描画。
+func (board BoardV1) PrintBoard() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -44,8 +56,20 @@ func PrintBoardV1(board e.IBoard) {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardV2 - 盤の描画。
-func PrintBoardV2(board e.IBoard) {
+// BoardV2 - 盤 Version 2.
+type BoardV2 struct {
+	e.Board
+}
+
+// NewBoardV2 - 盤を作成します。
+func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
+	obj := new(BoardV2)
+	obj.Data = data
+	return obj
+}
+
+// PrintBoard - 盤の描画。
+func (board BoardV2) PrintBoard() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -72,8 +96,20 @@ func PrintBoardV2(board e.IBoard) {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardV3 - 盤の描画。
-func PrintBoardV3(board e.IBoard) {
+// BoardV3 - 盤 Version 3.
+type BoardV3 struct {
+	e.Board
+}
+
+// NewBoardV3 - 盤を作成します。
+func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
+	obj := new(BoardV3)
+	obj.Data = data
+	return obj
+}
+
+// PrintBoard - 盤の描画。
+func (board BoardV3) PrintBoard() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}

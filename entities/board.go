@@ -8,13 +8,13 @@ import (
 
 // Board - 盤。
 type Board struct {
-	data [c.BoardMax]int
+	Data [c.BoardMax]int
 }
 
 // NewBoard - 盤を作成します。
 func NewBoard(data [c.BoardMax]int) *Board {
 	obj := new(Board)
-	obj.data = data
+	obj.Data = data
 	return obj
 }
 
@@ -26,33 +26,38 @@ type IBoard interface {
 	SetData(i int, color int)
 	PutStoneV4(tz int, color int, fillEyeErr int) int
 	Exists(z int) bool
+
+	// 盤の描画。
+	PrintBoard()
+	// playoutVX - 最後まで石を打ちます。
+	// PlayoutVX(turnColor int) int
 }
 
 // GetData - 盤データ。
 func (board Board) GetData() [c.BoardMax]int {
-	return board.data
+	return board.Data
 }
 
 // Exists - 指定の交点に石があるか？
 func (board Board) Exists(z int) bool {
-	return board.data[z] != 0
+	return board.Data[z] != 0
 }
 
 // SetData - 盤データ。
 func (board Board) SetData(i int, color int) {
-	board.data[i] = color
+	board.Data[i] = color
 }
 
 // CopyData - 盤データのコピー。
 func (board *Board) CopyData() [c.BoardMax]int {
 	var boardCopy2 = [c.BoardMax]int{}
-	copy(boardCopy2[:], board.data[:])
+	copy(boardCopy2[:], board.Data[:])
 	return boardCopy2
 }
 
 // ImportData - 盤データのコピー。
 func (board *Board) ImportData(boardCopy2 [c.BoardMax]int) {
-	copy(board.data[:], boardCopy2[:])
+	copy(board.Data[:], boardCopy2[:])
 }
 
 // Dir4 - ４方向（右、下、左、上）の番地。
@@ -83,7 +88,7 @@ func (board Board) GetEmptyZ() int {
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
 		z = GetZ(x, y)
-		if board.data[z] == 0 {
+		if board.Data[z] == 0 {
 			break
 		}
 	}
@@ -106,11 +111,11 @@ func (board Board) countLibertySub(tz int, color int, pLiberty *int, pStone *int
 		if checkBoard[z] != 0 {
 			continue
 		}
-		if board.data[z] == 0 {
+		if board.Data[z] == 0 {
 			checkBoard[z] = 1
 			*pLiberty++
 		}
-		if board.data[z] == color {
+		if board.Data[z] == color {
 			board.countLibertySub(z, color, pLiberty, pStone)
 		}
 	}
@@ -124,15 +129,15 @@ func (board Board) CountLiberty(tz int, pLiberty *int, pStone *int) {
 	for i := 0; i < c.BoardMax; i++ {
 		checkBoard[i] = 0
 	}
-	board.countLibertySub(tz, board.data[tz], pLiberty, pStone)
+	board.countLibertySub(tz, board.Data[tz], pLiberty, pStone)
 }
 
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
 func (board Board) TakeStone(tz int, color int) {
-	board.data[tz] = 0
+	board.Data[tz] = 0
 	for i := 0; i < 4; i++ {
 		z := tz + Dir4[i]
-		if board.data[z] == color {
+		if board.Data[z] == color {
 			board.TakeStone(z, color)
 		}
 	}
@@ -158,7 +163,7 @@ func (board Board) PutStoneV2(tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.data[z]
+		color2 := board.Data[z]
 		if color2 == 0 {
 			space++
 		}
@@ -188,19 +193,19 @@ func (board Board) PutStoneV2(tz int, color int) int {
 		return 2
 	}
 	// if wall+mycolSafe==4 {return 3}
-	if board.data[tz] != 0 {
+	if board.Data[tz] != 0 {
 		return 4
 	}
 
 	for i := 0; i < 4; i++ {
 		lib := around[i][0]
 		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.data[tz+Dir4[i]] != 0 {
+		if color2 == unCol && lib == 1 && board.Data[tz+Dir4[i]] != 0 {
 			board.TakeStone(tz+Dir4[i], unCol)
 		}
 	}
 
-	board.data[tz] = color
+	board.Data[tz] = color
 
 	board.CountLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
@@ -231,7 +236,7 @@ func (board *Board) PutStoneV3(tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.data[z]
+		color2 := board.Data[z]
 		if color2 == 0 {
 			space++
 		}
@@ -263,19 +268,19 @@ func (board *Board) PutStoneV3(tz int, color int) int {
 	if wall+mycolSafe == 4 {
 		return 3
 	}
-	if board.data[tz] != 0 {
+	if board.Data[tz] != 0 {
 		return 4
 	}
 
 	for i := 0; i < 4; i++ {
 		lib := around[i][0]
 		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.data[tz+Dir4[i]] != 0 {
+		if color2 == unCol && lib == 1 && board.Data[tz+Dir4[i]] != 0 {
 			board.TakeStone(tz+Dir4[i], unCol)
 		}
 	}
 
-	board.data[tz] = color
+	board.Data[tz] = color
 
 	board.CountLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
@@ -313,7 +318,7 @@ func (board *Board) PutStoneV4(tz int, color int, fillEyeErr int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.data[z]
+		color2 := board.Data[z]
 		if color2 == 0 {
 			space++
 		}
@@ -345,19 +350,19 @@ func (board *Board) PutStoneV4(tz int, color int, fillEyeErr int) int {
 	if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
 		return 3
 	}
-	if board.data[tz] != 0 {
+	if board.Data[tz] != 0 {
 		return 4
 	}
 
 	for i := 0; i < 4; i++ {
 		lib := around[i][0]
 		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.data[tz+Dir4[i]] != 0 {
+		if color2 == unCol && lib == 1 && board.Data[tz+Dir4[i]] != 0 {
 			board.TakeStone(tz+Dir4[i], unCol)
 		}
 	}
 
-	board.data[tz] = color
+	board.Data[tz] = color
 
 	board.CountLiberty(tz, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
