@@ -165,7 +165,7 @@ func GoGoV9() {
 	presenter := p.NewPresenterV9()
 
 	rand.Seed(time.Now().UnixNano())
-	// testPlayout()
+	// u.TestPlayoutV9()
 	u.SelfplayV9(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
 }
 
@@ -200,14 +200,14 @@ func GoGoV9a() {
 		case "komi":
 			fmt.Printf("= 6.5\n\n")
 		case "undo":
-			undo()
+			u.UndoV9()
 			fmt.Printf("= \n\n")
 		case "genmove":
 			color := 1
 			if strings.ToLower(str[1]) == "w" {
 				color = 2
 			}
-			z := playComputerMove(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
+			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
 			fmt.Printf("= %s\n\n", p.GetCharZ(z))
 		case "play":
 			color := 1
