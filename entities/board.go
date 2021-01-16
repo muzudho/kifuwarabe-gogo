@@ -483,7 +483,6 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 		around[i][2] = 0
 		z := tz + Dir4[i]
 		color2 := board.GetData()[z]
-		//color2 := (*board).GetData()[z]
 		if color2 == 0 {
 			space++
 		}
@@ -494,7 +493,6 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 			continue
 		}
 		board.CountLiberty(z, &liberty, &stone)
-		//(*board).CountLiberty(z, &liberty, &stone)
 		around[i][0] = liberty
 		around[i][1] = stone
 		around[i][2] = color2
@@ -515,25 +513,20 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 	}
 	// if wall+mycolSafe==4 {return 3}
 	if board.Exists(tz) {
-		//if (*board).Exists(tz) {
 		return 4
 	}
 
 	for i := 0; i < 4; i++ {
 		lib := around[i][0]
 		color2 := around[i][2]
-		// (*board).Exists(tz+Dir4[i])
 		if color2 == unCol && lib == 1 && board.Exists(tz+Dir4[i]) {
-			// (*board).TakeStone(tz+Dir4[i], unCol)
 			board.TakeStone(tz+Dir4[i], unCol)
 		}
 	}
 
 	board.SetData(tz, color)
-	// (*board).SetData(tz, color)
 
 	board.CountLiberty(tz, &liberty, &stone)
-	// (*board).CountLiberty(tz, &liberty, &stone)
 
 	if captureSum == 1 && stone == 1 && liberty == 1 {
 		KoZ = koMaybe
@@ -1536,8 +1529,8 @@ func AddMoves9a(board IBoard, z int, color int, sec float64, printBoardType2 fun
 	printBoardType2(board, Moves)
 }
 
-// GetComputerMoveV9 - コンピューターの指し手。
-func GetComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(IBoard)) int {
+// getComputerMoveV9 - コンピューターの指し手。
+func getComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(IBoard)) int {
 	var z int
 	st := time.Now()
 	AllPlayouts = 0
@@ -1550,4 +1543,54 @@ func GetComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(I
 	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
 		t, float64(AllPlayouts)/t, board.Get81(z), Moves, color, AllPlayouts)
 	return z
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV1) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV2) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV3) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV4) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV5) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV6) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV7) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV8) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV9) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
+}
+
+// GetComputerMove - コンピューターの指し手。
+func (board *BoardV9a) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+	return getComputerMoveV9(board, color, fUCT, printBoardType1)
 }

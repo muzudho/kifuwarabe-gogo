@@ -18,11 +18,13 @@ func SelfplayV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 
 		if color == 1 {
 			fUCT = 0
 		}
-		z := e.GetComputerMoveV9(board, color, fUCT, printBoardType1)
+		z := board.GetComputerMoveV9(color, fUCT, printBoardType1)
 		e.AddMovesV8(board, z, color, printBoardType2)
+		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
 		if z == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
 			break
 		}
+		// 自己対局は300手で終了します。
 		if 300 < e.Moves {
 			break
 		} // too long
@@ -65,6 +67,7 @@ func TestPlayoutV9a(board e.IBoard, printBoardType1 func(e.IBoard), printBoardTy
 	p.PrintSgf(board, e.Moves, e.Record)
 }
 
+// UndoV9 - 一手戻します。
 func UndoV9() {
 	// Unimplemented.
 }
