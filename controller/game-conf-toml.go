@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"github.com/pelletier/go-toml"
 )
@@ -15,33 +16,28 @@ type Game struct {
 
 // LoadGameConf - ゲーム設定ファイルを読み込みます。
 func LoadGameConf() {
-	config, err := toml.Load(`
-[Game]
 
-# Komi - コミ☆（＾～＾）
-Komi = 6.5
-
-# BoardSize - 何路盤。
-BoardSize = 9
-
-# MaxMoves - 最大手数。
-MaxMoves = 1000
-`)
-
+	// ファイル読込
+	fileData, err := ioutil.ReadFile("resources/v1.gameConf.toml")
 	if err != nil {
-		// エラー時の処理
-		fmt.Printf("Error: %s", err)
-		return
+		panic(err)
+	}
+	fmt.Print(string(fileData))
+
+	// Toml解析
+	tomlTree, err := toml.Load(string(fileData))
+	if err != nil {
+		panic(err)
 	}
 
 	fmt.Println("Success.")
 
-	komi := config.Get("Game.Komi").(float64)
+	komi := tomlTree.Get("Game.Komi").(float64)
 	fmt.Printf("komi=%f\n", komi)
 
-	boardSize := config.Get("Game.BoardSize").(int64)
+	boardSize := tomlTree.Get("Game.BoardSize").(int64)
 	fmt.Printf("boardSize=%d\n", boardSize)
 
-	maxMoves := config.Get("Game.MaxMoves").(int64)
+	maxMoves := tomlTree.Get("Game.MaxMoves").(int64)
 	fmt.Printf("maxMoves=%d\n", maxMoves)
 }
