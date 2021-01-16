@@ -21,52 +21,6 @@ import (
 	// "unsafe"
 )
 
-func playoutV8(board e.IBoard, turnColor int) int {
-	color := turnColor
-	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
-
-	allPlayouts++
-	for loop := 0; loop < loopMax; loop++ {
-		var empty = [c.BoardMax]int{}
-		var emptyNum, r, z int
-		for y := 0; y <= c.BoardSize; y++ {
-			for x := 0; x < c.BoardSize; x++ {
-				z = e.GetZ(x+1, y+1)
-				if board.GetData()[z] != 0 {
-					continue
-				}
-				empty[emptyNum] = z
-				emptyNum++
-			}
-		}
-		r = 0
-		for {
-			if emptyNum == 0 {
-				z = 0
-			} else {
-				r = rand.Intn(emptyNum)
-				z = empty[r]
-			}
-			err := board.PutStoneType2(z, color, e.FillEyeErr)
-			if err == 0 {
-				break
-			}
-			empty[r] = empty[emptyNum-1]
-			emptyNum--
-		}
-		if z == 0 && previousZ == 0 {
-			break
-		}
-		previousZ = z
-		// PrintBoardType1()
-		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
-		color = e.FlipColor(color)
-	}
-	return countScoreV7(board, turnColor)
-}
-
 // UCT
 const (
 	Childrenize = c.BoardSize*c.BoardSize + 1
@@ -167,7 +121,7 @@ func searchUctV8(board e.IBoard, color int, nodeN int) int {
 		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
 	}
 	if c.Games <= 0 {
-		win = -playoutV8(board, e.FlipColor(color))
+		win = -board.Playout(e.FlipColor(color))
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = createNode(board)
@@ -206,7 +160,7 @@ func getBestUctV8(board e.IBoard, color int) int {
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		e.Get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
+		e.Get81(bestZ), pN.Children[bestI].Rate, max, e.AllPlayouts, nodeNum)
 	return bestZ
 }
 
@@ -216,7 +170,7 @@ func addMovesV8(board e.IBoard, z int, color int) {
 		fmt.Printf("Err!\n")
 		os.Exit(0)
 	}
-	record[moves] = z
-	moves++
-	board.PrintBoardType2(moves)
+	e.Record[e.Moves] = z
+	e.Moves++
+	board.PrintBoardType2(e.Moves)
 }

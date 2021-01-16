@@ -44,6 +44,18 @@ func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
 	return obj
 }
 
+// BoardV4 - 盤 Version 4.
+type BoardV4 struct {
+	e.BoardV4
+}
+
+// NewBoardV4 - 盤を作成します。
+func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
+	obj := new(BoardV4)
+	obj.Data = data
+	return obj
+}
+
 // BoardV5 - 盤 Version 5.
 type BoardV5 struct {
 	e.BoardV5
@@ -68,9 +80,21 @@ func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
 	return obj
 }
 
+// BoardV7 - 盤 Version 7.
+type BoardV7 struct {
+	e.BoardV7
+}
+
+// NewBoardV7 - 盤を作成します。
+func NewBoardV7(data [c.BoardMax]int) *BoardV7 {
+	obj := new(BoardV7)
+	obj.Data = data
+	return obj
+}
+
 // BoardV8 - 盤 Version 8.
 type BoardV8 struct {
-	e.BoardV4
+	e.BoardV8
 }
 
 // NewBoardV8 - 盤を作成します。
@@ -80,9 +104,21 @@ func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
 	return obj
 }
 
+// BoardV9 - 盤 Version 9.
+type BoardV9 struct {
+	e.BoardV9
+}
+
+// NewBoardV9 - 盤を作成します。
+func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
+	obj := new(BoardV9)
+	obj.Data = data
+	return obj
+}
+
 // BoardV9a - 盤 Version 9a.
 type BoardV9a struct {
-	e.Board
+	e.BoardV9
 }
 
 // NewBoardV9a - 盤を作成します。
@@ -128,11 +164,6 @@ func (board BoardV1) PrintBoardType1() {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardType2 - 盤の描画。
-func (board BoardV1) PrintBoardType2(moves int) {
-	board.PrintBoardType1()
-}
-
 // PrintBoardType1 - 盤の描画。
 func (board BoardV2) PrintBoardType1() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
@@ -159,11 +190,6 @@ func (board BoardV2) PrintBoardType1() {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-}
-
-// PrintBoardType2 - 盤の描画。
-func (board BoardV2) PrintBoardType2(moves int) {
-	board.PrintBoardType1()
 }
 
 // PrintBoardType1 - 盤の描画。
@@ -194,18 +220,50 @@ func (board BoardV3) PrintBoardType1() {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardType2 - 盤の描画。
-func (board BoardV3) PrintBoardType2(moves int) {
-	board.PrintBoardType1()
+// PrintBoardType1 - 盤の描画。
+func (board BoardV4) PrintBoardType1() {
+	// Unimplemented.
+	board.PrintBoardType2(-1)
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board BoardV5) PrintBoardType1() {
+	// Unimplemented.
+	board.PrintBoardType2(-1)
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board BoardV6) PrintBoardType1() {
+	// Unimplemented.
+	board.PrintBoardType2(-1)
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board BoardV7) PrintBoardType1() {
+	// Unimplemented.
+	board.PrintBoardType2(-1)
 }
 
 // PrintBoardType1 - 盤の描画。
 func (board BoardV8) PrintBoardType1() {
-	board.PrintBoardType2(-1) // 不正な値
+	// Unimplemented.
+	board.PrintBoardType2(-1)
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board BoardV9) PrintBoardType1() {
+	// Unimplemented.
+	board.PrintBoardType2(-1)
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board BoardV9a) PrintBoardType1() {
+	// Unimplemented.
+	board.PrintBoardType2(-1)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (board BoardV8) PrintBoardType2(moves int) {
+func printBoardType2(board e.IBoard, moves int) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -236,9 +294,49 @@ func (board BoardV8) PrintBoardType2(moves int) {
 	fmt.Printf("+\n")
 }
 
-// PrintBoardType1 - 盤の描画。
-func (board BoardV9a) PrintBoardType1() {
-	board.PrintBoardType2(-1) // 不正な値
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV1) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV2) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV3) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV4) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV5) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV6) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV7) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV8) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board *BoardV9) PrintBoardType2(moves int) {
+	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤を描画。

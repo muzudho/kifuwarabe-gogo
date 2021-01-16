@@ -99,6 +99,42 @@ func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
 	return obj
 }
 
+// BoardV7 - 盤 Version 7。
+type BoardV7 struct {
+	Board
+}
+
+// NewBoardV7 - 盤を作成します。
+func NewBoardV7(data [c.BoardMax]int) *BoardV7 {
+	obj := new(BoardV7)
+	obj.Data = data
+	return obj
+}
+
+// BoardV8 - 盤 Version 8。
+type BoardV8 struct {
+	Board
+}
+
+// NewBoardV8 - 盤を作成します。
+func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
+	obj := new(BoardV8)
+	obj.Data = data
+	return obj
+}
+
+// BoardV9 - 盤 Version 9。
+type BoardV9 struct {
+	Board
+}
+
+// NewBoardV9 - 盤を作成します。
+func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
+	obj := new(BoardV9)
+	obj.Data = data
+	return obj
+}
+
 // GetData - 盤データ。
 func (board Board) GetData() [c.BoardMax]int {
 	return board.Data
@@ -554,8 +590,50 @@ func countScoreV6(board IBoard, turnColor int) int {
 	return win
 }
 
-// Playout - 最後まで石を打ちます。
-func (board *Board) Playout(turnColor int) int {
+func countScoreV7(board IBoard, turnColor int) int {
+	var mk = [4]int{}
+	var kind = [3]int{0, 0, 0}
+	var score, blackArea, whiteArea, blackSum, whiteSum int
+
+	for y := 0; y < c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
+			z := GetZ(x+1, y+1)
+			color2 := board.GetData()[z]
+			kind[color2]++
+			if color2 != 0 {
+				continue
+			}
+			mk[1] = 0
+			mk[2] = 0
+			for i := 0; i < 4; i++ {
+				mk[board.GetData()[z+Dir4[i]]]++
+			}
+			if mk[1] != 0 && mk[2] == 0 {
+				blackArea++
+			}
+			if mk[2] != 0 && mk[1] == 0 {
+				whiteArea++
+			}
+		}
+	}
+	blackSum = kind[1] + blackArea
+	whiteSum = kind[2] + whiteArea
+	score = blackSum - whiteSum
+	win := 0
+	if float64(score)-c.Komi > 0 {
+		win = 1
+	}
+	if turnColor == 2 {
+		win = -win
+	} // gogo07
+
+	// fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)
+	// fmt.Printf("whiteSum=%2d, (stones=%2d, area=%2d)\n", whiteSum, kind[2], whiteArea)
+	// fmt.Printf("score=%d, win=%d\n", score, win)
+	return win
+}
+
+func playoutV1(board IBoard, turnColor int) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -566,7 +644,7 @@ func (board *Board) Playout(turnColor int) int {
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
 				z = GetZ(x+1, y+1)
-				if board.Exists(z) {
+				if board.Exists(z) { // (*board).Exists(z)
 					continue
 				}
 				empty[emptyNum] = z
@@ -600,6 +678,26 @@ func (board *Board) Playout(turnColor int) int {
 		color = FlipColor(color)
 	}
 	return 0
+}
+
+// Playout - 最後まで石を打ちます。
+func (board *Board) Playout(turnColor int) int {
+	return playoutV1(board, turnColor)
+}
+
+// Playout - 最後まで石を打ちます。
+func (board *BoardV2) Playout(turnColor int) int {
+	return playoutV1(board, turnColor)
+}
+
+// Playout - 最後まで石を打ちます。
+func (board *BoardV3) Playout(turnColor int) int {
+	return playoutV1(board, turnColor)
+}
+
+// Playout - 最後まで石を打ちます。
+func (board *BoardV4) Playout(turnColor int) int {
+	return playoutV1(board, turnColor)
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
@@ -692,4 +790,169 @@ func (board *BoardV6) Playout(turnColor int) int {
 		color = FlipColor(color)
 	}
 	return countScoreV6(board, turnColor)
+}
+
+// Playout - 最後まで石を打ちます。得点を返します。
+func (board *BoardV7) Playout(turnColor int) int {
+	color := turnColor
+	previousZ := 0
+	loopMax := c.BoardSize*c.BoardSize + 200
+
+	for loop := 0; loop < loopMax; loop++ {
+		var empty = [c.BoardMax]int{}
+		var emptyNum, r, z int
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
+				z = GetZ(x+1, y+1)
+				if board.GetData()[z] != 0 {
+					continue
+				}
+				empty[emptyNum] = z
+				emptyNum++
+			}
+		}
+		r = 0
+		for {
+			if emptyNum == 0 {
+				z = 0
+			} else {
+				r = rand.Intn(emptyNum)
+				z = empty[r]
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err == 0 {
+				break
+			}
+			empty[r] = empty[emptyNum-1]
+			emptyNum--
+		}
+		if z == 0 && previousZ == 0 {
+			break
+		}
+		previousZ = z
+		// PrintBoardType1()
+		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		color = FlipColor(color)
+	}
+	return countScoreV7(board, turnColor)
+}
+
+// AllPlayouts - プレイアウトした回数。
+var AllPlayouts int
+
+// Record - 棋譜？
+var Record [c.MaxMoves]int
+
+// Playout - 最後まで石を打ちます。得点を返します。
+func playoutV8(board IBoard, turnColor int) int {
+	color := turnColor
+	previousZ := 0
+	loopMax := c.BoardSize*c.BoardSize + 200
+
+	AllPlayouts++
+	for loop := 0; loop < loopMax; loop++ {
+		var empty = [c.BoardMax]int{}
+		var emptyNum, r, z int
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
+				z = GetZ(x+1, y+1)
+				if board.GetData()[z] != 0 {
+					continue
+				}
+				empty[emptyNum] = z
+				emptyNum++
+			}
+		}
+		r = 0
+		for {
+			if emptyNum == 0 {
+				z = 0
+			} else {
+				r = rand.Intn(emptyNum)
+				z = empty[r]
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err == 0 {
+				break
+			}
+			empty[r] = empty[emptyNum-1]
+			emptyNum--
+		}
+		if z == 0 && previousZ == 0 {
+			break
+		}
+		previousZ = z
+		// PrintBoardType1()
+		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		color = FlipColor(color)
+	}
+	return countScoreV7(board, turnColor)
+}
+
+// Playout - 最後まで石を打ちます。得点を返します。
+func (board *BoardV8) Playout(turnColor int) int {
+	return playoutV8(board, turnColor)
+}
+
+// Playout - 最後まで石を打ちます。得点を返します。
+func (board *BoardV9) Playout(turnColor int) int {
+	return playoutV8(board, turnColor)
+}
+
+// Moves - 手数？
+var Moves int
+
+// FlagTestPlayout - ？。
+var FlagTestPlayout int
+
+func (board *BoardV9) playoutV9(turnColor int) int {
+	color := turnColor
+	previousZ := 0
+	loopMax := c.BoardSize*c.BoardSize + 200
+
+	AllPlayouts++
+	for loop := 0; loop < loopMax; loop++ {
+		var empty = [c.BoardMax]int{}
+		var emptyNum, r, z int
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
+				z = GetZ(x+1, y+1)
+				if board.GetData()[z] != 0 {
+					continue
+				}
+				empty[emptyNum] = z
+				emptyNum++
+			}
+		}
+		r = 0
+		for {
+			if emptyNum == 0 {
+				z = 0
+			} else {
+				r = rand.Intn(emptyNum)
+				z = empty[r]
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err == 0 {
+				break
+			}
+			empty[r] = empty[emptyNum-1]
+			emptyNum--
+		}
+		if FlagTestPlayout != 0 {
+			Record[Moves] = z
+			Moves++
+		}
+		if z == 0 && previousZ == 0 {
+			break
+		}
+		previousZ = z
+		// PrintBoardType1()
+		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		color = FlipColor(color)
+	}
+	return countScoreV7(board, turnColor)
 }

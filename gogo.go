@@ -20,18 +20,15 @@ func main() {
 	fmt.Printf("Author: %s\n", e.Author)
 	// GoGoV1()
 	// GoGoV2()
-	// GoGoV3()
-	// GoGoV4()
+	GoGoV3()
+	//GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
 	// GoGoV7()
 	// GoGoV8()
-	GoGoV9()
+	// GoGoV9()
 	// GoGoV9a()
 }
-
-var moves, allPlayouts, flagTestPlayout int
-var record [c.MaxMoves]int
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
@@ -55,16 +52,16 @@ func GoGoV3() {
 	rand.Seed(time.Now().UnixNano())
 	for {
 		z := board.PlayOneMove(color)
-		fmt.Printf("moves=%4d, color=%d, z=%d\n", moves, color, e.Get81(z))
+		fmt.Printf("moves=%4d, color=%d, z=%d\n", e.Moves, color, e.Get81(z))
 		board.PrintBoardType1()
 
-		record[moves] = z
-		moves++
-		if moves == 1000 {
+		e.Record[e.Moves] = z
+		e.Moves++
+		if e.Moves == 1000 {
 			fmt.Printf("max moves!\n")
 			break
 		}
-		if z == 0 && moves >= 2 && record[moves-2] == 0 {
+		if z == 0 && e.Moves >= 2 && e.Record[e.Moves-2] == 0 {
 			fmt.Printf("two pass\n")
 			break
 		}
@@ -74,7 +71,7 @@ func GoGoV3() {
 
 // GoGoV4 - バージョン４。
 func GoGoV4() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := p.NewBoardV4(c.BoardDataV3)
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	board.Playout(color)
@@ -103,7 +100,7 @@ func GoGoV6() {
 
 // GoGoV7 - バージョン７。
 func GoGoV7() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := p.NewBoardV7(c.BoardDataV3)
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
@@ -120,7 +117,7 @@ func GoGoV8() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 20; i++ {
-		allPlayouts = 0
+		e.AllPlayouts = 0
 		z := getBestUctV8(board, color)
 		addMovesV8(board, z, color)
 		color = e.FlipColor(color)
@@ -129,7 +126,7 @@ func GoGoV8() {
 
 // GoGoV9 - バージョン９。
 func GoGoV9() {
-	board := p.NewBoardV8(c.BoardDataV3)
+	board := p.NewBoardV9(c.BoardDataV3)
 	rand.Seed(time.Now().UnixNano())
 	// testPlayout()
 	selfplay(board)
@@ -137,7 +134,7 @@ func GoGoV9() {
 
 // GoGoV9a - バージョン９a。
 func GoGoV9a() {
-	board := p.NewBoardV8(c.BoardDataV3)
+	board := p.NewBoardV9a(c.BoardDataV3)
 	rand.Seed(time.Now().UnixNano())
 	initBoard(board)
 	scanner := bufio.NewScanner(os.Stdin)

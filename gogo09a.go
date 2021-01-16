@@ -51,7 +51,7 @@ func getBestUctV9a(board e.IBoard, color int) int {
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Fprintf(os.Stderr, "bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		e.Get81(bestZ), pN.Children[bestI].Rate, max, allPlayouts, nodeNum)
+		e.Get81(bestZ), pN.Children[bestI].Rate, max, e.AllPlayouts, nodeNum)
 	return bestZ
 }
 
@@ -64,7 +64,7 @@ func initBoard(board e.IBoard) {
 			board.SetData(e.GetZ(x+1, y+1), 0)
 		}
 	}
-	moves = 0
+	e.Moves = 0
 	e.KoZ = 0
 }
 
@@ -74,16 +74,16 @@ func addMoves9a(board e.IBoard, z int, color int, sec float64) {
 		fmt.Fprintf(os.Stderr, "Err!\n")
 		os.Exit(0)
 	}
-	record[moves] = z
-	recordTime[moves] = sec
-	moves++
-	board.PrintBoardType2(moves)
+	e.Record[e.Moves] = z
+	recordTime[e.Moves] = sec
+	e.Moves++
+	board.PrintBoardType2(e.Moves)
 }
 
 func playComputerMove(board e.IBoard, color int, fUCT int) int {
 	var z int
 	st := time.Now()
-	allPlayouts = 0
+	e.AllPlayouts = 0
 	if fUCT != 0 {
 		z = getBestUctV9a(board, color)
 	} else {
@@ -91,7 +91,7 @@ func playComputerMove(board e.IBoard, color int, fUCT int) int {
 	}
 	t := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
-		t, float64(allPlayouts)/t, e.Get81(z), moves, color, allPlayouts)
+		t, float64(e.AllPlayouts)/t, e.Get81(z), e.Moves, color, e.AllPlayouts)
 	addMoves9a(board, z, color, t)
 	return z
 }
@@ -99,8 +99,8 @@ func undo() {
 
 }
 func testPlayoutV9a(board e.IBoard) {
-	flagTestPlayout = 1
-	playoutV9(board, 1)
-	board.PrintBoardType2(moves)
-	p.PrintSgf(moves, record)
+	e.FlagTestPlayout = 1
+	board.Playout(1)
+	board.PrintBoardType2(e.Moves)
+	p.PrintSgf(e.Moves, e.Record)
 }
