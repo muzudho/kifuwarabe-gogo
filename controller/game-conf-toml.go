@@ -53,8 +53,8 @@ func (config Config) SentinelBoardMax() int {
 	return Width * Width
 }
 
-// GetKomi - float 32bit で足りるが、実行速度優先で float 64bit に変換して返します。
-func (config Config) GetKomi() float64 {
+// Komi - float 32bit で足りるが、実行速度優先で float 64bit に変換して返します。
+func (config Config) Komi() float64 {
 	return float64(config.Game.Komi)
 }
 

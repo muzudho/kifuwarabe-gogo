@@ -42,7 +42,7 @@ type IBoard interface {
 	SentinelWidth() int
 	SentinelBoardMax() int
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
-	GetKomi() float64
+	Komi() float64
 	GetMaxMoves() int
 	// GetTIdxFromXy - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
 	GetTIdxFromXy(x int, y int) int
@@ -96,7 +96,7 @@ type Board0 struct {
 	boardSize        int
 	sentinelWidth    int
 	sentinelBoardMax int
-	Komi             float64
+	komi             float64
 	MaxMoves         int
 	UctChildrenSize  int
 }
@@ -116,9 +116,9 @@ func (board Board0) SentinelBoardMax() int {
 	return board.sentinelBoardMax
 }
 
-// GetKomi - コミ
-func (board Board0) GetKomi() float64 {
-	return board.Komi
+// Komi - コミ
+func (board Board0) Komi() float64 {
+	return board.komi
 }
 
 // GetMaxMoves - 最大手数
@@ -259,7 +259,7 @@ func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -275,7 +275,7 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -291,7 +291,7 @@ func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -307,7 +307,7 @@ func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -323,7 +323,7 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -339,7 +339,7 @@ func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -355,7 +355,7 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -371,7 +371,7 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -387,7 +387,7 @@ func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -403,7 +403,7 @@ func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, 
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.sentinelBoardMax = sentinelBoardMax
-	board.Komi = komi
+	board.komi = komi
 	board.MaxMoves = maxMoves
 	board.UctChildrenSize = boardSize*boardSize + 1
 
@@ -902,7 +902,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if 0 < float64(score)-board.GetKomi() { // float32 → float64
+	if 0 < float64(score)-board.Komi() { // float32 → float64
 		win = 1
 	}
 	fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)
@@ -942,7 +942,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if 0 < float64(score)-board.GetKomi() { // float32 → float64
+	if 0 < float64(score)-board.Komi() { // float32 → float64
 		win = 1
 	}
 	// fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)
@@ -982,7 +982,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if 0 < float64(score)-board.GetKomi() {
+	if 0 < float64(score)-board.Komi() {
 		win = 1
 	}
 	if turnColor == 2 {

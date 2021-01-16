@@ -359,7 +359,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 func PrintSgf(board e.IBoard, moves int, record []int) {
 	boardSize := board.BoardSize()
 
-	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", boardSize, board.GetKomi())
+	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", boardSize, board.Komi())
 	for i := 0; i < moves; i++ {
 		z := record[i]
 		y := z / board.SentinelWidth()
