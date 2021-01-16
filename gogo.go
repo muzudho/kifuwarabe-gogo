@@ -62,7 +62,7 @@ func GoGoV2() {
 
 	presenter.PrintBoardType1(board)
 
-	err := board.PutStoneType1(board.GetZ(7, 5), 2)
+	err := board.PutStoneType1(board.GetTIdxFromXy(7-1, 5-1), 2)
 	fmt.Printf("err=%d\n", err)
 
 	presenter.PrintBoardType1(board)
@@ -251,12 +251,12 @@ func GoGoV9a() {
 					x--
 				}
 				y := int(ax[1] - '0')
-				z := board.GetZ(int(x), board.BoardSize()-y+1)
-				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, board.Get81(z))
+				tIdx := board.GetTIdxFromXy(int(x)-1, board.BoardSize()-y)
+				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, board.Get81(tIdx))
 				if ax == "pass" {
-					z = 0
+					tIdx = 0
 				}
-				board.AddMovesType2(z, color, 0, presenter.PrintBoardType2)
+				board.AddMovesType2(tIdx, color, 0, presenter.PrintBoardType2)
 				fmt.Printf("= \n\n")
 			}
 		default:

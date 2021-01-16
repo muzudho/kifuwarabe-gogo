@@ -59,11 +59,11 @@ func CreateNode(board IBoard) int {
 	pN.ChildGameSum = 0
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
-			if board.Exists(z) {
+			tIdx := board.GetTIdxFromXy(x, y)
+			if board.Exists(tIdx) {
 				continue
 			}
-			addChild(pN, z)
+			addChild(pN, tIdx)
 		}
 	}
 	addChild(pN, 0)

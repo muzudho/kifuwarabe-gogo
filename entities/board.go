@@ -44,8 +44,8 @@ type IBoard interface {
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	GetKomi() float64
 	GetMaxMoves() int
-	// GetZ - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
-	GetZ(x int, y int) int
+	// GetTIdxFromXy - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
+	GetTIdxFromXy(x int, y int) int
 	// Get81 - tIdx（配列のインデックス）を XY形式へ変換します。
 	Get81(tIdx int) int
 	// GetUctChildrenSize - UCTの最大手数
@@ -175,9 +175,9 @@ func (board Board0) Get81(tIdx int) int {
 	return x*10 + y
 }
 
-// GetZ - x,y を z（配列のインデックス）へ変換します。
-func (board Board0) GetZ(x int, y int) int {
-	return y*board.SentinelWidth() + x
+// GetTIdxFromXy - x,y を tIdx（配列のインデックス）へ変換します。
+func (board Board0) GetTIdxFromXy(x int, y int) int {
+	return (y+1)*board.SentinelWidth() + x + 1
 }
 
 // GetEmptyZ - 空点の z（配列のインデックス）を返します。
@@ -185,9 +185,9 @@ func (board Board0) GetEmptyZ() int {
 	var x, y, tIdx int
 	for {
 		// ランダムに交点を選んで、空点を見つけるまで繰り返します。
-		x = rand.Intn(9) + 1
-		y = rand.Intn(9) + 1
-		tIdx = board.GetZ(x, y)
+		x = rand.Intn(9)
+		y = rand.Intn(9)
+		tIdx = board.GetTIdxFromXy(x, y)
 		if !board.Exists(tIdx) {
 			break
 		}
@@ -471,7 +471,7 @@ func (board *Board0) InitBoard() {
 	// 盤上
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			board.SetColor(board.GetZ(x+1, y+1), 0)
+			board.SetColor(board.GetTIdxFromXy(x, y), 0)
 		}
 	}
 	Moves = 0
@@ -879,7 +879,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetZ(x+1, y+1)
+			tIdx := board.GetTIdxFromXy(x, y)
 			color2 := board.ColorAt(tIdx)
 			kind[color2]++
 			if color2 != 0 {
@@ -919,7 +919,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetZ(x+1, y+1)
+			tIdx := board.GetTIdxFromXy(x, y)
 			color2 := board.ColorAt(tIdx)
 			kind[color2]++
 			if color2 != 0 {
@@ -959,7 +959,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetZ(x+1, y+1)
+			tIdx := board.GetTIdxFromXy(x, y)
 			color2 := board.ColorAt(tIdx)
 			kind[color2]++
 			if color2 != 0 {
@@ -1008,7 +1008,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetZ(x+1, y+1)
+				tIdx = board.GetTIdxFromXy(x, y)
 				if board.Exists(tIdx) {
 					continue
 				}
@@ -1079,7 +1079,7 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetZ(x+1, y+1)
+				tIdx = board.GetTIdxFromXy(x, y)
 				if board.Exists(tIdx) {
 					continue
 				}
@@ -1128,7 +1128,7 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetZ(x+1, y+1)
+				tIdx = board.GetTIdxFromXy(x, y)
 				if board.Exists(tIdx) {
 					continue
 				}
@@ -1177,7 +1177,7 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetZ(x+1, y+1)
+				tIdx = board.GetTIdxFromXy(x, y)
 				if board.Exists(tIdx) {
 					continue
 				}
@@ -1227,7 +1227,7 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetZ(x+1, y+1)
+				tIdx = board.GetTIdxFromXy(x, y)
 				if board.Exists(tIdx) {
 					continue
 				}
@@ -1291,7 +1291,7 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 		var emptyNum, r, tIdx int
 		for y := 0; y <= boardMax; y++ {
 			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetZ(x+1, y+1)
+				tIdx = board.GetTIdxFromXy(x, y)
 				if board.Exists(tIdx) {
 					continue
 				}
@@ -1346,7 +1346,7 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetZ(x+1, y+1)
+			tIdx := board.GetTIdxFromXy(x, y)
 			if board.Exists(tIdx) {
 				continue
 			}
@@ -1420,7 +1420,7 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetZ(x+1, y+1)
+			tIdx := board.GetTIdxFromXy(x, y)
 			if board.Exists(tIdx) {
 				continue
 			}
@@ -1475,7 +1475,7 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
+			z := board.GetTIdxFromXy(x, y)
 			if board.Exists(z) {
 				continue
 			}
