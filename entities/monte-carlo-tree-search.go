@@ -57,7 +57,7 @@ func CreateNode(board IBoard) int {
 	}
 	pN := &Nodes[NodeNum]
 	pN.ChildNum = 0
-	pN.Children = make([]Child, board.GetUctChildrenSize())
+	pN.Children = make([]Child, board.UctChildrenSize())
 	pN.ChildGameSum = 0
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
