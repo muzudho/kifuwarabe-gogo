@@ -43,7 +43,7 @@ func GoGoV1() {
 func GoGoV2() {
 	board := p.NewBoardV2(c.BoardDataV2)
 	board.PrintBoard()
-	err := board.PutStone(e.GetZ(7, 5), 2)
+	err := board.PutStoneType1(e.GetZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
 	board.PrintBoard()
 }

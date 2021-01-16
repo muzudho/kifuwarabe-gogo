@@ -30,6 +30,18 @@ func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
 	return obj
 }
 
+// BoardV4 - 盤 Version 4。
+type BoardV4 struct {
+	Board
+}
+
+// NewBoardV4 - 盤を作成します。
+func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
+	obj := new(BoardV4)
+	obj.Data = data
+	return obj
+}
+
 // IBoard - 盤。
 type IBoard interface {
 	GetData() [c.BoardMax]int
@@ -156,8 +168,8 @@ func (board Board) TakeStone(tz int, color int) {
 	}
 }
 
-// PutStone - 石を置きます。
-func (board BoardV2) PutStone(tz int, color int) int {
+// PutStoneType1 - 石を置きます。
+func (board BoardV2) PutStoneType1(tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
