@@ -98,7 +98,7 @@ func playoutV5(board e.IBoard, turnColor int) int {
 			break
 		}
 		previousZ = z
-		board.PrintBoard()
+		board.PrintBoardType1()
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, e.Get81(z), color, emptyNum, e.Get81(e.KoZ))
 		color = e.FlipColor(color)

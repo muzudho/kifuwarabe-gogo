@@ -51,8 +51,11 @@ type IBoard interface {
 	PutStoneV4(tz int, color int, fillEyeErr int) int
 	Exists(z int) bool
 
+	// 石を置きます。
+	PutStoneType1(tz int, color int) int
+
 	// 盤の描画。
-	PrintBoard()
+	PrintBoardType1()
 	PrintBoardType2(moves int)
 	// playoutVX - 最後まで石を打ちます。
 	// PlayoutVX(turnColor int) int
@@ -169,7 +172,7 @@ func (board Board) TakeStone(tz int, color int) {
 }
 
 // PutStoneType1 - 石を置きます。
-func (board BoardV2) PutStoneType1(tz int, color int) int {
+func (board Board) PutStoneType1(tz int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)

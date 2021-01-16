@@ -19,14 +19,14 @@ import (
 func main() {
 	fmt.Printf("Author: %s\n", e.Author)
 	// GoGoV1()
-	GoGoV2()
+	// GoGoV2()
 	// GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
 	// GoGoV7()
 	// GoGoV8()
-	// GoGoV9()
+	GoGoV9()
 	// GoGoV9a()
 }
 
@@ -36,16 +36,16 @@ var record [c.MaxMoves]int
 // GoGoV1 - バージョン１。
 func GoGoV1() {
 	board := p.NewBoardV1(c.BoardDataV1)
-	board.PrintBoard()
+	board.PrintBoardType1()
 }
 
 // GoGoV2 - バージョン２。
 func GoGoV2() {
 	board := p.NewBoardV2(c.BoardDataV2)
-	board.PrintBoard()
+	board.PrintBoardType1()
 	err := board.PutStoneType1(e.GetZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
-	board.PrintBoard()
+	board.PrintBoardType1()
 }
 
 // GoGoV3 - バージョン３。
@@ -56,7 +56,7 @@ func GoGoV3() {
 	for {
 		z := board.PlayOneMove(color)
 		fmt.Printf("moves=%4d, color=%d, z=%d\n", moves, color, e.Get81(z))
-		board.PrintBoard()
+		board.PrintBoardType1()
 
 		record[moves] = z
 		moves++
@@ -96,7 +96,7 @@ func GoGoV6() {
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV6(board, color)
 		board.PutStoneV4(z, color, e.FillEyeOk)
-		board.PrintBoard()
+		board.PrintBoardType1()
 		color = e.FlipColor(color)
 	}
 }
@@ -109,7 +109,7 @@ func GoGoV7() {
 	for i := 0; i < 2; i++ {
 		z := primitiveMonteCalroV7(board, color)
 		board.PutStoneV4(z, color, e.FillEyeOk)
-		board.PrintBoard()
+		board.PrintBoardType1()
 		color = e.FlipColor(color)
 	}
 }

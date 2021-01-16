@@ -20,33 +20,6 @@ import (
 	// "unsafe"
 )
 
-// func get_empty_z() int {
-// 	var x, y, z int
-// 	for {
-// 		x = rand.Intn(9) + 1
-// 		y = rand.Intn(9) + 1
-// 		z = getZ(x, y)
-// 		if board[z] == 0 {
-// 			break
-// 		}
-// 	}
-// 	return z
-// }
-
-// func play_one_move(color int) int {
-// 	var z int
-// 	for i := 0; i < 100; i++ {
-// 		z := get_empty_z()
-// 		err := putStoneV4(z, color)
-// 		if err == 0 {
-// 			return z
-// 		}
-// 	}
-// 	z = 0
-// 	putStoneV4(0, color)
-// 	return z
-// }
-
 // playoutV4 - 最後まで石を打ちます。
 func playoutV4(board e.IBoard, turnColor int) int {
 	color := turnColor
@@ -86,7 +59,7 @@ func playoutV4(board e.IBoard, turnColor int) int {
 		}
 		previousZ = z
 
-		board.PrintBoard()
+		board.PrintBoardType1()
 
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
 			loop, e.Get81(z), color, emptyNum, e.Get81(e.KoZ))

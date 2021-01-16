@@ -28,8 +28,8 @@ func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
 	return obj
 }
 
-// PrintBoard - 盤の描画。
-func (board BoardV1) PrintBoard() {
+// PrintBoardType1 - 盤の描画。
+func (board BoardV1) PrintBoardType1() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -58,7 +58,7 @@ func (board BoardV1) PrintBoard() {
 
 // PrintBoardType2 - 盤の描画。
 func (board BoardV1) PrintBoardType2(moves int) {
-	board.PrintBoard()
+	board.PrintBoardType1()
 }
 
 // BoardV2 - 盤 Version 2.
@@ -73,8 +73,8 @@ func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
 	return obj
 }
 
-// PrintBoard - 盤の描画。
-func (board BoardV2) PrintBoard() {
+// PrintBoardType1 - 盤の描画。
+func (board BoardV2) PrintBoardType1() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -103,7 +103,7 @@ func (board BoardV2) PrintBoard() {
 
 // PrintBoardType2 - 盤の描画。
 func (board BoardV2) PrintBoardType2(moves int) {
-	board.PrintBoard()
+	board.PrintBoardType1()
 }
 
 // BoardV3 - 盤 Version 3.
@@ -118,8 +118,8 @@ func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
 	return obj
 }
 
-// PrintBoard - 盤の描画。
-func (board BoardV3) PrintBoard() {
+// PrintBoardType1 - 盤の描画。
+func (board BoardV3) PrintBoardType1() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -148,7 +148,7 @@ func (board BoardV3) PrintBoard() {
 
 // PrintBoardType2 - 盤の描画。
 func (board BoardV3) PrintBoardType2(moves int) {
-	board.PrintBoard()
+	board.PrintBoardType1()
 }
 
 // BoardV8 - 盤 Version 8.
@@ -163,8 +163,8 @@ func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
 	return obj
 }
 
-// PrintBoard - 盤の描画。
-func (board BoardV8) PrintBoard() {
+// PrintBoardType1 - 盤の描画。
+func (board BoardV8) PrintBoardType1() {
 	board.PrintBoardType2(-1) // 不正な値
 }
 
@@ -212,8 +212,8 @@ func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
 	return obj
 }
 
-// PrintBoard - 盤の描画。
-func (board BoardV9a) PrintBoard() {
+// PrintBoardType1 - 盤の描画。
+func (board BoardV9a) PrintBoardType1() {
 	board.PrintBoardType2(-1) // 不正な値
 }
 
