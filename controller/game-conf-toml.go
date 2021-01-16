@@ -41,8 +41,8 @@ func (config Config) GetBoardArray() []int {
 }
 
 // GetBoardSize - 何路盤か。
-func (config Config) GetBoardSize() int8 {
-	return config.Game.BoardSize
+func (config Config) GetBoardSize() int {
+	return int(config.Game.BoardSize)
 }
 
 // GetSentinelBoardMax - 枠付きの盤上の交点の数

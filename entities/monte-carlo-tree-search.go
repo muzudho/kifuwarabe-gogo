@@ -69,7 +69,7 @@ func CreateNode(board IBoard) int {
 	pN.ChildGameSum = 0
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
 			}
@@ -165,11 +165,11 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, Get81(c.Z), c.Rate, c.Games)
+		fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, board.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }
 
@@ -229,7 +229,7 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }
 
@@ -260,6 +260,6 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	}
 	bestZ := pN.Children[bestI].Z
 	fmt.Fprintf(os.Stderr, "bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }

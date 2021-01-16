@@ -122,7 +122,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
-	boardSize := int(board.GetBoardSize())
+	boardSize := board.GetBoardSize()
 	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
@@ -134,7 +134,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", str[board.GetData()[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -162,7 +162,7 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[board.GetData()[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -190,7 +190,7 @@ func printBoardType1V3(board e.IBoard) {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[board.GetData()[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
@@ -258,11 +258,11 @@ func printBoardType2(board e.IBoard, moves int) {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Printf("%s", str[board.GetData()[x+1+c.Width*(y+1)]])
+			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|")
 		if y == 4 {
-			fmt.Printf("  KoZ=%d,moves=%d", e.Get81(e.KoZ), moves)
+			fmt.Printf("  KoZ=%d,moves=%d", board.Get81(e.KoZ), moves)
 		}
 		fmt.Printf("\n")
 	}
@@ -334,11 +334,11 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 	for y := 0; y < c.BoardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", labelOfRowsV9a[y+1])
 		for x := 0; x < c.BoardSize; x++ {
-			fmt.Fprintf(os.Stderr, "%s", str[board.GetData()[x+1+c.Width*(y+1)]])
+			fmt.Fprintf(os.Stderr, "%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
-			fmt.Fprintf(os.Stderr, "  KoZ=%d,moves=%d", e.Get81(e.KoZ), moves)
+			fmt.Fprintf(os.Stderr, "  KoZ=%d,moves=%d", board.Get81(e.KoZ), moves)
 		}
 		fmt.Fprintf(os.Stderr, "\n")
 	}
@@ -354,8 +354,8 @@ func PrintSgf(board e.IBoard, moves int, record []int) { // record [c.MaxMoves]i
 	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, board.GetKomi())
 	for i := 0; i < moves; i++ {
 		z := record[i]
-		y := z / c.Width
-		x := z - y*c.Width
+		y := z / board.GetWidth()
+		x := z - y*board.GetWidth()
 		var sStone = [2]string{"B", "W"}
 		fmt.Printf(";%s", sStone[i&1])
 		if z == 0 {
@@ -371,13 +371,13 @@ func PrintSgf(board e.IBoard, moves int, record []int) { // record [c.MaxMoves]i
 }
 
 // GetCharZ - YX座標の文字表示？
-func GetCharZ(z int) string {
+func GetCharZ(board e.IBoard, z int) string {
 	if z == 0 {
 		return "pass"
 	}
 
-	y := z / c.Width
-	x := z - y*c.Width
+	y := z / board.GetWidth()
+	x := z - y*board.GetWidth()
 	ax := 'A' + x - 1
 	if ax >= 'I' {
 		ax++

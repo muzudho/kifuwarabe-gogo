@@ -13,6 +13,9 @@ import (
 // var RecordTime [c.MaxMoves]float64
 var RecordTime []float64
 
+// Dir4 - ４方向（右、下、左、上）の番地。初期値は仮の値。
+var Dir4 = [4]int{1, 9, -1, 9}
+
 // IBoard - 盤。
 type IBoard interface {
 	GetData() []int
@@ -33,11 +36,17 @@ type IBoard interface {
 
 	// Monte Calro Tree Search
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
-	GetBoardSize() int8
+	GetBoardSize() int
+	// GetWidth - 枠付きの盤の一辺の交点数
+	GetWidth() int
 	GetSentinelBoardMax() int16
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	GetKomi() float64
 	GetMaxMoves() int16
+	// GetZ - YX形式の座標？
+	GetZ(x int, y int) int
+	// Get81 - XY形式の座標？
+	Get81(z int) int
 }
 
 // IPresenter - 表示用。
@@ -50,15 +59,20 @@ type IPresenter interface {
 // Board0 - 盤。
 type Board0 struct {
 	Data             []int
-	BoardSize        int8
+	BoardSize        int
 	SentinelBoardMax int16
 	Komi             float64
 	MaxMoves         int16
 }
 
 // GetBoardSize - 何路盤か
-func (board Board0) GetBoardSize() int8 {
+func (board Board0) GetBoardSize() int {
 	return board.BoardSize
+}
+
+// GetWidth - 枠付きの盤の一辺の交点数
+func (board Board0) GetWidth() int {
+	return int(board.BoardSize) + 2
 }
 
 // GetSentinelBoardMax - 枠付きの盤の交点数
@@ -82,7 +96,7 @@ type BoardV1 struct {
 }
 
 // NewBoardV1 - 盤を作成します。
-func NewBoardV1(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV1 {
+func NewBoardV1(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV1 {
 	board := new(BoardV1)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -103,7 +117,7 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV2 {
+func NewBoardV2(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV2 {
 	board := new(BoardV2)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -124,7 +138,7 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV3 {
+func NewBoardV3(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV3 {
 	board := new(BoardV3)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -145,7 +159,7 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV4 {
+func NewBoardV4(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV4 {
 	board := new(BoardV4)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -166,7 +180,7 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV5 {
+func NewBoardV5(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV5 {
 	board := new(BoardV5)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -187,7 +201,7 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV6 {
+func NewBoardV6(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV6 {
 	board := new(BoardV6)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -208,7 +222,7 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV7 {
+func NewBoardV7(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV7 {
 	board := new(BoardV7)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -229,7 +243,7 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV8 {
+func NewBoardV8(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV8 {
 	board := new(BoardV8)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -250,7 +264,7 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV9 {
+func NewBoardV9(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV9 {
 	board := new(BoardV9)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -271,7 +285,7 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data []int, boardSize int8, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV9a {
+func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV9a {
 	board := new(BoardV9a)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -282,6 +296,7 @@ func NewBoardV9a(data []int, boardSize int8, sentinelBoardMax int16, komi float6
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
 	RecordTime = make([]float64, maxMoves)
+	Dir4 = [4]int{1, board.GetWidth(), -1, -board.GetWidth()}
 
 	return board
 }
@@ -313,16 +328,13 @@ func (board *Board0) ImportData(boardCopy2 []int) {
 	copy(board.Data[:], boardCopy2[:])
 }
 
-// Dir4 - ４方向（右、下、左、上）の番地。
-var Dir4 = [4]int{1, c.Width, -1, -c.Width}
-
 // KoZ - コウのZ（番地）。 XXYY だろうか？ 0 ならコウは無し？
 var KoZ int
 
 // Get81 - XY形式の座標？
-func Get81(z int) int {
-	y := z / c.Width
-	x := z - y*c.Width
+func (board Board0) Get81(z int) int {
+	y := z / board.GetWidth()
+	x := z - y*board.GetWidth()
 	if z == 0 {
 		return 0
 	}
@@ -330,8 +342,8 @@ func Get81(z int) int {
 }
 
 // GetZ - YX形式の座標？
-func GetZ(x int, y int) int {
-	return y*c.Width + x
+func (board Board0) GetZ(x int, y int) int {
+	return y*board.GetWidth() + x
 }
 
 // GetEmptyZ - 空交点のYX座標を返します。
@@ -340,7 +352,7 @@ func (board Board0) GetEmptyZ() int {
 	for {
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
-		z = GetZ(x, y)
+		z = board.GetZ(x, y)
 		if board.Data[z] == 0 {
 			break
 		}
@@ -406,7 +418,7 @@ func InitBoard(board IBoard) {
 	}
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			board.SetData(GetZ(x+1, y+1), 0)
+			board.SetData(board.GetZ(x+1, y+1), 0)
 		}
 	}
 	Moves = 0
@@ -826,7 +838,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			color2 := board.GetData()[z]
 			kind[color2]++
 			if color2 != 0 {
@@ -865,7 +877,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			color2 := board.GetData()[z]
 			kind[color2]++
 			if color2 != 0 {
@@ -904,7 +916,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 
 	for y := 0; y < c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			color2 := board.GetData()[z]
 			kind[color2]++
 			if color2 != 0 {
@@ -955,7 +967,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, z int
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = GetZ(x+1, y+1)
+				z = board.GetZ(x+1, y+1)
 				if board.Exists(z) { // (*board).Exists(z)
 					continue
 				}
@@ -986,7 +998,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		printBoardType1(board)
 
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-			loop, Get81(z), color, emptyNum, Get81(KoZ))
+			loop, board.Get81(z), color, emptyNum, board.Get81(KoZ))
 		color = FlipColor(color)
 	}
 	return 0
@@ -1029,7 +1041,7 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, z int
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = GetZ(x+1, y+1)
+				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
 				}
@@ -1058,7 +1070,7 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		previousZ = z
 		printBoardType1(board)
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-			loop, Get81(z), color, emptyNum, Get81(KoZ))
+			loop, board.Get81(z), color, emptyNum, board.Get81(KoZ))
 		color = FlipColor(color)
 	}
 	return countScoreV5(board, turnColor)
@@ -1076,7 +1088,7 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, z int
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = GetZ(x+1, y+1)
+				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
 				}
@@ -1123,7 +1135,7 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, z int
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = GetZ(x+1, y+1)
+				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
 				}
@@ -1178,7 +1190,7 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 		var emptyNum, r, z int
 		for y := 0; y <= c.BoardSize; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = GetZ(x+1, y+1)
+				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
 				}
@@ -1246,7 +1258,7 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 		var emptyNum, r, z int
 		for y := 0; y <= boardMax; y++ {
 			for x := 0; x < c.BoardSize; x++ {
-				z = GetZ(x+1, y+1)
+				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
 				}
@@ -1299,7 +1311,7 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
 			}
@@ -1322,7 +1334,7 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 				(color == 2 && winRate < bestValue) {
 				bestValue = winRate
 				bestZ = z
-				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", Get81(bestZ), color, bestValue, tryNum)
+				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
 			}
 			KoZ = koZCopy
 			board.ImportData(boardCopy)
@@ -1371,7 +1383,7 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
 			}
@@ -1395,7 +1407,7 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 			if winRate > bestValue {
 				bestValue = winRate
 				bestZ = z
-				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", Get81(bestZ), color, bestValue, tryNum)
+				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
 			}
 			KoZ = koZCopy
 			board.ImportData(boardCopy)
@@ -1424,7 +1436,7 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= c.BoardSize; y++ {
 		for x := 0; x < c.BoardSize; x++ {
-			z := GetZ(x+1, y+1)
+			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
 			}
@@ -1504,6 +1516,6 @@ func GetComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(I
 	}
 	t := time.Since(st).Seconds()
 	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
-		t, float64(AllPlayouts)/t, Get81(z), Moves, color, AllPlayouts)
+		t, float64(AllPlayouts)/t, board.Get81(z), Moves, color, AllPlayouts)
 	return z
 }

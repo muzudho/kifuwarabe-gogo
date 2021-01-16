@@ -62,7 +62,7 @@ func GoGoV2() {
 
 	presenter.PrintBoardType1(board)
 
-	err := board.PutStoneType1(e.GetZ(7, 5), 2)
+	err := board.PutStoneType1(board.GetZ(7, 5), 2)
 	fmt.Printf("err=%d\n", err)
 
 	presenter.PrintBoardType1(board)
@@ -80,7 +80,7 @@ func GoGoV3() {
 	for {
 		z := board.PlayOneMove(color)
 
-		fmt.Printf("moves=%4d, color=%d, z=%d\n", e.Moves, color, e.Get81(z))
+		fmt.Printf("moves=%4d, color=%d, z=%d\n", e.Moves, color, board.Get81(z))
 		presenter.PrintBoardType1(board)
 
 		e.Record[e.Moves] = z
@@ -240,7 +240,7 @@ func GoGoV9a() {
 				color = 2
 			}
 			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
-			fmt.Printf("= %s\n\n", p.GetCharZ(z))
+			fmt.Printf("= %s\n\n", p.GetCharZ(board, z))
 		case "play":
 			color := 1
 			if strings.ToLower(str[1]) == "w" {
@@ -253,8 +253,8 @@ func GoGoV9a() {
 				x--
 			}
 			y := int(ax[1] - '0')
-			z := e.GetZ(int(x), c.BoardSize-y+1)
-			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, e.Get81(z))
+			z := board.GetZ(int(x), board.GetBoardSize()-y+1)
+			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, board.Get81(z))
 			if ax == "pass" {
 				z = 0
 			}
