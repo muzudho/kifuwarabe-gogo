@@ -21,10 +21,10 @@ func main() {
 	// GoGoV1()
 	// GoGoV2()
 	// GoGoV3()
-	GoGoV4()
+	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
-	// GoGoV7()
+	GoGoV7()
 	// GoGoV8()
 	// GoGoV9()
 	// GoGoV9a()
@@ -112,7 +112,7 @@ func GoGoV6() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		z := primitiveMonteCalroV6(board, color, presenter.PrintBoardType1)
+		z := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
 
 		board.PutStoneType2(z, color, e.FillEyeOk)
 
@@ -131,7 +131,7 @@ func GoGoV7() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		z := primitiveMonteCalroV7(board, color, presenter.PrintBoardType1)
+		z := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
 
 		board.PutStoneType2(z, color, e.FillEyeOk)
 

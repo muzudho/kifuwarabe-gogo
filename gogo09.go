@@ -5,53 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	p "github.com/muzudho/kifuwarabe-uec12/presenter"
 )
-
-func primitiveMonteCalroV9(board e.IBoard, color int, printBoardType1 func(e.IBoard)) int {
-	tryNum := 30
-	bestZ := 0
-	var bestValue, winRate float64
-	var boardCopy = board.CopyData()
-	koZCopy := e.KoZ
-	bestValue = -100.0
-
-	for y := 0; y <= c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
-			z := e.GetZ(x+1, y+1)
-			if board.GetData()[z] != 0 {
-				continue
-			}
-			err := board.PutStoneType2(z, color, e.FillEyeErr)
-			if err != 0 {
-				continue
-			}
-
-			winSum := 0
-			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = board.GetData()
-				koZCopy2 := e.KoZ
-
-				win := -board.Playout(e.FlipColor(color), printBoardType1)
-
-				winSum += win
-				e.KoZ = koZCopy2
-				board.ImportData(boardCopy2)
-			}
-			winRate = float64(winSum) / float64(tryNum)
-			if winRate > bestValue {
-				bestValue = winRate
-				bestZ = z
-				// fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
-			}
-			e.KoZ = koZCopy
-			board.ImportData(boardCopy)
-		}
-	}
-	return bestZ
-}
 
 func searchUctV9(board e.IBoard, color int, nodeN int, printBoardType1 func(e.IBoard)) int {
 	pN := &node[nodeN]
@@ -119,7 +75,7 @@ func getComputerMove(board e.IBoard, color int, fUCT int, printBoardType1 func(e
 	if fUCT != 0 {
 		z = getBestUctV9(board, color, printBoardType1)
 	} else {
-		z = primitiveMonteCalroV9(board, color, printBoardType1)
+		z = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	t := time.Since(st).Seconds()
 	fmt.Printf("%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",

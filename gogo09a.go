@@ -87,7 +87,7 @@ func playComputerMove(board e.IBoard, color int, fUCT int, printBoardType1 func(
 	if fUCT != 0 {
 		z = getBestUctV9a(board, color, printBoardType1)
 	} else {
-		z = primitiveMonteCalroV9(board, color, printBoardType1)
+		z = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	t := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",

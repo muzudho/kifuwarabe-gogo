@@ -27,6 +27,9 @@ type IBoard interface {
 	CountLiberty(tz int, pLiberty *int, pStone *int)
 	TakeStone(tz int, color int)
 	GetEmptyZ() int
+
+	// Monte Calro Tree Search
+	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
 }
 
 // IPresenter - 表示用。
@@ -1150,4 +1153,186 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 		color = FlipColor(color)
 	}
 	return countScoreV7(board, turnColor)
+}
+
+func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	tryNum := 30
+	bestZ := 0
+	var bestValue, winRate float64
+	var boardCopy = board.CopyData()
+	koZCopy := KoZ
+	if color == 1 {
+		bestValue = -100.0
+	} else {
+		bestValue = 100.0
+	}
+
+	for y := 0; y <= c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
+			z := GetZ(x+1, y+1)
+			if board.GetData()[z] != 0 {
+				continue
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err != 0 {
+				continue
+			}
+
+			winSum := 0
+			for i := 0; i < tryNum; i++ {
+				var boardCopy2 = board.CopyData()
+				koZCopy2 := KoZ
+				win := board.Playout(FlipColor(color), printBoardType1)
+				winSum += win
+				KoZ = koZCopy2
+				board.ImportData(boardCopy2)
+			}
+			winRate = float64(winSum) / float64(tryNum)
+			if (color == 1 && winRate > bestValue) ||
+				(color == 2 && winRate < bestValue) {
+				bestValue = winRate
+				bestZ = z
+				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", Get81(bestZ), color, bestValue, tryNum)
+			}
+			KoZ = koZCopy
+			board.ImportData(boardCopy)
+		}
+	}
+	return bestZ
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 1.
+func (board *BoardV1) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV6(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 2.
+func (board *BoardV2) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV6(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 3.
+func (board *BoardV3) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV6(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 4.
+func (board *BoardV4) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV6(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 5.
+func (board *BoardV5) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV6(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 6.
+func (board *BoardV6) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV6(board, color, printBoardType1)
+}
+
+func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	tryNum := 30
+	bestZ := 0
+	var bestValue, winRate float64
+	var boardCopy = board.CopyData()
+	koZCopy := KoZ
+	bestValue = -100.0
+
+	for y := 0; y <= c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
+			z := GetZ(x+1, y+1)
+			if board.GetData()[z] != 0 {
+				continue
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err != 0 {
+				continue
+			}
+
+			winSum := 0
+			for i := 0; i < tryNum; i++ {
+				var boardCopy2 = board.CopyData()
+				koZCopy2 := KoZ
+
+				win := -board.Playout(FlipColor(color), printBoardType1)
+
+				winSum += win
+				KoZ = koZCopy2
+				board.ImportData(boardCopy2)
+			}
+			winRate = float64(winSum) / float64(tryNum)
+			if winRate > bestValue {
+				bestValue = winRate
+				bestZ = z
+				fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", Get81(bestZ), color, bestValue, tryNum)
+			}
+			KoZ = koZCopy
+			board.ImportData(boardCopy)
+		}
+	}
+	return bestZ
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 7.
+func (board *BoardV7) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV7(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 8.
+func (board *BoardV8) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV7(board, color, printBoardType1)
+}
+
+func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	tryNum := 30
+	bestZ := 0
+	var bestValue, winRate float64
+	var boardCopy = board.CopyData()
+	koZCopy := KoZ
+	bestValue = -100.0
+
+	for y := 0; y <= c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
+			z := GetZ(x+1, y+1)
+			if board.GetData()[z] != 0 {
+				continue
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err != 0 {
+				continue
+			}
+
+			winSum := 0
+			for i := 0; i < tryNum; i++ {
+				var boardCopy2 = board.GetData()
+				koZCopy2 := KoZ
+
+				win := -board.Playout(FlipColor(color), printBoardType1)
+
+				winSum += win
+				KoZ = koZCopy2
+				board.ImportData(boardCopy2)
+			}
+			winRate = float64(winSum) / float64(tryNum)
+			if winRate > bestValue {
+				bestValue = winRate
+				bestZ = z
+				// fmt.Printf("bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
+			}
+			KoZ = koZCopy
+			board.ImportData(boardCopy)
+		}
+	}
+	return bestZ
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 9.
+func (board *BoardV9) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV9(board, color, printBoardType1)
+}
+
+// PrimitiveMonteCalro - モンテカルロ木探索 Version 9a.
+func (board *BoardV9a) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+	return primitiveMonteCalroV9(board, color, printBoardType1)
 }
