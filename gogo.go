@@ -90,7 +90,7 @@ func GoGoV5() {
 
 // GoGoV6 - バージョン５。
 func GoGoV6() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := p.NewBoardV6(c.BoardDataV3)
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {

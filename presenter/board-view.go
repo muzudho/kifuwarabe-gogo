@@ -56,6 +56,18 @@ func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
 	return obj
 }
 
+// BoardV6 - 盤 Version 6.
+type BoardV6 struct {
+	e.BoardV6
+}
+
+// NewBoardV6 - 盤を作成します。
+func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
+	obj := new(BoardV6)
+	obj.Data = data
+	return obj
+}
+
 // BoardV8 - 盤 Version 8.
 type BoardV8 struct {
 	e.BoardV4
