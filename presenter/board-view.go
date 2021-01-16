@@ -10,7 +10,7 @@ import (
 
 // BoardV1 - 盤 Version 1.
 type BoardV1 struct {
-	e.Board
+	e.BoardV1
 }
 
 // NewBoardV1 - 盤を作成します。
@@ -118,7 +118,7 @@ func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
 
 // BoardV9a - 盤 Version 9a.
 type BoardV9a struct {
-	e.BoardV9
+	e.BoardV9a
 }
 
 // NewBoardV9a - 盤を作成します。
@@ -193,7 +193,7 @@ func (board BoardV2) PrintBoardType1() {
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV3) PrintBoardType1() {
+func printBoardType1V3(board e.IBoard) {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
@@ -221,45 +221,43 @@ func (board BoardV3) PrintBoardType1() {
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV4) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV3) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV5) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV4) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV6) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV5) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV7) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV6) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV8) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV7) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV9) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV8) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (board BoardV9a) PrintBoardType1() {
-	// Unimplemented.
-	board.PrintBoardType2(-1)
+func (board *BoardV9) PrintBoardType1() {
+	printBoardType1V3(board)
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board *BoardV9a) PrintBoardType1() {
+	printBoardType1V3(board)
 }
 
 // PrintBoardType2 - 盤の描画。
