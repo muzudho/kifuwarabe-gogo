@@ -28,18 +28,81 @@ type IBoard interface {
 	CountLiberty(tz int, pLiberty *int, pStone *int)
 	TakeStone(tz int, color int)
 	GetEmptyZ() int
+
+	// Presenter
+	GetPresenter() IPresenter
+}
+
+// IPresenter - 表示用。
+type IPresenter interface {
 }
 
 // Board0 - 盤。
 type Board0 struct {
-	Data [c.BoardMax]int
+	Data      [c.BoardMax]int
+	Presenter IPresenter
 }
 
 // NewBoard - 盤を作成します。
 func NewBoard(data [c.BoardMax]int) *Board0 {
-	obj := new(Board0)
-	obj.Data = data
-	return obj
+	board := new(Board0)
+	board.Data = data
+	return board
+}
+
+// GetPresenter - 表示機能を返します。
+func (board Board0) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV1) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV2) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV3) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV4) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV5) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV6) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV7) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV8) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV9) GetPresenter() IPresenter {
+	return board.Presenter
+}
+
+// GetPresenter - 表示機能を返します。
+func (board BoardV9a) GetPresenter() IPresenter {
+	return board.Presenter
 }
 
 // BoardV1 - 盤 Version 1。
@@ -679,12 +742,12 @@ func (board *BoardV9a) PlayOneMove(color int) int {
 
 // PrintBoardType1 - 盤の描画。
 func (board Board0) PrintBoardType1() {
-	fmt.Printf("Unimplemented PrintBoardType1.\n")
+	fmt.Printf("Unimplemented Board0 PrintBoardType1.\n")
 }
 
 // PrintBoardType2 - 盤の描画。
 func (board Board0) PrintBoardType2(moves int) {
-	fmt.Printf("Unimplemented PrintBoardType2.\n")
+	fmt.Printf("Unimplemented Board0 PrintBoardType2.\n")
 }
 
 // countScore - 得点計算。
@@ -810,6 +873,10 @@ func countScoreV7(board IBoard, turnColor int) int {
 }
 
 func playoutV1(board IBoard, turnColor int) int {
+	// Debug
+	fmt.Printf("(Debug) playoutV1 PrintBoardType1\n")
+	board.PrintBoardType1()
+
 	color := turnColor
 	previousZ := 0
 	loopMax := c.BoardSize*c.BoardSize + 200
@@ -873,6 +940,11 @@ func (board *BoardV3) Playout(turnColor int) int {
 
 // Playout - 最後まで石を打ちます。
 func (board *BoardV4) Playout(turnColor int) int {
+
+	// Debug
+	fmt.Printf("(Debug) BoardV4 Playout PrintBoardType1\n")
+	board.PrintBoardType1()
+
 	return playoutV1(board, turnColor)
 }
 
