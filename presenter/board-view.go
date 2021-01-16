@@ -8,14 +8,6 @@ import (
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
 )
 
-// labelOfRowsV1 - 各行の表示符号。
-var labelOfRowsV1 = [20]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九",
-	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
-
-// labelOfRowsV9a - 各行の表示符号。
-var labelOfRowsV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
-	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
-
 // BoardV1 - 盤 Version 1.
 type BoardV1 struct {
 	e.Board
@@ -27,6 +19,74 @@ func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
 	obj.Data = data
 	return obj
 }
+
+// BoardV2 - 盤 Version 2.
+type BoardV2 struct {
+	e.BoardV2
+}
+
+// NewBoardV2 - 盤を作成します。
+func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
+	obj := new(BoardV2)
+	obj.Data = data
+	return obj
+}
+
+// BoardV3 - 盤 Version 3.
+type BoardV3 struct {
+	e.BoardV3
+}
+
+// NewBoardV3 - 盤を作成します。
+func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
+	obj := new(BoardV3)
+	obj.Data = data
+	return obj
+}
+
+// BoardV5 - 盤 Version 5.
+type BoardV5 struct {
+	e.BoardV5
+}
+
+// NewBoardV5 - 盤を作成します。
+func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
+	obj := new(BoardV5)
+	obj.Data = data
+	return obj
+}
+
+// BoardV8 - 盤 Version 8.
+type BoardV8 struct {
+	e.BoardV4
+}
+
+// NewBoardV8 - 盤を作成します。
+func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
+	obj := new(BoardV8)
+	obj.Data = data
+	return obj
+}
+
+// BoardV9a - 盤 Version 9a.
+type BoardV9a struct {
+	e.Board
+}
+
+// NewBoardV9a - 盤を作成します。
+func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
+	obj := new(BoardV9a)
+	obj.Data = data
+	return obj
+}
+
+// labelOfRowsV1 - 各行の表示符号。
+var labelOfRowsV1 = [20]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九",
+	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
+
+// labelOfRowsV9a - 各行の表示符号。
+var labelOfRowsV9a = [20]string{" 0", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
+	"❿", "⓫", "⓬", "⓭", "⓮", "⓯", "⓰", "⓱", "⓲", "⓳"}
 
 // PrintBoardType1 - 盤の描画。
 func (board BoardV1) PrintBoardType1() {
@@ -59,18 +119,6 @@ func (board BoardV1) PrintBoardType1() {
 // PrintBoardType2 - 盤の描画。
 func (board BoardV1) PrintBoardType2(moves int) {
 	board.PrintBoardType1()
-}
-
-// BoardV2 - 盤 Version 2.
-type BoardV2 struct {
-	e.BoardV2
-}
-
-// NewBoardV2 - 盤を作成します。
-func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
-	obj := new(BoardV2)
-	obj.Data = data
-	return obj
 }
 
 // PrintBoardType1 - 盤の描画。
@@ -106,18 +154,6 @@ func (board BoardV2) PrintBoardType2(moves int) {
 	board.PrintBoardType1()
 }
 
-// BoardV3 - 盤 Version 3.
-type BoardV3 struct {
-	e.BoardV3
-}
-
-// NewBoardV3 - 盤を作成します。
-func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
-	obj := new(BoardV3)
-	obj.Data = data
-	return obj
-}
-
 // PrintBoardType1 - 盤の描画。
 func (board BoardV3) PrintBoardType1() {
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
@@ -149,18 +185,6 @@ func (board BoardV3) PrintBoardType1() {
 // PrintBoardType2 - 盤の描画。
 func (board BoardV3) PrintBoardType2(moves int) {
 	board.PrintBoardType1()
-}
-
-// BoardV8 - 盤 Version 8.
-type BoardV8 struct {
-	e.BoardV4
-}
-
-// NewBoardV8 - 盤を作成します。
-func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
-	obj := new(BoardV8)
-	obj.Data = data
-	return obj
 }
 
 // PrintBoardType1 - 盤の描画。
@@ -198,18 +222,6 @@ func (board BoardV8) PrintBoardType2(moves int) {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-}
-
-// BoardV9a - 盤 Version 9a.
-type BoardV9a struct {
-	e.Board
-}
-
-// NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
-	obj := new(BoardV9a)
-	obj.Data = data
-	return obj
 }
 
 // PrintBoardType1 - 盤の描画。

@@ -1,10 +1,31 @@
 package entities
 
 import (
+	"fmt"
 	"math/rand"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 )
+
+// IBoard - 盤。
+type IBoard interface {
+	GetData() [c.BoardMax]int
+	CopyData() [c.BoardMax]int
+	ImportData(boardCopy2 [c.BoardMax]int)
+	SetData(i int, color int)
+	Exists(z int) bool
+
+	// 石を置きます。
+	PutStoneType1(tz int, color int) int
+	PutStoneType2(tz int, color int, fillEyeErr int) int
+
+	// 盤の描画。
+	PrintBoardType1()
+	PrintBoardType2(moves int)
+
+	// Playout - 最後まで石を打ちます。
+	Playout(turnColor int) int
+}
 
 // Board - 盤。
 type Board struct {
@@ -54,23 +75,16 @@ func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
 	return obj
 }
 
-// IBoard - 盤。
-type IBoard interface {
-	GetData() [c.BoardMax]int
-	CopyData() [c.BoardMax]int
-	ImportData(boardCopy2 [c.BoardMax]int)
-	SetData(i int, color int)
-	Exists(z int) bool
+// BoardV5 - 盤 Version 5。
+type BoardV5 struct {
+	Board
+}
 
-	// 石を置きます。
-	PutStoneType1(tz int, color int) int
-	PutStoneType2(tz int, color int, fillEyeErr int) int
-
-	// 盤の描画。
-	PrintBoardType1()
-	PrintBoardType2(moves int)
-	// playoutVX - 最後まで石を打ちます。
-	// PlayoutVX(turnColor int) int
+// NewBoardV5 - 盤を作成します。
+func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
+	obj := new(BoardV5)
+	obj.Data = data
+	return obj
 }
 
 // GetData - 盤データ。
@@ -331,10 +345,9 @@ func (board *BoardV3) PutStoneType1(tz int, color int) int {
 	return 0
 }
 
-// PutStoneType2 - 石を置きます。
-func (board *BoardV3) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	// 未実装
-	return board.PutStoneType1(tz, fillEyeErr)
+// PutStoneType1 - 石を置きます。
+func (board *BoardV4) PutStoneType1(tz int, color int) int {
+	return board.PutStoneType2(tz, color, FillEyeErr)
 }
 
 const (
@@ -344,9 +357,10 @@ const (
 	FillEyeOk = 0
 )
 
-// PutStoneType1 - 石を置きます。
-func (board *BoardV4) PutStoneType1(tz int, color int) int {
-	return board.PutStoneType2(tz, color, FillEyeErr)
+// PutStoneType2 - 石を置きます。
+func (board *Board) PutStoneType2(tz int, color int, fillEyeErr int) int {
+	// 未実装
+	return board.PutStoneType1(tz, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
@@ -437,4 +451,148 @@ func (board *Board) PlayOneMove(color int) int {
 	z = 0
 	board.PutStoneType1(0, color)
 	return z
+}
+
+// PrintBoardType1 - 盤の描画。
+func (board Board) PrintBoardType1() {
+	// Unimplemented.
+}
+
+// PrintBoardType2 - 盤の描画。
+func (board Board) PrintBoardType2(moves int) {
+	// Unimplemented.
+}
+
+// countScore - 得点計算。
+func countScoreV5(board IBoard, turnColor int) int {
+	var mk = [4]int{}
+	var kind = [3]int{0, 0, 0}
+	var score, blackArea, whiteArea, blackSum, whiteSum int
+
+	for y := 0; y < c.BoardSize; y++ {
+		for x := 0; x < c.BoardSize; x++ {
+			z := GetZ(x+1, y+1)
+			color2 := board.GetData()[z]
+			kind[color2]++
+			if color2 != 0 {
+				continue
+			}
+			mk[1] = 0
+			mk[2] = 0
+			for i := 0; i < 4; i++ {
+				mk[board.GetData()[z+Dir4[i]]]++
+			}
+			if mk[1] != 0 && mk[2] == 0 {
+				blackArea++
+			}
+			if mk[2] != 0 && mk[1] == 0 {
+				whiteArea++
+			}
+		}
+	}
+	blackSum = kind[1] + blackArea
+	whiteSum = kind[2] + whiteArea
+	score = blackSum - whiteSum
+	win := 0
+	if float32(score)-c.Komi > 0 {
+		win = 1
+	}
+	fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)
+	fmt.Printf("whiteSum=%2d, (stones=%2d, area=%2d)\n", whiteSum, kind[2], whiteArea)
+	fmt.Printf("score=%d, win=%d\n", score, win)
+	return win
+}
+
+// Playout - 最後まで石を打ちます。
+func (board *Board) Playout(turnColor int) int {
+	color := turnColor
+	previousZ := 0
+	loopMax := c.BoardSize*c.BoardSize + 200
+
+	for loop := 0; loop < loopMax; loop++ {
+		var empty = [c.BoardMax]int{}
+		var emptyNum, r, z int
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
+				z = GetZ(x+1, y+1)
+				if board.Exists(z) {
+					continue
+				}
+				empty[emptyNum] = z
+				emptyNum++
+			}
+		}
+		r = 0
+		for {
+			if emptyNum == 0 {
+				z = 0
+			} else {
+				r = rand.Intn(emptyNum)
+				z = empty[r]
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err == 0 {
+				break
+			}
+			empty[r] = empty[emptyNum-1]
+			emptyNum--
+		}
+		if z == 0 && previousZ == 0 {
+			break
+		}
+		previousZ = z
+
+		board.PrintBoardType1()
+
+		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+			loop, Get81(z), color, emptyNum, Get81(KoZ))
+		color = FlipColor(color)
+	}
+	return 0
+}
+
+// Playout - 最後まで石を打ちます。得点を返します。
+func (board *BoardV5) Playout(turnColor int) int {
+	color := turnColor
+	previousZ := 0
+	loopMax := c.BoardSize*c.BoardSize + 200
+
+	for loop := 0; loop < loopMax; loop++ {
+		var empty = [c.BoardMax]int{}
+		var emptyNum, r, z int
+		for y := 0; y <= c.BoardSize; y++ {
+			for x := 0; x < c.BoardSize; x++ {
+				z = GetZ(x+1, y+1)
+				if board.GetData()[z] != 0 {
+					continue
+				}
+				empty[emptyNum] = z
+				emptyNum++
+			}
+		}
+		r = 0
+		for {
+			if emptyNum == 0 {
+				z = 0
+			} else {
+				r = rand.Intn(emptyNum)
+				z = empty[r]
+			}
+			err := board.PutStoneType2(z, color, FillEyeErr)
+			if err == 0 {
+				break
+			}
+			empty[r] = empty[emptyNum-1]
+			emptyNum--
+		}
+		if z == 0 && previousZ == 0 {
+			break
+		}
+		previousZ = z
+		board.PrintBoardType1()
+		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
+			loop, Get81(z), color, emptyNum, Get81(KoZ))
+		color = FlipColor(color)
+	}
+	return countScoreV5(board, turnColor)
 }

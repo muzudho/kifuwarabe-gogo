@@ -77,15 +77,15 @@ func GoGoV4() {
 	board := p.NewBoardV3(c.BoardDataV3)
 	color := 1
 	rand.Seed(time.Now().UnixNano())
-	playoutV4(board, color)
+	board.Playout(color)
 }
 
 // GoGoV5 - バージョン５。
 func GoGoV5() {
-	board := p.NewBoardV3(c.BoardDataV3)
+	board := p.NewBoardV5(c.BoardDataV3)
 	color := 1
 	rand.Seed(time.Now().UnixNano())
-	playoutV5(board, color)
+	board.Playout(color)
 }
 
 // GoGoV6 - バージョン５。
