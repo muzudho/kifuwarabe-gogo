@@ -58,8 +58,8 @@ func (config Config) Komi() float64 {
 	return float64(config.Game.Komi)
 }
 
-// GetMaxMoves - 最大手数。
-func (config Config) GetMaxMoves() int {
+// MaxMoves - 最大手数。
+func (config Config) MaxMoves() int {
 	return int(config.Game.MaxMoves)
 }
 
