@@ -19,20 +19,22 @@ import (
 
 func main() {
 	fmt.Printf("Author: %s\n", e.Author)
-	// GoGoV1()
+	GoGoV1()
 	// GoGoV2()
 	// GoGoV3()
 	// GoGoV4()
 	// GoGoV5()
 	// GoGoV6()
 	// GoGoV7()
-	GoGoV8()
+	// GoGoV8()
 	// GoGoV9()
 	// GoGoV9a()
 }
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
+	c.LoadGameConf()
+
 	board := e.NewBoardV1(c.BoardDataV1)
 	presenter := p.NewPresenterV1()
 
@@ -71,7 +73,7 @@ func GoGoV3() {
 			fmt.Printf("max moves!\n")
 			break
 		}
-		if z == 0 && e.Moves >= 2 && e.Record[e.Moves-2] == 0 {
+		if z == 0 && 2 <= e.Moves && e.Record[e.Moves-2] == 0 {
 			fmt.Printf("two pass\n")
 			break
 		}

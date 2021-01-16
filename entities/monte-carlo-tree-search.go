@@ -202,7 +202,7 @@ func searchUctV9(board IBoard, color int, nodeN int, printBoardType1 func(IBoard
 	return win
 }
 
-// GetBestUctV9 - 最善のUCTを選びます。
+// GetBestUctV9 - 最善のUCTを選びます。 GetComputerMoveV9 から呼び出されます。
 func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	max := -999
 	NodeNum = 0
