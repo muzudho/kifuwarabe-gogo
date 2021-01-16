@@ -207,7 +207,7 @@ func GoGoV9a() {
 	presenter := p.NewPresenterV9a()
 
 	rand.Seed(time.Now().UnixNano())
-	e.InitBoard(board)
+	board.InitBoard()
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		command := scanner.Text()
@@ -216,7 +216,7 @@ func GoGoV9a() {
 		case "boardsize":
 			fmt.Printf("= \n\n")
 		case "clear_board":
-			e.InitBoard(board)
+			board.InitBoard()
 			fmt.Printf("= \n\n")
 		case "quit":
 			os.Exit(0)

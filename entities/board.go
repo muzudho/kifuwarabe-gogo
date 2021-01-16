@@ -61,6 +61,13 @@ var RecordTime []float64
 // Dir4 - ４方向（右、下、左、上）の番地。初期値は仮の値。
 var Dir4 = [4]int{1, 9, -1, 9}
 
+const (
+	// FillEyeErr - 自分の眼を埋めるなってこと☆（＾～＾）？
+	FillEyeErr = 1
+	// FillEyeOk - 自分の眼を埋めてもいいってこと☆（＾～＾）？
+	FillEyeOk = 0
+)
+
 // KoZ - コウのZ（番地）。 XXYY だろうか？ 0 ならコウは無し？
 var KoZ int
 
@@ -118,6 +125,51 @@ type BoardV1 struct {
 	Board0
 }
 
+// BoardV2 - 盤 Version 2。
+type BoardV2 struct {
+	Board0
+}
+
+// BoardV3 - 盤 Version 3。
+type BoardV3 struct {
+	Board0
+}
+
+// BoardV4 - 盤 Version 4。
+type BoardV4 struct {
+	Board0
+}
+
+// BoardV5 - 盤 Version 5。
+type BoardV5 struct {
+	Board0
+}
+
+// BoardV6 - 盤 Version 6。
+type BoardV6 struct {
+	Board0
+}
+
+// BoardV7 - 盤 Version 7。
+type BoardV7 struct {
+	Board0
+}
+
+// BoardV8 - 盤 Version 8。
+type BoardV8 struct {
+	Board0
+}
+
+// BoardV9 - 盤 Version 9。
+type BoardV9 struct {
+	Board0
+}
+
+// BoardV9a - 盤 Version 9a。
+type BoardV9a struct {
+	Board0
+}
+
 func newBoard(board IBoard) {
 	checkBoard = make([]int, board.GetSentinelBoardMax())
 	Record = make([]int, board.GetMaxMoves())
@@ -140,11 +192,6 @@ func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	return board
 }
 
-// BoardV2 - 盤 Version 2。
-type BoardV2 struct {
-	Board0
-}
-
 // NewBoardV2 - 盤を作成します。
 func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV2 {
 	board := new(BoardV2)
@@ -158,11 +205,6 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	newBoard(board)
 
 	return board
-}
-
-// BoardV3 - 盤 Version 3。
-type BoardV3 struct {
-	Board0
 }
 
 // NewBoardV3 - 盤を作成します。
@@ -180,11 +222,6 @@ func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	return board
 }
 
-// BoardV4 - 盤 Version 4。
-type BoardV4 struct {
-	Board0
-}
-
 // NewBoardV4 - 盤を作成します。
 func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV4 {
 	board := new(BoardV4)
@@ -198,11 +235,6 @@ func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	newBoard(board)
 
 	return board
-}
-
-// BoardV5 - 盤 Version 5。
-type BoardV5 struct {
-	Board0
 }
 
 // NewBoardV5 - 盤を作成します。
@@ -220,11 +252,6 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	return board
 }
 
-// BoardV6 - 盤 Version 6。
-type BoardV6 struct {
-	Board0
-}
-
 // NewBoardV6 - 盤を作成します。
 func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV6 {
 	board := new(BoardV6)
@@ -238,11 +265,6 @@ func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	newBoard(board)
 
 	return board
-}
-
-// BoardV7 - 盤 Version 7。
-type BoardV7 struct {
-	Board0
 }
 
 // NewBoardV7 - 盤を作成します。
@@ -260,11 +282,6 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	return board
 }
 
-// BoardV8 - 盤 Version 8。
-type BoardV8 struct {
-	Board0
-}
-
 // NewBoardV8 - 盤を作成します。
 func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV8 {
 	board := new(BoardV8)
@@ -280,11 +297,6 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	return board
 }
 
-// BoardV9 - 盤 Version 9。
-type BoardV9 struct {
-	Board0
-}
-
 // NewBoardV9 - 盤を作成します。
 func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV9 {
 	board := new(BoardV9)
@@ -298,11 +310,6 @@ func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	newBoard(board)
 
 	return board
-}
-
-// BoardV9a - 盤 Version 9a。
-type BoardV9a struct {
-	Board0
 }
 
 // NewBoardV9a - 盤を作成します。
@@ -337,7 +344,9 @@ func (board *Board0) SetData(i int, color int) {
 
 // CopyData - 盤データのコピー。
 func (board Board0) CopyData() []int {
-	var boardCopy2 = []int{}
+	boardMax := board.GetSentinelBoardMax()
+
+	var boardCopy2 = make([]int, boardMax)
 	copy(boardCopy2[:], board.Data[:])
 	return boardCopy2
 }
@@ -404,7 +413,7 @@ func (board Board0) countLibertySub(tz int, color int, pLiberty *int, pStone *in
 func (board Board0) CountLiberty(tz int, pLiberty *int, pStone *int) {
 	*pLiberty = 0
 	*pStone = 0
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 	// 初期化
 	for i := 0; i < boardMax; i++ {
 		checkBoard[i] = 0
@@ -424,13 +433,15 @@ func (board *Board0) TakeStone(tz int, color int) {
 }
 
 // InitBoard - 盤の初期化。
-func InitBoard(board IBoard) {
-	boardMax := int(board.GetSentinelBoardMax())
+func (board *Board0) InitBoard() {
+	boardMax := board.GetSentinelBoardMax()
 	boardSize := board.GetBoardSize()
 
+	// 枠線
 	for i := 0; i < boardMax; i++ {
 		board.SetData(i, 3)
 	}
+	// 盤上
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			board.SetData(board.GetZ(x+1, y+1), 0)
@@ -641,13 +652,6 @@ func (board *BoardV9a) PutStoneType1(tz int, color int) int {
 	return board.PutStoneType2(tz, color, FillEyeErr)
 }
 
-const (
-	// FillEyeErr - 自分の眼を埋めるなってこと☆（＾～＾）？
-	FillEyeErr = 1
-	// FillEyeOk - 自分の眼を埋めてもいいってこと☆（＾～＾）？
-	FillEyeOk = 0
-)
-
 // putStoneType2 - 石を置きます。
 func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 	var around = [4][3]int{}
@@ -669,7 +673,6 @@ func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 		around[i][2] = 0
 		z := tz + Dir4[i]
 		color2 := board.GetData()[z]
-		// color2 := (*board).GetData()[z]
 		if color2 == 0 {
 			space++
 		}
@@ -680,7 +683,6 @@ func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 			continue
 		}
 		board.CountLiberty(z, &liberty, &stone)
-		// (*board).CountLiberty(z, &liberty, &stone)
 		around[i][0] = liberty
 		around[i][1] = stone
 		around[i][2] = color2
@@ -712,15 +714,12 @@ func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 		color2 := around[i][2]
 		if color2 == unCol && lib == 1 && board.Exists(tz+Dir4[i]) {
 			board.TakeStone(tz+Dir4[i], unCol)
-			// (*board).TakeStone(tz+Dir4[i], unCol)
 		}
 	}
 
 	board.SetData(tz, color)
-	// (*board).SetData(tz, color)
 
 	board.CountLiberty(tz, &liberty, &stone)
-	// (*board).CountLiberty(tz, &liberty, &stone)
 
 	if captureSum == 1 && stone == 1 && liberty == 1 {
 		KoZ = koMaybe
@@ -979,7 +978,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := boardSize*boardSize + 200
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
@@ -1055,7 +1054,7 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := boardSize*boardSize + 200
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
@@ -1104,7 +1103,7 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := boardSize*boardSize + 200
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
@@ -1153,7 +1152,7 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := boardSize*boardSize + 200
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
@@ -1202,7 +1201,7 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := boardSize*boardSize + 200
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 
 	AllPlayouts++
 	for loop := 0; loop < loopMax; loop++ {
@@ -1266,7 +1265,7 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 	color := turnColor
 	previousZ := 0
 	loopMax := boardSize*boardSize + 200
-	boardMax := int(board.GetSentinelBoardMax())
+	boardMax := board.GetSentinelBoardMax()
 
 	AllPlayouts++
 	for loop := 0; loop < loopMax; loop++ {

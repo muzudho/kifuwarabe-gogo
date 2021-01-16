@@ -1,20 +1,10 @@
 package entities
 
 import (
-	// "bufio"
 	"fmt"
 	"math"
-
-	// "log"
-
 	"math/rand"
 	"os"
-	// "sort"
-	// "strconv"
-	// "strings"
-	// "sync"
-	// "unicode"
-	// "unsafe"
 )
 
 // UCT
@@ -70,7 +60,7 @@ func CreateNode(board IBoard) int {
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			if board.GetData()[z] != 0 {
+			if board.Exists(z) {
 				continue
 			}
 			addChild(pN, z)
@@ -97,7 +87,7 @@ func selectBestUcb(nodeN int) int {
 		} else {
 			ucb = c.Rate + 1.0*math.Sqrt(math.Log(float64(pN.ChildGameSum))/float64(c.Games))
 		}
-		if ucb > maxUcb {
+		if maxUcb < ucb {
 			maxUcb = ucb
 			selectI = i
 		}
@@ -165,10 +155,10 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, board.Get81(c.Z), c.Rate, c.Games)
+		fmt.Printf("(GetBestUctV8) %2d:z=%2d,rate=%.4f,games=%3d\n", i, board.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
-	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	fmt.Printf("(GetBestUctV8) bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }
@@ -225,10 +215,10 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Printf("%2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
+		// fmt.Printf("(GetBestUctV9) %2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
-	fmt.Printf("bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	fmt.Printf("(GetBestUctV9) bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }
@@ -256,10 +246,10 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Fprintf(os.Stderr,"%2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
+		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
-	fmt.Fprintf(os.Stderr, "bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	fmt.Fprintf(os.Stderr, "(GetBestUctV9a) bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }
