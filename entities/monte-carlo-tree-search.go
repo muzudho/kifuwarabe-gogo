@@ -141,11 +141,11 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
-		koZCopy := KoZ
+		koZCopy := KoIdx
 
 		SearchUctV8(board, color, next, printBoardType1)
 
-		KoZ = koZCopy
+		KoIdx = koZCopy
 		board.ImportData(boardCopy)
 	}
 	pN := &Nodes[next]
@@ -201,11 +201,11 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
-		koZCopy := KoZ
+		koZCopy := KoIdx
 
 		searchUctV9(board, color, next, printBoardType1)
 
-		KoZ = koZCopy
+		KoIdx = koZCopy
 		board.ImportData(boardCopy)
 	}
 	pN := &Nodes[next]
@@ -232,11 +232,11 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
-		koZCopy := KoZ
+		koZCopy := KoIdx
 
 		SearchUctV8(board, color, next, printBoardType1)
 
-		KoZ = koZCopy
+		KoIdx = koZCopy
 		board.ImportData(boardCopy)
 	}
 	pN := &Nodes[next]

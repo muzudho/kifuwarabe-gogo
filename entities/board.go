@@ -10,22 +10,22 @@ import (
 // IBoard - 盤。
 type IBoard interface {
 	// 指定した交点の石の色
-	ColorAt(z int) int
+	ColorAt(tIdx int) int
 	ColorAtXy(x int, y int) int
-	SetColor(i int, color int)
+	SetColor(tIdx int, color int)
 
 	CopyData() []int
 	ImportData(boardCopy2 []int)
-	Exists(z int) bool
+	Exists(tIdx int) bool
 
 	// 石を置きます。
-	PutStoneType1(tz int, color int) int
-	PutStoneType2(tz int, color int, fillEyeErr int) int
+	PutStoneType1(tIdx int, color int) int
+	PutStoneType2(tIdx int, color int, fillEyeErr int) int
 
 	// Playout - 最後まで石を打ちます。
 	Playout(turnColor int, printBoardType1 func(IBoard)) int
-	CountLiberty(tz int, pLiberty *int, pStone *int)
-	TakeStone(tz int, color int)
+	CountLiberty(tIdx int, pLiberty *int, pStone *int)
+	TakeStone(tIdx int, color int)
 	GetEmptyZ() int
 
 	// GetComputerMove - コンピューターの指し手。
@@ -33,9 +33,9 @@ type IBoard interface {
 	// Monte Calro Tree Search
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
 	// AddMovesType1 - 指し手の追加？
-	AddMovesType1(z int, color int, printBoardType2 func(IBoard, int))
+	AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int))
 	// AddMovesType2 - 指し手の追加？
-	AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int))
+	AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int))
 
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
@@ -44,10 +44,10 @@ type IBoard interface {
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	GetKomi() float64
 	GetMaxMoves() int
-	// GetZ - YX形式の座標を、z（配列のインデックス）へ変換します。
+	// GetZ - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
 	GetZ(x int, y int) int
-	// Get81 - z（配列のインデックス）を XY形式へ変換します。
-	Get81(z int) int
+	// Get81 - tIdx（配列のインデックス）を XY形式へ変換します。
+	Get81(tIdx int) int
 	// GetUctChildrenSize - UCTの最大手数
 	GetUctChildrenSize() int
 }
@@ -78,8 +78,8 @@ const (
 	FillEyeOk = 0
 )
 
-// KoZ - コウの z（配列のインデックス）だろうか？ 0 ならコウは無し？
-var KoZ int
+// KoIdx - コウの交点。Idx（配列のインデックス）表示。 0 ならコウは無し？
+var KoIdx int
 
 // For count liberty.
 var checkBoard = []int{}
@@ -136,19 +136,19 @@ func (board Board0) ColorAt(z int) int {
 	return board.data[z]
 }
 
-// ColorAtXY - 指定した交点の石の色
+// ColorAtXy - 指定した交点の石の色
 func (board Board0) ColorAtXy(x int, y int) int {
 	return board.data[(y+1)*board.sentinelWidth+x+1]
 }
 
 // Exists - 指定の交点に石があるか？
-func (board Board0) Exists(z int) bool {
-	return board.data[z] != 0
+func (board Board0) Exists(tIdx int) bool {
+	return board.data[tIdx] != 0
 }
 
 // SetColor - 盤データ。
-func (board *Board0) SetColor(i int, color int) {
-	board.data[i] = color
+func (board *Board0) SetColor(tIdx int, color int) {
+	board.data[tIdx] = color
 }
 
 // CopyData - 盤データのコピー。
@@ -166,12 +166,12 @@ func (board *Board0) ImportData(boardCopy2 []int) {
 }
 
 // Get81 - z（配列のインデックス）を XY形式の座標へ変換します。
-func (board Board0) Get81(z int) int {
-	if z == 0 {
+func (board Board0) Get81(tIdx int) int {
+	if tIdx == 0 {
 		return 0
 	}
-	y := z / board.SentinelWidth()
-	x := z - y*board.SentinelWidth()
+	y := tIdx / board.SentinelWidth()
+	x := tIdx - y*board.SentinelWidth()
 	return x*10 + y
 }
 
@@ -182,17 +182,17 @@ func (board Board0) GetZ(x int, y int) int {
 
 // GetEmptyZ - 空点の z（配列のインデックス）を返します。
 func (board Board0) GetEmptyZ() int {
-	var x, y, z int
+	var x, y, tIdx int
 	for {
 		// ランダムに交点を選んで、空点を見つけるまで繰り返します。
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
-		z = board.GetZ(x, y)
-		if !board.Exists(z) {
+		tIdx = board.GetZ(x, y)
+		if !board.Exists(tIdx) {
 			break
 		}
 	}
-	return z
+	return tIdx
 }
 
 // BoardV1 - 盤 Version 1。
@@ -417,11 +417,11 @@ func FlipColor(col int) int {
 	return 3 - col
 }
 
-func (board Board0) countLibertySub(tz int, color int, pLiberty *int, pStone *int) {
-	checkBoard[tz] = 1
+func (board Board0) countLibertySub(tIdx int, color int, pLiberty *int, pStone *int) {
+	checkBoard[tIdx] = 1
 	*pStone++
 	for i := 0; i < 4; i++ {
-		z := tz + Dir4[i]
+		z := tIdx + Dir4[i]
 		if checkBoard[z] != 0 {
 			continue
 		}
@@ -437,24 +437,24 @@ func (board Board0) countLibertySub(tz int, color int, pLiberty *int, pStone *in
 }
 
 // CountLiberty - 呼吸点を数えます。
-func (board Board0) CountLiberty(tz int, pLiberty *int, pStone *int) {
+func (board Board0) CountLiberty(tIdx int, pLiberty *int, pStone *int) {
 	*pLiberty = 0
 	*pStone = 0
 	boardMax := board.GetSentinelBoardMax()
 	// 初期化
-	for i := 0; i < boardMax; i++ {
-		checkBoard[i] = 0
+	for tIdx2 := 0; tIdx2 < boardMax; tIdx2++ {
+		checkBoard[tIdx2] = 0
 	}
-	board.countLibertySub(tz, board.data[tz], pLiberty, pStone)
+	board.countLibertySub(tIdx, board.data[tIdx], pLiberty, pStone)
 }
 
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
-func (board *Board0) TakeStone(tz int, color int) {
-	board.data[tz] = 0
-	for i := 0; i < 4; i++ {
-		z := tz + Dir4[i]
-		if board.data[z] == color {
-			board.TakeStone(z, color)
+func (board *Board0) TakeStone(tIdx int, color int) {
+	board.data[tIdx] = 0
+	for dir := 0; dir < 4; dir++ {
+		tIdx2 := tIdx + Dir4[dir]
+		if board.data[tIdx2] == color {
+			board.TakeStone(tIdx2, color)
 		}
 	}
 }
@@ -465,8 +465,8 @@ func (board *Board0) InitBoard() {
 	boardSize := board.BoardSize()
 
 	// 枠線
-	for i := 0; i < boardMax; i++ {
-		board.SetColor(i, 3)
+	for tIdx := 0; tIdx < boardMax; tIdx++ {
+		board.SetColor(tIdx, 3)
 	}
 	// 盤上
 	for y := 0; y < boardSize; y++ {
@@ -475,11 +475,12 @@ func (board *Board0) InitBoard() {
 		}
 	}
 	Moves = 0
-	KoZ = 0
+	KoIdx = 0
 }
 
 // PutStoneType1 - 石を置きます。
-func putStoneType1V1(board IBoard, tz int, color int) int {
+// * `tIdx` - 盤の交点の配列のインデックス。
+func putStoneType1V1(board IBoard, tIdx int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -489,16 +490,16 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 	captureSum := 0
 	koMaybe := 0
 
-	if tz == 0 {
-		KoZ = 0
+	if tIdx == 0 {
+		KoIdx = 0
 		return 0
 	}
-	for i := 0; i < 4; i++ {
-		around[i][0] = 0
-		around[i][1] = 0
-		around[i][2] = 0
-		z := tz + Dir4[i]
-		color2 := board.ColorAt(z)
+	for dir := 0; dir < 4; dir++ {
+		around[dir][0] = 0
+		around[dir][1] = 0
+		around[dir][2] = 0
+		tIdx2 := tIdx + Dir4[dir]
+		color2 := board.ColorAt(tIdx2)
 		if color2 == 0 {
 			space++
 		}
@@ -508,13 +509,13 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 		if color2 == 0 || color2 == 3 {
 			continue
 		}
-		board.CountLiberty(z, &liberty, &stone)
-		around[i][0] = liberty
-		around[i][1] = stone
-		around[i][2] = color2
+		board.CountLiberty(tIdx2, &liberty, &stone)
+		around[dir][0] = liberty
+		around[dir][1] = stone
+		around[dir][2] = color2
 		if color2 == unCol && liberty == 1 {
 			captureSum += stone
-			koMaybe = z
+			koMaybe = tIdx2
 		}
 		if color2 == color && liberty >= 2 {
 			mycolSafe++
@@ -524,46 +525,46 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 	if captureSum == 0 && space == 0 && mycolSafe == 0 {
 		return 1
 	}
-	if tz == KoZ {
+	if tIdx == KoIdx {
 		return 2
 	}
 	// if wall+mycolSafe==4 {return 3}
-	if board.Exists(tz) {
+	if board.Exists(tIdx) {
 		return 4
 	}
 
-	for i := 0; i < 4; i++ {
-		lib := around[i][0]
-		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.Exists(tz+Dir4[i]) {
-			board.TakeStone(tz+Dir4[i], unCol)
+	for dir := 0; dir < 4; dir++ {
+		lib := around[dir][0]
+		color2 := around[dir][2]
+		if color2 == unCol && lib == 1 && board.Exists(tIdx+Dir4[dir]) {
+			board.TakeStone(tIdx+Dir4[dir], unCol)
 		}
 	}
 
-	board.SetColor(tz, color)
+	board.SetColor(tIdx, color)
 
-	board.CountLiberty(tz, &liberty, &stone)
+	board.CountLiberty(tIdx, &liberty, &stone)
 
 	if captureSum == 1 && stone == 1 && liberty == 1 {
-		KoZ = koMaybe
+		KoIdx = koMaybe
 	} else {
-		KoZ = 0
+		KoIdx = 0
 	}
 	return 0
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV1) PutStoneType1(tz int, color int) int {
-	return putStoneType1V1(board, tz, color)
+func (board *BoardV1) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V1(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV2) PutStoneType1(tz int, color int) int {
-	return putStoneType1V1(board, tz, color)
+func (board *BoardV2) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V1(board, tIdx, color)
 }
 
 // putStoneType1V3 - 石を置きます。
-func putStoneType1V3(board IBoard, tz int, color int) int {
+func putStoneType1V3(board IBoard, tIdx int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -573,15 +574,15 @@ func putStoneType1V3(board IBoard, tz int, color int) int {
 	captureSum := 0
 	koMaybe := 0
 
-	if tz == 0 {
-		KoZ = 0
+	if tIdx == 0 {
+		KoIdx = 0
 		return 0
 	}
-	for i := 0; i < 4; i++ {
-		around[i][0] = 0
-		around[i][1] = 0
-		around[i][2] = 0
-		z := tz + Dir4[i]
+	for dir := 0; dir < 4; dir++ {
+		around[dir][0] = 0
+		around[dir][1] = 0
+		around[dir][2] = 0
+		z := tIdx + Dir4[dir]
 		color2 := board.ColorAt(z)
 		if color2 == 0 {
 			space++
@@ -593,9 +594,9 @@ func putStoneType1V3(board IBoard, tz int, color int) int {
 			continue
 		}
 		board.CountLiberty(z, &liberty, &stone)
-		around[i][0] = liberty
-		around[i][1] = stone
-		around[i][2] = color2
+		around[dir][0] = liberty
+		around[dir][1] = stone
+		around[dir][2] = color2
 		if color2 == unCol && liberty == 1 {
 			captureSum += stone
 			koMaybe = z
@@ -608,77 +609,77 @@ func putStoneType1V3(board IBoard, tz int, color int) int {
 	if captureSum == 0 && space == 0 && mycolSafe == 0 {
 		return 1
 	}
-	if tz == KoZ {
+	if tIdx == KoIdx {
 		return 2
 	}
 	if wall+mycolSafe == 4 {
 		return 3
 	}
-	if board.Exists(tz) {
+	if board.Exists(tIdx) {
 		return 4
 	}
 
-	for i := 0; i < 4; i++ {
-		lib := around[i][0]
-		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.Exists(tz+Dir4[i]) {
-			board.TakeStone(tz+Dir4[i], unCol)
+	for dir := 0; dir < 4; dir++ {
+		lib := around[dir][0]
+		color2 := around[dir][2]
+		if color2 == unCol && lib == 1 && board.Exists(tIdx+Dir4[dir]) {
+			board.TakeStone(tIdx+Dir4[dir], unCol)
 		}
 	}
 
-	board.SetColor(tz, color)
+	board.SetColor(tIdx, color)
 
-	board.CountLiberty(tz, &liberty, &stone)
+	board.CountLiberty(tIdx, &liberty, &stone)
 	if captureSum == 1 && stone == 1 && liberty == 1 {
-		KoZ = koMaybe
+		KoIdx = koMaybe
 	} else {
-		KoZ = 0
+		KoIdx = 0
 	}
 	return 0
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV3) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV3) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV4) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV4) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV5) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV5) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV6) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV6) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV7) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV7) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV8) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV8) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV9) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV9) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV9a) PutStoneType1(tz int, color int) int {
-	return putStoneType1V3(board, tz, color)
+func (board *BoardV9a) PutStoneType1(tIdx int, color int) int {
+	return putStoneType1V3(board, tIdx, color)
 }
 
 // putStoneTypeV4Type2 - 石を置きます。
-func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
+func putStoneTypeV4Type2(board IBoard, tIdx int, color int, fillEyeErr int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -688,15 +689,15 @@ func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
 	captureSum := 0
 	koMaybe := 0
 
-	if tz == 0 {
-		KoZ = 0
+	if tIdx == 0 {
+		KoIdx = 0
 		return 0
 	}
-	for i := 0; i < 4; i++ {
-		around[i][0] = 0
-		around[i][1] = 0
-		around[i][2] = 0
-		z := tz + Dir4[i]
+	for dir := 0; dir < 4; dir++ {
+		around[dir][0] = 0
+		around[dir][1] = 0
+		around[dir][2] = 0
+		z := tIdx + Dir4[dir]
 		color2 := board.ColorAt(z)
 		if color2 == 0 {
 			space++
@@ -708,9 +709,9 @@ func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
 			continue
 		}
 		board.CountLiberty(z, &liberty, &stone)
-		around[i][0] = liberty
-		around[i][1] = stone
-		around[i][2] = color2
+		around[dir][0] = liberty
+		around[dir][1] = stone
+		around[dir][2] = color2
 		if color2 == unCol && liberty == 1 {
 			captureSum += stone
 			koMaybe = z
@@ -723,99 +724,100 @@ func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
 	if captureSum == 0 && space == 0 && mycolSafe == 0 {
 		return 1
 	}
-	if tz == KoZ {
+	if tIdx == KoIdx {
 		return 2
 	}
 	if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
 		return 3
 	}
-	if board.Exists(tz) {
+	if board.Exists(tIdx) {
 		return 4
 	}
 
-	for i := 0; i < 4; i++ {
-		lib := around[i][0]
-		color2 := around[i][2]
-		if color2 == unCol && lib == 1 && board.Exists(tz+Dir4[i]) {
-			board.TakeStone(tz+Dir4[i], unCol)
+	for dir := 0; dir < 4; dir++ {
+		lib := around[dir][0]
+		color2 := around[dir][2]
+		if color2 == unCol && lib == 1 && board.Exists(tIdx+Dir4[dir]) {
+			board.TakeStone(tIdx+Dir4[dir], unCol)
 		}
 	}
 
-	board.SetColor(tz, color)
+	board.SetColor(tIdx, color)
 
-	board.CountLiberty(tz, &liberty, &stone)
+	board.CountLiberty(tIdx, &liberty, &stone)
 
 	if captureSum == 1 && stone == 1 && liberty == 1 {
-		KoZ = koMaybe
+		KoIdx = koMaybe
 	} else {
-		KoZ = 0
+		KoIdx = 0
 	}
 	return 0
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV1) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV1) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV2) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV2) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV3) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV3) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV4) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV4) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV5) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV5) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV6) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV6) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV7) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV7) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV8) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV8) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV9) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV9) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV9a) PutStoneType2(tz int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tz, color, fillEyeErr)
+func (board *BoardV9a) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // playOneMove - 置けるとこに置く。
 func playOneMove(board IBoard, color int) int {
-	var z int
 	for i := 0; i < 100; i++ {
-		z := board.GetEmptyZ()
-		err := board.PutStoneType1(z, color)
+		tIdx := board.GetEmptyZ()
+		err := board.PutStoneType1(tIdx, color)
 		if err == 0 {
-			return z
+			return tIdx
 		}
 	}
-	z = 0
-	board.PutStoneType1(0, color)
-	return z
+
+	// 0 はパス。
+	const tIdx = 0
+	board.PutStoneType1(tIdx, color)
+	return tIdx
 }
 
 // PlayOneMove - 置けるとこに置く。
@@ -877,16 +879,16 @@ func countScoreV5(board IBoard, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
-			color2 := board.ColorAt(z)
+			tIdx := board.GetZ(x+1, y+1)
+			color2 := board.ColorAt(tIdx)
 			kind[color2]++
 			if color2 != 0 {
 				continue
 			}
 			mk[1] = 0
 			mk[2] = 0
-			for i := 0; i < 4; i++ {
-				mk[board.ColorAt(z+Dir4[i])]++
+			for dir := 0; dir < 4; dir++ {
+				mk[board.ColorAt(tIdx+Dir4[dir])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -917,16 +919,16 @@ func countScoreV6(board IBoard, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
-			color2 := board.ColorAt(z)
+			tIdx := board.GetZ(x+1, y+1)
+			color2 := board.ColorAt(tIdx)
 			kind[color2]++
 			if color2 != 0 {
 				continue
 			}
 			mk[1] = 0
 			mk[2] = 0
-			for i := 0; i < 4; i++ {
-				mk[board.ColorAt(z+Dir4[i])]++
+			for dir := 0; dir < 4; dir++ {
+				mk[board.ColorAt(tIdx+Dir4[dir])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -957,16 +959,16 @@ func countScoreV7(board IBoard, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
-			color2 := board.ColorAt(z)
+			tIdx := board.GetZ(x+1, y+1)
+			color2 := board.ColorAt(tIdx)
 			kind[color2]++
 			if color2 != 0 {
 				continue
 			}
 			mk[1] = 0
 			mk[2] = 0
-			for i := 0; i < 4; i++ {
-				mk[board.ColorAt(z+Dir4[i])]++
+			for dir := 0; dir < 4; dir++ {
+				mk[board.ColorAt(tIdx+Dir4[dir])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -997,47 +999,47 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousZ := 0
+	previousTIdx := 0
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
+		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) {
+				tIdx = board.GetZ(x+1, y+1)
+				if board.Exists(tIdx) {
 					continue
 				}
-				empty[emptyNum] = z
+				empty[emptyNum] = tIdx
 				emptyNum++
 			}
 		}
 		r = 0
 		for {
 			if emptyNum == 0 {
-				z = 0
+				tIdx = 0
 			} else {
 				r = rand.Intn(emptyNum)
-				z = empty[r]
+				tIdx = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
 			empty[r] = empty[emptyNum-1]
 			emptyNum--
 		}
-		if z == 0 && previousZ == 0 {
+		if tIdx == 0 && previousTIdx == 0 {
 			break
 		}
-		previousZ = z
+		previousTIdx = tIdx
 
 		printBoardType1(board)
 
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-			loop, board.Get81(z), color, emptyNum, board.Get81(KoZ))
+			loop, board.Get81(tIdx), color, emptyNum, board.Get81(KoIdx))
 		color = FlipColor(color)
 	}
 	return 0
@@ -1068,45 +1070,45 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousZ := 0
+	previousTIdx := 0
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
+		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) {
+				tIdx = board.GetZ(x+1, y+1)
+				if board.Exists(tIdx) {
 					continue
 				}
-				empty[emptyNum] = z
+				empty[emptyNum] = tIdx
 				emptyNum++
 			}
 		}
 		r = 0
 		for {
 			if emptyNum == 0 {
-				z = 0
+				tIdx = 0
 			} else {
 				r = rand.Intn(emptyNum)
-				z = empty[r]
+				tIdx = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
 			empty[r] = empty[emptyNum-1]
 			emptyNum--
 		}
-		if z == 0 && previousZ == 0 {
+		if tIdx == 0 && previousTIdx == 0 {
 			break
 		}
-		previousZ = z
+		previousTIdx = tIdx
 		printBoardType1(board)
 		fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-			loop, board.Get81(z), color, emptyNum, board.Get81(KoZ))
+			loop, board.Get81(tIdx), color, emptyNum, board.Get81(KoIdx))
 		color = FlipColor(color)
 	}
 	return countScoreV5(board, turnColor)
@@ -1117,45 +1119,45 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousZ := 0
+	previousTIdx := 0
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
+		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) {
+				tIdx = board.GetZ(x+1, y+1)
+				if board.Exists(tIdx) {
 					continue
 				}
-				empty[emptyNum] = z
+				empty[emptyNum] = tIdx
 				emptyNum++
 			}
 		}
 		r = 0
 		for {
 			if emptyNum == 0 {
-				z = 0
+				tIdx = 0
 			} else {
 				r = rand.Intn(emptyNum)
-				z = empty[r]
+				tIdx = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
 			empty[r] = empty[emptyNum-1]
 			emptyNum--
 		}
-		if z == 0 && previousZ == 0 {
+		if tIdx == 0 && previousTIdx == 0 {
 			break
 		}
-		previousZ = z
+		previousTIdx = tIdx
 		// printBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoIdx))
 		color = FlipColor(color)
 	}
 	return countScoreV6(board, turnColor)
@@ -1166,45 +1168,45 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousZ := 0
+	previousTIdx := 0
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.GetSentinelBoardMax()
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
+		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) {
+				tIdx = board.GetZ(x+1, y+1)
+				if board.Exists(tIdx) {
 					continue
 				}
-				empty[emptyNum] = z
+				empty[emptyNum] = tIdx
 				emptyNum++
 			}
 		}
 		r = 0
 		for {
 			if emptyNum == 0 {
-				z = 0
+				tIdx = 0
 			} else {
 				r = rand.Intn(emptyNum)
-				z = empty[r]
+				tIdx = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
 			empty[r] = empty[emptyNum-1]
 			emptyNum--
 		}
-		if z == 0 && previousZ == 0 {
+		if tIdx == 0 && previousTIdx == 0 {
 			break
 		}
-		previousZ = z
+		previousTIdx = tIdx
 		// printBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoIdx))
 		color = FlipColor(color)
 	}
 	return countScoreV7(board, turnColor)
@@ -1215,46 +1217,46 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousZ := 0
+	previousTIdx := 0
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.GetSentinelBoardMax()
 
 	AllPlayouts++
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
+		var emptyNum, r, tIdx int
 		for y := 0; y <= boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
-				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) {
+				tIdx = board.GetZ(x+1, y+1)
+				if board.Exists(tIdx) {
 					continue
 				}
-				empty[emptyNum] = z
+				empty[emptyNum] = tIdx
 				emptyNum++
 			}
 		}
 		r = 0
 		for {
 			if emptyNum == 0 {
-				z = 0
+				tIdx = 0
 			} else {
 				r = rand.Intn(emptyNum)
-				z = empty[r]
+				tIdx = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
 			empty[r] = empty[emptyNum-1]
 			emptyNum--
 		}
-		if z == 0 && previousZ == 0 {
+		if tIdx == 0 && previousTIdx == 0 {
 			break
 		}
-		previousZ = z
+		previousTIdx = tIdx
 		// printBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoIdx))
 		color = FlipColor(color)
 	}
 	return countScoreV7(board, turnColor)
@@ -1279,33 +1281,33 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousZ := 0
+	previousTIdx := 0
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.GetSentinelBoardMax()
 
 	AllPlayouts++
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
+		var emptyNum, r, tIdx int
 		for y := 0; y <= boardMax; y++ {
 			for x := 0; x < boardSize; x++ {
-				z = board.GetZ(x+1, y+1)
-				if board.Exists(z) {
+				tIdx = board.GetZ(x+1, y+1)
+				if board.Exists(tIdx) {
 					continue
 				}
-				empty[emptyNum] = z
+				empty[emptyNum] = tIdx
 				emptyNum++
 			}
 		}
 		r = 0
 		for {
 			if emptyNum == 0 {
-				z = 0
+				tIdx = 0
 			} else {
 				r = rand.Intn(emptyNum)
-				z = empty[r]
+				tIdx = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
@@ -1313,16 +1315,16 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 			emptyNum--
 		}
 		if FlagTestPlayout != 0 {
-			Record[Moves] = z
+			Record[Moves] = tIdx
 			Moves++
 		}
-		if z == 0 && previousZ == 0 {
+		if tIdx == 0 && previousTIdx == 0 {
 			break
 		}
-		previousZ = z
+		previousTIdx = tIdx
 		// PrintBoardType1()
 		// fmt.Printf("loop=%d,z=%d,c=%d,emptyNum=%d,KoZ=%d\n",
-		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoZ))
+		// 	loop, e.Get81(z), color, emptyNum, e.Get81(KoIdx))
 		color = FlipColor(color)
 	}
 	return countScoreV7(board, turnColor)
@@ -1332,10 +1334,10 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 	boardSize := board.BoardSize()
 
 	tryNum := 30
-	bestZ := 0
+	bestTIdx := 0
 	var bestValue, winRate float64
 	var boardCopy = board.CopyData()
-	koZCopy := KoZ
+	koZCopy := KoIdx
 	if color == 1 {
 		bestValue = -100.0
 	} else {
@@ -1344,11 +1346,11 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
-			if board.Exists(z) {
+			tIdx := board.GetZ(x+1, y+1)
+			if board.Exists(tIdx) {
 				continue
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err != 0 {
 				continue
 			}
@@ -1356,24 +1358,24 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoZ
+				koZCopy2 := KoIdx
 				win := board.Playout(FlipColor(color), printBoardType1)
 				winSum += win
-				KoZ = koZCopy2
+				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
 			if (color == 1 && bestValue < winRate) ||
 				(color == 2 && winRate < bestValue) {
 				bestValue = winRate
-				bestZ = z
-				fmt.Printf("(primitiveMonteCalroV6) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
+				bestTIdx = tIdx
+				fmt.Printf("(primitiveMonteCalroV6) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestTIdx), color, bestValue, tryNum)
 			}
-			KoZ = koZCopy
+			KoIdx = koZCopy
 			board.ImportData(boardCopy)
 		}
 	}
-	return bestZ
+	return bestTIdx
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 1.
@@ -1410,19 +1412,19 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 	boardSize := board.BoardSize()
 
 	tryNum := 30
-	bestZ := 0
+	bestTIdx := 0
 	var bestValue, winRate float64
 	var boardCopy = board.CopyData()
-	koZCopy := KoZ
+	koZCopy := KoIdx
 	bestValue = -100.0
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetZ(x+1, y+1)
-			if board.Exists(z) {
+			tIdx := board.GetZ(x+1, y+1)
+			if board.Exists(tIdx) {
 				continue
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := board.PutStoneType2(tIdx, color, FillEyeErr)
 			if err != 0 {
 				continue
 			}
@@ -1430,25 +1432,25 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoZ
+				koZCopy2 := KoIdx
 
 				win := -board.Playout(FlipColor(color), printBoardType1)
 
 				winSum += win
-				KoZ = koZCopy2
+				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
 			if bestValue < winRate {
 				bestValue = winRate
-				bestZ = z
-				fmt.Printf("(primitiveMonteCalroV7) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestZ), color, bestValue, tryNum)
+				bestTIdx = tIdx
+				fmt.Printf("(primitiveMonteCalroV7) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", board.Get81(bestTIdx), color, bestValue, tryNum)
 			}
-			KoZ = koZCopy
+			KoIdx = koZCopy
 			board.ImportData(boardCopy)
 		}
 	}
-	return bestZ
+	return bestTIdx
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 7.
@@ -1465,10 +1467,10 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 	boardSize := board.BoardSize()
 
 	tryNum := 30
-	bestZ := 0
+	bestTIdx := 0
 	var bestValue, winRate float64
 	var boardCopy = board.CopyData()
-	koZCopy := KoZ
+	koZCopy := KoIdx
 	bestValue = -100.0
 
 	for y := 0; y <= boardSize; y++ {
@@ -1485,25 +1487,25 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoZ
+				koZCopy2 := KoIdx
 
 				win := -board.Playout(FlipColor(color), printBoardType1)
 
 				winSum += win
-				KoZ = koZCopy2
+				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}
 			winRate = float64(winSum) / float64(tryNum)
 			if bestValue < winRate {
 				bestValue = winRate
-				bestZ = z
+				bestTIdx = z
 				// fmt.Printf("(primitiveMonteCalroV9) bestZ=%d,color=%d,v=%5.3f,tryNum=%d\n", e.Get81(bestZ), color, bestValue, tryNum)
 			}
-			KoZ = koZCopy
+			KoIdx = koZCopy
 			board.ImportData(boardCopy)
 		}
 	}
-	return bestZ
+	return bestTIdx
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 9.
@@ -1517,144 +1519,144 @@ func (board *BoardV9a) PrimitiveMonteCalro(color int, printBoardType1 func(IBoar
 }
 
 // addMovesType1V8 - GoGoV8, SelfplayV9 から呼び出されます。
-func addMovesType1V8(board IBoard, z int, color int, printBoardType2 func(IBoard, int)) {
-	err := board.PutStoneType2(z, color, FillEyeOk)
+func addMovesType1V8(board IBoard, tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	err := board.PutStoneType2(tIdx, color, FillEyeOk)
 	if err != 0 {
 		fmt.Println("(AddMovesV8) Err!", err)
 		os.Exit(0)
 	}
-	Record[Moves] = z
+	Record[Moves] = tIdx
 	Moves++
 	printBoardType2(board, Moves)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV1) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV1) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV2) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV2) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV3) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV3) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV4) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV4) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV5) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV5) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV6) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV6) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV7) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV7) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV8) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV8) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV9) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV9) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV9a) AddMovesType1(z int, color int, printBoardType2 func(IBoard, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
+func (board *BoardV9a) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // addMovesV9a - 指し手の追加？
-func addMovesType2V9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	err := board.PutStoneType2(z, color, FillEyeOk)
+func addMovesType2V9a(board IBoard, tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	err := board.PutStoneType2(tIdx, color, FillEyeOk)
 	if err != 0 {
 		fmt.Fprintf(os.Stderr, "(addMoves9a) Err!\n")
 		os.Exit(0)
 	}
-	Record[Moves] = z
+	Record[Moves] = tIdx
 	RecordTime[Moves] = sec
 	Moves++
 	printBoardType2(board, Moves)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV1) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV1) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV2) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV2) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV3) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV3) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV4) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV4) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV5) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV5) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV6) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV6) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV7) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV7) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV8) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV8) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV9) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV9) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV9a) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
+func (board *BoardV9a) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // getComputerMoveV9 - コンピューターの指し手。
 func getComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(IBoard)) int {
-	var z int
-	st := time.Now()
+	var tIdx int
+	start := time.Now()
 	AllPlayouts = 0
 	if fUCT != 0 {
-		z = GetBestUctV9(board, color, printBoardType1)
+		tIdx = GetBestUctV9(board, color, printBoardType1)
 	} else {
-		z = board.PrimitiveMonteCalro(color, printBoardType1)
+		tIdx = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
-	t := time.Since(st).Seconds()
+	sec := time.Since(start).Seconds()
 	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%2d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
-		t, float64(AllPlayouts)/t, board.Get81(z), Moves, color, AllPlayouts, fUCT)
-	return z
+		sec, float64(AllPlayouts)/sec, board.Get81(tIdx), Moves, color, AllPlayouts, fUCT)
+	return tIdx
 }
 
 // GetComputerMove - コンピューターの指し手。

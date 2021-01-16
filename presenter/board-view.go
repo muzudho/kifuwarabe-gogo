@@ -267,7 +267,7 @@ func printBoardType2(board e.IBoard, moves int) {
 		}
 		fmt.Printf("|")
 		if y == 4 {
-			fmt.Printf("  KoZ=%d,moves=%d", board.Get81(e.KoZ), moves)
+			fmt.Printf("  KoZ=%d,moves=%d", board.Get81(e.KoIdx), moves)
 		}
 		fmt.Printf("\n")
 	}
@@ -344,7 +344,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
-			fmt.Fprintf(os.Stderr, "  KoZ=%d,moves=%d", board.Get81(e.KoZ), moves)
+			fmt.Fprintf(os.Stderr, "  KoZ=%d,moves=%d", board.Get81(e.KoIdx), moves)
 		}
 		fmt.Fprintf(os.Stderr, "\n")
 	}
