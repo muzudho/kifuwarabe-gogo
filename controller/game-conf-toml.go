@@ -46,11 +46,11 @@ func (config Config) GetBoardSize() int {
 }
 
 // GetSentinelBoardMax - 枠付きの盤上の交点の数
-func (config Config) GetSentinelBoardMax() int16 {
+func (config Config) GetSentinelBoardMax() int {
 	// Width - 枠込み。
-	Width := config.Game.BoardSize + 2
+	Width := int(config.Game.BoardSize) + 2
 	// BoardMax - 枠込み盤の配列サイズ。
-	return int16(Width) * int16(Width)
+	return Width * Width
 }
 
 // GetKomi - float 32bit で足りるが、実行速度優先で float 64bit に変換して返します。
@@ -59,8 +59,8 @@ func (config Config) GetKomi() float64 {
 }
 
 // GetMaxMoves - 最大手数。
-func (config Config) GetMaxMoves() int16 {
-	return config.Game.MaxMoves
+func (config Config) GetMaxMoves() int {
+	return int(config.Game.MaxMoves)
 }
 
 // LoadGameConf - ゲーム設定ファイルを読み込みます。

@@ -37,10 +37,10 @@ type IBoard interface {
 	GetBoardSize() int
 	// GetWidth - 枠付きの盤の一辺の交点数
 	GetWidth() int
-	GetSentinelBoardMax() int16
+	GetSentinelBoardMax() int
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	GetKomi() float64
-	GetMaxMoves() int16
+	GetMaxMoves() int
 	// GetZ - YX形式の座標？
 	GetZ(x int, y int) int
 	// Get81 - XY形式の座標？
@@ -60,9 +60,9 @@ type IPresenter interface {
 type Board0 struct {
 	Data             []int
 	BoardSize        int
-	SentinelBoardMax int16
+	SentinelBoardMax int
 	Komi             float64
-	MaxMoves         int16
+	MaxMoves         int
 	UctChildrenSize  int
 }
 
@@ -77,7 +77,7 @@ func (board Board0) GetWidth() int {
 }
 
 // GetSentinelBoardMax - 枠付きの盤の交点数
-func (board Board0) GetSentinelBoardMax() int16 {
+func (board Board0) GetSentinelBoardMax() int {
 	return board.SentinelBoardMax
 }
 
@@ -87,7 +87,7 @@ func (board Board0) GetKomi() float64 {
 }
 
 // GetMaxMoves - 最大手数
-func (board Board0) GetMaxMoves() int16 {
+func (board Board0) GetMaxMoves() int {
 	return board.MaxMoves
 }
 
@@ -102,7 +102,7 @@ type BoardV1 struct {
 }
 
 // NewBoardV1 - 盤を作成します。
-func NewBoardV1(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV1 {
+func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV1 {
 	board := new(BoardV1)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -124,7 +124,7 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV2 {
+func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV2 {
 	board := new(BoardV2)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -146,7 +146,7 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV3 {
+func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV3 {
 	board := new(BoardV3)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -168,7 +168,7 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV4 {
+func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV4 {
 	board := new(BoardV4)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -190,7 +190,7 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV5 {
+func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV5 {
 	board := new(BoardV5)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -212,7 +212,7 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV6 {
+func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV6 {
 	board := new(BoardV6)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -234,7 +234,7 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV7 {
+func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV7 {
 	board := new(BoardV7)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -256,7 +256,7 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV8 {
+func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV8 {
 	board := new(BoardV8)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -278,7 +278,7 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV9 {
+func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV9 {
 	board := new(BoardV9)
 	board.Data = data
 	board.BoardSize = boardSize
@@ -300,7 +300,7 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int16, komi float64, maxMoves int16) *BoardV9a {
+func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV9a {
 	board := new(BoardV9a)
 	board.Data = data
 	board.BoardSize = boardSize
