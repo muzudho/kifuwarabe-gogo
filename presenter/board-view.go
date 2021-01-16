@@ -8,134 +8,124 @@ import (
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
 )
 
-// BoardV1 - 盤 Version 1.
-type BoardV1 struct {
-	e.BoardV1
+// PresenterV1 - 表示機能 Version 1.
+type PresenterV1 struct {
+	Board e.IBoard
 }
 
-// NewBoardV1 - 盤を作成します。
-func NewBoardV1(data [c.BoardMax]int, presenter e.IPresenter) *BoardV1 {
-	board := new(BoardV1)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV1 - 表示機能を作成します。
+func NewPresenterV1(board e.Board) *PresenterV1 {
+	presenter := new(PresenterV1)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV2 - 盤 Version 2.
-type BoardV2 struct {
-	e.BoardV2
+// PresenterV2 - 表示機能 Version 2.
+type PresenterV2 struct {
+	Board e.IBoard
 }
 
-// NewBoardV2 - 盤を作成します。
-func NewBoardV2(data [c.BoardMax]int, presenter e.IPresenter) *BoardV2 {
-	board := new(BoardV2)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV2 - 表示機能を作成します。
+func NewPresenterV2(board e.Board) *PresenterV2 {
+	presenter := new(PresenterV2)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV3 - 盤 Version 3.
-type BoardV3 struct {
-	e.BoardV3
+// PresenterV3 - 表示機能 Version 3.
+type PresenterV3 struct {
+	Board e.IBoard
 }
 
-// NewBoardV3 - 盤を作成します。
-func NewBoardV3(data [c.BoardMax]int, presenter e.IPresenter) *BoardV3 {
-	board := new(BoardV3)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV3 - 表示機能を作成します。
+func NewPresenterV3(board e.Board) *PresenterV3 {
+	presenter := new(PresenterV3)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV4 - 盤 Version 4.
-type BoardV4 struct {
-	e.BoardV4
+// PresenterV4 - 表示機能 Version 4.
+type PresenterV4 struct {
+	Board e.IBoard
 }
 
-// NewBoardV4 - 盤を作成します。
-func NewBoardV4(data [c.BoardMax]int, presenter e.IPresenter) *BoardV4 {
-	board := new(BoardV4)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV4 - 表示機能を作成します。
+func NewPresenterV4(board e.Board) *PresenterV4 {
+	presenter := new(PresenterV4)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV5 - 盤 Version 5.
-type BoardV5 struct {
-	e.BoardV5
+// PresenterV5 - 表示機能 Version 5.
+type PresenterV5 struct {
+	Board e.IBoard
 }
 
-// NewBoardV5 - 盤を作成します。
-func NewBoardV5(data [c.BoardMax]int, presenter e.IPresenter) *BoardV5 {
-	board := new(BoardV5)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV5 - 表示機能を作成します。
+func NewPresenterV5(board e.Board) *PresenterV5 {
+	presenter := new(PresenterV5)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV6 - 盤 Version 6.
-type BoardV6 struct {
-	e.BoardV6
+// PresenterV6 - 表示機能 Version 6.
+type PresenterV6 struct {
+	Board e.IBoard
 }
 
-// NewBoardV6 - 盤を作成します。
-func NewBoardV6(data [c.BoardMax]int, presenter e.IPresenter) *BoardV6 {
-	board := new(BoardV6)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV6 - 表示機能を作成します。
+func NewPresenterV6(board e.Board) *PresenterV6 {
+	presenter := new(PresenterV6)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV7 - 盤 Version 7.
-type BoardV7 struct {
-	e.BoardV7
+// PresenterV7 - 表示機能 Version 7.
+type PresenterV7 struct {
+	Board e.IBoard
 }
 
-// NewBoardV7 - 盤を作成します。
-func NewBoardV7(data [c.BoardMax]int, presenter e.IPresenter) *BoardV7 {
-	board := new(BoardV7)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV7 - 表示機能を作成します。
+func NewPresenterV7(board e.Board) *PresenterV7 {
+	presenter := new(PresenterV7)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV8 - 盤 Version 8.
-type BoardV8 struct {
-	e.BoardV8
+// PresenterV8 - 表示機能 Version 8.
+type PresenterV8 struct {
+	Board e.IBoard
 }
 
-// NewBoardV8 - 盤を作成します。
-func NewBoardV8(data [c.BoardMax]int, presenter e.IPresenter) *BoardV8 {
-	board := new(BoardV8)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV8 - 表示機能を作成します。
+func NewPresenterV8(board e.Board) *PresenterV8 {
+	presenter := new(PresenterV8)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV9 - 盤 Version 9.
-type BoardV9 struct {
-	e.BoardV9
+// PresenterV9 - 表示機能 Version 9.
+type PresenterV9 struct {
+	Board e.IBoard
 }
 
-// NewBoardV9 - 盤を作成します。
-func NewBoardV9(data [c.BoardMax]int, presenter e.IPresenter) *BoardV9 {
-	board := new(BoardV9)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV9 - 表示機能を作成します。
+func NewPresenterV9(board e.Board) *PresenterV9 {
+	presenter := new(PresenterV9)
+	presenter.Board = board
+	return presenter
 }
 
-// BoardV9a - 盤 Version 9a.
-type BoardV9a struct {
-	e.BoardV9a
+// PresenterV9a - 表示機能 Version 9a.
+type PresenterV9a struct {
+	Board e.IBoard
 }
 
-// NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data [c.BoardMax]int, presenter e.IPresenter) *BoardV9a {
-	board := new(BoardV9a)
-	board.Data = data
-	board.Presenter = presenter
-	return board
+// NewPresenterV9a - 表示機能を作成します。
+func NewPresenterV9a(board e.Board) *PresenterV9a {
+	presenter := new(PresenterV9a)
+	presenter.Board = board
+	return presenter
 }
 
 // labelOfRowsV1 - 各行の表示符号。

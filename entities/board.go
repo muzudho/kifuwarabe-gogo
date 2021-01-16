@@ -40,71 +40,14 @@ type IPresenter interface {
 
 // Board0 - 盤。
 type Board0 struct {
-	Data      [c.BoardMax]int
-	Presenter IPresenter
+	Data [c.BoardMax]int
 }
 
 // NewBoard0 - 盤を作成します。
-func NewBoard0(data [c.BoardMax]int, presenter IPresenter) *Board0 {
+func NewBoard0(data [c.BoardMax]int) *Board0 {
 	board := new(Board0)
 	board.Data = data
-	board.Presenter = presenter
 	return board
-}
-
-// GetPresenter - 表示機能を返します。
-func (board Board0) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV1) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV2) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV3) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV4) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV5) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV6) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV7) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV8) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV9) GetPresenter() IPresenter {
-	return board.Presenter
-}
-
-// GetPresenter - 表示機能を返します。
-func (board BoardV9a) GetPresenter() IPresenter {
-	return board.Presenter
 }
 
 // BoardV1 - 盤 Version 1。
@@ -113,10 +56,9 @@ type BoardV1 struct {
 }
 
 // NewBoardV1 - 盤を作成します。
-func NewBoardV1(data [c.BoardMax]int, presenter IPresenter) *BoardV1 {
+func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
 	board := new(BoardV1)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -126,10 +68,9 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data [c.BoardMax]int, presenter IPresenter) *BoardV2 {
+func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
 	board := new(BoardV2)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -139,10 +80,9 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data [c.BoardMax]int, presenter IPresenter) *BoardV3 {
+func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
 	board := new(BoardV3)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -152,10 +92,9 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data [c.BoardMax]int, presenter IPresenter) *BoardV4 {
+func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
 	board := new(BoardV4)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -165,10 +104,9 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data [c.BoardMax]int, presenter IPresenter) *BoardV5 {
+func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
 	board := new(BoardV5)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -178,10 +116,9 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data [c.BoardMax]int, presenter IPresenter) *BoardV6 {
+func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
 	board := new(BoardV6)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -191,10 +128,9 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data [c.BoardMax]int, presenter IPresenter) *BoardV7 {
+func NewBoardV7(data [c.BoardMax]int) *BoardV7 {
 	board := new(BoardV7)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -204,10 +140,9 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data [c.BoardMax]int, presenter IPresenter) *BoardV8 {
+func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
 	board := new(BoardV8)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -217,10 +152,9 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data [c.BoardMax]int, presenter IPresenter) *BoardV9 {
+func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
 	board := new(BoardV9)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
@@ -230,10 +164,9 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data [c.BoardMax]int, presenter IPresenter) *BoardV9a {
+func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
 	board := new(BoardV9a)
 	board.Data = data
-	board.Presenter = presenter
 	return board
 }
 
