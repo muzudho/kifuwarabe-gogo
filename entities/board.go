@@ -28,8 +28,8 @@ type IBoard interface {
 	// Monte Calro Tree Search
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
 	GetBoardSize() int
-	// GetWidth - 枠付きの盤の一辺の交点数
-	GetWidth() int
+	// SentinelWidth - 枠付きの盤の一辺の交点数
+	SentinelWidth() int
 	GetSentinelBoardMax() int
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	GetKomi() float64
@@ -84,6 +84,7 @@ var FlagTestPlayout int
 type Board0 struct {
 	Data             []int
 	BoardSize        int
+	sentinelWidth    int
 	SentinelBoardMax int
 	Komi             float64
 	MaxMoves         int
@@ -95,9 +96,9 @@ func (board Board0) GetBoardSize() int {
 	return board.BoardSize
 }
 
-// GetWidth - 枠付きの盤の一辺の交点数
-func (board Board0) GetWidth() int {
-	return int(board.BoardSize) + 2
+// SentinelWidth - 枠付きの盤の一辺の交点数
+func (board Board0) SentinelWidth() int {
+	return board.sentinelWidth
 }
 
 // GetSentinelBoardMax - 枠付きの盤の交点数
@@ -174,7 +175,7 @@ func newBoard(board IBoard) {
 	checkBoard = make([]int, board.GetSentinelBoardMax())
 	Record = make([]int, board.GetMaxMoves())
 	RecordTime = make([]float64, board.GetMaxMoves())
-	Dir4 = [4]int{1, board.GetWidth(), -1, -board.GetWidth()}
+	Dir4 = [4]int{1, board.SentinelWidth(), -1, -board.SentinelWidth()}
 }
 
 // NewBoardV1 - 盤を作成します。
@@ -182,6 +183,7 @@ func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV1)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -197,6 +199,7 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV2)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -212,6 +215,7 @@ func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV3)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -227,6 +231,7 @@ func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV4)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -242,6 +247,7 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV5)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -257,6 +263,7 @@ func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV6)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -272,6 +279,7 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV7)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -287,6 +295,7 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV8)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -302,6 +311,7 @@ func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 	board := new(BoardV9)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -317,6 +327,7 @@ func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, 
 	board := new(BoardV9a)
 	board.Data = data
 	board.BoardSize = boardSize
+	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
@@ -358,8 +369,8 @@ func (board *Board0) ImportData(boardCopy2 []int) {
 
 // Get81 - XY形式の座標？
 func (board Board0) Get81(z int) int {
-	y := z / board.GetWidth()
-	x := z - y*board.GetWidth()
+	y := z / board.SentinelWidth()
+	x := z - y*board.SentinelWidth()
 	if z == 0 {
 		return 0
 	}
@@ -368,7 +379,7 @@ func (board Board0) Get81(z int) int {
 
 // GetZ - YX形式の座標？
 func (board Board0) GetZ(x int, y int) int {
-	return y*board.GetWidth() + x
+	return y*board.SentinelWidth() + x
 }
 
 // GetEmptyZ - 空交点のYX座標を返します。
