@@ -53,6 +53,11 @@ func (config Config) GetKomi() float64 {
 	return float64(config.Game.Komi)
 }
 
+// GetMaxMoves - 最大手数。
+func (config Config) GetMaxMoves() int16 {
+	return config.Game.MaxMoves
+}
+
 // LoadGameConf - ゲーム設定ファイルを読み込みます。
 func LoadGameConf(path string) Config {
 
