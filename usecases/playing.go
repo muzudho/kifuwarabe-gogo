@@ -44,19 +44,19 @@ func TestPlayoutV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardTyp
 
 // PlayComputerMoveV9a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
 func PlayComputerMoveV9a(board e.IBoard, color int, fUCT int, printBoardType1 func(e.IBoard), printBoardType2 func(e.IBoard, int)) int {
-	var z int
+	var tIdx int
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		z = e.GetBestUctV9a(board, color, printBoardType1)
+		tIdx = e.GetBestUctV9a(board, color, printBoardType1)
 	} else {
-		z = board.PrimitiveMonteCalro(color, printBoardType1)
+		tIdx = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	sec := time.Since(st).Seconds()
-	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
-		sec, float64(e.AllPlayouts)/sec, board.Get81(z), e.Moves, color, e.AllPlayouts, fUCT)
-	board.AddMovesType2(z, color, sec, printBoardType2)
-	return z
+	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playoutV9/sec, play_z=%4d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
+		sec, float64(e.AllPlayouts)/sec, board.GetZ4(tIdx), e.Moves, color, e.AllPlayouts, fUCT)
+	board.AddMovesType2(tIdx, color, sec, printBoardType2)
+	return tIdx
 }
 
 // TestPlayoutV9a - 試しにプレイアウトする。

@@ -113,7 +113,7 @@ func SearchUctV8(board IBoard, color int, nodeN int, printBoardType1 func(IBoard
 			break
 		}
 		c.Z = IllegalZ
-		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
+		// fmt.Printf("ILLEGAL:z=%4d\n", e.GetZ4(tIdx))
 	}
 
 	if c.Games <= 0 {
@@ -141,11 +141,11 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
-		koZCopy := KoIdx
+		koIdxCopy := KoIdx
 
 		SearchUctV8(board, color, next, printBoardType1)
 
-		KoIdx = koZCopy
+		KoIdx = koIdxCopy
 		board.ImportData(boardCopy)
 	}
 	pN := &Nodes[next]
@@ -155,12 +155,12 @@ func GetBestUctV8(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("(GetBestUctV8) %2d:z=%2d,rate=%.4f,games=%3d\n", i, board.Get81(c.Z), c.Rate, c.Games)
+		fmt.Printf("(GetBestUctV8) %2d:z=%4d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
 	}
-	bestZ := pN.Children[bestI].Z
-	fmt.Printf("(GetBestUctV8) bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
-	return bestZ
+	bestTIdx := pN.Children[bestI].Z
+	fmt.Printf("(GetBestUctV8) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestTIdx
 }
 
 func searchUctV9(board IBoard, color int, nodeN int, printBoardType1 func(IBoard)) int {
@@ -176,7 +176,7 @@ func searchUctV9(board IBoard, color int, nodeN int, printBoardType1 func(IBoard
 			break
 		}
 		c.Z = IllegalZ
-		// fmt.Printf("ILLEGAL:z=%2d\n", e.Get81(z))
+		// fmt.Printf("ILLEGAL:z=%4d\n", e.GetZ4(tIdx))
 	}
 	if c.Games <= 0 {
 		win = -board.Playout(FlipColor(color), printBoardType1)
@@ -201,11 +201,11 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
-		koZCopy := KoIdx
+		koIdxCopy := KoIdx
 
 		searchUctV9(board, color, next, printBoardType1)
 
-		KoIdx = koZCopy
+		KoIdx = koIdxCopy
 		board.ImportData(boardCopy)
 	}
 	pN := &Nodes[next]
@@ -215,12 +215,12 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Printf("(GetBestUctV9) %2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
+		// fmt.Printf("(GetBestUctV9) %2d:z=%4d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.Z), c.Rate, c.Games)
 	}
-	bestZ := pN.Children[bestI].Z
-	fmt.Printf("(GetBestUctV9) bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
-	return bestZ
+	bestTIdx := pN.Children[bestI].Z
+	fmt.Printf("(GetBestUctV9) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestTIdx
 }
 
 // GetBestUctV9a - PlayComputerMoveV9a から呼び出されます。
@@ -246,10 +246,10 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%2d,rate=%.4f,games=%3d\n", i, e.Get81(c.Z), c.Rate, c.Games)
+		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%4d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.Z), c.Rate, c.Games)
 	}
-	bestZ := pN.Children[bestI].Z
-	fmt.Fprintf(os.Stderr, "(GetBestUctV9a) bestZ=%d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		board.Get81(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
-	return bestZ
+	bestTIdx := pN.Children[bestI].Z
+	fmt.Fprintf(os.Stderr, "(GetBestUctV9a) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestTIdx
 }

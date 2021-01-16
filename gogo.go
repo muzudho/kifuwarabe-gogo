@@ -78,18 +78,19 @@ func GoGoV3() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for {
-		z := board.PlayOneMove(color)
+		tIdx := board.PlayOneMove(color)
 
-		fmt.Printf("moves=%4d, color=%d, z=%d\n", e.Moves, color, board.Get81(z))
+		fmt.Printf("moves=%4d, color=%d, z=%4d\n", e.Moves, color, board.GetZ4(tIdx))
 		presenter.PrintBoardType1(board)
 
-		e.Record[e.Moves] = z
+		e.Record[e.Moves] = tIdx
 		e.Moves++
 		if e.Moves == 1000 {
 			fmt.Printf("max moves!\n")
 			break
 		}
-		if z == 0 && 2 <= e.Moves && e.Record[e.Moves-2] == 0 {
+		// パス で 2手目以降で、１手前（相手）もパスしていれば。
+		if tIdx == 0 && 2 <= e.Moves && e.Record[e.Moves-2] == 0 {
 			fmt.Printf("two pass\n")
 			break
 		}
@@ -252,7 +253,7 @@ func GoGoV9a() {
 				}
 				y := int(ax[1] - '0')
 				tIdx := board.GetTIdxFromXy(int(x)-1, board.BoardSize()-y)
-				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, board.Get81(tIdx))
+				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%4d\n", x, y, board.GetZ4(tIdx))
 				if ax == "pass" {
 					tIdx = 0
 				}
