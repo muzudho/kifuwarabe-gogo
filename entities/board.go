@@ -10,7 +10,8 @@ import (
 )
 
 // RecordTime - 一手にかかった時間。
-var RecordTime [c.MaxMoves]float64
+// var RecordTime [c.MaxMoves]float64
+var RecordTime []float64
 
 // IBoard - 盤。
 type IBoard interface {
@@ -1089,7 +1090,8 @@ func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 var AllPlayouts int
 
 // Record - 棋譜？
-var Record [c.MaxMoves]int
+// var Record [c.MaxMoves]int
+var Record []int
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
