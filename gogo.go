@@ -28,7 +28,7 @@ func main() {
 	//GoGoV7()
 	//GoGoV8()
 	GoGoV9()
-	// GoGoV9a()
+	//GoGoV9a()
 }
 
 // GoGoV1 - バージョン１。
@@ -211,8 +211,8 @@ func GoGoV9a() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		command := scanner.Text()
-		str := strings.Split(command, " ")
-		switch str[0] {
+		tokens := strings.Split(command, " ")
+		switch tokens[0] {
 		case "boardsize":
 			fmt.Printf("= \n\n")
 		case "clear_board":
@@ -236,30 +236,33 @@ func GoGoV9a() {
 			fmt.Printf("= \n\n")
 		case "genmove":
 			color := 1
-			if strings.ToLower(str[1]) == "w" {
+			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
 			}
 			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
 			fmt.Printf("= %s\n\n", p.GetCharZ(board, z))
 		case "play":
 			color := 1
-			if strings.ToLower(str[1]) == "w" {
+			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
 			}
-			ax := strings.ToLower(str[2])
-			fmt.Fprintf(os.Stderr, "ax=%s\n", ax)
-			x := ax[0] - 'a' + 1
-			if ax[0] >= 'i' {
-				x--
+
+			if 2 < len(tokens) {
+				ax := strings.ToLower(tokens[2])
+				fmt.Fprintf(os.Stderr, "ax=%s\n", ax)
+				x := ax[0] - 'a' + 1
+				if ax[0] >= 'i' {
+					x--
+				}
+				y := int(ax[1] - '0')
+				z := board.GetZ(int(x), board.BoardSize()-y+1)
+				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, board.Get81(z))
+				if ax == "pass" {
+					z = 0
+				}
+				board.AddMovesType2(z, color, 0, presenter.PrintBoardType2)
+				fmt.Printf("= \n\n")
 			}
-			y := int(ax[1] - '0')
-			z := board.GetZ(int(x), board.BoardSize()-y+1)
-			fmt.Fprintf(os.Stderr, "x=%d y=%d z=%d\n", x, y, board.Get81(z))
-			if ax == "pass" {
-				z = 0
-			}
-			board.AddMovesType2(z, color, 0, presenter.PrintBoardType2)
-			fmt.Printf("= \n\n")
 		default:
 			fmt.Printf("? unknown_command\n\n")
 		}

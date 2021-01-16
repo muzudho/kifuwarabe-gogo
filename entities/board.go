@@ -9,7 +9,7 @@ import (
 
 // IBoard - 盤。
 type IBoard interface {
-	GetData() []int
+	Data() []int
 	CopyData() []int
 	ImportData(boardCopy2 []int)
 	SetData(i int, color int)
@@ -89,7 +89,7 @@ var FlagTestPlayout int
 
 // Board0 - 盤。
 type Board0 struct {
-	Data             []int
+	data             []int
 	boardSize        int
 	sentinelWidth    int
 	SentinelBoardMax int
@@ -188,7 +188,7 @@ func newBoard(board IBoard) {
 // NewBoardV1 - 盤を作成します。
 func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV1 {
 	board := new(BoardV1)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -204,7 +204,7 @@ func NewBoardV1(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV2 - 盤を作成します。
 func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV2 {
 	board := new(BoardV2)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -220,7 +220,7 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV3 - 盤を作成します。
 func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV3 {
 	board := new(BoardV3)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -236,7 +236,7 @@ func NewBoardV3(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV4 - 盤を作成します。
 func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV4 {
 	board := new(BoardV4)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -252,7 +252,7 @@ func NewBoardV4(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV5 - 盤を作成します。
 func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV5 {
 	board := new(BoardV5)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -268,7 +268,7 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV6 - 盤を作成します。
 func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV6 {
 	board := new(BoardV6)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -284,7 +284,7 @@ func NewBoardV6(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV7 - 盤を作成します。
 func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV7 {
 	board := new(BoardV7)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -300,7 +300,7 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV8 - 盤を作成します。
 func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV8 {
 	board := new(BoardV8)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -316,7 +316,7 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV9 - 盤を作成します。
 func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV9 {
 	board := new(BoardV9)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -332,7 +332,7 @@ func NewBoardV9(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // NewBoardV9a - 盤を作成します。
 func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV9a {
 	board := new(BoardV9a)
-	board.Data = data
+	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
 	board.SentinelBoardMax = sentinelBoardMax
@@ -345,19 +345,19 @@ func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int, komi float64, 
 	return board
 }
 
-// GetData - 盤データ。
-func (board Board0) GetData() []int {
-	return board.Data
+// Data - 盤データ。
+func (board Board0) Data() []int {
+	return board.data
 }
 
 // Exists - 指定の交点に石があるか？
 func (board Board0) Exists(z int) bool {
-	return board.Data[z] != 0
+	return board.data[z] != 0
 }
 
 // SetData - 盤データ。
 func (board *Board0) SetData(i int, color int) {
-	board.Data[i] = color
+	board.data[i] = color
 }
 
 // CopyData - 盤データのコピー。
@@ -365,13 +365,13 @@ func (board Board0) CopyData() []int {
 	boardMax := board.GetSentinelBoardMax()
 
 	var boardCopy2 = make([]int, boardMax)
-	copy(boardCopy2[:], board.Data[:])
+	copy(boardCopy2[:], board.data[:])
 	return boardCopy2
 }
 
 // ImportData - 盤データのコピー。
 func (board *Board0) ImportData(boardCopy2 []int) {
-	copy(board.Data[:], boardCopy2[:])
+	copy(board.data[:], boardCopy2[:])
 }
 
 // Get81 - XY形式の座標？
@@ -396,7 +396,7 @@ func (board Board0) GetEmptyZ() int {
 		x = rand.Intn(9) + 1
 		y = rand.Intn(9) + 1
 		z = board.GetZ(x, y)
-		if board.Data[z] == 0 {
+		if !board.Exists(z) {
 			break
 		}
 	}
@@ -416,11 +416,11 @@ func (board Board0) countLibertySub(tz int, color int, pLiberty *int, pStone *in
 		if checkBoard[z] != 0 {
 			continue
 		}
-		if board.Data[z] == 0 {
+		if !board.Exists(z) {
 			checkBoard[z] = 1
 			*pLiberty++
 		}
-		if board.Data[z] == color {
+		if board.data[z] == color {
 			board.countLibertySub(z, color, pLiberty, pStone)
 		}
 	}
@@ -436,15 +436,15 @@ func (board Board0) CountLiberty(tz int, pLiberty *int, pStone *int) {
 	for i := 0; i < boardMax; i++ {
 		checkBoard[i] = 0
 	}
-	board.countLibertySub(tz, board.Data[tz], pLiberty, pStone)
+	board.countLibertySub(tz, board.data[tz], pLiberty, pStone)
 }
 
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
 func (board *Board0) TakeStone(tz int, color int) {
-	board.Data[tz] = 0
+	board.data[tz] = 0
 	for i := 0; i < 4; i++ {
 		z := tz + Dir4[i]
-		if board.Data[z] == color {
+		if board.data[z] == color {
 			board.TakeStone(z, color)
 		}
 	}
@@ -489,7 +489,7 @@ func putStoneType1V1(board IBoard, tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.GetData()[z]
+		color2 := board.Data()[z]
 		if color2 == 0 {
 			space++
 		}
@@ -573,7 +573,7 @@ func putStoneType1V3(board IBoard, tz int, color int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.GetData()[z]
+		color2 := board.Data()[z]
 		if color2 == 0 {
 			space++
 		}
@@ -688,7 +688,7 @@ func putStoneTypeV4Type2(board IBoard, tz int, color int, fillEyeErr int) int {
 		around[i][1] = 0
 		around[i][2] = 0
 		z := tz + Dir4[i]
-		color2 := board.GetData()[z]
+		color2 := board.Data()[z]
 		if color2 == 0 {
 			space++
 		}
@@ -869,7 +869,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			color2 := board.GetData()[z]
+			color2 := board.Data()[z]
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -877,7 +877,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board.GetData()[z+Dir4[i]]]++
+				mk[board.Data()[z+Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -909,7 +909,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			color2 := board.GetData()[z]
+			color2 := board.Data()[z]
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -917,7 +917,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board.GetData()[z+Dir4[i]]]++
+				mk[board.Data()[z+Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -949,7 +949,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
-			color2 := board.GetData()[z]
+			color2 := board.Data()[z]
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -957,7 +957,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for i := 0; i < 4; i++ {
-				mk[board.GetData()[z+Dir4[i]]]++
+				mk[board.Data()[z+Dir4[i]]]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
