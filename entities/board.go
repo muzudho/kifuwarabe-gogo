@@ -25,8 +25,11 @@ type IBoard interface {
 	TakeStone(tz int, color int)
 	GetEmptyZ() int
 
+	// GetComputerMove - コンピューターの指し手。
+	GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int
 	// Monte Calro Tree Search
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
+
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
 	SentinelWidth() int
@@ -91,7 +94,7 @@ type Board0 struct {
 	UctChildrenSize  int
 }
 
-// GetBoardSize - 何路盤か
+// BoardSize - 何路盤か
 func (board Board0) BoardSize() int {
 	return board.boardSize
 }
@@ -1540,8 +1543,8 @@ func getComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(I
 		z = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	t := time.Since(st).Seconds()
-	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
-		t, float64(AllPlayouts)/t, board.Get81(z), Moves, color, AllPlayouts)
+	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%2d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
+		t, float64(AllPlayouts)/t, board.Get81(z), Moves, color, AllPlayouts, fUCT)
 	return z
 }
 
