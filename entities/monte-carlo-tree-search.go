@@ -9,8 +9,6 @@ import (
 
 	"math/rand"
 	"os"
-
-	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	// "sort"
 	// "strconv"
 	// "strings"
@@ -21,10 +19,9 @@ import (
 
 // UCT
 const (
-	Childrenize = c.BoardSize*c.BoardSize + 1
-	NodeMax     = 10000
-	NodeEmpty   = -1
-	IllegalZ    = -1
+	NodeMax   = 10000
+	NodeEmpty = -1
+	IllegalZ  = -1
 )
 
 // Child - 子。
@@ -38,7 +35,7 @@ type Child struct {
 // Node - ノード。
 type Node struct {
 	ChildNum     int
-	Children     [Childrenize]Child
+	Children     []Child
 	ChildGameSum int
 }
 
@@ -60,15 +57,18 @@ func addChild(pN *Node, z int) {
 
 // CreateNode - ノード作成。 searchUctV8, e.GetBestUctV8, searchUctV9, e.GetBestUctV9, e.GetBestUctV9a から呼び出されます。
 func CreateNode(board IBoard) int {
+	boardSize := board.GetBoardSize()
+
 	if NodeNum == NodeMax {
 		fmt.Printf("node over Err\n")
 		os.Exit(0)
 	}
 	pN := &Nodes[NodeNum]
 	pN.ChildNum = 0
+	pN.Children = make([]Child, board.GetUctChildrenSize())
 	pN.ChildGameSum = 0
-	for y := 0; y <= c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y <= boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue

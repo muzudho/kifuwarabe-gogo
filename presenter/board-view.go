@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
 )
 
@@ -147,27 +146,29 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 
 // PrintBoardType1 - 盤の描画。
 func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
+	boardSize := board.GetBoardSize()
+
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
 	fmt.Printf("\n  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-	for y := 0; y < c.BoardSize; y++ {
+	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
-		for x := 0; x < c.BoardSize; x++ {
+		for x := 0; x < boardSize; x++ {
 			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
 	fmt.Printf("  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
@@ -175,27 +176,29 @@ func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
 
 // PrintBoardType1 - 盤の描画。
 func printBoardType1V3(board e.IBoard) {
+	boardSize := board.GetBoardSize()
+
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
 	fmt.Printf("\n  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-	for y := 0; y < c.BoardSize; y++ {
+	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
-		for x := 0; x < c.BoardSize; x++ {
+		for x := 0; x < boardSize; x++ {
 			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|\n")
 	}
 	fmt.Printf("  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
@@ -243,21 +246,23 @@ func (presenter *PresenterV9a) PrintBoardType1(board e.IBoard) {
 
 // PrintBoardType2 - 盤の描画。
 func printBoardType2(board e.IBoard, moves int) {
+	boardSize := board.GetBoardSize()
+
 	// "● " - Visual Studio Code の 全角半角崩れ対応。
 	// "○ " - Visual Studio Code の 全角半角崩れ対応。
 	var str = [4]string{"・", " ●", " ○", "＃"}
 	fmt.Printf("\n   ")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("%2d", x+1)
 	}
 	fmt.Printf("\n  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
-	for y := 0; y < c.BoardSize; y++ {
+	for y := 0; y < boardSize; y++ {
 		fmt.Printf("%s|", labelOfRowsV1[y+1])
-		for x := 0; x < c.BoardSize; x++ {
+		for x := 0; x < boardSize; x++ {
 			fmt.Printf("%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Printf("|")
@@ -267,7 +272,7 @@ func printBoardType2(board e.IBoard, moves int) {
 		fmt.Printf("\n")
 	}
 	fmt.Printf("  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Printf("--")
 	}
 	fmt.Printf("+\n")
@@ -320,20 +325,22 @@ func (presenter *PresenterV9) PrintBoardType2(board e.IBoard, moves int) {
 
 // PrintBoardType2 - 盤を描画。
 func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
+	boardSize := board.GetBoardSize()
+
 	// var str = [4]string{"・", "●", "○", "＃"}
 	var str = [4]string{" .", " *", " o", " #"}
 	fmt.Fprintf(os.Stderr, "\n   ")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Fprintf(os.Stderr, "%2d", x+1)
 	}
 	fmt.Fprintf(os.Stderr, "\n  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Fprintf(os.Stderr, "--")
 	}
 	fmt.Fprintf(os.Stderr, "+\n")
-	for y := 0; y < c.BoardSize; y++ {
+	for y := 0; y < boardSize; y++ {
 		fmt.Fprintf(os.Stderr, "%s|", labelOfRowsV9a[y+1])
-		for x := 0; x < c.BoardSize; x++ {
+		for x := 0; x < boardSize; x++ {
 			fmt.Fprintf(os.Stderr, "%s", str[board.GetData()[x+1+board.GetWidth()*(y+1)]])
 		}
 		fmt.Fprintf(os.Stderr, "|")
@@ -343,15 +350,17 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 		fmt.Fprintf(os.Stderr, "\n")
 	}
 	fmt.Fprintf(os.Stderr, "  +")
-	for x := 0; x < c.BoardSize; x++ {
+	for x := 0; x < boardSize; x++ {
 		fmt.Fprintf(os.Stderr, "--")
 	}
 	fmt.Fprintf(os.Stderr, "+\n")
 }
 
 // PrintSgf - SGF形式の棋譜表示。
-func PrintSgf(board e.IBoard, moves int, record []int) { // record [c.MaxMoves]int
-	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, board.GetKomi())
+func PrintSgf(board e.IBoard, moves int, record []int) {
+	boardSize := board.GetBoardSize()
+
+	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", boardSize, board.GetKomi())
 	for i := 0; i < moves; i++ {
 		z := record[i]
 		y := z / board.GetWidth()
@@ -376,6 +385,8 @@ func GetCharZ(board e.IBoard, z int) string {
 		return "pass"
 	}
 
+	boardSize := board.GetBoardSize()
+
 	y := z / board.GetWidth()
 	x := z - y*board.GetWidth()
 	ax := 'A' + x - 1
@@ -384,5 +395,5 @@ func GetCharZ(board e.IBoard, z int) string {
 	}
 
 	//return string(ax) + string(BoardSize+1-y+'0')
-	return fmt.Sprintf("%d%d", ax, c.BoardSize+1-y+'0')
+	return fmt.Sprintf("%d%d", ax, boardSize+1-y+'0')
 }

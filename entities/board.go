@@ -5,8 +5,6 @@ import (
 	"math/rand"
 	"os"
 	"time"
-
-	c "github.com/muzudho/kifuwarabe-uec12/controller"
 )
 
 // RecordTime - 一手にかかった時間。
@@ -47,6 +45,8 @@ type IBoard interface {
 	GetZ(x int, y int) int
 	// Get81 - XY形式の座標？
 	Get81(z int) int
+	// GetUctChildrenSize - UCTの最大手数
+	GetUctChildrenSize() int
 }
 
 // IPresenter - 表示用。
@@ -63,6 +63,7 @@ type Board0 struct {
 	SentinelBoardMax int16
 	Komi             float64
 	MaxMoves         int16
+	UctChildrenSize  int
 }
 
 // GetBoardSize - 何路盤か
@@ -90,6 +91,11 @@ func (board Board0) GetMaxMoves() int16 {
 	return board.MaxMoves
 }
 
+// GetUctChildrenSize - UCTの最大手数
+func (board Board0) GetUctChildrenSize() int {
+	return board.UctChildrenSize
+}
+
 // BoardV1 - 盤 Version 1。
 type BoardV1 struct {
 	Board0
@@ -103,6 +109,7 @@ func NewBoardV1(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -124,6 +131,7 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -145,6 +153,7 @@ func NewBoardV3(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -166,6 +175,7 @@ func NewBoardV4(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -187,6 +197,7 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -208,6 +219,7 @@ func NewBoardV6(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -229,6 +241,7 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -250,6 +263,7 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -271,6 +285,7 @@ func NewBoardV9(data []int, boardSize int, sentinelBoardMax int16, komi float64,
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -292,6 +307,7 @@ func NewBoardV9a(data []int, boardSize int, sentinelBoardMax int16, komi float64
 	board.SentinelBoardMax = sentinelBoardMax
 	board.Komi = komi
 	board.MaxMoves = maxMoves
+	board.UctChildrenSize = boardSize*boardSize + 1
 
 	checkBoard = make([]int, sentinelBoardMax)
 	Record = make([]int, maxMoves)
@@ -413,11 +429,13 @@ func (board *Board0) TakeStone(tz int, color int) {
 // InitBoard - 盤の初期化。
 func InitBoard(board IBoard) {
 	boardMax := int(board.GetSentinelBoardMax())
+	boardSize := board.GetBoardSize()
+
 	for i := 0; i < boardMax; i++ {
 		board.SetData(i, 3)
 	}
-	for y := 0; y < c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y < boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			board.SetData(board.GetZ(x+1, y+1), 0)
 		}
 	}
@@ -835,9 +853,10 @@ func countScoreV5(board IBoard, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
+	boardSize := board.GetBoardSize()
 
-	for y := 0; y < c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y < boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			color2 := board.GetData()[z]
 			kind[color2]++
@@ -874,9 +893,10 @@ func countScoreV6(board IBoard, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
+	boardSize := board.GetBoardSize()
 
-	for y := 0; y < c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y < boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			color2 := board.GetData()[z]
 			kind[color2]++
@@ -913,9 +933,10 @@ func countScoreV7(board IBoard, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
+	boardSize := board.GetBoardSize()
 
-	for y := 0; y < c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y < boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			color2 := board.GetData()[z]
 			kind[color2]++
@@ -956,17 +977,18 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	// Debug
 	fmt.Printf("(Debug) playoutV1 PrintBoardType1\n")
 	printBoardType1(board)
+	boardSize := board.GetBoardSize()
 
 	color := turnColor
 	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
+	loopMax := boardSize*boardSize + 200
 	boardMax := int(board.GetSentinelBoardMax())
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
-		for y := 0; y <= c.BoardSize; y++ {
-			for x := 0; x < c.BoardSize; x++ {
+		for y := 0; y <= boardSize; y++ {
+			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
 				if board.Exists(z) { // (*board).Exists(z)
 					continue
@@ -1031,16 +1053,18 @@ func (board *BoardV4) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	color := turnColor
 	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
+	loopMax := boardSize*boardSize + 200
 	boardMax := int(board.GetSentinelBoardMax())
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
-		for y := 0; y <= c.BoardSize; y++ {
-			for x := 0; x < c.BoardSize; x++ {
+		for y := 0; y <= boardSize; y++ {
+			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
@@ -1078,16 +1102,18 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	color := turnColor
 	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
+	loopMax := boardSize*boardSize + 200
 	boardMax := int(board.GetSentinelBoardMax())
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
-		for y := 0; y <= c.BoardSize; y++ {
-			for x := 0; x < c.BoardSize; x++ {
+		for y := 0; y <= boardSize; y++ {
+			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
@@ -1125,16 +1151,18 @@ func (board *BoardV6) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func (board *BoardV7) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	color := turnColor
 	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
+	loopMax := boardSize*boardSize + 200
 	boardMax := int(board.GetSentinelBoardMax())
 
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
-		for y := 0; y <= c.BoardSize; y++ {
-			for x := 0; x < c.BoardSize; x++ {
+		for y := 0; y <= boardSize; y++ {
+			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
@@ -1179,17 +1207,19 @@ var Record []int
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	color := turnColor
 	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
+	loopMax := boardSize*boardSize + 200
 	boardMax := int(board.GetSentinelBoardMax())
 
 	AllPlayouts++
 	for loop := 0; loop < loopMax; loop++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
-		for y := 0; y <= c.BoardSize; y++ {
-			for x := 0; x < c.BoardSize; x++ {
+		for y := 0; y <= boardSize; y++ {
+			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
@@ -1247,9 +1277,11 @@ var Moves int
 var FlagTestPlayout int
 
 func (board *BoardV9) playoutV9(turnColor int) int {
+	boardSize := board.GetBoardSize()
+
 	color := turnColor
 	previousZ := 0
-	loopMax := c.BoardSize*c.BoardSize + 200
+	loopMax := boardSize*boardSize + 200
 	boardMax := int(board.GetSentinelBoardMax())
 
 	AllPlayouts++
@@ -1257,7 +1289,7 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
 		for y := 0; y <= boardMax; y++ {
-			for x := 0; x < c.BoardSize; x++ {
+			for x := 0; x < boardSize; x++ {
 				z = board.GetZ(x+1, y+1)
 				if board.GetData()[z] != 0 {
 					continue
@@ -1298,6 +1330,8 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 }
 
 func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
@@ -1309,8 +1343,8 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 		bestValue = 100.0
 	}
 
-	for y := 0; y <= c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y <= boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
@@ -1374,6 +1408,8 @@ func (board *BoardV6) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard
 }
 
 func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
@@ -1381,8 +1417,8 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 	koZCopy := KoZ
 	bestValue = -100.0
 
-	for y := 0; y <= c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y <= boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
@@ -1427,6 +1463,8 @@ func (board *BoardV8) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard
 }
 
 func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
+	boardSize := board.GetBoardSize()
+
 	tryNum := 30
 	bestZ := 0
 	var bestValue, winRate float64
@@ -1434,8 +1472,8 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 	koZCopy := KoZ
 	bestValue = -100.0
 
-	for y := 0; y <= c.BoardSize; y++ {
-		for x := 0; x < c.BoardSize; x++ {
+	for y := 0; y <= boardSize; y++ {
+		for x := 0; x < boardSize; x++ {
 			z := board.GetZ(x+1, y+1)
 			if board.GetData()[z] != 0 {
 				continue
