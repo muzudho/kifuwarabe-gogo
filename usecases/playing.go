@@ -20,16 +20,16 @@ func SelfplayV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 
 		}
 		z := e.GetComputerMoveV9(board, color, fUCT, printBoardType1)
 		e.AddMovesV8(board, z, color, printBoardType2)
-		if z == 0 && e.Moves > 1 && e.Record[e.Moves-2] == 0 {
+		if z == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
 			break
 		}
-		if e.Moves > 300 {
+		if 300 < e.Moves {
 			break
 		} // too long
 		color = e.FlipColor(color)
 	}
 
-	p.PrintSgf(e.Moves, e.Record)
+	p.PrintSgf(board, e.Moves, e.Record)
 }
 
 // TestPlayoutV9 - 試しにプレイアウトする。
@@ -37,7 +37,7 @@ func TestPlayoutV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardTyp
 	e.FlagTestPlayout = 1
 	board.Playout(1, printBoardType1)
 	printBoardType2(board, e.Moves)
-	p.PrintSgf(e.Moves, e.Record)
+	p.PrintSgf(board, e.Moves, e.Record)
 }
 
 // PlayComputerMoveV9a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
@@ -62,7 +62,7 @@ func TestPlayoutV9a(board e.IBoard, printBoardType1 func(e.IBoard), printBoardTy
 	e.FlagTestPlayout = 1
 	board.Playout(1, printBoardType1)
 	printBoardType2(board, e.Moves)
-	p.PrintSgf(e.Moves, e.Record)
+	p.PrintSgf(board, e.Moves, e.Record)
 }
 
 func UndoV9() {

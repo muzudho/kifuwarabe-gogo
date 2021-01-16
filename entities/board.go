@@ -34,6 +34,8 @@ type IBoard interface {
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
 	GetBoardSize() int8
 	GetSentinelBoardMax() int16
+	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
+	GetKomi() float64
 }
 
 // IPresenter - 表示用。
@@ -49,6 +51,7 @@ type Board0 struct {
 	// Data [c.BoardMax]int
 	BoardSize        int8
 	SentinelBoardMax int16
+	Komi             float64
 }
 
 // GetBoardSize - 何路盤か
@@ -61,6 +64,11 @@ func (board Board0) GetSentinelBoardMax() int16 {
 	return board.SentinelBoardMax
 }
 
+// GetKomi - コミ
+func (board Board0) GetKomi() float64 {
+	return board.Komi
+}
+
 // BoardV1 - 盤 Version 1。
 type BoardV1 struct {
 	Board0
@@ -68,11 +76,12 @@ type BoardV1 struct {
 
 // NewBoardV1 - 盤を作成します。
 // func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
-func NewBoardV1(data []int, boardSize int8, sentinelBoardMax int16) *BoardV1 {
+func NewBoardV1(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV1 {
 	board := new(BoardV1)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -82,11 +91,12 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data []int, boardSize int8, sentinelBoardMax int16) *BoardV2 {
+func NewBoardV2(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV2 {
 	board := new(BoardV2)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -96,11 +106,12 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data []int, boardSize int8, sentinelBoardMax int16) *BoardV3 {
+func NewBoardV3(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV3 {
 	board := new(BoardV3)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -110,11 +121,12 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data []int, boardSize int8, sentinelBoardMax int16) *BoardV4 {
+func NewBoardV4(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV4 {
 	board := new(BoardV4)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -124,11 +136,12 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data []int, boardSize int8, sentinelBoardMax int16) *BoardV5 {
+func NewBoardV5(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV5 {
 	board := new(BoardV5)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -138,11 +151,12 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data []int, boardSize int8, sentinelBoardMax int16) *BoardV6 {
+func NewBoardV6(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV6 {
 	board := new(BoardV6)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -152,11 +166,12 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data []int, boardSize int8, sentinelBoardMax int16) *BoardV7 {
+func NewBoardV7(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV7 {
 	board := new(BoardV7)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -166,11 +181,12 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data []int, boardSize int8, sentinelBoardMax int16) *BoardV8 {
+func NewBoardV8(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV8 {
 	board := new(BoardV8)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -180,11 +196,12 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data []int, boardSize int8, sentinelBoardMax int16) *BoardV9 {
+func NewBoardV9(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV9 {
 	board := new(BoardV9)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -194,11 +211,12 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data []int, boardSize int8, sentinelBoardMax int16) *BoardV9a {
+func NewBoardV9a(data []int, boardSize int8, sentinelBoardMax int16, komi float64) *BoardV9a {
 	board := new(BoardV9a)
 	board.Data = data
 	board.BoardSize = boardSize
 	board.SentinelBoardMax = sentinelBoardMax
+	board.Komi = komi
 	return board
 }
 
@@ -588,7 +606,7 @@ func putStoneType2(board IBoard, tz int, color int, fillEyeErr int) int {
 	if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
 		return 3
 	}
-	if board.GetData()[tz] != 0 {
+	if board.Exists(tz) {
 		// if (*board).GetData()[tz] != 0 {
 		return 4
 	}
@@ -762,7 +780,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if float32(score)-c.Komi > 0 {
+	if 0 < float64(score)-board.GetKomi() { // float32 → float64
 		win = 1
 	}
 	fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)
@@ -801,7 +819,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if float32(score)-c.Komi > 0 {
+	if 0 < float64(score)-board.GetKomi() { // float32 → float64
 		win = 1
 	}
 	// fmt.Printf("blackSum=%2d, (stones=%2d, area=%2d)\n", blackSum, kind[1], blackArea)
@@ -840,7 +858,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
 	win := 0
-	if float64(score)-c.Komi > 0 {
+	if 0 < float64(score)-board.GetKomi() {
 		win = 1
 	}
 	if turnColor == 2 {
@@ -1377,7 +1395,7 @@ func (board *BoardV9a) PrimitiveMonteCalro(color int, printBoardType1 func(IBoar
 func AddMovesV8(board IBoard, z int, color int, printBoardType2 func(IBoard, int)) {
 	err := board.PutStoneType2(z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Printf("Err!\n")
+		fmt.Println("(AddMovesV8) Err!", err)
 		os.Exit(0)
 	}
 	Record[Moves] = z
@@ -1389,7 +1407,7 @@ func AddMovesV8(board IBoard, z int, color int, printBoardType2 func(IBoard, int
 func AddMoves9a(board IBoard, z int, color int, sec float64, printBoardType2 func(IBoard, int)) {
 	err := board.PutStoneType2(z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Fprintf(os.Stderr, "Err!\n")
+		fmt.Fprintf(os.Stderr, "(AddMoves9a) Err!\n")
 		os.Exit(0)
 	}
 	Record[Moves] = z
@@ -1409,7 +1427,7 @@ func GetComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(I
 		z = board.PrimitiveMonteCalro(color, printBoardType1)
 	}
 	t := time.Since(st).Seconds()
-	fmt.Printf("%.1f sec, %.0f playoutV9/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
+	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%2d,moves=%d,color=%d,playouts=%d\n",
 		t, float64(AllPlayouts)/t, Get81(z), Moves, color, AllPlayouts)
 	return z
 }

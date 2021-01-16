@@ -48,6 +48,11 @@ func (config Config) GetSentinelBoardMax() int16 {
 	return int16(Width) * int16(Width)
 }
 
+// GetKomi - float 32bit で足りるが、実行速度優先で float 64bit に変換して返します。
+func (config Config) GetKomi() float64 {
+	return float64(config.Game.Komi)
+}
+
 // LoadGameConf - ゲーム設定ファイルを読み込みます。
 func LoadGameConf(path string) Config {
 

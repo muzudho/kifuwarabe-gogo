@@ -350,8 +350,8 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 }
 
 // PrintSgf - SGF形式の棋譜表示。
-func PrintSgf(moves int, record [c.MaxMoves]int) {
-	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, c.Komi)
+func PrintSgf(board e.IBoard, moves int, record [c.MaxMoves]int) {
+	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", c.BoardSize, board.GetKomi())
 	for i := 0; i < moves; i++ {
 		z := record[i]
 		y := z / c.Width
