@@ -14,7 +14,8 @@ const (
 )
 
 // BoardDataV1 - gogo01.go 用
-var BoardDataV1 = [BoardMax]int{
+// var BoardDataV1 = [BoardMax]int{
+var BoardDataV1 = []int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 2, 1, 1, 0, 1, 0, 0, 0, 0, 3,
 	3, 2, 2, 1, 1, 0, 1, 2, 0, 0, 3,
@@ -29,7 +30,8 @@ var BoardDataV1 = [BoardMax]int{
 }
 
 // BoardDataV2 - gogo02.go 用。
-var BoardDataV2 = [BoardMax]int{
+// var BoardDataV2 = [BoardMax]int{
+var BoardDataV2 = []int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 2, 1, 2, 2, 2, 3,
@@ -44,7 +46,8 @@ var BoardDataV2 = [BoardMax]int{
 }
 
 // BoardDataV3 - gogo03.go 用。
-var BoardDataV3 = [BoardMax]int{
+// var BoardDataV3 = [BoardMax]int{
+var BoardDataV3 = []int{
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,

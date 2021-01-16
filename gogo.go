@@ -40,9 +40,10 @@ func GoGoV1() {
 	fmt.Println("BoardData=", config.Game.BoardData)
 	fmt.Println("GetSentinelBoardMax()=", config.GetSentinelBoardMax())
 
-	config.GetBoardArray()
-
-	board := e.NewBoardV1(c.BoardDataV1)
+	board := e.NewBoardV1(config.GetBoardArray(), config.Game.BoardSize, config.GetSentinelBoardMax())
+	fmt.Println("board.GetBoardSize()=", board.GetBoardSize())
+	fmt.Println("board.GetSentinelBoardMax()=", board.GetSentinelBoardMax())
+	fmt.Println("board.GetData()=", board.GetData())
 	presenter := p.NewPresenterV1()
 
 	presenter.PrintBoardType1(board)
@@ -50,7 +51,7 @@ func GoGoV1() {
 
 // GoGoV2 - バージョン２。
 func GoGoV2() {
-	board := e.NewBoardV2(c.BoardDataV2)
+	board := e.NewBoardV2(c.BoardDataV2, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV2()
 
 	presenter.PrintBoardType1(board)
@@ -63,7 +64,7 @@ func GoGoV2() {
 
 // GoGoV3 - バージョン３。
 func GoGoV3() {
-	board := e.NewBoardV3(c.BoardDataV3)
+	board := e.NewBoardV3(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV3()
 
 	color := 1
@@ -90,7 +91,7 @@ func GoGoV3() {
 
 // GoGoV4 - バージョン４。
 func GoGoV4() {
-	board := e.NewBoardV4(c.BoardDataV3)
+	board := e.NewBoardV4(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV4()
 
 	color := 1
@@ -105,7 +106,7 @@ func GoGoV4() {
 
 // GoGoV5 - バージョン５。
 func GoGoV5() {
-	board := e.NewBoardV5(c.BoardDataV3)
+	board := e.NewBoardV5(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV5()
 
 	color := 1
@@ -115,7 +116,7 @@ func GoGoV5() {
 
 // GoGoV6 - バージョン５。
 func GoGoV6() {
-	board := e.NewBoardV6(c.BoardDataV3)
+	board := e.NewBoardV6(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV6()
 
 	color := 1
@@ -134,7 +135,7 @@ func GoGoV6() {
 
 // GoGoV7 - バージョン７。
 func GoGoV7() {
-	board := e.NewBoardV7(c.BoardDataV3)
+	board := e.NewBoardV7(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV7()
 
 	color := 1
@@ -153,7 +154,7 @@ func GoGoV7() {
 
 // GoGoV8 - バージョン８。
 func GoGoV8() {
-	board := e.NewBoardV8(c.BoardDataV3)
+	board := e.NewBoardV8(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV8()
 
 	color := 1
@@ -170,7 +171,7 @@ func GoGoV8() {
 
 // GoGoV9 - バージョン９。
 func GoGoV9() {
-	board := e.NewBoardV9(c.BoardDataV3)
+	board := e.NewBoardV9(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV9()
 
 	rand.Seed(time.Now().UnixNano())
@@ -180,7 +181,7 @@ func GoGoV9() {
 
 // GoGoV9a - バージョン９a。
 func GoGoV9a() {
-	board := e.NewBoardV9a(c.BoardDataV3)
+	board := e.NewBoardV9a(c.BoardDataV3, c.BoardSize, c.BoardMax)
 	presenter := p.NewPresenterV9a()
 
 	rand.Seed(time.Now().UnixNano())

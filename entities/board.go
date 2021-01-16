@@ -14,9 +14,9 @@ var RecordTime [c.MaxMoves]float64
 
 // IBoard - 盤。
 type IBoard interface {
-	GetData() [c.BoardMax]int
-	CopyData() [c.BoardMax]int
-	ImportData(boardCopy2 [c.BoardMax]int)
+	GetData() []int
+	CopyData() []int
+	ImportData(boardCopy2 []int)
 	SetData(i int, color int)
 	Exists(z int) bool
 
@@ -32,6 +32,8 @@ type IBoard interface {
 
 	// Monte Calro Tree Search
 	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
+	GetBoardSize() int8
+	GetSentinelBoardMax() int16
 }
 
 // IPresenter - 表示用。
@@ -43,14 +45,20 @@ type IPresenter interface {
 
 // Board0 - 盤。
 type Board0 struct {
-	Data [c.BoardMax]int
+	Data []int
+	// Data [c.BoardMax]int
+	BoardSize        int8
+	SentinelBoardMax int16
 }
 
-// NewBoard0 - 盤を作成します。
-func NewBoard0(data [c.BoardMax]int) *Board0 {
-	board := new(Board0)
-	board.Data = data
-	return board
+// GetBoardSize - 何路盤か
+func (board Board0) GetBoardSize() int8 {
+	return board.BoardSize
+}
+
+// GetSentinelBoardMax - 枠付きの盤の交点数
+func (board Board0) GetSentinelBoardMax() int16 {
+	return board.SentinelBoardMax
 }
 
 // BoardV1 - 盤 Version 1。
@@ -59,9 +67,12 @@ type BoardV1 struct {
 }
 
 // NewBoardV1 - 盤を作成します。
-func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
+// func NewBoardV1(data [c.BoardMax]int) *BoardV1 {
+func NewBoardV1(data []int, boardSize int8, sentinelBoardMax int16) *BoardV1 {
 	board := new(BoardV1)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -71,9 +82,11 @@ type BoardV2 struct {
 }
 
 // NewBoardV2 - 盤を作成します。
-func NewBoardV2(data [c.BoardMax]int) *BoardV2 {
+func NewBoardV2(data []int, boardSize int8, sentinelBoardMax int16) *BoardV2 {
 	board := new(BoardV2)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -83,9 +96,11 @@ type BoardV3 struct {
 }
 
 // NewBoardV3 - 盤を作成します。
-func NewBoardV3(data [c.BoardMax]int) *BoardV3 {
+func NewBoardV3(data []int, boardSize int8, sentinelBoardMax int16) *BoardV3 {
 	board := new(BoardV3)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -95,9 +110,11 @@ type BoardV4 struct {
 }
 
 // NewBoardV4 - 盤を作成します。
-func NewBoardV4(data [c.BoardMax]int) *BoardV4 {
+func NewBoardV4(data []int, boardSize int8, sentinelBoardMax int16) *BoardV4 {
 	board := new(BoardV4)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -107,9 +124,11 @@ type BoardV5 struct {
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data [c.BoardMax]int) *BoardV5 {
+func NewBoardV5(data []int, boardSize int8, sentinelBoardMax int16) *BoardV5 {
 	board := new(BoardV5)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -119,9 +138,11 @@ type BoardV6 struct {
 }
 
 // NewBoardV6 - 盤を作成します。
-func NewBoardV6(data [c.BoardMax]int) *BoardV6 {
+func NewBoardV6(data []int, boardSize int8, sentinelBoardMax int16) *BoardV6 {
 	board := new(BoardV6)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -131,9 +152,11 @@ type BoardV7 struct {
 }
 
 // NewBoardV7 - 盤を作成します。
-func NewBoardV7(data [c.BoardMax]int) *BoardV7 {
+func NewBoardV7(data []int, boardSize int8, sentinelBoardMax int16) *BoardV7 {
 	board := new(BoardV7)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -143,9 +166,11 @@ type BoardV8 struct {
 }
 
 // NewBoardV8 - 盤を作成します。
-func NewBoardV8(data [c.BoardMax]int) *BoardV8 {
+func NewBoardV8(data []int, boardSize int8, sentinelBoardMax int16) *BoardV8 {
 	board := new(BoardV8)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -155,9 +180,11 @@ type BoardV9 struct {
 }
 
 // NewBoardV9 - 盤を作成します。
-func NewBoardV9(data [c.BoardMax]int) *BoardV9 {
+func NewBoardV9(data []int, boardSize int8, sentinelBoardMax int16) *BoardV9 {
 	board := new(BoardV9)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
@@ -167,14 +194,16 @@ type BoardV9a struct {
 }
 
 // NewBoardV9a - 盤を作成します。
-func NewBoardV9a(data [c.BoardMax]int) *BoardV9a {
+func NewBoardV9a(data []int, boardSize int8, sentinelBoardMax int16) *BoardV9a {
 	board := new(BoardV9a)
 	board.Data = data
+	board.BoardSize = boardSize
+	board.SentinelBoardMax = sentinelBoardMax
 	return board
 }
 
 // GetData - 盤データ。
-func (board Board0) GetData() [c.BoardMax]int {
+func (board Board0) GetData() []int {
 	return board.Data
 }
 
@@ -189,14 +218,14 @@ func (board *Board0) SetData(i int, color int) {
 }
 
 // CopyData - 盤データのコピー。
-func (board Board0) CopyData() [c.BoardMax]int {
-	var boardCopy2 = [c.BoardMax]int{}
+func (board Board0) CopyData() []int {
+	var boardCopy2 = []int{}
 	copy(boardCopy2[:], board.Data[:])
 	return boardCopy2
 }
 
 // ImportData - 盤データのコピー。
-func (board *Board0) ImportData(boardCopy2 [c.BoardMax]int) {
+func (board *Board0) ImportData(boardCopy2 []int) {
 	copy(board.Data[:], boardCopy2[:])
 }
 

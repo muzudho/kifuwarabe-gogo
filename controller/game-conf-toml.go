@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -24,14 +23,20 @@ type Game struct {
 
 // GetBoardArray - 盤上の石の色の配列。
 func (config Config) GetBoardArray() []int {
-	nodes := strings.Split(config.Game.BoardData, ",")
+	// 最後のカンマを削除しないと、要素数が 1 多くなってしまいます。
+	s := strings.TrimRight(config.Game.BoardData, ",")
+	// fmt.Println("s=", s)
+	nodes := strings.Split(s, ",")
 	array := make([]int, len(nodes))
 	for i, s := range nodes {
+		s := strings.Trim(s, " ")
 		color, _ := strconv.Atoi(s)
+		// fmt.Println("strconv.Atoi(", s, ")=", color)
 		array[i] = color
 	}
 
-	fmt.Println("nodes=", nodes)
+	// fmt.Println("nodes=", nodes)
+	// fmt.Println("array=", array)
 	return array
 }
 
