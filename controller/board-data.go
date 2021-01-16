@@ -13,6 +13,7 @@ const (
 	MaxMoves = 1000
 )
 
+/*
 // BoardDataV1 - gogo01.go 用
 // var BoardDataV1 = [BoardMax]int{
 var BoardDataV1 = []int{
@@ -28,7 +29,9 @@ var BoardDataV1 = []int{
 	3, 0, 0, 0, 0, 0, 2, 1, 0, 0, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
+*/
 
+/*
 // BoardDataV2 - gogo02.go 用。
 // var BoardDataV2 = [BoardMax]int{
 var BoardDataV2 = []int{
@@ -44,7 +47,9 @@ var BoardDataV2 = []int{
 	3, 0, 0, 0, 0, 2, 1, 0, 2, 1, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
+*/
 
+/*
 // BoardDataV3 - gogo03.go 用。
 // var BoardDataV3 = [BoardMax]int{
 var BoardDataV3 = []int{
@@ -60,3 +65,4 @@ var BoardDataV3 = []int{
 	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
 	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
 }
+*/
