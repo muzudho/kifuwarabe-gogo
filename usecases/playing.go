@@ -18,10 +18,10 @@ func SelfplayV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 
 		if color == 1 {
 			fUCT = 0
 		}
-		z := board.GetComputerMove(color, fUCT, printBoardType1)
-		board.AddMovesType1(z, color, printBoardType2)
+		tIdx := board.GetComputerMove(color, fUCT, printBoardType1)
+		board.AddMovesType1(tIdx, color, printBoardType2)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
-		if z == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
+		if tIdx == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
 			break
 		}
 		// 自己対局は300手で終了します。

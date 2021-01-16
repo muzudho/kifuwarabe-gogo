@@ -40,13 +40,13 @@ func (config Config) GetBoardArray() []int {
 	return array
 }
 
-// GetBoardSize - 何路盤か。
+// BoardSize - 何路盤か。
 func (config Config) BoardSize() int {
 	return int(config.Game.BoardSize)
 }
 
-// GetSentinelBoardMax - 枠付きの盤上の交点の数
-func (config Config) GetSentinelBoardMax() int {
+// SentinelBoardMax - 枠付きの盤上の交点の数
+func (config Config) SentinelBoardMax() int {
 	// Width - 枠込み。
 	Width := int(config.Game.BoardSize) + 2
 	// BoardMax - 枠込み盤の配列サイズ。

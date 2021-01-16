@@ -39,13 +39,13 @@ func GoGoV1() {
 		fmt.Println("BoardSize=", config.Game.BoardSize)
 		fmt.Println("MaxMoves=", config.Game.MaxMoves)
 		fmt.Println("BoardData=", config.Game.BoardData)
-		fmt.Println("GetSentinelBoardMax()=", config.GetSentinelBoardMax())
+		fmt.Println("SentinelBoardMax()=", config.SentinelBoardMax())
 	*/
 
-	board := e.NewBoardV1(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV1(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	/*
 		fmt.Println("board.BoardSize()=", board.BoardSize())
-		fmt.Println("board.GetSentinelBoardMax()=", board.GetSentinelBoardMax())
+		fmt.Println("board.SentinelBoardMax()=", board.SentinelBoardMax())
 		fmt.Println("board.GetData()=", board.GetData())
 	*/
 	presenter := p.NewPresenterV1()
@@ -57,7 +57,7 @@ func GoGoV1() {
 func GoGoV2() {
 	config := c.LoadGameConf("resources/example-v2.gameConf.toml")
 
-	board := e.NewBoardV2(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV2(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV2()
 
 	presenter.PrintBoardType1(board)
@@ -72,7 +72,7 @@ func GoGoV2() {
 func GoGoV3() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV3(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV3(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV3()
 
 	color := 1
@@ -102,7 +102,7 @@ func GoGoV3() {
 func GoGoV4() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV4(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV4(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV4()
 
 	color := 1
@@ -115,7 +115,7 @@ func GoGoV4() {
 func GoGoV5() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV5(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV5(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV5()
 
 	color := 1
@@ -127,16 +127,16 @@ func GoGoV5() {
 func GoGoV6() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV6(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV6(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV6()
 
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		z := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
+		tIdx := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
 
-		board.PutStoneType2(z, color, e.FillEyeOk)
+		board.PutStoneType2(tIdx, color, e.FillEyeOk)
 
 		presenter.PrintBoardType1(board)
 
@@ -148,16 +148,16 @@ func GoGoV6() {
 func GoGoV7() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV7(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV7(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV7()
 
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		z := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
+		tIdx := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
 
-		board.PutStoneType2(z, color, e.FillEyeOk)
+		board.PutStoneType2(tIdx, color, e.FillEyeOk)
 
 		presenter.PrintBoardType1(board)
 
@@ -169,7 +169,7 @@ func GoGoV7() {
 func GoGoV8() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV8(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV8(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV8()
 
 	color := 1
@@ -177,9 +177,9 @@ func GoGoV8() {
 	for i := 0; i < 20; i++ {
 		e.AllPlayouts = 0
 
-		z := e.GetBestUctV8(board, color, presenter.PrintBoardType1)
+		tIdx := e.GetBestUctV8(board, color, presenter.PrintBoardType1)
 
-		board.AddMovesType1(z, color, presenter.PrintBoardType2)
+		board.AddMovesType1(tIdx, color, presenter.PrintBoardType2)
 		color = e.FlipColor(color)
 	}
 }
@@ -188,7 +188,7 @@ func GoGoV8() {
 func GoGoV9() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV9(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV9(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV9()
 
 	rand.Seed(time.Now().UnixNano())
@@ -200,7 +200,7 @@ func GoGoV9() {
 func GoGoV9a() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
-	board := e.NewBoardV9a(config.GetBoardArray(), config.BoardSize(), config.GetSentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
+	board := e.NewBoardV9a(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.GetKomi(), config.GetMaxMoves())
 	presenter := p.NewPresenterV9a()
 
 	rand.Seed(time.Now().UnixNano())
