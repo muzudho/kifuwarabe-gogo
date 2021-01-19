@@ -17,15 +17,26 @@ import (
 	u "github.com/muzudho/kifuwarabe-uec12/usecases"
 )
 
+// GlobalVariables - グローバル変数。
+type GlobalVariables struct {
+	chat e.Chatter
+}
+
+// G - グローバル変数。思い切った名前。
+var G GlobalVariables
+
 func main() {
+	// グローバル変数の作成
+	G = *new(GlobalVariables)
+
 	// ロガーの作成。
 	logger := e.NewLogger("out/trace.log")
 
 	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
-	chat := e.NewChatter(*logger)
+	G.chat = *e.NewChatter(*logger)
 
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
-	chat.Trace("Author: %s", e.Author)
+	G.chat.Trace("Author: %s", e.Author)
 
 	//GoGoV1()
 	//GoGoV2()
