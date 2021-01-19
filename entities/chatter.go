@@ -17,10 +17,10 @@ func NewChatter(logger Logger) *Chatter {
 }
 
 // Trace - ログファイルに書き込みます。
-func (chatter Chatter) Trace(text string) {
+func (chatter Chatter) Trace(text string, args ...interface{}) {
 	// 標準出力
-	fmt.Printf(text)
+	fmt.Printf(text, args...)
 
 	// ログ
-	chatter.logger.Trace(text)
+	chatter.logger.Trace(text, args...)
 }

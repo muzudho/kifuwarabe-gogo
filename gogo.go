@@ -25,7 +25,7 @@ func main() {
 	chat := e.NewChatter(*logger)
 
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
-	chat.Trace(fmt.Sprintf("Author: %s\n", e.Author))
+	chat.Trace("Author: %s", e.Author)
 
 	//GoGoV1()
 	//GoGoV2()

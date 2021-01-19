@@ -18,7 +18,7 @@ func NewLogger(path string) *Logger {
 }
 
 // Trace - ログファイルに書き込みます。
-func (logger Logger) Trace(text string) {
+func (logger Logger) Trace(text string, args ...interface{}) {
 	// TODO ファイルの開閉回数を減らせないものか。
 	// 追加書込み。
 	file, err := os.OpenFile(logger.path, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
@@ -26,6 +26,7 @@ func (logger Logger) Trace(text string) {
 		panic(err)
 	}
 
-	fmt.Fprintln(file, text)
+	s := fmt.Sprintf(text, args...)
+	fmt.Fprintln(file, s)
 	defer file.Close()
 }
