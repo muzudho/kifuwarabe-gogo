@@ -18,7 +18,12 @@ import (
 )
 
 func main() {
-	fmt.Printf("Author: %s\n", e.Author)
+	// ロガーの作成。
+	log := e.NewLogger("out/trace.log")
+
+	text := fmt.Sprintf("Author: %s\n", e.Author)
+	fmt.Printf(text)
+	log.Trace(text)
 	//GoGoV1()
 	//GoGoV2()
 	//GoGoV3()
@@ -27,8 +32,8 @@ func main() {
 	//GoGoV6()
 	//GoGoV7()
 	//GoGoV8()
-	GoGoV9()
-	//GoGoV9a()
+	//GoGoV9()
+	GoGoV9a()
 }
 
 // GoGoV1 - バージョン１。
@@ -197,6 +202,7 @@ func GoGoV9() {
 }
 
 // GoGoV9a - バージョン９a。
+// GTP2NNGS に対応しているのでは？
 func GoGoV9a() {
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
