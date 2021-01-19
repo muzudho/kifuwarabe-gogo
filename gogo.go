@@ -31,7 +31,15 @@ func main() {
 	G = *new(GlobalVariables)
 
 	// ロガーの作成。
-	G.log = *e.NewLogger("out/trace.log")
+	G.log = *e.NewLogger(
+		"out/trace.log",
+		"out/debug.log",
+		"out/info.log",
+		"out/notice.log",
+		"out/warn.log",
+		"out/error.log",
+		"out/fatal.log",
+		"out/print.log")
 
 	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
 	G.chat = *e.NewChatter(G.log)
@@ -235,33 +243,33 @@ func GoGoV9a() {
 		tokens := strings.Split(command, " ")
 		switch tokens[0] {
 		case "boardsize":
-			fmt.Printf("= \n\n")
+			G.chat.Print("= \n\n")
 		case "clear_board":
 			board.InitBoard()
-			fmt.Printf("= \n\n")
+			G.chat.Print("= \n\n")
 		case "quit":
 			os.Exit(0)
 		case "protocol_version":
-			fmt.Printf("= 2\n\n")
+			G.chat.Print("= 2\n\n")
 		case "name":
-			fmt.Printf("= GoGo\n\n")
+			G.chat.Print("= GoGo\n\n")
 		case "version":
-			fmt.Printf("= 0.0.1\n\n")
+			G.chat.Print("= 0.0.1\n\n")
 		case "list_commands":
-			fmt.Printf("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
+			G.chat.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
 				"name\nversion\nlist_commands\nkomi\ngenmove\nplay\n\n")
 		case "komi":
-			fmt.Printf("= 6.5\n\n")
+			G.chat.Print("= 6.5\n\n")
 		case "undo":
 			u.UndoV9()
-			fmt.Printf("= \n\n")
+			G.chat.Print("= \n\n")
 		case "genmove":
 			color := 1
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
 			}
 			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
-			fmt.Printf("= %s\n\n", p.GetCharZ(board, z))
+			G.chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		case "play":
 			color := 1
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
@@ -282,10 +290,10 @@ func GoGoV9a() {
 					tIdx = 0
 				}
 				board.AddMovesType2(tIdx, color, 0, presenter.PrintBoardType2)
-				fmt.Printf("= \n\n")
+				G.chat.Print("= \n\n")
 			}
 		default:
-			fmt.Printf("? unknown_command\n\n")
+			G.chat.Print("? unknown_command\n\n")
 		}
 	}
 }
