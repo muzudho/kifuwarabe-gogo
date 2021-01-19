@@ -19,11 +19,14 @@ import (
 
 func main() {
 	// ロガーの作成。
-	log := e.NewLogger("out/trace.log")
+	logger := e.NewLogger("out/trace.log")
 
-	text := fmt.Sprintf("Author: %s\n", e.Author)
-	fmt.Printf(text)
-	log.Trace(text)
+	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
+	chat := e.NewChatter(*logger)
+
+	// 標準出力への表示と、ログへの書き込みを同時に行います。
+	chat.Trace(fmt.Sprintf("Author: %s\n", e.Author))
+
 	//GoGoV1()
 	//GoGoV2()
 	//GoGoV3()
