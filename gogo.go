@@ -19,6 +19,7 @@ import (
 
 // GlobalVariables - グローバル変数。
 type GlobalVariables struct {
+	log  e.Logger
 	chat e.Chatter
 }
 
@@ -30,13 +31,13 @@ func main() {
 	G = *new(GlobalVariables)
 
 	// ロガーの作成。
-	logger := e.NewLogger("out/trace.log")
+	G.log = *e.NewLogger("out/trace.log")
 
 	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
-	G.chat = *e.NewChatter(*logger)
+	G.chat = *e.NewChatter(G.log)
 
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
-	G.chat.Trace("Author: %s", e.Author)
+	G.chat.Trace("Author: %s\n", e.Author)
 
 	//GoGoV1()
 	//GoGoV2()
@@ -225,6 +226,9 @@ func GoGoV9a() {
 
 	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()
+
+	G.log.Trace("標準入力を待つぜ☆（＾～＾）\n")
+
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		command := scanner.Text()

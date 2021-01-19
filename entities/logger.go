@@ -27,6 +27,6 @@ func (logger Logger) Trace(text string, args ...interface{}) {
 	}
 
 	s := fmt.Sprintf(text, args...)
-	fmt.Fprintln(file, s)
+	fmt.Fprint(file, s)
 	defer file.Close()
 }
