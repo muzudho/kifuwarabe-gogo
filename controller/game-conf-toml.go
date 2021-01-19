@@ -5,12 +5,22 @@ import (
 	"strconv"
 	"strings"
 
+	e "github.com/muzudho/kifuwarabe-uec12/entities"
 	"github.com/pelletier/go-toml"
 )
 
 // Config - Tomlファイル。
 type Config struct {
+	Nngs Nngs
 	Game Game
+}
+
+// Nngs - [Nngs] テーブル。
+type Nngs struct {
+	Server string
+	Port   uint16
+	User   string
+	Pass   string
 }
 
 // Game - [Game] テーブル。
@@ -69,6 +79,7 @@ func LoadGameConf(path string) Config {
 	// ファイル読込
 	fileData, err := ioutil.ReadFile(path)
 	if err != nil {
+		e.G.Chat.Fatal("path=%s", path)
 		panic(err)
 	}
 	// fmt.Print(string(fileData))

@@ -17,21 +17,12 @@ import (
 	u "github.com/muzudho/kifuwarabe-uec12/usecases"
 )
 
-// GlobalVariables - グローバル変数。
-type GlobalVariables struct {
-	log  e.Logger
-	chat e.Chatter
-}
-
-// G - グローバル変数。思い切った名前。
-var G GlobalVariables
-
 func main() {
 	// グローバル変数の作成
-	G = *new(GlobalVariables)
+	e.G = *new(e.GlobalVariables)
 
 	// ロガーの作成。
-	G.log = *e.NewLogger(
+	e.G.Log = *e.NewLogger(
 		"out/trace.log",
 		"out/debug.log",
 		"out/info.log",
@@ -42,10 +33,10 @@ func main() {
 		"out/print.log")
 
 	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
-	G.chat = *e.NewChatter(G.log)
+	e.G.Chat = *e.NewChatter(e.G.Log)
 
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
-	G.chat.Trace("Author: %s\n", e.Author)
+	e.G.Chat.Trace("Author: %s\n", e.Author)
 
 	//GoGoV1()
 	//GoGoV2()
@@ -53,10 +44,11 @@ func main() {
 	//GoGoV4()
 	//GoGoV5()
 	//GoGoV6()
-	//GoGoV7()
+	GoGoV7()
 	//GoGoV8()
 	//GoGoV9()
-	GoGoV9a()
+	//GoGoV9a()
+	//KifuwarabeV1()
 }
 
 // GoGoV1 - バージョン１。
@@ -235,7 +227,7 @@ func GoGoV9a() {
 	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()
 
-	G.log.Trace("標準入力を待つぜ☆（＾～＾）\n")
+	e.G.Log.Trace("標準入力を待つぜ☆（＾～＾）\n")
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -243,33 +235,33 @@ func GoGoV9a() {
 		tokens := strings.Split(command, " ")
 		switch tokens[0] {
 		case "boardsize":
-			G.chat.Print("= \n\n")
+			e.G.Chat.Print("= \n\n")
 		case "clear_board":
 			board.InitBoard()
-			G.chat.Print("= \n\n")
+			e.G.Chat.Print("= \n\n")
 		case "quit":
 			os.Exit(0)
 		case "protocol_version":
-			G.chat.Print("= 2\n\n")
+			e.G.Chat.Print("= 2\n\n")
 		case "name":
-			G.chat.Print("= GoGo\n\n")
+			e.G.Chat.Print("= GoGo\n\n")
 		case "version":
-			G.chat.Print("= 0.0.1\n\n")
+			e.G.Chat.Print("= 0.0.1\n\n")
 		case "list_commands":
-			G.chat.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
+			e.G.Chat.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
 				"name\nversion\nlist_commands\nkomi\ngenmove\nplay\n\n")
 		case "komi":
-			G.chat.Print("= 6.5\n\n")
+			e.G.Chat.Print("= 6.5\n\n")
 		case "undo":
 			u.UndoV9()
-			G.chat.Print("= \n\n")
+			e.G.Chat.Print("= \n\n")
 		case "genmove":
 			color := 1
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
 			}
 			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
-			G.chat.Print("= %s\n\n", p.GetCharZ(board, z))
+			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		case "play":
 			color := 1
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
@@ -290,10 +282,10 @@ func GoGoV9a() {
 					tIdx = 0
 				}
 				board.AddMovesType2(tIdx, color, 0, presenter.PrintBoardType2)
-				G.chat.Print("= \n\n")
+				e.G.Chat.Print("= \n\n")
 			}
 		default:
-			G.chat.Print("? unknown_command\n\n")
+			e.G.Chat.Print("? unknown_command\n\n")
 		}
 	}
 }

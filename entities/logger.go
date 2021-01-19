@@ -122,6 +122,7 @@ func (logger Logger) Fatal(text string, args ...interface{}) {
 	// 追加書込み。
 	file, err := os.OpenFile(logger.fatalPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
+		fmt.Printf("logger.fatalPath=%s\n", logger.fatalPath)
 		panic(err)
 	}
 
