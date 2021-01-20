@@ -16,7 +16,7 @@ import (
 func KifuwarabeV1() {
 	e.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
 
-	config := c.LoadGameConf("resources/kifuwarabe-v1.gameConf.toml")
+	config := c.LoadGameConf("input/kifuwarabe-v1.gameConf.toml")
 
 	e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")
 	e.G.Chat.Trace("# Komi=%f\n", config.Game.Komi)
@@ -37,8 +37,9 @@ func KifuwarabeV1() {
 	board.InitBoard()
 
 	e.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾）\n")
+	connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
 
-	nngsConn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port))
+	nngsConn, err := net.Dial("tcp", connectionString)
 	if err != nil {
 		panic(err)
 	}
