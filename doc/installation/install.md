@@ -29,10 +29,17 @@ go env GOROOT
 c:\go
 ```
 
-## Modules の使い方
+## Modules を使ったプロジェクトの作成
 
 ```shell
 go mod init github.com/muzudho/kifuwarabe-uec12
+```
+
+## Telnet
+
+```shell
+# Go言語 は 個人作成の同名のライブラリがいっぱいあるので 一番良さそうなのを検索してください。
+go get -v -u github.com/ziutek/telnet
 ```
 
 ## Gore

@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
-	web "github.com/muzudho/kifuwarabe-uec12/web"
+	"github.com/ziutek/telnet"
 )
 
 // KifuwarabeV1 - きふわらべバージョン１。
@@ -36,32 +37,39 @@ func KifuwarabeV1() {
 
 	e.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
 
-	err := web.RunClient(config.Nngs.Server, config.Nngs.Port)
+	connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
+
+	nngsConn, err := telnet.Dial("tcp", connectionString)
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("Failed to connect. %s", err))
 	}
+	defer nngsConn.Close()
+	e.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
+
+	e.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
+
+	nngsConn.Write([]byte(fmt.Sprintf("%s\n", config.Nngs.User)))
+
+	// e.G.Chat.Send(nngsConn, fmt.Sprintf("%s\n", config.Nngs.User))
+
+	e.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
+
+	str, err := nngsConn.ReadString('\n')
+	if err != nil {
+		panic(fmt.Sprintf("Failed to read string. %s", err))
+	}
+	fmt.Printf("str=%s", str)
+
+	/*
+		// scanner - 標準入力を監視します。
+		scanner := bufio.NewScanner(os.Stdin)
+		// 一行読み取ります。
+		for scanner.Scan() {
+			// 書き込みます。最後に改行を付けます。
+			oi.LongWrite(w, scanner.Bytes())
+			oi.LongWrite(w, []byte("\n"))
+		}
+	*/
 
 	e.G.Chat.Trace("# NNGSへの接続終わった☆（＾～＾）\n")
-	/*
-			connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
-
-			nngsConn, err := net.Dial("tcp", connectionString)
-			if err != nil {
-				panic(err)
-			}
-
-			e.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
-
-		e.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
-
-		e.G.Chat.Send(nngsConn, fmt.Sprintf("%s\n", config.Nngs.User))
-
-		e.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
-
-		status, err := bufio.NewReader(nngsConn).ReadString('\n')
-		if err != nil {
-			panic(err)
-		}
-		fmt.Printf("status=%s", status)
-	*/
 }

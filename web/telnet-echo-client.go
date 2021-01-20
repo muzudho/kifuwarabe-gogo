@@ -1,14 +1,6 @@
 package web
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-
-	"github.com/reiver/go-oi"
-	"github.com/reiver/go-telnet"
-)
-
+/*
 // RunClient - NNGSクライアントを走らせます。
 func RunClient(host string, port uint16) error {
 	connectionString := fmt.Sprintf("%s:%d", host, port)
@@ -21,28 +13,40 @@ type clientListener struct{}
 // CallTELNET - 決まった形のメソッド。
 func (c clientListener) CallTELNET(ctx telnet.Context, w telnet.Writer, r telnet.Reader) {
 
-	var buffer [1]byte
-	p := buffer[:]
+	var carry [1]byte  // このバッファーが埋まるまで待ってしまう？ だから 1文字ずつ。
+	pCarry := carry[:] // スライス？
+
+	var chars [1024]byte // 1byteでは使いづらいんで 溜めます。
+	i := 0
 
 	for {
-		n, err := r.Read(p)
-		if 0 < n {
-			bytes := p[:n]
-			print(string(bytes))
-		}
+		// いつ通信が切れるのか分からん☆（＾～＾）
+		n, err := r.Read(pCarry)
+		print(fmt.Sprintf("(n=%d)", n))
 
-		if err != nil {
-			print(err)
+		// 相手が切断したときなど。
+		if n <= 0 || err != nil {
 			break
 		}
+
+		if n == 1 {
+			bytes := pCarry[:n] // 結局 1バイトだが。
+
+			chars[i] = bytes[0]
+			i += n
+
+			// print(string(bytes))
+			print("[")
+			print(string(chars[:i]))
+			print("]\n")
+		} else {
+			panic(fmt.Sprintf("I want an 1 byte, but %d bytes.", n))
+		}
 	}
 
-	// scanner - 標準入力を監視します。
-	scanner := bufio.NewScanner(os.Stdin)
-	// 一行読み取ります。
-	for scanner.Scan() {
-		// 書き込みます。最後に改行を付けます。
-		oi.LongWrite(w, scanner.Bytes())
-		oi.LongWrite(w, []byte("\n"))
-	}
+	print("Done [")
+	print(string(chars[:i]))
+	print("]\n")
+
 }
+*/
