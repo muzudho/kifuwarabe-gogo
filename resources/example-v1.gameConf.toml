@@ -1,3 +1,11 @@
+[Nngs]
+
+Server = 'localhost'
+# (^q^) 数値型のデータをクォーテーションで囲むとエラーもなく読取失敗するから注意☆
+Port = 9696
+User = 'Kifuwarabe_UEC12_w' # your account
+Pass = '' # your password (any)
+
 [Game]
 
 # Komi - コミ☆（＾～＾）

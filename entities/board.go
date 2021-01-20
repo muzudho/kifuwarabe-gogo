@@ -463,6 +463,7 @@ func (board *Board0) TakeStone(tIdx int, color int) {
 func (board *Board0) InitBoard() {
 	boardMax := board.SentinelBoardMax()
 	boardSize := board.BoardSize()
+	G.Chat.Trace("# (^q^) boardMax=%d boardSize=%d\n", boardMax, boardSize)
 
 	// 枠線
 	for tIdx := 0; tIdx < boardMax; tIdx++ {

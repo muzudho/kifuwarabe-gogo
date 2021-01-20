@@ -44,23 +44,29 @@ func main() {
 	//GoGoV4()
 	//GoGoV5()
 	//GoGoV6()
-	GoGoV7()
+	//GoGoV7()
 	//GoGoV8()
 	//GoGoV9()
-	//GoGoV9a()
-	//KifuwarabeV1()
+	//GoGoV9a() // GTP
+	KifuwarabeV1()
 }
 
 // GoGoV1 - バージョン１。
 func GoGoV1() {
+	e.G.Chat.Trace("# GoGo v1 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v1.gameConf.toml")
-	/*
-		fmt.Println("Komi=", config.Game.Komi)
-		fmt.Println("BoardSize=", config.Game.BoardSize)
-		fmt.Println("MaxMoves=", config.Game.MaxMoves)
-		fmt.Println("BoardData=", config.Game.BoardData)
-		fmt.Println("SentinelBoardMax()=", config.SentinelBoardMax())
-	*/
+
+	e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")
+	e.G.Chat.Trace("# Server=%s\n", config.Nngs.Server)
+	e.G.Chat.Trace("# Port=%d\n", config.Nngs.Port)
+	e.G.Chat.Trace("# User=%s\n", config.Nngs.User)
+	e.G.Chat.Trace("# Pass=%s\n", config.Nngs.Pass)
+	e.G.Chat.Trace("# Komi=%f\n", config.Game.Komi)
+	e.G.Chat.Trace("# BoardSize=%d\n", config.Game.BoardSize)
+	e.G.Chat.Trace("# MaxMoves=%d\n", config.Game.MaxMoves)
+	e.G.Chat.Trace("# BoardData=%s\n", config.Game.BoardData)
+	e.G.Chat.Trace("# SentinelBoardMax()=%d\n", config.SentinelBoardMax())
 
 	board := e.NewBoardV1(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	/*
@@ -75,6 +81,8 @@ func GoGoV1() {
 
 // GoGoV2 - バージョン２。
 func GoGoV2() {
+	e.G.Chat.Trace("# GoGo v2 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v2.gameConf.toml")
 
 	board := e.NewBoardV2(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -90,6 +98,8 @@ func GoGoV2() {
 
 // GoGoV3 - バージョン３。
 func GoGoV3() {
+	e.G.Chat.Trace("# GoGo v3 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV3(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -120,6 +130,8 @@ func GoGoV3() {
 
 // GoGoV4 - バージョン４。
 func GoGoV4() {
+	e.G.Chat.Trace("# GoGo v4 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV4(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -133,6 +145,8 @@ func GoGoV4() {
 
 // GoGoV5 - バージョン５。
 func GoGoV5() {
+	e.G.Chat.Trace("# GoGo v5 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV5(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -143,8 +157,10 @@ func GoGoV5() {
 	board.Playout(color, presenter.PrintBoardType1)
 }
 
-// GoGoV6 - バージョン５。
+// GoGoV6 - バージョン６。
 func GoGoV6() {
+	e.G.Chat.Trace("# GoGo v6 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV6(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -166,6 +182,8 @@ func GoGoV6() {
 
 // GoGoV7 - バージョン７。
 func GoGoV7() {
+	e.G.Chat.Trace("# GoGo v7 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV7(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -187,6 +205,8 @@ func GoGoV7() {
 
 // GoGoV8 - バージョン８。
 func GoGoV8() {
+	e.G.Chat.Trace("# GoGo v8 プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV8(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -206,6 +226,7 @@ func GoGoV8() {
 
 // GoGoV9 - バージョン９。
 func GoGoV9() {
+	e.G.Chat.Trace("# GoGo v9 プログラム開始☆（＾～＾）\n")
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV9(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
@@ -219,6 +240,8 @@ func GoGoV9() {
 // GoGoV9a - バージョン９a。
 // GTP2NNGS に対応しているのでは？
 func GoGoV9a() {
+	e.G.Chat.Trace("# GoGo v9a プログラム開始☆（＾～＾）\n")
+
 	config := c.LoadGameConf("resources/example-v3.gameConf.toml")
 
 	board := e.NewBoardV9a(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
