@@ -1,14 +1,12 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
 	"math/rand"
-	"net"
 	"time"
 
 	c "github.com/muzudho/kifuwarabe-uec12/controller"
 	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	web "github.com/muzudho/kifuwarabe-uec12/web"
 )
 
 // KifuwarabeV1 - きふわらべバージョン１。
@@ -36,26 +34,34 @@ func KifuwarabeV1() {
 
 	board.InitBoard()
 
-	e.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾）\n")
-	connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
+	e.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
 
-	nngsConn, err := net.Dial("tcp", connectionString)
+	err := web.RunClient(config.Nngs.Server, config.Nngs.Port)
 	if err != nil {
 		panic(err)
 	}
 
-	e.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
+	e.G.Chat.Trace("# NNGSへの接続終わった☆（＾～＾）\n")
+	/*
+			connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
 
-	e.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
+			nngsConn, err := net.Dial("tcp", connectionString)
+			if err != nil {
+				panic(err)
+			}
 
-	e.G.Chat.Send(nngsConn, fmt.Sprintf("%s\n", config.Nngs.User))
+			e.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
 
-	e.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
+		e.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
 
-	status, err := bufio.NewReader(nngsConn).ReadString('\n')
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("status=%s", status)
+		e.G.Chat.Send(nngsConn, fmt.Sprintf("%s\n", config.Nngs.User))
 
+		e.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
+
+		status, err := bufio.NewReader(nngsConn).ReadString('\n')
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("status=%s", status)
+	*/
 }

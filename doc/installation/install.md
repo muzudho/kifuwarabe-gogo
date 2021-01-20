@@ -29,6 +29,12 @@ go env GOROOT
 c:\go
 ```
 
+## Modules の使い方
+
+```shell
+go mod init github.com/muzudho/kifuwarabe-uec12
+```
+
 ## Gore
 
 ```shell
@@ -47,9 +53,3 @@ gore>
 ```
 
 `[Ctrl] + [D]` で終了。  
-
-## Modules の使い方
-
-```shell
-go mod init github.com/muzudho/kifuwarabe-uec12
-```
