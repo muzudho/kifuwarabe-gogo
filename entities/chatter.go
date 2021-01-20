@@ -2,6 +2,7 @@ package entities
 
 import (
 	"fmt"
+	"net"
 )
 
 // Chatter - チャッター。 標準出力とロガーを一緒にしただけです。
@@ -60,6 +61,17 @@ func (chatter Chatter) Fatal(text string, args ...interface{}) {
 
 // Print - 必ず出力します。
 func (chatter Chatter) Print(text string, args ...interface{}) {
+	fmt.Printf(text, args...)           // 標準出力
+	chatter.logger.Print(text, args...) // ログ
+}
+
+// Send - メッセージを送信します。
+func (chatter Chatter) Send(conn net.Conn, text string, args ...interface{}) {
+	_, err := fmt.Fprintf(conn, text, args...) // 出力先指定
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Printf(text, args...)           // 標準出力
 	chatter.logger.Print(text, args...) // ログ
 }

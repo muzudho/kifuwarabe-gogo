@@ -32,16 +32,26 @@ func KifuwarabeV1() {
 
 	rand.Seed(time.Now().UnixNano())
 
+	e.G.Chat.Trace("# (^q^) ランダムの種を設定したぜ☆\n")
+
 	board.InitBoard()
 
-	e.G.Log.Trace("NNGSへの接続を試みるぜ☆（＾～＾）\n")
+	e.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾）\n")
 
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port))
+	nngsConn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port))
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
-	status, err := bufio.NewReader(conn).ReadString('\n')
+
+	e.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
+
+	e.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
+
+	e.G.Chat.Send(nngsConn, fmt.Sprintf("%s\n", config.Nngs.User))
+
+	e.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
+
+	status, err := bufio.NewReader(nngsConn).ReadString('\n')
 	if err != nil {
 		panic(err)
 	}

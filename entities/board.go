@@ -469,14 +469,22 @@ func (board *Board0) InitBoard() {
 	for tIdx := 0; tIdx < boardMax; tIdx++ {
 		board.SetColor(tIdx, 3)
 	}
+
+	G.Chat.Trace("# (^q^) 盤を 3 で埋めた☆\n")
+
 	// 盤上
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
 			board.SetColor(board.GetTIdxFromXy(x, y), 0)
 		}
 	}
+
+	G.Chat.Trace("# (^q^) 石は置いた☆\n")
+
 	Moves = 0
 	KoIdx = 0
+
+	G.Chat.Trace("# (^q^) 盤の初期化は終わったぜ☆\n")
 }
 
 // PutStoneType1 - 石を置きます。

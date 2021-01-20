@@ -27,8 +27,17 @@ func NewLogger(
 	errorPath string,
 	fatalPath string,
 	printPath string) *Logger {
+
 	logger := new(Logger)
 	logger.tracePath = tracePath
+	logger.debugPath = debugPath
+	logger.infoPath = infoPath
+	logger.noticePath = noticePath
+	logger.warnPath = warnPath
+	logger.errorPath = errorPath
+	logger.fatalPath = fatalPath
+	logger.printPath = printPath
+
 	return logger
 }
 
