@@ -1,5 +1,7 @@
 # Install
 
+## Go言語のインストール
+
 Blog: [Go言語を練習しようぜ☆（＾～＾）？](https://crieit.net/drafts/5ffc46af9214c)  
 
 例えば `C:\go` に Go言語（本体）をインストールしてください。  
@@ -40,6 +42,8 @@ go mod init github.com/muzudho/kifuwarabe-uec12
 ```shell
 # Go言語 は 個人作成の同名のライブラリがいっぱいあるので 一番良さそうなのを検索してください。
 go get -v -u github.com/ziutek/telnet
+# ↓ これでもいいかも。
+# go get -v -u github.com/reiver/go-telnet
 ```
 
 ## Gore

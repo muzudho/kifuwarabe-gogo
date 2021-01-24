@@ -3,6 +3,7 @@ package entities
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 // Logger - ロガー。
@@ -41,115 +42,63 @@ func NewLogger(
 	return logger
 }
 
-// Trace - ログファイルに書き込みます。
-func (logger Logger) Trace(text string, args ...interface{}) {
+// Go言語では、 yyyy とかではなく、定められた数をそこに置くのらしい☆（＾～＾）
+const timeStampLayout = "2006-01-02 15:04:05"
+
+// write - ログファイルに書き込みます。
+func write(filePath string, text string, args ...interface{}) {
 	// TODO ファイルの開閉回数を減らせないものか。
 	// 追加書込み。
-	file, err := os.OpenFile(logger.tracePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		panic(err)
 	}
 
+	// tはtime.Time型
+	t := time.Now()
+
 	s := fmt.Sprintf(text, args...)
+	s = fmt.Sprintf("[%s] %s", t.Format(timeStampLayout), s)
 	fmt.Fprint(file, s)
 	defer file.Close()
+}
+
+// Trace - ログファイルに書き込みます。
+func (logger Logger) Trace(text string, args ...interface{}) {
+	write(logger.tracePath, text, args...)
 }
 
 // Debug - ログファイルに書き込みます。
 func (logger Logger) Debug(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.debugPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.debugPath, text, args...)
 }
 
 // Info - ログファイルに書き込みます。
 func (logger Logger) Info(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.infoPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.infoPath, text, args...)
 }
 
 // Notice - ログファイルに書き込みます。
 func (logger Logger) Notice(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.noticePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.noticePath, text, args...)
 }
 
 // Warn - ログファイルに書き込みます。
 func (logger Logger) Warn(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.warnPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.warnPath, text, args...)
 }
 
 // Error - ログファイルに書き込みます。
 func (logger Logger) Error(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.errorPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.errorPath, text, args...)
 }
 
 // Fatal - ログファイルに書き込みます。
 func (logger Logger) Fatal(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.fatalPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Printf("logger.fatalPath=%s\n", logger.fatalPath)
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.fatalPath, text, args...)
 }
 
 // Print - ログファイルに書き込みます。 Chatter から呼び出してください。
 func (logger Logger) Print(text string, args ...interface{}) {
-	// TODO ファイルの開閉回数を減らせないものか。
-	// 追加書込み。
-	file, err := os.OpenFile(logger.printPath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		panic(err)
-	}
-
-	s := fmt.Sprintf(text, args...)
-	fmt.Fprint(file, s)
-	defer file.Close()
+	write(logger.printPath, text, args...)
 }

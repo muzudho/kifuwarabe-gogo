@@ -463,14 +463,14 @@ func (board *Board0) TakeStone(tIdx int, color int) {
 func (board *Board0) InitBoard() {
 	boardMax := board.SentinelBoardMax()
 	boardSize := board.BoardSize()
-	G.Chat.Trace("# (^q^) boardMax=%d boardSize=%d\n", boardMax, boardSize)
+	// G.Chat.Trace("# (^q^) boardMax=%d boardSize=%d\n", boardMax, boardSize)
 
 	// 枠線
 	for tIdx := 0; tIdx < boardMax; tIdx++ {
 		board.SetColor(tIdx, 3)
 	}
 
-	G.Chat.Trace("# (^q^) 盤を 3 で埋めた☆\n")
+	// G.Chat.Trace("# (^q^) 盤を 3 で埋めた☆\n")
 
 	// 盤上
 	for y := 0; y < boardSize; y++ {
@@ -479,12 +479,12 @@ func (board *Board0) InitBoard() {
 		}
 	}
 
-	G.Chat.Trace("# (^q^) 石は置いた☆\n")
+	// G.Chat.Trace("# (^q^) 石は置いた☆\n")
 
 	Moves = 0
 	KoIdx = 0
 
-	G.Chat.Trace("# (^q^) 盤の初期化は終わったぜ☆\n")
+	// G.Chat.Trace("# (^q^) 盤の初期化は終わったぜ☆\n")
 }
 
 // PutStoneType1 - 石を置きます。

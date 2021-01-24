@@ -47,8 +47,8 @@ func main() {
 	//GoGoV7()
 	//GoGoV8()
 	//GoGoV9()
-	//GoGoV9a() // GTP
-	KifuwarabeV1()
+	GoGoV9a() // GTP
+	//KifuwarabeV1()
 }
 
 // GoGoV1 - バージョン１。
