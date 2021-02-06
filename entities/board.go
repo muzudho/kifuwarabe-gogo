@@ -1291,7 +1291,12 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 
 	color := turnColor
 	previousTIdx := 0
-	loopMax := boardSize*boardSize + 200
+
+	// 9路盤のとき
+	// loopMax := boardSize*boardSize + 200
+	// 19路盤のとき
+	loopMax := boardSize * boardSize
+
 	boardMax := board.SentinelBoardMax()
 
 	AllPlayouts++
@@ -1342,7 +1347,11 @@ func (board *BoardV9) playoutV9(turnColor int) int {
 func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
-	tryNum := 30
+	// 9路盤なら
+	// tryNum := 30
+	// 19路盤なら
+	tryNum := 3
+
 	bestTIdx := 0
 	var bestValue, winRate float64
 	var boardCopy = board.CopyData()
@@ -1475,7 +1484,10 @@ func (board *BoardV8) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard
 func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
-	tryNum := 30
+	// ９路盤なら
+	// tryNum := 30
+	// １９路盤なら
+	tryNum := 3
 	bestTIdx := 0
 	var bestValue, winRate float64
 	var boardCopy = board.CopyData()

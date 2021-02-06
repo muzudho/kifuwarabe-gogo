@@ -229,7 +229,10 @@ func GetBestUctV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
 func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 	max := -999
 	NodeNum = 0
-	uctLoop := 10000 // 多め
+
+	// uctLoop := 10000 // 多め
+	uctLoop := 1000 // 少なめ
+
 	var bestI = -1
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
@@ -251,7 +254,7 @@ func GetBestUctV9a(board IBoard, color int, printBoardType1 func(IBoard)) int {
 		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%04d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.TIdx), c.Rate, c.Games)
 	}
 	bestTIdx := pN.Children[bestI].TIdx
-	fmt.Fprintf(os.Stderr, "(GetBestUctV9a) bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	fmt.Fprintf(os.Stderr, "[GetBestUctV9a] bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestTIdx
 }

@@ -250,7 +250,7 @@ func GoGoV9a() {
 	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()
 
-	e.G.Log.Trace("標準入力を待つぜ☆（＾～＾）\n")
+	e.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -278,6 +278,8 @@ func GoGoV9a() {
 		case "undo":
 			u.UndoV9()
 			e.G.Chat.Print("= \n\n")
+		// 19路盤だと、すごい長い時間かかる。
+		// genmove b
 		case "genmove":
 			color := 1
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
@@ -285,6 +287,16 @@ func GoGoV9a() {
 			}
 			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
 			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
+		// play b a3
+		// play w d4
+		// play b d5
+		// play w e5
+		// play b e4
+		// play w d6
+		// play b f5
+		// play w c5
+		// play b pass
+		// play w pass
 		case "play":
 			color := 1
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
