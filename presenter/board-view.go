@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	e "github.com/muzudho/kifuwarabe-gogo/entities"
 )
 
 // PresenterV1 - 表示機能 Version 1.

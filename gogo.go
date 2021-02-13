@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-uec12/controller"
-	e "github.com/muzudho/kifuwarabe-uec12/entities"
-	p "github.com/muzudho/kifuwarabe-uec12/presenter"
-	u "github.com/muzudho/kifuwarabe-uec12/usecases"
+	c "github.com/muzudho/kifuwarabe-gogo/controller"
+	e "github.com/muzudho/kifuwarabe-gogo/entities"
+	p "github.com/muzudho/kifuwarabe-gogo/presenter"
+	u "github.com/muzudho/kifuwarabe-gogo/usecases"
 )
 
 func main() {

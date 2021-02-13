@@ -5,8 +5,8 @@ import (
 	"math/rand"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-uec12/controller"
-	e "github.com/muzudho/kifuwarabe-uec12/entities"
+	c "github.com/muzudho/kifuwarabe-gogo/controller"
+	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	"github.com/ziutek/telnet"
 )
 

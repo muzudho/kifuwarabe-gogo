@@ -1,4 +1,4 @@
-module github.com/muzudho/kifuwarabe-uec12
+module github.com/muzudho/kifuwarabe-gogo
 
 go 1.15
 
