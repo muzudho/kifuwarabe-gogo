@@ -5,14 +5,14 @@ import (
 	"math/rand"
 )
 
-// BoardV5 - 盤 Version 5。
-type BoardV5 struct {
-	Board0
+// BoardV05 - 盤 Version 5。
+type BoardV05 struct {
+	BoardV00n1
 }
 
 // NewBoardV5 - 盤を作成します。
-func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV5 {
-	board := new(BoardV5)
+func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV05 {
+	board := new(BoardV05)
 	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
@@ -27,22 +27,22 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV5) PutStoneType1(tIdx int, color int) int {
+func (board *BoardV05) PutStoneType1(tIdx int, color int) int {
 	return putStoneType1V3(board, tIdx, color)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV5) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+func (board *BoardV05) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
 	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
 }
 
 // PlayOneMove - 置けるとこに置く。
-func (board *BoardV5) PlayOneMove(color int) int {
+func (board *BoardV05) PlayOneMove(color int) int {
 	return playOneMove(board, color)
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+func (board *BoardV05) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -91,21 +91,21 @@ func (board *BoardV5) Playout(turnColor int, printBoardType1 func(IBoard)) int {
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 5.
-func (board *BoardV5) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+func (board *BoardV05) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
 	return primitiveMonteCalroV6(board, color, printBoardType1)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV5) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+func (board *BoardV05) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
 	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV5) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+func (board *BoardV05) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
 	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // GetComputerMove - コンピューターの指し手。
-func (board *BoardV5) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+func (board *BoardV05) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
 	return getComputerMoveV9(board, color, fUCT, printBoardType1)
 }

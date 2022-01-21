@@ -51,3 +51,7 @@ quit
 
 `go build -ldflags "-s -w"` でデバッグ情報を外せる？  
 高速化した気はしないが……。  
+
+📖 [installation](./doc/installation/install.md)  
+📖 [References](./doc/references.md)  
+📖 [Board](./doc/board.md)  

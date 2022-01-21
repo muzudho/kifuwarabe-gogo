@@ -23,7 +23,7 @@ func GoGoV01() {
 	e.G.Chat.Trace("# BoardData=%s\n", config.Game.BoardData)
 	e.G.Chat.Trace("# SentinelBoardMax()=%d\n", config.SentinelBoardMax())
 
-	board := e.NewBoardV1(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoardV01(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	/*
 		fmt.Println("board.BoardSize()=", board.BoardSize())
 		fmt.Println("board.SentinelBoardMax()=", board.SentinelBoardMax())
