@@ -225,7 +225,7 @@ func GetBestUctV9(board IBoardV02, color int, printBoardType1 func(IBoardV01)) i
 	return bestTIdx
 }
 
-// GetBestUctV9a - PlayComputerMoveV9a から呼び出されます。
+// GetBestUctV9a - PlayComputerMoveV09a から呼び出されます。
 func GetBestUctV9a(board IBoardV02, color int, printBoardType1 func(IBoardV01)) int {
 	max := -999
 	NodeNum = 0

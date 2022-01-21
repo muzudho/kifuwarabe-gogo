@@ -668,7 +668,7 @@ func primitiveMonteCalroV9(board IBoardV01, color int, printBoardType1 func(IBoa
 	return bestTIdx
 }
 
-// addMovesType1V8 - GoGoV8, SelfplayV9 から呼び出されます。
+// addMovesType1V8 - GoGoV8, SelfplayV09 から呼び出されます。
 func addMovesType1V8(board IBoardV01, tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
 	err := board.PutStoneType2(tIdx, color, FillEyeOk)
 	if err != 0 {

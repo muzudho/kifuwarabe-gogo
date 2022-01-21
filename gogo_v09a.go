@@ -54,7 +54,7 @@ func GoGoV09a() {
 		case "komi":
 			e.G.Chat.Print("= 6.5\n\n")
 		case "undo":
-			u.UndoV9()
+			u.UndoV09()
 			e.G.Chat.Print("= \n\n")
 		// 19路盤だと、すごい長い時間かかる。
 		// genmove b
@@ -63,7 +63,7 @@ func GoGoV09a() {
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
 			}
-			z := u.PlayComputerMoveV9a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
+			z := u.PlayComputerMoveV09a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
 			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4

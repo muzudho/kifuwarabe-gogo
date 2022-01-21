@@ -46,7 +46,7 @@ func (board *BoardV04) PrimitiveMonteCalro(color int, printBoardType1 func(IBoar
 	return primitiveMonteCalroV6(board, color, printBoardType1)
 }
 
-// AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
+// AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
 func (board *BoardV04) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
 	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
