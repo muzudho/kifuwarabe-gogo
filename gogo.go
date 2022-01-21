@@ -4,6 +4,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"math/rand"
 	"time"
@@ -14,6 +15,9 @@ import (
 )
 
 func main() {
+	flag.Parse()
+	lessonVer := flag.Arg(0)
+
 	// グローバル変数の作成
 	e.G = *new(e.GlobalVariables)
 
@@ -34,16 +38,29 @@ func main() {
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
 	e.G.Chat.Trace("Author: %s\n", e.Author)
 
-	//GoGoV1()
-	//GoGoV2()
-	//GoGoV3()
-	//GoGoV4()
-	//GoGoV5()
-	//GoGoV6()
-	//GoGoV7()
-	//GoGoV8()
-	GoGoV09()
-	//GoGoV09a() // GTP
+	if lessonVer == "V01" {
+		GoGoV1()
+	} else if lessonVer == "V02" {
+		GoGoV2()
+	} else if lessonVer == "V03" {
+		GoGoV3()
+	} else if lessonVer == "V04" {
+		GoGoV4()
+	} else if lessonVer == "V05" {
+		GoGoV5()
+	} else if lessonVer == "V06" {
+		GoGoV6()
+	} else if lessonVer == "V07" {
+		GoGoV7()
+	} else if lessonVer == "V08" {
+		GoGoV8()
+	} else if lessonVer == "V09" {
+		GoGoV09()
+	} else if lessonVer == "V09a" {
+		GoGoV09a() // GTP
+	} else {
+		GoGoV09a() // GTP
+	}
 	//KifuwarabeV1()
 }
 
