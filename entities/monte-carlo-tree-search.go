@@ -48,7 +48,7 @@ func addChild(pN *Node, tIdx int) {
 }
 
 // CreateNode - ノード作成。 searchUctV8, e.GetBestUctV8, searchUctV9, e.GetBestUctV9, e.GetBestUctV9a から呼び出されます。
-func CreateNode(board IBoardV01) int {
+func CreateNode(board IBoardV02) int {
 	boardSize := board.BoardSize()
 
 	if NodeNum == NodeMax {
@@ -102,7 +102,7 @@ func selectBestUcb(nodeN int) int {
 }
 
 // SearchUctV8 - 再帰関数。 getBestUctV9a から呼び出されます。
-func SearchUctV8(board IBoardV01, color int, nodeN int, printBoardType1 func(IBoardV01)) int {
+func SearchUctV8(board IBoardV02, color int, nodeN int, printBoardType1 func(IBoardV01)) int {
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
@@ -135,7 +135,7 @@ func SearchUctV8(board IBoardV01, color int, nodeN int, printBoardType1 func(IBo
 }
 
 // GetBestUctV8 - 一番良いUCTを選びます。 GoGoV8 から呼び出されます。
-func GetBestUctV8(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
+func GetBestUctV8(board IBoardV02, color int, printBoardType1 func(IBoardV01)) int {
 	max := -999
 	NodeNum = 0
 	uctLoop := 10000
@@ -165,7 +165,7 @@ func GetBestUctV8(board IBoardV01, color int, printBoardType1 func(IBoardV01)) i
 	return bestTIdx
 }
 
-func searchUctV9(board IBoardV01, color int, nodeN int, printBoardType1 func(IBoardV01)) int {
+func searchUctV9(board IBoardV02, color int, nodeN int, printBoardType1 func(IBoardV01)) int {
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
@@ -195,7 +195,7 @@ func searchUctV9(board IBoardV01, color int, nodeN int, printBoardType1 func(IBo
 }
 
 // GetBestUctV9 - 最善のUCTを選びます。 GetComputerMoveV9 から呼び出されます。
-func GetBestUctV9(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
+func GetBestUctV9(board IBoardV02, color int, printBoardType1 func(IBoardV01)) int {
 	max := -999
 	NodeNum = 0
 	uctLoop := 1000 // 少な目
@@ -226,7 +226,7 @@ func GetBestUctV9(board IBoardV01, color int, printBoardType1 func(IBoardV01)) i
 }
 
 // GetBestUctV9a - PlayComputerMoveV9a から呼び出されます。
-func GetBestUctV9a(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
+func GetBestUctV9a(board IBoardV02, color int, printBoardType1 func(IBoardV01)) int {
 	max := -999
 	NodeNum = 0
 

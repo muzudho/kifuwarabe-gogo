@@ -43,7 +43,7 @@ func TestPlayoutV9(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBo
 }
 
 // PlayComputerMoveV9a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
-func PlayComputerMoveV9a(board e.IBoardV01, color int, fUCT int, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) int {
+func PlayComputerMoveV9a(board e.IBoardV02, color int, fUCT int, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) int {
 	var tIdx int
 	st := time.Now()
 	e.AllPlayouts = 0

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"time"
 )
 
 // IBoardV01 - 盤。
@@ -48,8 +47,6 @@ type IBoardV01 interface {
 	GetTIdxFromXy(x int, y int) int
 	// GetZ4 - tIdx（配列のインデックス）を XXYY形式へ変換します。
 	GetZ4(tIdx int) int
-	// UctChildrenSize - UCTの最大手数
-	UctChildrenSize() int
 }
 
 func newBoard(board IBoardV01) {
@@ -694,20 +691,4 @@ func addMovesType2V9a(board IBoardV01, tIdx int, color int, sec float64, printBo
 	RecordTime[Moves] = sec
 	Moves++
 	printBoardType2(board, Moves)
-}
-
-// getComputerMoveV9 - コンピューターの指し手。
-func getComputerMoveV9(board IBoardV01, color int, fUCT int, printBoardType1 func(IBoardV01)) int {
-	var tIdx int
-	start := time.Now()
-	AllPlayouts = 0
-	if fUCT != 0 {
-		tIdx = GetBestUctV9(board, color, printBoardType1)
-	} else {
-		tIdx = board.PrimitiveMonteCalro(color, printBoardType1)
-	}
-	sec := time.Since(start).Seconds()
-	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
-		sec, float64(AllPlayouts)/sec, board.GetZ4(tIdx), Moves, color, AllPlayouts, fUCT)
-	return tIdx
 }
