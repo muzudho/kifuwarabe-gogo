@@ -11,7 +11,6 @@ import (
 	c "github.com/muzudho/kifuwarabe-gogo/controller"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
-	u "github.com/muzudho/kifuwarabe-gogo/usecases"
 )
 
 func main() {
@@ -43,8 +42,8 @@ func main() {
 	//GoGoV6()
 	//GoGoV7()
 	//GoGoV8()
-	//GoGoV9()
-	GoGoV9a() // GTP
+	GoGoV09()
+	//GoGoV09a() // GTP
 	//KifuwarabeV1()
 }
 
@@ -219,17 +218,4 @@ func GoGoV8() {
 		board.AddMovesType1(tIdx, color, presenter.PrintBoardType2)
 		color = e.FlipColor(color)
 	}
-}
-
-// GoGoV9 - バージョン９。
-func GoGoV9() {
-	e.G.Chat.Trace("# GoGo v9 プログラム開始☆（＾～＾）\n")
-	config := c.LoadGameConf("input/example-v3.gameConf.toml")
-
-	board := e.NewBoardV9(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV9()
-
-	rand.Seed(time.Now().UnixNano())
-	// u.TestPlayoutV9(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
-	u.SelfplayV9(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
 }

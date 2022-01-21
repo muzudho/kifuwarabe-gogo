@@ -14,10 +14,10 @@ import (
 	u "github.com/muzudho/kifuwarabe-gogo/usecases"
 )
 
-// GoGoV9a - バージョン９a。
+// GoGoV09a - バージョン９a。
 // GTP2NNGS に対応しているのでは？
-func GoGoV9a() {
-	e.G.Chat.Trace("# GoGo v9a プログラム開始☆（＾～＾）\n")
+func GoGoV09a() {
+	e.G.Chat.Trace("# GoGo v09a プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
