@@ -4,69 +4,63 @@ import (
 	"math/rand"
 )
 
-// BoardV00n1 - 盤。
-type BoardV00n1 struct {
+// BoardV00n10 - 盤。
+type BoardV00n10 struct {
 	data             []int
 	boardSize        int
 	sentinelWidth    int
 	sentinelBoardMax int
 	komi             float64
 	maxMoves         int
-	uctChildrenSize  int
 }
 
 // BoardSize - 何路盤か
-func (board BoardV00n1) BoardSize() int {
+func (board BoardV00n10) BoardSize() int {
 	return board.boardSize
 }
 
 // SentinelWidth - 枠付きの盤の一辺の交点数
-func (board BoardV00n1) SentinelWidth() int {
+func (board BoardV00n10) SentinelWidth() int {
 	return board.sentinelWidth
 }
 
 // SentinelBoardMax - 枠付きの盤の交点数
-func (board BoardV00n1) SentinelBoardMax() int {
+func (board BoardV00n10) SentinelBoardMax() int {
 	return board.sentinelBoardMax
 }
 
 // Komi - コミ
-func (board BoardV00n1) Komi() float64 {
+func (board BoardV00n10) Komi() float64 {
 	return board.komi
 }
 
 // MaxMoves - 最大手数
-func (board BoardV00n1) MaxMoves() int {
+func (board BoardV00n10) MaxMoves() int {
 	return board.maxMoves
 }
 
-// UctChildrenSize - UCTの最大手数
-func (board BoardV00n1) UctChildrenSize() int {
-	return board.uctChildrenSize
-}
-
 // ColorAt - 指定した交点の石の色
-func (board BoardV00n1) ColorAt(z int) int {
+func (board BoardV00n10) ColorAt(z int) int {
 	return board.data[z]
 }
 
 // ColorAtXy - 指定した交点の石の色
-func (board BoardV00n1) ColorAtXy(x int, y int) int {
+func (board BoardV00n10) ColorAtXy(x int, y int) int {
 	return board.data[(y+1)*board.sentinelWidth+x+1]
 }
 
 // Exists - 指定の交点に石があるか？
-func (board BoardV00n1) Exists(tIdx int) bool {
+func (board BoardV00n10) Exists(tIdx int) bool {
 	return board.data[tIdx] != 0
 }
 
 // SetColor - 盤データ。
-func (board *BoardV00n1) SetColor(tIdx int, color int) {
+func (board *BoardV00n10) SetColor(tIdx int, color int) {
 	board.data[tIdx] = color
 }
 
 // CopyData - 盤データのコピー。
-func (board BoardV00n1) CopyData() []int {
+func (board BoardV00n10) CopyData() []int {
 	boardMax := board.SentinelBoardMax()
 
 	var boardCopy2 = make([]int, boardMax)
@@ -75,12 +69,12 @@ func (board BoardV00n1) CopyData() []int {
 }
 
 // ImportData - 盤データのコピー。
-func (board *BoardV00n1) ImportData(boardCopy2 []int) {
+func (board *BoardV00n10) ImportData(boardCopy2 []int) {
 	copy(board.data[:], boardCopy2[:])
 }
 
 // GetZ4 - tIdx（配列のインデックス）を XXYY形式（3～4桁の数）の座標へ変換します。
-func (board BoardV00n1) GetZ4(tIdx int) int {
+func (board BoardV00n10) GetZ4(tIdx int) int {
 	if tIdx == 0 {
 		return 0
 	}
@@ -90,12 +84,12 @@ func (board BoardV00n1) GetZ4(tIdx int) int {
 }
 
 // GetTIdxFromXy - x,y を tIdx（配列のインデックス）へ変換します。
-func (board BoardV00n1) GetTIdxFromXy(x int, y int) int {
+func (board BoardV00n10) GetTIdxFromXy(x int, y int) int {
 	return (y+1)*board.SentinelWidth() + x + 1
 }
 
 // GetEmptyTIdx - 空点の tIdx（配列のインデックス）を返します。
-func (board BoardV00n1) GetEmptyTIdx() int {
+func (board BoardV00n10) GetEmptyTIdx() int {
 	var x, y, tIdx int
 	for {
 		// ランダムに交点を選んで、空点を見つけるまで繰り返します。
@@ -109,7 +103,7 @@ func (board BoardV00n1) GetEmptyTIdx() int {
 	return tIdx
 }
 
-func (board BoardV00n1) countLibertySub(tIdx int, color int, pLiberty *int, pStone *int) {
+func (board BoardV00n10) countLibertySub(tIdx int, color int, pLiberty *int, pStone *int) {
 	checkBoard[tIdx] = 1
 	*pStone++
 	for i := 0; i < 4; i++ {
@@ -129,7 +123,7 @@ func (board BoardV00n1) countLibertySub(tIdx int, color int, pLiberty *int, pSto
 }
 
 // CountLiberty - 呼吸点を数えます。
-func (board BoardV00n1) CountLiberty(tIdx int, pLiberty *int, pStone *int) {
+func (board BoardV00n10) CountLiberty(tIdx int, pLiberty *int, pStone *int) {
 	*pLiberty = 0
 	*pStone = 0
 	boardMax := board.SentinelBoardMax()
@@ -141,7 +135,7 @@ func (board BoardV00n1) CountLiberty(tIdx int, pLiberty *int, pStone *int) {
 }
 
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
-func (board *BoardV00n1) TakeStone(tIdx int, color int) {
+func (board *BoardV00n10) TakeStone(tIdx int, color int) {
 	board.data[tIdx] = 0
 	for dir := 0; dir < 4; dir++ {
 		tIdx2 := tIdx + Dir4[dir]
@@ -152,7 +146,7 @@ func (board *BoardV00n1) TakeStone(tIdx int, color int) {
 }
 
 // InitBoard - 盤の初期化。
-func (board *BoardV00n1) InitBoard() {
+func (board *BoardV00n10) InitBoard() {
 	boardMax := board.SentinelBoardMax()
 	boardSize := board.BoardSize()
 	// G.Chat.Trace("# (^q^) boardMax=%d boardSize=%d\n", boardMax, boardSize)

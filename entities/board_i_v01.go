@@ -7,8 +7,8 @@ import (
 	"time"
 )
 
-// IBoard - 盤。
-type IBoard interface {
+// IBoardV01 - 盤。
+type IBoardV01 interface {
 	// 指定した交点の石の色
 	ColorAt(tIdx int) int
 	ColorAtXy(x int, y int) int
@@ -23,19 +23,19 @@ type IBoard interface {
 	PutStoneType2(tIdx int, color int, fillEyeErr int) int
 
 	// Playout - 最後まで石を打ちます。
-	Playout(turnColor int, printBoardType1 func(IBoard)) int
+	Playout(turnColor int, printBoardType1 func(IBoardV01)) int
 	CountLiberty(tIdx int, pLiberty *int, pStone *int)
 	TakeStone(tIdx int, color int)
 	GetEmptyTIdx() int
 
 	// GetComputerMove - コンピューターの指し手。
-	GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int
+	GetComputerMove(color int, fUCT int, printBoardType1 func(IBoardV01)) int
 	// Monte Calro Tree Search
-	PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int
+	PrimitiveMonteCalro(color int, printBoardType1 func(IBoardV01)) int
 	// AddMovesType1 - 指し手の追加？
-	AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int))
+	AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int))
 	// AddMovesType2 - 指し手の追加？
-	AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int))
+	AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoardV01, int))
 
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
@@ -52,7 +52,7 @@ type IBoard interface {
 	UctChildrenSize() int
 }
 
-func newBoard(board IBoard) {
+func newBoard(board IBoardV01) {
 	checkBoard = make([]int, board.SentinelBoardMax())
 	Record = make([]int, board.MaxMoves())
 	RecordTime = make([]float64, board.MaxMoves())
@@ -61,7 +61,7 @@ func newBoard(board IBoard) {
 
 // PutStoneType1 - 石を置きます。
 // * `tIdx` - 盤の交点の配列のインデックス。
-func putStoneType1V1(board IBoard, tIdx int, color int) int {
+func putStoneType1V1(board IBoardV01, tIdx int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -135,7 +135,7 @@ func putStoneType1V1(board IBoard, tIdx int, color int) int {
 }
 
 // putStoneType1V3 - 石を置きます。
-func putStoneType1V3(board IBoard, tIdx int, color int) int {
+func putStoneType1V3(board IBoardV01, tIdx int, color int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -210,7 +210,7 @@ func putStoneType1V3(board IBoard, tIdx int, color int) int {
 }
 
 // putStoneTypeV4Type2 - 石を置きます。
-func putStoneTypeV4Type2(board IBoard, tIdx int, color int, fillEyeErr int) int {
+func putStoneTypeV4Type2(board IBoardV01, tIdx int, color int, fillEyeErr int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -286,7 +286,7 @@ func putStoneTypeV4Type2(board IBoard, tIdx int, color int, fillEyeErr int) int 
 }
 
 // playOneMove - 置けるとこに置く。
-func playOneMove(board IBoard, color int) int {
+func playOneMove(board IBoardV01, color int) int {
 	for i := 0; i < 100; i++ {
 		tIdx := board.GetEmptyTIdx()
 		err := board.PutStoneType1(tIdx, color)
@@ -302,7 +302,7 @@ func playOneMove(board IBoard, color int) int {
 }
 
 // countScore - 得点計算。
-func countScoreV5(board IBoard, turnColor int) int {
+func countScoreV5(board IBoardV01, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -342,7 +342,7 @@ func countScoreV5(board IBoard, turnColor int) int {
 	return win
 }
 
-func countScoreV6(board IBoard, turnColor int) int {
+func countScoreV6(board IBoardV01, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -382,7 +382,7 @@ func countScoreV6(board IBoard, turnColor int) int {
 	return win
 }
 
-func countScoreV7(board IBoard, turnColor int) int {
+func countScoreV7(board IBoardV01, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -426,7 +426,7 @@ func countScoreV7(board IBoard, turnColor int) int {
 	return win
 }
 
-func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
+func playoutV1(board IBoardV01, turnColor int, printBoardType1 func(IBoardV01)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -477,7 +477,7 @@ func playoutV1(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
+func playoutV8(board IBoardV01, turnColor int, printBoardType1 func(IBoardV01)) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -526,7 +526,7 @@ func playoutV8(board IBoard, turnColor int, printBoardType1 func(IBoard)) int {
 	return countScoreV7(board, turnColor)
 }
 
-func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)) int {
+func primitiveMonteCalroV6(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
 	boardSize := board.BoardSize()
 
 	// 9路盤なら
@@ -578,7 +578,7 @@ func primitiveMonteCalroV6(board IBoard, color int, printBoardType1 func(IBoard)
 	return bestTIdx
 }
 
-func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)) int {
+func primitiveMonteCalroV7(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
 	boardSize := board.BoardSize()
 
 	tryNum := 30
@@ -623,7 +623,7 @@ func primitiveMonteCalroV7(board IBoard, color int, printBoardType1 func(IBoard)
 	return bestTIdx
 }
 
-func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)) int {
+func primitiveMonteCalroV9(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
 	boardSize := board.BoardSize()
 
 	// ９路盤なら
@@ -672,7 +672,7 @@ func primitiveMonteCalroV9(board IBoard, color int, printBoardType1 func(IBoard)
 }
 
 // addMovesType1V8 - GoGoV8, SelfplayV9 から呼び出されます。
-func addMovesType1V8(board IBoard, tIdx int, color int, printBoardType2 func(IBoard, int)) {
+func addMovesType1V8(board IBoardV01, tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
 	err := board.PutStoneType2(tIdx, color, FillEyeOk)
 	if err != 0 {
 		fmt.Println("(AddMovesV8) Err!", err)
@@ -684,7 +684,7 @@ func addMovesType1V8(board IBoard, tIdx int, color int, printBoardType2 func(IBo
 }
 
 // addMovesV9a - 指し手の追加？
-func addMovesType2V9a(board IBoard, tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+func addMovesType2V9a(board IBoardV01, tIdx int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
 	err := board.PutStoneType2(tIdx, color, FillEyeOk)
 	if err != 0 {
 		fmt.Fprintf(os.Stderr, "(addMoves9a) Err!\n")
@@ -697,7 +697,7 @@ func addMovesType2V9a(board IBoard, tIdx int, color int, sec float64, printBoard
 }
 
 // getComputerMoveV9 - コンピューターの指し手。
-func getComputerMoveV9(board IBoard, color int, fUCT int, printBoardType1 func(IBoard)) int {
+func getComputerMoveV9(board IBoardV01, color int, fUCT int, printBoardType1 func(IBoardV01)) int {
 	var tIdx int
 	start := time.Now()
 	AllPlayouts = 0

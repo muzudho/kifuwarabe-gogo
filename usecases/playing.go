@@ -10,7 +10,7 @@ import (
 )
 
 // SelfplayV9 - コンピューター同士の対局。
-func SelfplayV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 func(e.IBoard, int)) {
+func SelfplayV9(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) {
 	color := 1
 
 	for {
@@ -35,7 +35,7 @@ func SelfplayV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 
 }
 
 // TestPlayoutV9 - 試しにプレイアウトする。
-func TestPlayoutV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 func(e.IBoard, int)) {
+func TestPlayoutV9(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) {
 	e.FlagTestPlayout = 1
 	board.Playout(1, printBoardType1)
 	printBoardType2(board, e.Moves)
@@ -43,7 +43,7 @@ func TestPlayoutV9(board e.IBoard, printBoardType1 func(e.IBoard), printBoardTyp
 }
 
 // PlayComputerMoveV9a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
-func PlayComputerMoveV9a(board e.IBoard, color int, fUCT int, printBoardType1 func(e.IBoard), printBoardType2 func(e.IBoard, int)) int {
+func PlayComputerMoveV9a(board e.IBoardV01, color int, fUCT int, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) int {
 	var tIdx int
 	st := time.Now()
 	e.AllPlayouts = 0
@@ -60,7 +60,7 @@ func PlayComputerMoveV9a(board e.IBoard, color int, fUCT int, printBoardType1 fu
 }
 
 // TestPlayoutV9a - 試しにプレイアウトする。
-func TestPlayoutV9a(board e.IBoard, printBoardType1 func(e.IBoard), printBoardType2 func(e.IBoard, int)) {
+func TestPlayoutV9a(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) {
 	e.FlagTestPlayout = 1
 	board.Playout(1, printBoardType1)
 	printBoardType2(board, e.Moves)

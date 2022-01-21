@@ -6,7 +6,7 @@ import (
 
 // BoardV09 - 盤 Version 9。
 type BoardV09 struct {
-	BoardV00n1
+	BoardV00n20
 }
 
 // NewBoardV9 - 盤を作成します。
@@ -41,7 +41,7 @@ func (board *BoardV09) PlayOneMove(color int) int {
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV09) Playout(turnColor int, printBoardType1 func(IBoard)) int {
+func (board *BoardV09) Playout(turnColor int, printBoardType1 func(IBoardV01)) int {
 	return playoutV8(board, turnColor, printBoardType1)
 }
 
@@ -104,21 +104,21 @@ func (board *BoardV09) playoutV9(turnColor int) int {
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 9.
-func (board *BoardV09) PrimitiveMonteCalro(color int, printBoardType1 func(IBoard)) int {
+func (board *BoardV09) PrimitiveMonteCalro(color int, printBoardType1 func(IBoardV01)) int {
 	return primitiveMonteCalroV9(board, color, printBoardType1)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV9 から呼び出されます。
-func (board *BoardV09) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoard, int)) {
+func (board *BoardV09) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
 	addMovesType1V8(board, tIdx, color, printBoardType2)
 }
 
 // AddMovesType2 - 指し手の追加？
-func (board *BoardV09) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoard, int)) {
+func (board *BoardV09) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
 	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }
 
 // GetComputerMove - コンピューターの指し手。
-func (board *BoardV09) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoard)) int {
+func (board *BoardV09) GetComputerMove(color int, fUCT int, printBoardType1 func(IBoardV01)) int {
 	return getComputerMoveV9(board, color, fUCT, printBoardType1)
 }

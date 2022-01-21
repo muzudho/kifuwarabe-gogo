@@ -129,7 +129,7 @@ var stoneLabelsType1 = [4]string{"・", " ●", " ○", "＃"}
 var stoneLabelsType2 = [4]string{" .", " *", " o", " #"}
 
 // PrintBoardType1 - 盤の描画。
-func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
+func (presenter PresenterV1) PrintBoardType1(board e.IBoardV01) {
 	fmt.Printf("\n   ")
 	boardSize := board.BoardSize()
 	for x := 0; x < boardSize; x++ {
@@ -155,34 +155,7 @@ func (presenter PresenterV1) PrintBoardType1(board e.IBoard) {
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter PresenterV2) PrintBoardType1(board e.IBoard) {
-	boardSize := board.BoardSize()
-
-	fmt.Printf("\n   ")
-	for x := 0; x < boardSize; x++ {
-		fmt.Printf("%s", labelOfColumns[x+1])
-	}
-	fmt.Printf("\n  +")
-	for x := 0; x < boardSize; x++ {
-		fmt.Printf("--")
-	}
-	fmt.Printf("+\n")
-	for y := 0; y < boardSize; y++ {
-		fmt.Printf("%s|", labelOfRowsV1[y+1])
-		for x := 0; x < boardSize; x++ {
-			fmt.Printf("%s", stoneLabelsType1[board.ColorAtXy(x, y)])
-		}
-		fmt.Printf("|\n")
-	}
-	fmt.Printf("  +")
-	for x := 0; x < boardSize; x++ {
-		fmt.Printf("--")
-	}
-	fmt.Printf("+\n")
-}
-
-// PrintBoardType1 - 盤の描画。
-func printBoardType1V3(board e.IBoard) {
+func (presenter PresenterV2) PrintBoardType1(board e.IBoardV01) {
 	boardSize := board.BoardSize()
 
 	fmt.Printf("\n   ")
@@ -209,47 +182,74 @@ func printBoardType1V3(board e.IBoard) {
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV3) PrintBoardType1(board e.IBoard) {
+func printBoardType1V3(board e.IBoardV01) {
+	boardSize := board.BoardSize()
+
+	fmt.Printf("\n   ")
+	for x := 0; x < boardSize; x++ {
+		fmt.Printf("%s", labelOfColumns[x+1])
+	}
+	fmt.Printf("\n  +")
+	for x := 0; x < boardSize; x++ {
+		fmt.Printf("--")
+	}
+	fmt.Printf("+\n")
+	for y := 0; y < boardSize; y++ {
+		fmt.Printf("%s|", labelOfRowsV1[y+1])
+		for x := 0; x < boardSize; x++ {
+			fmt.Printf("%s", stoneLabelsType1[board.ColorAtXy(x, y)])
+		}
+		fmt.Printf("|\n")
+	}
+	fmt.Printf("  +")
+	for x := 0; x < boardSize; x++ {
+		fmt.Printf("--")
+	}
+	fmt.Printf("+\n")
+}
+
+// PrintBoardType1 - 盤の描画。
+func (presenter *PresenterV3) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV4) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV4) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV5) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV5) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV6) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV6) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV7) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV7) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV8) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV8) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV9) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV9) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType1 - 盤の描画。
-func (presenter *PresenterV9a) PrintBoardType1(board e.IBoard) {
+func (presenter *PresenterV9a) PrintBoardType1(board e.IBoardV01) {
 	printBoardType1V3(board)
 }
 
 // PrintBoardType2 - 盤の描画。
-func printBoardType2(board e.IBoard, moves int) {
+func printBoardType2(board e.IBoardV01, moves int) {
 	boardSize := board.BoardSize()
 
 	fmt.Printf("\n   ")
@@ -280,52 +280,52 @@ func printBoardType2(board e.IBoard, moves int) {
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV1) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV1) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV2) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV2) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV3) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV3) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV4) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV4) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV5) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV5) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV6) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV6) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV7) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV7) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV8) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV8) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤の描画。
-func (presenter *PresenterV9) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV9) PrintBoardType2(board e.IBoardV01, moves int) {
 	printBoardType2(board, moves)
 }
 
 // PrintBoardType2 - 盤を描画。
-func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
+func (presenter *PresenterV9a) PrintBoardType2(board e.IBoardV01, moves int) {
 	boardSize := board.BoardSize()
 
 	fmt.Fprintf(os.Stderr, "\n   ")
@@ -356,7 +356,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoard, moves int) {
 }
 
 // PrintSgf - SGF形式の棋譜表示。
-func PrintSgf(board e.IBoard, moves int, record []int) {
+func PrintSgf(board e.IBoardV01, moves int, record []int) {
 	boardSize := board.BoardSize()
 
 	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", boardSize, board.Komi())
@@ -379,7 +379,7 @@ func PrintSgf(board e.IBoard, moves int, record []int) {
 }
 
 // GetCharZ - YX座標の文字表示？
-func GetCharZ(board e.IBoard, z int) string {
+func GetCharZ(board e.IBoardV01, z int) string {
 	if z == 0 {
 		return "pass"
 	}

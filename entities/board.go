@@ -3,8 +3,8 @@ package entities
 // IPresenter - 表示用。
 type IPresenter interface {
 	// 盤の描画。
-	PrintBoardType1(board IBoard)
-	PrintBoardType2(board IBoard, moves int)
+	PrintBoardType1(board IBoardV01)
+	PrintBoardType2(board IBoardV01, moves int)
 }
 
 // AllPlayouts - プレイアウトした回数。
