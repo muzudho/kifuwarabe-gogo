@@ -22,6 +22,8 @@ genmove b
 
 genmove w
 # 少し時間がかかります
+
+quit
 ```
 
 ## Memorandom
