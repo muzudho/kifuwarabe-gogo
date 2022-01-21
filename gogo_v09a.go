@@ -29,6 +29,7 @@ func GoGoV09a() {
 
 	e.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
+	// GUI から 囲碁エンジン へ入力があった、と考えてください
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		command := scanner.Text()
