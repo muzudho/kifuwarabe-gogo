@@ -150,3 +150,19 @@ func PutStoneType2(board IBoardV01, z int, color int, fillEyeErr int) int {
 	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
 	return PutStone(board, z, color, except)
 }
+
+// PlayOneMove - Lesson03で使用。置けるとこに置く
+func PlayOneMove(board IBoardV01, color int, exceptPutStone func(int, int, int, int, int) int) int {
+	for i := 0; i < 100; i++ {
+		z := board.GetEmptyTIdx()
+		err := PutStone(board, z, color, exceptPutStone)
+		if err == 0 {
+			return z
+		}
+	}
+
+	// 0 はパス。
+	const z = 0
+	PutStone(board, z, color, exceptPutStone)
+	return z
+}

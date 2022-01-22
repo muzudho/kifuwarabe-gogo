@@ -16,7 +16,10 @@ func NewBoard(data []int, boardSize int, sentinelBoardMax int, komi float64, max
 	board.maxMoves = maxMoves
 	board.uctChildrenSize = boardSize*boardSize + 1
 
-	newBoard(board)
+	checkBoard = make([]int, board.SentinelBoardMax())
+	Record = make([]int, board.MaxMoves())
+	RecordTime = make([]float64, board.MaxMoves())
+	Dir4 = [4]int{1, board.SentinelWidth(), -1, -board.SentinelWidth()}
 
 	return board
 }

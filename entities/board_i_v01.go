@@ -27,26 +27,3 @@ type IBoardV01 interface {
 	// GetZ4 - tIdx（配列のインデックス）を XXYY形式へ変換します。
 	GetZ4(z int) int
 }
-
-func newBoard(board IBoardV01) {
-	checkBoard = make([]int, board.SentinelBoardMax())
-	Record = make([]int, board.MaxMoves())
-	RecordTime = make([]float64, board.MaxMoves())
-	Dir4 = [4]int{1, board.SentinelWidth(), -1, -board.SentinelWidth()}
-}
-
-// PlayOneMove - 置けるとこに置く。
-func PlayOneMove(board IBoardV01, color int, exceptPutStone func(int, int, int, int, int) int) int {
-	for i := 0; i < 100; i++ {
-		z := board.GetEmptyTIdx()
-		err := PutStone(board, z, color, exceptPutStone)
-		if err == 0 {
-			return z
-		}
-	}
-
-	// 0 はパス。
-	const z = 0
-	PutStone(board, z, color, exceptPutStone)
-	return z
-}
