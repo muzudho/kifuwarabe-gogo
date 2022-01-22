@@ -38,7 +38,7 @@ import (
 )
 
 // PrintBoardType2 - 盤を描画。
-func (presenter *PresenterV9a) PrintBoardType2(board e.IBoardV01, moves int) {
+func (presenter *PresenterV9a) PrintBoardType2(board e.IBoardV01, movesNum int) {
 
 	boardSize := board.BoardSize()
 
@@ -58,7 +58,7 @@ func (presenter *PresenterV9a) PrintBoardType2(board e.IBoardV01, moves int) {
 		}
 		fmt.Fprintf(os.Stderr, "|")
 		if y == 4 {
-			fmt.Fprintf(os.Stderr, "  KoZ=%04d,moves=%d", board.GetZ4(e.KoIdx), moves)
+			fmt.Fprintf(os.Stderr, "  KoZ=%04d,movesNum=%d", board.GetZ4(e.KoIdx), movesNum)
 		}
 		fmt.Fprintf(os.Stderr, "\n")
 	}

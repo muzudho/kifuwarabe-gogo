@@ -20,7 +20,7 @@ var G GlobalVariables
 type IPresenter interface {
 	// 盤の描画。
 	PrintBoardType1(board IBoardV01)
-	PrintBoardType2(board IBoardV01, moves int)
+	PrintBoardType2(board IBoardV01, movesNum int)
 }
 
 // AllPlayouts - プレイアウトした回数。

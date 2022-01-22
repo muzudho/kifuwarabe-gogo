@@ -30,7 +30,7 @@ func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int
 	}
 
 	sec := time.Since(start).Seconds()
-	fmt.Printf("(GetComputerMoveV9) %.1f sec, %.0f playout/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
+	fmt.Printf("(GetComputerMoveV9) %.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(AllPlayouts)/sec, board.GetZ4(z), Moves, color, AllPlayouts, fUCT)
 	return z
 }
