@@ -65,14 +65,27 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(I
 
 // Playout - 最後まで石を打ちます。得点を返します
 // * `printBoard` - プレイアウト中の盤の描画
-// * `count` - 地計算
-func Playout(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
+// * `countTerritories` - 地計算
+func Playout(
+	board IBoardV01,
+	turnColor int,
+	printBoard func(int, int, int, int),
+	countTerritories func(IBoardV01, int) int) int {
+
 	AllPlayouts++
 	boardSize := board.BoardSize()
 
 	color := turnColor
-	previousTIdx := 0
-	loopMax := boardSize*boardSize + 200
+	previousZ := 0
+
+	var loopMax int
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		loopMax = boardSize*boardSize + 200
+	} else {
+		loopMax = boardSize * boardSize
+	}
+
 	boardMax := board.SentinelBoardMax()
 
 	for trial := 0; trial < loopMax; trial++ {
@@ -103,15 +116,22 @@ func Playout(board IBoardV01, turnColor int, printBoard func(int, int, int, int)
 			empty[r] = empty[emptyNum-1]
 			emptyNum--
 		}
-		if z == 0 && previousTIdx == 0 {
+
+		// テストのときは棋譜を残します
+		if FlagTestPlayout != 0 {
+			Record[Moves] = z
+			Moves++
+		}
+
+		if z == 0 && previousZ == 0 {
 			break
 		}
-		previousTIdx = z
+		previousZ = z
 
 		printBoard(trial, z, color, emptyNum)
 
 		color = FlipColor(color)
 	}
 
-	return count(board, turnColor)
+	return countTerritories(board, turnColor)
 }

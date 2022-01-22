@@ -19,12 +19,11 @@ func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01), printBoar
 
 		var countTerritories = e.CreateCounterForPlayoutLesson07(board, color)
 
-		tIdx := e.GetComputerMoveV9(board, color, fUCT, printBoard, countTerritories)
-		// tIdx := board.GetComputerMove(color, fUCT, printBoard, countTerritories)
+		z := e.GetComputerMoveV9(board, color, fUCT, printBoard, countTerritories)
 
-		board.AddMovesType1(tIdx, color, printBoardType2)
+		board.AddMovesType1(z, color, printBoardType2)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
-		if tIdx == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
+		if z == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
 			break
 		}
 		// 自己対局は300手で終了します。
