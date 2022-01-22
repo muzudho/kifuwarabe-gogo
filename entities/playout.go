@@ -23,7 +23,8 @@ func createCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoard
 	return counter
 }
 
-func createPrintBoardIdling() func(int, int, int, int) {
+// プレイアウト中の盤の描画（何も描画しません）
+func createPrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
 	var printBoard = func(trial int, z4 int, color int, emptyNum int) {
 		// 何もしません
 	}
@@ -31,7 +32,8 @@ func createPrintBoardIdling() func(int, int, int, int) {
 	return printBoard
 }
 
-func createPrintBoardType1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int) {
+// プレイアウト中の盤の描画
+func createPrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int) {
 	var printBoard = func(trial int, z int, color int, emptyNum int) {
 		var z4 = board.GetZ4(z)       // XXYY
 		var koZ4 = board.GetZ4(KoIdx) // XXYY
@@ -43,8 +45,10 @@ func createPrintBoardType1(board IBoardV01, printBoardType1 func(IBoardV01)) fun
 	return printBoard
 }
 
-// playoutV1 - 最後まで石を打ちます。得点を返します
-func playoutV1(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
+// playout - 最後まで石を打ちます。得点を返します
+// * `printBoard` - プレイアウト中の盤の描画
+// * `count` - 地計算
+func playout(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -52,57 +56,6 @@ func playoutV1(board IBoardV01, turnColor int, printBoard func(int, int, int, in
 	loopMax := boardSize*boardSize + 200
 	boardMax := board.SentinelBoardMax()
 
-	for trial := 0; trial < loopMax; trial++ {
-		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
-		for y := 0; y <= boardSize; y++ {
-			for x := 0; x < boardSize; x++ {
-				z = board.GetTIdxFromXy(x, y)
-				if board.Exists(z) {
-					continue
-				}
-				empty[emptyNum] = z
-				emptyNum++
-			}
-		}
-		r = 0
-		for {
-			if emptyNum == 0 {
-				z = 0
-			} else {
-				r = rand.Intn(emptyNum)
-				z = empty[r]
-			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
-			if err == 0 {
-				break
-			}
-			empty[r] = empty[emptyNum-1]
-			emptyNum--
-		}
-		if z == 0 && previousTIdx == 0 {
-			break
-		}
-		previousTIdx = z
-
-		printBoard(trial, z, color, emptyNum)
-
-		color = FlipColor(color)
-	}
-
-	return count(board, turnColor)
-}
-
-// playoutV8 - 最後まで石を打ちます。得点を返します
-func playoutV8(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
-	boardSize := board.BoardSize()
-
-	color := turnColor
-	previousTIdx := 0
-	loopMax := boardSize*boardSize + 200
-	boardMax := board.SentinelBoardMax()
-
-	AllPlayouts++
 	for trial := 0; trial < loopMax; trial++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int

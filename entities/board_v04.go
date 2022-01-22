@@ -41,9 +41,9 @@ func (board *BoardV04) PlayOneMove(color int) int {
 
 // Playout - 最後まで石を打ちます。
 func (board *BoardV04) Playout(turnColor int, printBoardType1 func(IBoardV01)) int {
-	var printBoard = createPrintBoardType1(board, printBoardType1)
+	var printBoard = createPrintingOfBoardDuringPlayout1(board, printBoardType1)
 	var count = createCounterForPlayoutLesson04()
-	return playoutV1(board, turnColor, printBoard, count)
+	return playout(board, turnColor, printBoard, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 4.

@@ -42,9 +42,11 @@ func (board *BoardV08) PlayOneMove(color int) int {
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func (board *BoardV08) Playout(turnColor int, printBoardType1 func(IBoardV01)) int {
-	var printBoardIdling = createPrintBoardIdling()
+	var printBoardIdling = createPrintingOfBoardDuringPlayoutIdling()
 	var count = createCounterForPlayoutLesson07(board, turnColor)
-	return playoutV8(board, turnColor, printBoardIdling, count)
+
+	AllPlayouts++
+	return playout(board, turnColor, printBoardIdling, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 8.
