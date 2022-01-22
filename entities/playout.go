@@ -23,16 +23,18 @@ func createCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoard
 	return counter
 }
 
-func createPrintBoardIdling() func(int, int, int, int, int) {
-	var printBoard = func(trial int, z4 int, color int, emptyNum int, koZ4 int) {
+func createPrintBoardIdling() func(int, int, int, int) {
+	var printBoard = func(trial int, z4 int, color int, emptyNum int) {
 		// 何もしません
 	}
 
 	return printBoard
 }
 
-func createPrintBoardType1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int, int) {
-	var printBoard = func(trial int, z4 int, color int, emptyNum int, koZ4 int) {
+func createPrintBoardType1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int) {
+	var printBoard = func(trial int, z int, color int, emptyNum int) {
+		var z4 = board.GetZ4(z)       // XXYY
+		var koZ4 = board.GetZ4(KoIdx) // XXYY
 		printBoardType1(board)
 		fmt.Printf("trial=%d,z4=%04d,clr=%d,emptyNum=%d,koZ4=%04d\n",
 			trial, z4, color, emptyNum, koZ4)
@@ -42,7 +44,7 @@ func createPrintBoardType1(board IBoardV01, printBoardType1 func(IBoardV01)) fun
 }
 
 // playoutV1 - 最後まで石を打ちます。得点を返します
-func playoutV1(board IBoardV01, turnColor int, printBoard func(int, int, int, int, int), count func(IBoardV01, int) int) int {
+func playoutV1(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -83,14 +85,7 @@ func playoutV1(board IBoardV01, turnColor int, printBoard func(int, int, int, in
 		}
 		previousTIdx = z
 
-		var z4 = board.GetZ4(z)       // XXYY
-		var koZ4 = board.GetZ4(KoIdx) // XXYY
-		/*
-			printBoardType1(board)
-			fmt.Printf("trial=%d,z4=%04d,clr=%d,emptyNum=%d,koZ4=%04d\n",
-				trial, z4, color, emptyNum, koZ4)
-		*/
-		printBoard(trial, z4, color, emptyNum, koZ4)
+		printBoard(trial, z, color, emptyNum)
 
 		color = FlipColor(color)
 	}
@@ -99,7 +94,7 @@ func playoutV1(board IBoardV01, turnColor int, printBoard func(int, int, int, in
 }
 
 // playoutV8 - 最後まで石を打ちます。得点を返します
-func playoutV8(board IBoardV01, turnColor int, printBoard func(int, int, int, int, int), count func(IBoardV01, int) int) int {
+func playoutV8(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -140,9 +135,9 @@ func playoutV8(board IBoardV01, turnColor int, printBoard func(int, int, int, in
 			break
 		}
 		previousTIdx = z
-		// printBoardType1()
-		// fmt.Printf("trial=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
-		// 	trial, e.GetZ4(z), color, emptyNum, e.GetZ4(KoIdx))
+
+		printBoard(trial, z, color, emptyNum)
+
 		color = FlipColor(color)
 	}
 
