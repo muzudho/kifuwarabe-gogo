@@ -67,6 +67,7 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(I
 // * `printBoard` - プレイアウト中の盤の描画
 // * `count` - 地計算
 func Playout(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
+	AllPlayouts++
 	boardSize := board.BoardSize()
 
 	color := turnColor

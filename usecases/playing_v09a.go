@@ -31,7 +31,9 @@ func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoard fun
 // TestPlayoutV09a - 試しにプレイアウトする。
 func TestPlayoutV09a(board e.IBoardV01, printBoard func(int, int, int, int), countTerritories func(e.IBoardV01, int) int, printBoardType2 func(e.IBoardV01, int)) {
 	e.FlagTestPlayout = 1
-	board.Playout(1, printBoard, countTerritories)
+
+	e.Playout(board, 1, printBoard, countTerritories)
+
 	printBoardType2(board, e.Moves)
 	p.PrintSgf(board, e.Moves, e.Record)
 }

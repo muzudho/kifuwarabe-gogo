@@ -47,7 +47,7 @@ func addChild(pN *Node, tIdx int) {
 	pN.ChildNum++
 }
 
-// CreateNode - ノード作成。 searchUctV8, e.GetBestUctV8, searchUctV9, e.GetBestUctV9, e.GetBestUctV9a から呼び出されます。
+// CreateNode - ノード作成。 searchUctV8, GetBestUctV8, searchUctV9, GetBestUctV9, GetBestUctV9a から呼び出されます。
 func CreateNode(board IBoardV02) int {
 	boardSize := board.BoardSize()
 
@@ -115,13 +115,12 @@ func SearchUctV8(board IBoardV02, color int, nodeN int, printBoard func(int, int
 			break
 		}
 		c.TIdx = IllegalTIdx
-		// fmt.Printf("ILLEGAL:z=%04d\n", e.GetZ4(tIdx))
+		// fmt.Printf("ILLEGAL:z=%04d\n", GetZ4(tIdx))
 	}
 
 	if c.Games <= 0 {
 		// 指し手の勝率？
-		win = -board.Playout(FlipColor(color), printBoard, countTerritories)
-
+		win = -Playout(board, FlipColor(color), printBoard, countTerritories)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = CreateNode(board)
@@ -181,7 +180,7 @@ func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int
 		// fmt.Printf("ILLEGAL:z=%04d\n", e.GetZ4(tIdx))
 	}
 	if c.Games <= 0 {
-		win = -board.Playout(FlipColor(color), printBoard, countTerritories)
+		win = -Playout(board, FlipColor(color), printBoard, countTerritories)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = CreateNode(board)
@@ -217,7 +216,7 @@ func GetBestUctV9(board IBoardV02, color int, printBoard func(int, int, int, int
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Printf("(GetBestUctV9) %2d:z=%04d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.TIdx), c.Rate, c.Games)
+		// fmt.Printf("(GetBestUctV9) %2d:z=%04d,rate=%.4f,games=%3d\n", i, GetZ4(c.TIdx), c.Rate, c.Games)
 	}
 	bestTIdx := pN.Children[bestI].TIdx
 	fmt.Printf("(GetBestUctV9) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
@@ -251,7 +250,7 @@ func GetBestUctV9a(board IBoardV02, color int, printBoard func(int, int, int, in
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%04d,rate=%.4f,games=%3d\n", i, e.GetZ4(c.TIdx), c.Rate, c.Games)
+		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%04d,rate=%.4f,games=%3d\n", i, GetZ4(c.TIdx), c.Rate, c.Games)
 	}
 	bestTIdx := pN.Children[bestI].TIdx
 	fmt.Fprintf(os.Stderr, "[GetBestUctV9a] bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",

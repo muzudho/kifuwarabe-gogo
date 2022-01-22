@@ -24,5 +24,4 @@ func GoGoV05() {
 	var count = e.CreateCounterForPlayoutLesson05(board, color)
 	var printBoard = e.CreatePrintingOfBoardDuringPlayout1(board, presenter.PrintBoardType1)
 	e.Playout(board, color, printBoard, count)
-	// board.Playout(color, printBoard)
 }

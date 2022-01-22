@@ -44,15 +44,6 @@ func (board *BoardV09) PlayOneMove(color int) int {
 	return playOneMove(board, color)
 }
 
-// Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV09) Playout(turnColor int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
-	var printBoardIdling = CreatePrintingOfBoardDuringPlayoutIdling()
-	var count = CreateCounterForPlayoutLesson07(board, turnColor)
-
-	AllPlayouts++
-	return Playout(board, turnColor, printBoardIdling, count)
-}
-
 func (board *BoardV09) playoutV9(turnColor int) int {
 	boardSize := board.BoardSize()
 

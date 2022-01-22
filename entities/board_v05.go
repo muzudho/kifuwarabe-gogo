@@ -39,12 +39,6 @@ func (board *BoardV05) PlayOneMove(color int) int {
 	return playOneMove(board, color)
 }
 
-// Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV05) Playout(turnColor int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
-	var count = CreateCounterForPlayoutLesson05(board, turnColor)
-	return Playout(board, turnColor, printBoard, count)
-}
-
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 5.
 func (board *BoardV05) PrimitiveMonteCalro(color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	return primitiveMonteCalroV6(board, color, printBoard, countTerritories)

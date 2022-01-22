@@ -20,8 +20,6 @@ type IBoardV01 interface {
 	PutStoneType1(tIdx int, color int) int
 	PutStoneType2(tIdx int, color int, fillEyeErr int) int
 
-	// Playout - 最後まで石を打ちます。
-	Playout(turnColor int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int
 	CountLiberty(tIdx int, pLiberty *int, pStone *int)
 	TakeStone(tIdx int, color int)
 	GetEmptyTIdx() int
@@ -229,7 +227,7 @@ func primitiveMonteCalroV6(board IBoardV01, color int, printBoard func(int, int,
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-				win := board.Playout(FlipColor(color), printBoard, countTerritories)
+				win := Playout(board, FlipColor(color), printBoard, countTerritories)
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
@@ -273,9 +271,7 @@ func primitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int,
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-
-				win := -board.Playout(FlipColor(color), printBoard, countTerritories)
-
+				win := -Playout(board, FlipColor(color), printBoard, countTerritories)
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
@@ -321,9 +317,7 @@ func primitiveMonteCalroV9(board IBoardV01, color int, printBoard func(int, int,
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-
-				win := -board.Playout(FlipColor(color), printBoard, countTerritories)
-
+				win := -Playout(board, FlipColor(color), printBoard, countTerritories)
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
