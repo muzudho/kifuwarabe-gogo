@@ -13,7 +13,7 @@ func GetBlackWinV05(board IBoardV01, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetTIdxFromXy(x, y)
+			z := board.GetZFromXy(x, y)
 			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
@@ -54,7 +54,7 @@ func GetBlackWinV06(board IBoardV01, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetTIdxFromXy(x, y)
+			z := board.GetZFromXy(x, y)
 			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
@@ -95,7 +95,7 @@ func GetBlackWinV07(board IBoardV01, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetTIdxFromXy(x, y)
+			z := board.GetZFromXy(x, y)
 			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {

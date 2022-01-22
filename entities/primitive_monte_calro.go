@@ -109,7 +109,7 @@ func PrimitiveMonteCalro(
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			z := board.GetTIdxFromXy(x, y)
+			z := board.GetZFromXy(x, y)
 			if board.Exists(z) {
 				continue
 			}

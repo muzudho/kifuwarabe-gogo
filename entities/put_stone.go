@@ -154,7 +154,7 @@ func PutStoneType2(board IBoardV01, z int, color int, fillEyeErr int) int {
 // PlayOneMove - Lesson03で使用。置けるとこに置く
 func PlayOneMove(board IBoardV01, color int, exceptPutStone func(int, int, int, int, int) int) int {
 	for i := 0; i < 100; i++ {
-		z := board.GetEmptyTIdx()
+		z := board.GetEmptyZ()
 		err := PutStone(board, z, color, exceptPutStone)
 		if err == 0 {
 			return z

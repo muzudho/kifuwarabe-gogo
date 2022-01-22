@@ -89,7 +89,7 @@ func Lesson09a() {
 					x--
 				}
 				y := int(ax[1] - '0')
-				z := board.GetTIdxFromXy(int(x)-1, board.BoardSize()-y)
+				z := board.GetZFromXy(int(x)-1, board.BoardSize()-y)
 				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%04d\n", x, y, board.GetZ4(z))
 				if ax == "pass" {
 					z = 0

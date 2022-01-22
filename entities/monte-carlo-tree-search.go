@@ -12,13 +12,13 @@ const (
 	NodeMax   = 10000
 	NodeEmpty = -1
 	// Table index.
-	IllegalTIdx = -1
+	IllegalZ = -1
 )
 
 // Child - 子。
 type Child struct {
 	// table index. 盤の交点の配列のインデックス。
-	TIdx  int
+	Z     int
 	Games int
 	Rate  float64
 	Next  int
@@ -38,9 +38,9 @@ var Nodes = [NodeMax]Node{}
 var NodeNum = 0
 
 // CreateNode から呼び出されます。
-func addChild(pN *Node, tIdx int) {
+func addChild(pN *Node, z int) {
 	n := pN.ChildNum
-	pN.Children[n].TIdx = tIdx
+	pN.Children[n].Z = z
 	pN.Children[n].Games = 0
 	pN.Children[n].Rate = 0.0
 	pN.Children[n].Next = NodeEmpty
@@ -61,11 +61,11 @@ func CreateNode(board IBoardV02) int {
 	pN.ChildGameSum = 0
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetTIdxFromXy(x, y)
-			if board.Exists(tIdx) {
+			z := board.GetZFromXy(x, y)
+			if board.Exists(z) {
 				continue
 			}
-			addChild(pN, tIdx)
+			addChild(pN, z)
 		}
 	}
 	addChild(pN, 0)
@@ -81,7 +81,7 @@ func selectBestUcb(nodeN int) int {
 	ucb := 0.0
 	for i := 0; i < pN.ChildNum; i++ {
 		c := &pN.Children[i]
-		if c.TIdx == IllegalTIdx {
+		if c.Z == IllegalZ {
 			continue
 		}
 		if c.Games == 0 {
@@ -109,13 +109,13 @@ func SearchUctV8(board IBoardV02, color int, nodeN int, printBoard func(int, int
 	for {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
-		tIdx := c.TIdx
-		err := PutStoneType2(board, tIdx, color, FillEyeErr)
+		z := c.Z
+		err := PutStoneType2(board, z, color, FillEyeErr)
 		if err == 0 {
 			break
 		}
-		c.TIdx = IllegalTIdx
-		// fmt.Printf("ILLEGAL:z=%04d\n", GetZ4(tIdx))
+		c.Z = IllegalZ
+		// fmt.Printf("ILLEGAL:z=%04d\n", GetZ4(z))
 	}
 
 	if c.Games <= 0 {
@@ -156,12 +156,12 @@ func GetBestUctV8(board IBoardV02, color int, printBoard func(int, int, int, int
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("(GetBestUctV8) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.TIdx), c.Rate, c.Games)
+		fmt.Printf("(GetBestUctV8) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
 	}
-	bestTIdx := pN.Children[bestI].TIdx
+	bestZ := pN.Children[bestI].Z
 	fmt.Printf("(GetBestUctV8) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
-	return bestTIdx
+		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestZ
 }
 
 func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
@@ -171,13 +171,13 @@ func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int
 	for {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
-		tIdx := c.TIdx
-		err := PutStoneType2(board, tIdx, color, FillEyeErr)
+		z := c.Z
+		err := PutStoneType2(board, z, color, FillEyeErr)
 		if err == 0 {
 			break
 		}
-		c.TIdx = IllegalTIdx
-		// fmt.Printf("ILLEGAL:z=%04d\n", e.GetZ4(tIdx))
+		c.Z = IllegalZ
+		// fmt.Printf("ILLEGAL:z=%04d\n", e.GetZ4(z))
 	}
 	if c.Games <= 0 {
 		win = -Playout(board, FlipColor(color), printBoard, getBlackWin)
@@ -216,12 +216,12 @@ func GetBestUctV9(board IBoardV02, color int, printBoard func(int, int, int, int
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Printf("(GetBestUctV9) %2d:z=%04d,rate=%.4f,games=%3d\n", i, GetZ4(c.TIdx), c.Rate, c.Games)
+		// fmt.Printf("(GetBestUctV9) %2d:z=%04d,rate=%.4f,games=%3d\n", i, GetZ4(c.Z), c.Rate, c.Games)
 	}
-	bestTIdx := pN.Children[bestI].TIdx
+	bestZ := pN.Children[bestI].Z
 	fmt.Printf("(GetBestUctV9) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
-	return bestTIdx
+		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestZ
 }
 
 // GetBestUctV9a - PlayComputerMoveV09a から呼び出されます。
@@ -250,10 +250,10 @@ func GetBestUctV9a(board IBoardV02, color int, printBoard func(int, int, int, in
 			bestI = i
 			max = c.Games
 		}
-		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%04d,rate=%.4f,games=%3d\n", i, GetZ4(c.TIdx), c.Rate, c.Games)
+		// fmt.Fprintf(os.Stderr,"(GetBestUctV9a) %2d:z=%04d,rate=%.4f,games=%3d\n", i, GetZ4(c.Z), c.Rate, c.Games)
 	}
-	bestTIdx := pN.Children[bestI].TIdx
+	bestZ := pN.Children[bestI].Z
 	fmt.Fprintf(os.Stderr, "[GetBestUctV9a] bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
-		board.GetZ4(bestTIdx), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
-	return bestTIdx
+		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
+	return bestZ
 }

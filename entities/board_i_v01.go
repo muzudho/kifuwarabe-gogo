@@ -13,7 +13,7 @@ type IBoardV01 interface {
 
 	CountLiberty(z int, pLiberty *int, pStone *int)
 	TakeStone(z int, color int)
-	GetEmptyTIdx() int
+	GetEmptyZ() int
 
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
@@ -22,8 +22,8 @@ type IBoardV01 interface {
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	Komi() float64
 	MaxMovesNum() int
-	// GetTIdxFromXy - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
-	GetTIdxFromXy(x int, y int) int
-	// GetZ4 - tIdx（配列のインデックス）を XXYY形式へ変換します。
+	// GetZFromXy - YX形式の座標を、z（配列のインデックス）へ変換します。
+	GetZFromXy(x int, y int) int
+	// GetZ4 - z（配列のインデックス）を XXYY形式へ変換します。
 	GetZ4(z int) int
 }

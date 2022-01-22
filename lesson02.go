@@ -19,7 +19,7 @@ func Lesson02() {
 	p.PrintBoard(board, -1)
 
 	exceptPutStone := e.CreateExceptionForPutStoneLesson1(board)
-	var z = board.GetTIdxFromXy(7-1, 5-1)
+	var z = board.GetZFromXy(7-1, 5-1)
 	var color = 2
 	err := e.PutStone(board, z, color, exceptPutStone)
 	fmt.Printf("err=%d\n", err)
