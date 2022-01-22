@@ -22,6 +22,50 @@ func createExceptType1(board IBoardV01) func(int, int, int, int) int {
 	return exceptType1
 }
 
+func createExceptType2(board IBoardV01) func(int, int, int, int, int) int {
+	var except = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
+		// 中断処理1～4
+		if captureSum == 0 && space == 0 && mycolSafe == 0 {
+			return 1
+		}
+		if z == KoIdx {
+			return 2
+		}
+		if wall+mycolSafe == 4 {
+			return 3
+		}
+		if board.Exists(z) {
+			return 4
+		}
+
+		return 0
+	}
+
+	return except
+}
+
+func createExceptType3(board IBoardV01, fillEyeErr int) func(int, int, int, int, int) int {
+	var except = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
+		// 中断処理1～4
+		if captureSum == 0 && space == 0 && mycolSafe == 0 {
+			return 1
+		}
+		if z == KoIdx {
+			return 2
+		}
+		if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
+			return 3
+		}
+		if board.Exists(z) {
+			return 4
+		}
+
+		return 0
+	}
+
+	return except
+}
+
 // PutStoneType1 - 石を置きます。
 // * `z` - 盤の交点の配列のインデックス。
 func putStoneType1V1(board IBoardV01, z int, color int, except func(int, int, int, int) int) int {

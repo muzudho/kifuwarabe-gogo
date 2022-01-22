@@ -23,47 +23,13 @@ func NewBoardV8(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 
 // PutStoneType1 - 石を置きます。
 func (board *BoardV08) PutStoneType1(tIdx int, color int) int {
-	except := func(z int, space int, wall int, mycolSafe int, captureSum int) int {
-		// 中断処理1～4
-		if captureSum == 0 && space == 0 && mycolSafe == 0 {
-			return 1
-		}
-		if z == KoIdx {
-			return 2
-		}
-		if wall+mycolSafe == 4 {
-			return 3
-		}
-		if board.Exists(z) {
-			return 4
-		}
-
-		return 0
-	}
-
+	var except = createExceptType2(board)
 	return putStoneType1V3(board, tIdx, color, except)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV08) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
-	except := func(z int, space int, wall int, mycolSafe int, captureSum int) int {
-		// 中断処理1～4
-		if captureSum == 0 && space == 0 && mycolSafe == 0 {
-			return 1
-		}
-		if z == KoIdx {
-			return 2
-		}
-		if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
-			return 3
-		}
-		if board.Exists(z) {
-			return 4
-		}
-
-		return 0
-	}
-
+	var except = createExceptType3(board, fillEyeErr)
 	return putStoneTypeV4Type2(board, tIdx, color, except)
 }
 
