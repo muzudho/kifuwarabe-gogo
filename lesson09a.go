@@ -94,7 +94,7 @@ func Lesson09a() {
 				if ax == "pass" {
 					z = 0
 				}
-				e.AddMovesType2V9a(board, z, color, 0, p.PrintBoard)
+				e.AddMovesLesson09a(board, z, color, 0, p.PrintBoard)
 				e.G.Chat.Print("= \n\n")
 			}
 		default:

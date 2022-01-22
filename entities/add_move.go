@@ -5,28 +5,34 @@ import (
 	"os"
 )
 
-// AddMovesType1V8 - GoGoV8, SelfplayV09 から呼び出されます。
-func AddMovesType1V8(board IBoardV01, z int, color int, printBoard func(IBoardV01, int)) {
+// AddMovesLesson08 - GoGoV8, SelfplayV09 から呼び出されます。
+func AddMovesLesson08(board IBoardV01, z int, color int, printBoard func(IBoardV01, int)) {
 	err := PutStoneType2(board, z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Println("(AddMovesV8) Err!", err)
+		fmt.Fprintf(os.Stderr, "(AddMovesLesson08) Err!\n")
 		os.Exit(0)
 	}
+
+	// 棋譜に記録
 	Record[MovesNum] = z
+
 	MovesNum++
 	printBoard(board, MovesNum)
 }
 
-// AddMovesType2V9a - 指し手の追加？
+// AddMovesLesson09a - 指し手の追加？
 // 消費時間を記録
-func AddMovesType2V9a(board IBoardV01, z int, color int, sec float64, printBoard func(IBoardV01, int)) {
+func AddMovesLesson09a(board IBoardV01, z int, color int, sec float64, printBoard func(IBoardV01, int)) {
 	err := PutStoneType2(board, z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(AddMovesType2V9a) Err!\n")
+		fmt.Fprintf(os.Stderr, "(AddMovesLesson09a) Err!\n")
 		os.Exit(0)
 	}
+
+	// 棋譜に記録
 	Record[MovesNum] = z
 	RecordTime[MovesNum] = sec
+
 	MovesNum++
 	printBoard(board, MovesNum)
 }
