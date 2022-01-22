@@ -13,19 +13,23 @@ import (
 func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), printBoardType2 func(e.IBoardV01, int)) int {
 	var countTerritories = e.CreateCounterForPlayoutLesson07(board, color)
 
-	var tIdx int
+	var z int
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		tIdx = e.GetBestUctV9a(board, color, printBoard, countTerritories)
+		z = e.GetBestUctV9a(board, color, printBoard, countTerritories)
 	} else {
-		tIdx = board.PrimitiveMonteCalro(color, printBoard, countTerritories)
+		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
+		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
+		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
+		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
+		z = e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
 	}
 	sec := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
-		sec, float64(e.AllPlayouts)/sec, board.GetZ4(tIdx), e.Moves, color, e.AllPlayouts, fUCT)
-	board.AddMovesType2(tIdx, color, sec, printBoardType2)
-	return tIdx
+		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.Moves, color, e.AllPlayouts, fUCT)
+	board.AddMovesType2(z, color, sec, printBoardType2)
+	return z
 }
 
 // TestPlayoutV09a - 試しにプレイアウトする。

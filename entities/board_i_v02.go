@@ -14,16 +14,23 @@ type IBoardV02 interface {
 
 // getComputerMoveV9 - コンピューターの指し手。
 func getComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
-	var tIdx int
+	var z int
 	start := time.Now()
 	AllPlayouts = 0
+
 	if fUCT != 0 {
-		tIdx = GetBestUctV9(board, color, printBoard, countTerritories)
+		z = GetBestUctV9(board, color, printBoard, countTerritories)
+
 	} else {
-		tIdx = board.PrimitiveMonteCalro(color, printBoard, countTerritories)
+		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
+		var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
+		var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
+		var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
+		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
 	}
+
 	sec := time.Since(start).Seconds()
 	fmt.Printf("(playoutV9) %.1f sec, %.0f playout/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
-		sec, float64(AllPlayouts)/sec, board.GetZ4(tIdx), Moves, color, AllPlayouts, fUCT)
-	return tIdx
+		sec, float64(AllPlayouts)/sec, board.GetZ4(z), Moves, color, AllPlayouts, fUCT)
+	return z
 }

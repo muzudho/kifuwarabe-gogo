@@ -26,8 +26,6 @@ type IBoardV01 interface {
 
 	// GetComputerMove - コンピューターの指し手。
 	GetComputerMove(color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int
-	// Monte Calro Tree Search
-	PrimitiveMonteCalro(color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int
 	// AddMovesType1 - 指し手の追加？
 	AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int))
 	// AddMovesType2 - 指し手の追加？

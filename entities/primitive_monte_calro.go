@@ -66,7 +66,7 @@ func CreateIsBestUpdateForPrimitiveMonteCalroV7() func(color int, bestValue floa
 func CreatePrintingOfInfoForPrimitiveMonteCalroV6(board IBoardV01) func(color int, tryNum int, bestZ int, bestValue float64) {
 	var printInfo = func(color int, tryNum int, bestZ int, bestValue float64) {
 		var bestZ4 = board.GetZ4(bestZ)
-		fmt.Printf("(primitiveMonteCalro) bestZ4=%04d,color=%d,v=%5.3f,tryNum=%d\n", bestZ4, color, bestValue, tryNum)
+		fmt.Printf("(PrimitiveMonteCalro) bestZ4=%04d,color=%d,v=%5.3f,tryNum=%d\n", bestZ4, color, bestValue, tryNum)
 	}
 
 	return printInfo
@@ -80,7 +80,7 @@ func CreatePrintingOfInfoForPrimitiveMonteCalroIdling() func(color int, tryNum i
 	return printInfo
 }
 
-func primitiveMonteCalro(
+func PrimitiveMonteCalro(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,

@@ -24,10 +24,14 @@ func GoGoV07() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		var count = e.CreateCounterForPlayoutLesson07(board, color)
-		tIdx := board.PrimitiveMonteCalro(color, printBoard, count)
+		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
+		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
+		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
+		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
+		var countTerritories = e.CreateCounterForPlayoutLesson07(board, color)
+		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
 
-		board.PutStoneType2(tIdx, color, e.FillEyeOk)
+		board.PutStoneType2(z, color, e.FillEyeOk)
 
 		presenter.PrintBoardType1(board)
 
