@@ -28,7 +28,12 @@ func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoardDuri
 	sec := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.MovesNum, color, e.AllPlayouts, fUCT)
-	e.AddMovesLesson09a(board, z, color, sec, printBoardOutOfPlayout)
+
+	var recItem = new(e.RecordItemV02)
+	recItem.Z = z
+	recItem.Time = sec
+	e.AddMoves(board, z, color, recItem, printBoardOutOfPlayout)
+
 	return z
 }
 

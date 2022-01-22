@@ -27,7 +27,10 @@ func Lesson08() {
 		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
 		z := e.GetBestUctV8(board, color, printBoard, getBlackWin)
 
-		e.AddMovesLesson08(board, z, color, p.PrintBoard)
+		var recItem = new(e.RecordItemV01)
+		recItem.Z = z
+		e.AddMoves(board, z, color, recItem, p.PrintBoard)
+
 		color = e.FlipColor(color)
 	}
 }

@@ -94,7 +94,12 @@ func Lesson09a() {
 				if ax == "pass" {
 					z = 0
 				}
-				e.AddMovesLesson09a(board, z, color, 0, p.PrintBoard)
+
+				var recItem = new(e.RecordItemV02)
+				recItem.Z = z
+				recItem.Time = 0
+				e.AddMoves(board, z, color, recItem, p.PrintBoard)
+
 				e.G.Chat.Print("= \n\n")
 			}
 		default:

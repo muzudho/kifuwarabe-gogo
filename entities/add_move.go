@@ -5,36 +5,15 @@ import (
 	"os"
 )
 
-// AddMovesLesson08 - GoGoV8, SelfplayV09 から呼び出されます。
-func AddMovesLesson08(board IBoardV01, z int, color int, printBoard func(IBoardV01, int)) {
+// AddMoves - GoGoV8, SelfplayV09 から呼び出されます。
+func AddMoves(board IBoardV01, z int, color int, recItem IRecordItemV01, printBoard func(IBoardV01, int)) {
 	err := PutStoneType2(board, z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(AddMovesLesson08) Err!\n")
+		fmt.Fprintf(os.Stderr, "(AddMoves) Err!\n")
 		os.Exit(0)
 	}
 
 	// 棋譜に記録
-	var recItem = new(RecordItemV01)
-	recItem.Z = z
-	Record[MovesNum] = recItem
-
-	MovesNum++
-	printBoard(board, MovesNum)
-}
-
-// AddMovesLesson09a - 指し手の追加？
-// 消費時間を記録
-func AddMovesLesson09a(board IBoardV01, z int, color int, sec float64, printBoard func(IBoardV01, int)) {
-	err := PutStoneType2(board, z, color, FillEyeOk)
-	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(AddMovesLesson09a) Err!\n")
-		os.Exit(0)
-	}
-
-	// 棋譜に記録
-	var recItem = new(RecordItemV02)
-	recItem.Z = z
-	recItem.Time = sec
 	Record[MovesNum] = recItem
 
 	MovesNum++

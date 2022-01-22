@@ -21,7 +21,10 @@ func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 
 		z := e.GetComputerMoveV9(board, color, fUCT, noPrintBoard, getBlackWin)
 
-		e.AddMovesLesson08(board, z, color, printBoard)
+		var recItem = new(e.RecordItemV01)
+		recItem.Z = z
+		e.AddMoves(board, z, color, recItem, printBoard)
+
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
 		if z == 0 && 1 < e.MovesNum && e.Record[e.MovesNum-2].GetZ() == 0 {
 			break
