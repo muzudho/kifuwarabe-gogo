@@ -113,7 +113,7 @@ func PrimitiveMonteCalro(
 			if board.Exists(z) {
 				continue
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := PutStoneType2(board, z, color, FillEyeErr)
 			if err != 0 {
 				continue
 			}

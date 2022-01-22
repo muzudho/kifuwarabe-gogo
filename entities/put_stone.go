@@ -140,3 +140,13 @@ func putStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 	}
 	return 0
 }
+
+// PutStoneType2 - 石を置きます。
+// * `board` - 盤
+// * `z` - 交点。壁有り盤の配列インデックス
+// * `color` - 石の色
+// * `fillEyeErr` - 目潰しの有無
+func PutStoneType2(board IBoardV01, z int, color int, fillEyeErr int) int {
+	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
+	return putStone(board, z, color, except)
+}

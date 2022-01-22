@@ -110,7 +110,7 @@ func SearchUctV8(board IBoardV02, color int, nodeN int, printBoard func(int, int
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		tIdx := c.TIdx
-		err := board.PutStoneType2(tIdx, color, FillEyeErr)
+		err := PutStoneType2(board, tIdx, color, FillEyeErr)
 		if err == 0 {
 			break
 		}
@@ -172,7 +172,7 @@ func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		tIdx := c.TIdx
-		err := board.PutStoneType2(tIdx, color, FillEyeErr)
+		err := PutStoneType2(board, tIdx, color, FillEyeErr)
 		if err == 0 {
 			break
 		}

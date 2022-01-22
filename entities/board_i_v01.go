@@ -2,7 +2,6 @@ package entities
 
 import (
 	"fmt"
-	"os"
 )
 
 // IBoardV01 - 盤。
@@ -18,7 +17,6 @@ type IBoardV01 interface {
 
 	// 石を置きます。
 	PutStoneType1(tIdx int, color int) int
-	PutStoneType2(tIdx int, color int, fillEyeErr int) int
 
 	CountLiberty(tIdx int, pLiberty *int, pStone *int)
 	TakeStone(tIdx int, color int)
@@ -188,29 +186,4 @@ func countScoreV7(board IBoardV01, turnColor int) int {
 	// fmt.Printf("whiteSum=%2d, (stones=%2d, area=%2d)\n", whiteSum, kind[2], whiteArea)
 	// fmt.Printf("score=%d, win=%d\n", score, win)
 	return win
-}
-
-// addMovesType1V8 - GoGoV8, SelfplayV09 から呼び出されます。
-func addMovesType1V8(board IBoardV01, tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
-	err := board.PutStoneType2(tIdx, color, FillEyeOk)
-	if err != 0 {
-		fmt.Println("(AddMovesV8) Err!", err)
-		os.Exit(0)
-	}
-	Record[Moves] = tIdx
-	Moves++
-	printBoardType2(board, Moves)
-}
-
-// addMovesV9a - 指し手の追加？
-func addMovesType2V9a(board IBoardV01, tIdx int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
-	err := board.PutStoneType2(tIdx, color, FillEyeOk)
-	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(addMoves9a) Err!\n")
-		os.Exit(0)
-	}
-	Record[Moves] = tIdx
-	RecordTime[Moves] = sec
-	Moves++
-	printBoardType2(board, Moves)
 }

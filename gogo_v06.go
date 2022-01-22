@@ -31,7 +31,7 @@ func GoGoV06() {
 		var countTerritories = e.CreateCounterForPlayoutLesson06(board, color)
 		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
 
-		board.PutStoneType2(z, color, e.FillEyeOk)
+		e.PutStoneType2(board, z, color, e.FillEyeOk)
 
 		presenter.PrintBoardType1(board)
 

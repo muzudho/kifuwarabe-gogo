@@ -109,7 +109,7 @@ func Playout(
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
+			err := PutStoneType2(board, z, color, FillEyeErr)
 			if err == 0 {
 				break
 			}
