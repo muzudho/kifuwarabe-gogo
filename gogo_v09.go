@@ -16,10 +16,9 @@ func GoGoV09() {
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV9()
 
 	rand.Seed(time.Now().UnixNano())
 
-	// u.TestPlayoutV09(board, p.PrintBoard, presenter.PrintBoardType2)
-	u.SelfplayV09(board, p.PrintBoard, presenter.PrintBoardType2)
+	// u.TestPlayoutV09(board, p.PrintBoard, p.PrintBoard)
+	u.SelfplayV09(board, p.PrintBoard, p.PrintBoard)
 }

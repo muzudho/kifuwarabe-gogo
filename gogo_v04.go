@@ -20,7 +20,7 @@ func GoGoV04() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 
-	var printBoard = e.CreatePrintingOfBoardDuringPlayout1(board, p.PrintBoard)
+	var printBoardDuringPlayout = e.CreatePrintingOfBoardDuringPlayout1(board, p.PrintBoard)
 	var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson04()
-	e.Playout(board, color, printBoard, getBlackWin)
+	e.Playout(board, color, printBoardDuringPlayout, getBlackWin)
 }

@@ -43,16 +43,16 @@ func CreateGettingOfBlackWinForPlayoutLesson07(board IBoardV01, turnColor int) f
 
 // CreatePrintingOfBoardDuringPlayoutIdling - プレイアウト中の盤の描画（何も描画しません）
 func CreatePrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
-	var printBoard = func(trial int, z4 int, color int, emptyNum int) {
+	var printBoardDuringPlayout = func(trial int, z4 int, color int, emptyNum int) {
 		// 何もしません
 	}
 
-	return printBoard
+	return printBoardDuringPlayout
 }
 
 // CreatePrintingOfBoardDuringPlayout1 - プレイアウト中の盤の描画
 func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoardV01, int)) func(int, int, int, int) {
-	var printBoard2 = func(trial int, z int, color int, emptyNum int) {
+	var printBoardDuringPlayout = func(trial int, z int, color int, emptyNum int) {
 		var z4 = board.GetZ4(z)       // XXYY
 		var koZ4 = board.GetZ4(KoIdx) // XXYY
 		printBoard(board, -1)
@@ -60,16 +60,16 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoard
 			trial, z4, color, emptyNum, koZ4)
 	}
 
-	return printBoard2
+	return printBoardDuringPlayout
 }
 
 // Playout - 最後まで石を打ちます。得点を返します
-// * `printBoard` - プレイアウト中の盤の描画
+// * `printBoardDuringPlayout` - プレイアウト中の盤の描画
 // * `getBlackWin` - 地計算
 func Playout(
 	board IBoardV01,
 	turnColor int,
-	printBoard func(int, int, int, int),
+	printBoardDuringPlayout func(int, int, int, int),
 	getBlackWin func(IBoardV01, int) int) int {
 
 	AllPlayouts++
@@ -128,7 +128,7 @@ func Playout(
 		}
 		previousZ = z
 
-		printBoard(trial, z, color, emptyNum)
+		printBoardDuringPlayout(trial, z, color, emptyNum)
 
 		color = FlipColor(color)
 	}

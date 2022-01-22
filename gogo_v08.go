@@ -16,7 +16,6 @@ func GoGoV08() {
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV8()
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
@@ -28,7 +27,7 @@ func GoGoV08() {
 		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
 		z := e.GetBestUctV8(board, color, printBoard, getBlackWin)
 
-		e.AddMovesType1V8(board, z, color, presenter.PrintBoardType2)
+		e.AddMovesType1V8(board, z, color, p.PrintBoard)
 		color = e.FlipColor(color)
 	}
 }

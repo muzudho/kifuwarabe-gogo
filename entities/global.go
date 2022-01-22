@@ -16,12 +16,6 @@ type GlobalVariables struct {
 // G - グローバル変数。思い切った名前。
 var G GlobalVariables
 
-// IPresenter - 表示用。
-type IPresenter interface {
-	// 盤の描画
-	PrintBoardType2(board IBoardV01, movesNum int)
-}
-
 // AllPlayouts - プレイアウトした回数。
 var AllPlayouts int
 

@@ -27,7 +27,6 @@ func KifuwarabeV1() {
 	*/
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	// presenter := p.NewPresenterV9a()
 
 	//e.G.Chat.Trace("# 盤を新規作成した☆（＾～＾）\n")
 

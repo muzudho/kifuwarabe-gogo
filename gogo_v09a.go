@@ -22,7 +22,6 @@ func GoGoV09a() {
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV9a()
 
 	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()
@@ -64,7 +63,7 @@ func GoGoV09a() {
 				color = 2
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
-			z := u.PlayComputerMoveV09a(board, color, 1, printBoard, presenter.PrintBoardType2)
+			z := u.PlayComputerMoveV09a(board, color, 1, printBoard, p.PrintBoard)
 			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4
@@ -95,7 +94,7 @@ func GoGoV09a() {
 				if ax == "pass" {
 					z = 0
 				}
-				e.AddMovesType2V9a(board, z, color, 0, presenter.PrintBoardType2)
+				e.AddMovesType2V9a(board, z, color, 0, p.PrintBoard)
 				e.G.Chat.Print("= \n\n")
 			}
 		default:
