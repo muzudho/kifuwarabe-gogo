@@ -44,7 +44,8 @@ func (board *BoardV04) PrimitiveMonteCalro(color int, printBoardType1 func(int, 
 	var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV6()
 	var calcWin = CreateCalcWinForPrimitiveMonteCalroV6()
 	var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV6()
-	return primitiveMonteCalroV6(board, color, initBestValue, calcWin, isBestUpdate, printBoardType1, countTerritories)
+	var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
+	return primitiveMonteCalroV6(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoardType1, countTerritories)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。

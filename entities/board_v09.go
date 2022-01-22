@@ -107,7 +107,8 @@ func (board *BoardV09) PrimitiveMonteCalro(color int, printBoard func(int, int, 
 	var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
 	var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
 	var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
-	return primitiveMonteCalroV9(board, color, initBestValue, calcWin, isBestUpdate, printBoard, countTerritories)
+	var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
+	return primitiveMonteCalroV9(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
