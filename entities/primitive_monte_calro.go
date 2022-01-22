@@ -80,7 +80,7 @@ func CreatePrintingOfInfoForPrimitiveMonteCalroIdling() func(color int, tryNum i
 	return printInfo
 }
 
-func primitiveMonteCalroV6(
+func primitiveMonteCalro(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,
@@ -135,134 +135,6 @@ func primitiveMonteCalroV6(
 				bestValue = winRate
 				bestZ = z
 				printInfo(color, tryNum, bestZ, bestValue)
-			}
-
-			KoIdx = koZCopy
-			board.ImportData(boardCopy)
-		}
-	}
-	return bestZ
-}
-
-func primitiveMonteCalroV7(
-	board IBoardV01,
-	color int,
-	initBestValue func(int) float64,
-	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
-	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
-	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
-	printBoard func(int, int, int, int),
-	countTerritories func(IBoardV01, int) int) int {
-
-	boardSize := board.BoardSize()
-
-	var tryNum int
-	if board.BoardSize() < 10 {
-		tryNum = 30
-	} else {
-		// 9路盤より大きければ
-		tryNum = 3
-	}
-
-	bestZ := 0
-	var winRate float64
-	var boardCopy = board.CopyData()
-	koZCopy := KoIdx
-
-	var bestValue = initBestValue(color)
-
-	for y := 0; y <= boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetTIdxFromXy(x, y)
-			if board.Exists(z) {
-				continue
-			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
-			if err != 0 {
-				continue
-			}
-
-			winSum := 0
-			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoIdx
-
-				var win = calcWin(board, FlipColor(color), printBoard, countTerritories)
-
-				winSum += win
-				KoIdx = koZCopy2
-				board.ImportData(boardCopy2)
-			}
-
-			winRate = float64(winSum) / float64(tryNum)
-			if isBestUpdate(color, bestValue, winRate) {
-				bestValue = winRate
-				bestZ = z
-				printInfo(color, tryNum, bestZ, bestValue)
-			}
-
-			KoIdx = koZCopy
-			board.ImportData(boardCopy)
-		}
-	}
-	return bestZ
-}
-
-func primitiveMonteCalroV9(
-	board IBoardV01,
-	color int,
-	initBestValue func(int) float64,
-	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
-	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
-	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
-	printBoard func(int, int, int, int),
-	countTerritories func(IBoardV01, int) int) int {
-
-	boardSize := board.BoardSize()
-
-	var tryNum int
-	if board.BoardSize() < 10 {
-		tryNum = 30
-	} else {
-		// 9路盤より大きければ
-		tryNum = 3
-	}
-
-	bestZ := 0
-	var winRate float64
-	var boardCopy = board.CopyData()
-	koZCopy := KoIdx
-
-	var bestValue = initBestValue(color)
-
-	for y := 0; y <= boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetTIdxFromXy(x, y)
-			if board.Exists(z) {
-				continue
-			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
-			if err != 0 {
-				continue
-			}
-
-			winSum := 0
-			for i := 0; i < tryNum; i++ {
-				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoIdx
-
-				var win = calcWin(board, FlipColor(color), printBoard, countTerritories)
-
-				winSum += win
-				KoIdx = koZCopy2
-				board.ImportData(boardCopy2)
-			}
-
-			winRate = float64(winSum) / float64(tryNum)
-			if isBestUpdate(color, bestValue, winRate) {
-				bestValue = winRate
-				bestZ = z
-				// fmt.Printf("(primitiveMonteCalroV9) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", e.GetZ4(bestZ), color, bestValue, tryNum)
 			}
 
 			KoIdx = koZCopy
