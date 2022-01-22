@@ -6,7 +6,6 @@ import (
 	"time"
 
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
-	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
 // PlayComputerMoveV09a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
@@ -35,14 +34,4 @@ func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoardDuri
 	e.AddMoves(board, z, color, recItem, printBoardOutOfPlayout)
 
 	return z
-}
-
-// TestPlayoutV09a - 試しにプレイアウトする。
-func TestPlayoutV09a(board e.IBoardV01, printBoardDuringPlayout func(int, int, int, int), getBlackWin func(e.IBoardV01, int) int, printBoardOutOfPlayout func(e.IBoardV01, int)) {
-	e.FlagTestPlayout = 1
-
-	e.Playout(board, 1, printBoardDuringPlayout, getBlackWin)
-
-	printBoardOutOfPlayout(board, e.MovesNum)
-	p.PrintSgf(board, e.MovesNum, e.Record)
 }

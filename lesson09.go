@@ -19,6 +19,6 @@ func Lesson09() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	// u.TestPlayoutV09(board, p.PrintBoard, p.PrintBoard)
+	// u.TestPlayoutLesson09(board, p.PrintBoard, p.PrintBoard)
 	u.SelfplayV09(board, p.PrintBoard)
 }
