@@ -2,7 +2,7 @@ package entities
 
 // PutStoneType1 - 石を置きます。
 // * `z` - 盤の交点の配列のインデックス。
-func putStoneType1V1(board IBoardV01, z int, color int) int {
+func putStoneType1V1(board IBoardV01, z int, color int, except func(int, int, int, int) int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	unCol := FlipColor(color)
@@ -46,17 +46,9 @@ func putStoneType1V1(board IBoardV01, z int, color int) int {
 	}
 
 	// 中断処理1～4
-	if captureSum == 0 && space == 0 && mycolSafe == 0 {
-		return 1
-	}
-	if z == KoIdx {
-		return 2
-	}
-	// if wall + mycolSafe == 4 {
-	//		return 3
-	// }
-	if board.Exists(z) {
-		return 4
+	returnCode := except(z, space, mycolSafe, captureSum)
+	if returnCode != 0 {
+		return returnCode
 	}
 
 	for dir := 0; dir < 4; dir++ {
