@@ -12,8 +12,8 @@ type IBoardV02 interface {
 	UctChildrenSize() int
 }
 
-// getComputerMoveV9 - コンピューターの指し手。
-func getComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+// GetComputerMoveV9 - コンピューターの指し手。
+func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	var z int
 	start := time.Now()
 	AllPlayouts = 0

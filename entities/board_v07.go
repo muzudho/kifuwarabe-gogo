@@ -48,8 +48,3 @@ func (board *BoardV07) AddMovesType1(z int, color int, printBoardType2 func(IBoa
 func (board *BoardV07) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
 	addMovesType2V9a(board, z, color, sec, printBoardType2)
 }
-
-// GetComputerMove - コンピューターの指し手。
-func (board *BoardV07) GetComputerMove(color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
-	return getComputerMoveV9(board, color, fUCT, printBoard, countTerritories)
-}
