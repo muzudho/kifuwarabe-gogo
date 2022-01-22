@@ -6,10 +6,10 @@ import (
 )
 
 // SelfplayV09 - コンピューター同士の対局。
-func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01, int), printBoardType2 func(e.IBoardV01, int)) {
+func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 	color := 1
 
-	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
+	var noPrintBoard = e.CreatePrintingOfBoardDuringPlayoutIdling() // プレイアウト中は盤を描画しません
 
 	for {
 		fUCT := 1
@@ -19,9 +19,9 @@ func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01, int), prin
 
 		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
 
-		z := e.GetComputerMoveV9(board, color, fUCT, printBoard, getBlackWin)
+		z := e.GetComputerMoveV9(board, color, fUCT, noPrintBoard, getBlackWin)
 
-		e.AddMovesType1V8(board, z, color, printBoardType2)
+		e.AddMovesType1V8(board, z, color, printBoard)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
 		if z == 0 && 1 < e.MovesNum && e.Record[e.MovesNum-2] == 0 {
 			break
@@ -37,12 +37,12 @@ func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01, int), prin
 }
 
 // TestPlayoutV09 - 試しにプレイアウトする。
-func TestPlayoutV09(board e.IBoardV01, printBoard func(int, int, int, int), getBlackWin func(e.IBoardV01, int) int, printBoardType2 func(e.IBoardV01, int)) {
+func TestPlayoutV09(board e.IBoardV01, printBoardDuringPlayout func(int, int, int, int), getBlackWin func(e.IBoardV01, int) int, printBoardOutOfPlayout func(e.IBoardV01, int)) {
 	e.FlagTestPlayout = 1
 
-	e.Playout(board, 1, printBoard, getBlackWin)
+	e.Playout(board, 1, printBoardDuringPlayout, getBlackWin)
 
-	printBoardType2(board, e.MovesNum)
+	printBoardOutOfPlayout(board, e.MovesNum)
 	p.PrintSgf(board, e.MovesNum, e.Record)
 }
 
