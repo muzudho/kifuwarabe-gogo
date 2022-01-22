@@ -5,40 +5,40 @@ import (
 	"math/rand"
 )
 
-// CreateCounterForPlayoutLesson04 - 地計算をしません。0を返します
-func CreateCounterForPlayoutLesson04() func(IBoardV01, int) int {
-	var counter = func(IBoardV01, int) int {
+// CreateGettingOfBlackWinForPlayoutLesson04 - 「常に0を返す関数」を作成します
+func CreateGettingOfBlackWinForPlayoutLesson04() func(IBoardV01, int) int {
+	var getBlackWin = func(IBoardV01, int) int {
 		return 0
 	}
 
-	return counter
+	return getBlackWin
 }
 
-// CreateCounterForPlayoutLesson05 - 簡易な地計算をします
-func CreateCounterForPlayoutLesson05(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var counter = func(IBoardV01, int) int {
-		return countScoreV5(board, turnColor)
+// CreateGettingOfBlackWinForPlayoutLesson05 - 「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
+func CreateGettingOfBlackWinForPlayoutLesson05(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+	var getBlackWin = func(IBoardV01, int) int {
+		return GetBlackWinV05(board, turnColor)
 	}
 
-	return counter
+	return getBlackWin
 }
 
-// CreateCounterForPlayoutLesson06 - 簡易な地計算をします
-func CreateCounterForPlayoutLesson06(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var counter = func(IBoardV01, int) int {
-		return countScoreV6(board, turnColor)
+// CreateGettingOfBlackWinForPlayoutLesson06 - 「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
+func CreateGettingOfBlackWinForPlayoutLesson06(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+	var getBlackWin = func(IBoardV01, int) int {
+		return GetBlackWinV06(board, turnColor)
 	}
 
-	return counter
+	return getBlackWin
 }
 
-// CreateCounterForPlayoutLesson07 - 簡易な地計算をします
-func CreateCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var counter = func(IBoardV01, int) int {
-		return countScoreV7(board, turnColor)
+// CreateGettingOfBlackWinForPlayoutLesson07 - 「黒勝ちなら1、引き分けなら0、白勝ちなら-1を返す関数」を作成します
+func CreateGettingOfBlackWinForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+	var getBlackWin = func(IBoardV01, int) int {
+		return GetBlackWinV07(board, turnColor)
 	}
 
-	return counter
+	return getBlackWin
 }
 
 // CreatePrintingOfBoardDuringPlayoutIdling - プレイアウト中の盤の描画（何も描画しません）
@@ -65,12 +65,12 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(I
 
 // Playout - 最後まで石を打ちます。得点を返します
 // * `printBoard` - プレイアウト中の盤の描画
-// * `countTerritories` - 地計算
+// * `getBlackWin` - 地計算
 func Playout(
 	board IBoardV01,
 	turnColor int,
 	printBoard func(int, int, int, int),
-	countTerritories func(IBoardV01, int) int) int {
+	getBlackWin func(IBoardV01, int) int) int {
 
 	AllPlayouts++
 	boardSize := board.BoardSize()
@@ -133,5 +133,5 @@ func Playout(
 		color = FlipColor(color)
 	}
 
-	return countTerritories(board, turnColor)
+	return getBlackWin(board, turnColor)
 }

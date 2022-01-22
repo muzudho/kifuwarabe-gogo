@@ -28,8 +28,8 @@ func GoGoV06() {
 		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV6()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV6()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
-		var countTerritories = e.CreateCounterForPlayoutLesson06(board, color)
-		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
+		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson06(board, color)
+		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)
 
 		e.PutStoneType2(board, z, color, e.FillEyeOk)
 

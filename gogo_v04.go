@@ -22,6 +22,6 @@ func GoGoV04() {
 	rand.Seed(time.Now().UnixNano())
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayout1(board, presenter.PrintBoardType1)
-	var count = e.CreateCounterForPlayoutLesson04()
-	e.Playout(board, color, printBoard, count)
+	var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson04()
+	e.Playout(board, color, printBoard, getBlackWin)
 }

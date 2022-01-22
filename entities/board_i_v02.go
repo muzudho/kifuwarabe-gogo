@@ -13,20 +13,20 @@ type IBoardV02 interface {
 }
 
 // GetComputerMoveV9 - コンピューターの指し手。
-func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	var z int
 	start := time.Now()
 	AllPlayouts = 0
 
 	if fUCT != 0 {
-		z = GetBestUctV9(board, color, printBoard, countTerritories)
+		z = GetBestUctV9(board, color, printBoard, getBlackWin)
 
 	} else {
 		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
 		var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
-		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, countTerritories)
+		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)
 	}
 
 	sec := time.Since(start).Seconds()

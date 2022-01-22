@@ -28,17 +28,17 @@ func CreateInitBestValueForPrimitiveMonteCalroV7() func(int) float64 {
 	return initBestValue
 }
 
-func CreateCalcWinForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
-	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
-		return Playout(board, FlipColor(color), printBoard, countTerritories)
+func CreateCalcWinForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+		return Playout(board, FlipColor(color), printBoard, getBlackWin)
 	}
 
 	return calcWin
 }
 
-func CreateCalcWinForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
-	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
-		return -Playout(board, FlipColor(color), printBoard, countTerritories)
+func CreateCalcWinForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+		return -Playout(board, FlipColor(color), printBoard, getBlackWin)
 	}
 
 	return calcWin
@@ -84,11 +84,11 @@ func PrimitiveMonteCalro(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,
-	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int,
 	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
 	printBoard func(int, int, int, int),
-	countTerritories func(IBoardV01, int) int) int {
+	getBlackWin func(IBoardV01, int) int) int {
 
 	boardSize := board.BoardSize()
 
@@ -123,7 +123,7 @@ func PrimitiveMonteCalro(
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
 
-				var win = calcWin(board, FlipColor(color), printBoard, countTerritories)
+				var win = calcWin(board, FlipColor(color), printBoard, getBlackWin)
 
 				winSum += win
 				KoIdx = koZCopy2

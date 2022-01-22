@@ -17,9 +17,9 @@ func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01), printBoar
 			fUCT = 0
 		}
 
-		var countTerritories = e.CreateCounterForPlayoutLesson07(board, color)
+		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
 
-		z := e.GetComputerMoveV9(board, color, fUCT, printBoard, countTerritories)
+		z := e.GetComputerMoveV9(board, color, fUCT, printBoard, getBlackWin)
 
 		e.AddMovesType1V8(board, z, color, printBoardType2)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
@@ -37,10 +37,10 @@ func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01), printBoar
 }
 
 // TestPlayoutV09 - 試しにプレイアウトする。
-func TestPlayoutV09(board e.IBoardV01, printBoard func(int, int, int, int), countTerritories func(e.IBoardV01, int) int, printBoardType2 func(e.IBoardV01, int)) {
+func TestPlayoutV09(board e.IBoardV01, printBoard func(int, int, int, int), getBlackWin func(e.IBoardV01, int) int, printBoardType2 func(e.IBoardV01, int)) {
 	e.FlagTestPlayout = 1
 
-	e.Playout(board, 1, printBoard, countTerritories)
+	e.Playout(board, 1, printBoard, getBlackWin)
 
 	printBoardType2(board, e.Moves)
 	p.PrintSgf(board, e.Moves, e.Record)
