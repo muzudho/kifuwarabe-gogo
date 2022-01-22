@@ -1,28 +1,6 @@
 package entities
 
-func createExceptType1V01(board *BoardV01) func(int, int, int, int) int {
-	var exceptType1 = func(z int, space int, mycolSafe int, captureSum int) int {
-		// 中断処理1～4
-		if captureSum == 0 && space == 0 && mycolSafe == 0 {
-			return 1
-		}
-		if z == KoIdx {
-			return 2
-		}
-		// if wall + mycolSafe == 4 {
-		//		return 3
-		// }
-		if board.Exists(z) {
-			return 4
-		}
-
-		return 0
-	}
-
-	return exceptType1
-}
-
-func createExceptType1V02(board *BoardV02) func(int, int, int, int) int {
+func createExceptType1(board IBoardV01) func(int, int, int, int) int {
 	var exceptType1 = func(z int, space int, mycolSafe int, captureSum int) int {
 		// 中断処理1～4
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {

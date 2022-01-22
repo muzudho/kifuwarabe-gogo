@@ -23,7 +23,7 @@ func NewBoardV2(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 
 // PutStoneType1 - 石を置きます。
 func (board *BoardV02) PutStoneType1(tIdx int, color int) int {
-	except := createExceptType1V02(board)
+	except := createExceptType1(board)
 	return putStoneType1V1(board, tIdx, color, except)
 }
 
