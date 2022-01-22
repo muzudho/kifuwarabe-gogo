@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-// addMovesType1V8 - GoGoV8, SelfplayV09 から呼び出されます。
-func addMovesType1V8(board IBoardV01, z int, color int, printBoardType2 func(IBoardV01, int)) {
+// AddMovesType1V8 - GoGoV8, SelfplayV09 から呼び出されます。
+func AddMovesType1V8(board IBoardV01, z int, color int, printBoardType2 func(IBoardV01, int)) {
 	err := PutStoneType2(board, z, color, FillEyeOk)
 	if err != 0 {
 		fmt.Println("(AddMovesV8) Err!", err)

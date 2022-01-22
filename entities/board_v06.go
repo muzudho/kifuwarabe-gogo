@@ -27,8 +27,3 @@ func (board *BoardV06) PutStoneType1(z int, color int) int {
 	var except = createExceptionForPutStoneLesson3(board)
 	return putStone(board, z, color, except)
 }
-
-// AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
-func (board *BoardV06) AddMovesType1(z int, color int, printBoardType2 func(IBoardV01, int)) {
-	addMovesType1V8(board, z, color, printBoardType2)
-}
