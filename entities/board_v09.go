@@ -50,7 +50,7 @@ func (board *BoardV09) Playout(turnColor int, printBoard func(int, int, int, int
 	var count = CreateCounterForPlayoutLesson07(board, turnColor)
 
 	AllPlayouts++
-	return playout(board, turnColor, printBoardIdling, count)
+	return Playout(board, turnColor, printBoardIdling, count)
 }
 
 func (board *BoardV09) playoutV9(turnColor int) int {

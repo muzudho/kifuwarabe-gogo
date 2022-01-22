@@ -45,10 +45,10 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(I
 	return printBoard
 }
 
-// playout - 最後まで石を打ちます。得点を返します
+// Playout - 最後まで石を打ちます。得点を返します
 // * `printBoard` - プレイアウト中の盤の描画
 // * `count` - 地計算
-func playout(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
+func Playout(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
 	color := turnColor

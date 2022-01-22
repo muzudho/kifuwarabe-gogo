@@ -44,7 +44,7 @@ func (board *BoardV02) PlayOneMove(color int) int {
 func (board *BoardV02) Playout(turnColor int, printBoard func(int, int, int, int)) int {
 	// var printBoard = CreatePrintingOfBoardDuringPlayout1(board, printBoardType1)
 	var count = CreateCounterForPlayoutLesson04()
-	return playout(board, turnColor, printBoard, count)
+	return Playout(board, turnColor, printBoard, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 2.

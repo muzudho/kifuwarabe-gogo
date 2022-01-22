@@ -46,7 +46,7 @@ func (board *BoardV09a) Playout(turnColor int, printBoard func(int, int, int, in
 	var count = CreateCounterForPlayoutLesson07(board, turnColor)
 
 	AllPlayouts++
-	return playout(board, turnColor, printBoardIdling, count)
+	return Playout(board, turnColor, printBoardIdling, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 9a.
