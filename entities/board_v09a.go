@@ -46,7 +46,25 @@ func (board *BoardV09a) PutStoneType1(tIdx int, color int) int {
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV09a) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
-	return putStoneTypeV4Type2(board, tIdx, color, fillEyeErr)
+	except := func(z int, space int, wall int, mycolSafe int, captureSum int) int {
+		// 中断処理1～4
+		if captureSum == 0 && space == 0 && mycolSafe == 0 {
+			return 1
+		}
+		if z == KoIdx {
+			return 2
+		}
+		if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
+			return 3
+		}
+		if board.Exists(z) {
+			return 4
+		}
+
+		return 0
+	}
+
+	return putStoneTypeV4Type2(board, tIdx, color, except)
 }
 
 // PlayOneMove - 置けるとこに置く。
