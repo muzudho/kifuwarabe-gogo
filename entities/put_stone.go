@@ -47,7 +47,9 @@ func CreateExceptionForPutStoneLesson3(board IBoardV01) func(int, int, int, int,
 }
 
 // Lesson04 プレイアウト中は目にも打てるよう選べるようにします
-func createExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int, int, int, int, int) int {
+// * `board` - 盤
+// * `fillEyeErr` - 目潰しの有無
+func CreateExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int, int, int, int, int) int {
 	var except = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
 		// 中断処理1～4
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
@@ -139,16 +141,6 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 		KoIdx = 0
 	}
 	return 0
-}
-
-// PutStoneType2 - 石を置きます。
-// * `board` - 盤
-// * `z` - 交点。壁有り盤の配列インデックス
-// * `color` - 石の色
-// * `fillEyeErr` - 目潰しの有無
-func PutStoneType2(board IBoardV01, z int, color int, fillEyeErr int) int {
-	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
-	return PutStone(board, z, color, except)
 }
 
 // PlayOneMove - Lesson03で使用。置けるとこに置く

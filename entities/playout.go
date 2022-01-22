@@ -109,7 +109,10 @@ func Playout(
 				r = rand.Intn(emptyNum)
 				z = empty[r]
 			}
-			err := PutStoneType2(board, z, color, FillEyeErr)
+
+			var exceptPutStone = CreateExceptionForPutStoneLesson4(board, FillEyeErr)
+			var err = PutStone(board, z, color, exceptPutStone)
+
 			if err == 0 {
 				break
 			}

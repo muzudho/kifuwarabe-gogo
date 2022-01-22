@@ -30,7 +30,8 @@ func Lesson06() {
 		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson06(board, color)
 		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)
 
-		e.PutStoneType2(board, z, color, e.FillEyeOk)
+		var exceptPutStone = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeOk)
+		e.PutStone(board, z, color, exceptPutStone)
 
 		p.PrintBoard(board, -1)
 
