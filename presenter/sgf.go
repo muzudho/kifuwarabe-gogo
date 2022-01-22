@@ -7,12 +7,12 @@ import (
 )
 
 // PrintSgf - SGF形式の棋譜表示。
-func PrintSgf(board e.IBoardV01, movesNum int, record []int) {
+func PrintSgf(board e.IBoardV01, movesNum int, record []e.IRecordItemV01) {
 	boardSize := board.BoardSize()
 
 	fmt.Printf("(;GM[1]SZ[%d]KM[%.1f]PB[]PW[]\n", boardSize, board.Komi())
 	for i := 0; i < movesNum; i++ {
-		z := record[i]
+		z := record[i].GetZ()
 		y := z / board.SentinelWidth()
 		x := z - y*board.SentinelWidth()
 		var sStone = [2]string{"B", "W"}

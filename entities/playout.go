@@ -119,7 +119,7 @@ func Playout(
 
 		// テストのときは棋譜を残します
 		if FlagTestPlayout != 0 {
-			Record[MovesNum] = z
+			Record[MovesNum].SetZ(z)
 			MovesNum++
 		}
 

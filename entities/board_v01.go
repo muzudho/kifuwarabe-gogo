@@ -4,7 +4,7 @@ import (
 	"math/rand"
 )
 
-// BoardV01 - 盤。
+// BoardV01 - 盤
 type BoardV01 struct {
 	data             []int
 	boardSize        int

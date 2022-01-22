@@ -23,7 +23,7 @@ func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 
 		e.AddMovesLesson08(board, z, color, printBoard)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
-		if z == 0 && 1 < e.MovesNum && e.Record[e.MovesNum-2] == 0 {
+		if z == 0 && 1 < e.MovesNum && e.Record[e.MovesNum-2].GetZ() == 0 {
 			break
 		}
 		// 自己対局は300手で終了します。

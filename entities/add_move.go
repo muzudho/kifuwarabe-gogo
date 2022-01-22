@@ -14,7 +14,9 @@ func AddMovesLesson08(board IBoardV01, z int, color int, printBoard func(IBoardV
 	}
 
 	// 棋譜に記録
-	Record[MovesNum] = z
+	var recItem = new(RecordItemV01)
+	recItem.Z = z
+	Record[MovesNum] = recItem
 
 	MovesNum++
 	printBoard(board, MovesNum)
@@ -30,8 +32,10 @@ func AddMovesLesson09a(board IBoardV01, z int, color int, sec float64, printBoar
 	}
 
 	// 棋譜に記録
-	Record[MovesNum] = z
-	RecordTime[MovesNum] = sec
+	var recItem = new(RecordItemV02)
+	recItem.Z = z
+	recItem.Time = sec
+	Record[MovesNum] = recItem
 
 	MovesNum++
 	printBoard(board, MovesNum)
