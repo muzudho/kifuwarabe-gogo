@@ -17,6 +17,15 @@ func Lesson06() {
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
+	var trialCount int
+	boardSize := board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		trialCount = boardSize*boardSize + 200
+	} else {
+		trialCount = boardSize * boardSize
+	}
+
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
 	color := 1
@@ -24,7 +33,7 @@ func Lesson06() {
 	for i := 0; i < 2; i++ {
 
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV6()
-		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV6()
+		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV6(trialCount)
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV6()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
 		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson06(board, color)

@@ -22,8 +22,17 @@ func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int
 		z = GetBestUctV9(board, color, printBoard, getBlackWin)
 
 	} else {
+		var trialCount int
+		boardSize := board.BoardSize()
+		if boardSize < 10 {
+			// 10路盤より小さいとき
+			trialCount = boardSize*boardSize + 200
+		} else {
+			trialCount = boardSize * boardSize
+		}
+
 		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
-		var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
+		var calcWin = CreateCalcWinForPrimitiveMonteCalroV7(trialCount)
 		var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
 		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)

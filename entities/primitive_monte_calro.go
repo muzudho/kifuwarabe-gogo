@@ -28,17 +28,17 @@ func CreateInitBestValueForPrimitiveMonteCalroV7() func(int) float64 {
 	return initBestValue
 }
 
-func CreateCalcWinForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+func CreateCalcWinForPrimitiveMonteCalroV6(trialCount int) func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
-		return Playout(board, FlipColor(color), printBoard, getBlackWin)
+		return Playout(board, FlipColor(color), trialCount, printBoard, getBlackWin)
 	}
 
 	return calcWin
 }
 
-func CreateCalcWinForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+func CreateCalcWinForPrimitiveMonteCalroV7(trialCount int) func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
-		return -Playout(board, FlipColor(color), printBoard, getBlackWin)
+		return -Playout(board, FlipColor(color), trialCount, printBoard, getBlackWin)
 	}
 
 	return calcWin

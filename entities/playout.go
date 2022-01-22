@@ -69,6 +69,7 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoard
 func Playout(
 	board IBoardV01,
 	turnColor int,
+	trialCount int,
 	printBoardDuringPlayout func(int, int, int, int),
 	getBlackWin func(IBoardV01, int) int) int {
 
@@ -77,18 +78,9 @@ func Playout(
 
 	color := turnColor
 	previousZ := 0
-
-	var loopMax int
-	if boardSize < 10 {
-		// 10路盤より小さいとき
-		loopMax = boardSize*boardSize + 200
-	} else {
-		loopMax = boardSize * boardSize
-	}
-
 	boardMax := board.SentinelBoardArea()
 
-	for trial := 0; trial < loopMax; trial++ {
+	for trial := 0; trial < trialCount; trial++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
 		for y := 0; y <= boardSize; y++ {

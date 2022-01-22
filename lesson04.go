@@ -17,10 +17,19 @@ func Lesson04() {
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
+	var trialCount int
+	boardSize := board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		trialCount = boardSize*boardSize + 200
+	} else {
+		trialCount = boardSize * boardSize
+	}
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 
 	var printBoardDuringPlayout = e.CreatePrintingOfBoardDuringPlayout1(board, p.PrintBoard)
 	var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson04()
-	e.Playout(board, color, printBoardDuringPlayout, getBlackWin)
+	e.Playout(board, color, trialCount, printBoardDuringPlayout, getBlackWin)
 }

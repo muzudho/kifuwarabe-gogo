@@ -9,7 +9,13 @@ import (
 )
 
 // PlayComputerMoveV09a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
-func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoardDuringPlayout func(int, int, int, int), printBoardOutOfPlayout func(e.IBoardV01, int)) int {
+func PlayComputerMoveV09a(
+	board e.IBoardV02,
+	color int,
+	fUCT int,
+	printBoardDuringPlayout func(int, int, int, int),
+	printBoardOutOfPlayout func(e.IBoardV01, int)) int {
+
 	var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
 
 	var z int
@@ -18,8 +24,17 @@ func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoardDuri
 	if fUCT != 0 {
 		z = e.GetBestUctV9a(board, color, printBoardDuringPlayout, getBlackWin)
 	} else {
+		var trialCount int
+		boardSize := board.BoardSize()
+		if boardSize < 10 {
+			// 10路盤より小さいとき
+			trialCount = boardSize*boardSize + 200
+		} else {
+			trialCount = boardSize * boardSize
+		}
+
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
-		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
+		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7(trialCount)
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
 		z = e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoardDuringPlayout, getBlackWin)

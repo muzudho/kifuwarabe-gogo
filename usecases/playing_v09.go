@@ -40,10 +40,24 @@ func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 }
 
 // TestPlayoutLesson09 - 試しにプレイアウトする。
-func TestPlayoutLesson09(board e.IBoardV01, printBoardDuringPlayout func(int, int, int, int), getBlackWin func(e.IBoardV01, int) int, printBoardOutOfPlayout func(e.IBoardV01, int)) {
+func TestPlayoutLesson09(
+	board e.IBoardV01,
+	printBoardDuringPlayout func(int, int, int, int),
+	getBlackWin func(e.IBoardV01, int) int,
+	printBoardOutOfPlayout func(e.IBoardV01, int)) {
+
 	e.FlagTestPlayout = 1
 
-	e.Playout(board, 1, printBoardDuringPlayout, getBlackWin)
+	var trialCount int
+	boardSize := board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		trialCount = boardSize*boardSize + 200
+	} else {
+		trialCount = boardSize * boardSize
+	}
+
+	e.Playout(board, 1, trialCount, printBoardDuringPlayout, getBlackWin)
 
 	printBoardOutOfPlayout(board, e.MovesNum)
 	p.PrintSgf(board, e.MovesNum, e.Record)
