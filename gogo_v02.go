@@ -14,7 +14,7 @@ func GoGoV02() {
 
 	config := c.LoadGameConf("input/example-v2.gameConf.toml")
 
-	board := e.NewBoardV2(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	presenter := p.NewPresenterV2()
 
 	presenter.PrintBoardType1(board)

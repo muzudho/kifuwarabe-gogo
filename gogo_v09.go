@@ -15,7 +15,7 @@ func GoGoV09() {
 	e.G.Chat.Trace("# GoGo v9 プログラム開始☆（＾～＾）\n")
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoardV9(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	presenter := p.NewPresenterV9()
 
 	rand.Seed(time.Now().UnixNano())

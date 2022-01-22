@@ -5,8 +5,8 @@ type BoardV01 struct {
 	BoardV00n20
 }
 
-// NewBoardV01 - 盤を作成します。
-func NewBoardV01(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV01 {
+// NewBoard - 盤を作成します。
+func NewBoard(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV01 {
 	board := new(BoardV01)
 	board.data = data
 	board.boardSize = boardSize
