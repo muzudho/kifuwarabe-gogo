@@ -26,15 +26,16 @@ func NewBoardV7(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 }
 
 // PutStoneType1 - 石を置きます。
-func (board *BoardV07) PutStoneType1(tIdx int, color int) int {
+// * `z` - 交点。壁有り盤の配列インデックス
+func (board *BoardV07) PutStoneType1(z int, color int) int {
 	var except = createExceptType2(board)
-	return putStoneType1V1(board, tIdx, color, except)
+	return putStone(board, z, color, except)
 }
 
 // PutStoneType2 - 石を置きます。
-func (board *BoardV07) PutStoneType2(tIdx int, color int, fillEyeErr int) int {
+func (board *BoardV07) PutStoneType2(z int, color int, fillEyeErr int) int {
 	var except = createExceptType3(board, fillEyeErr)
-	return putStoneTypeV4Type2(board, tIdx, color, except)
+	return putStone(board, z, color, except)
 }
 
 // PlayOneMove - 置けるとこに置く。
