@@ -12,9 +12,9 @@ func AddMovesType1V8(board IBoardV01, z int, color int, printBoardType2 func(IBo
 		fmt.Println("(AddMovesV8) Err!", err)
 		os.Exit(0)
 	}
-	Record[Moves] = z
-	Moves++
-	printBoardType2(board, Moves)
+	Record[MovesNum] = z
+	MovesNum++
+	printBoardType2(board, MovesNum)
 }
 
 // AddMovesType2V9a - 指し手の追加？
@@ -25,8 +25,8 @@ func AddMovesType2V9a(board IBoardV01, z int, color int, sec float64, printBoard
 		fmt.Fprintf(os.Stderr, "(AddMovesType2V9a) Err!\n")
 		os.Exit(0)
 	}
-	Record[Moves] = z
-	RecordTime[Moves] = sec
-	Moves++
-	printBoardType2(board, Moves)
+	Record[MovesNum] = z
+	RecordTime[MovesNum] = sec
+	MovesNum++
+	printBoardType2(board, MovesNum)
 }

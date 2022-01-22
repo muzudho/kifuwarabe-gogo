@@ -25,17 +25,17 @@ func GoGoV03() {
 	for {
 		z := e.PlayOneMove(board, color, exceptPutStone)
 
-		fmt.Printf("movesNum=%4d, color=%d, z4=%04d\n", e.Moves, color, board.GetZ4(z))
+		fmt.Printf("movesNum=%4d, color=%d, z4=%04d\n", e.MovesNum, color, board.GetZ4(z))
 		p.PrintBoard(board, -1)
 
-		e.Record[e.Moves] = z
-		e.Moves++
-		if e.Moves == 1000 {
+		e.Record[e.MovesNum] = z
+		e.MovesNum++
+		if e.MovesNum == 1000 {
 			fmt.Printf("max movesNum!\n")
 			break
 		}
 		// パス で 2手目以降で、１手前（相手）もパスしていれば。
-		if z == 0 && 2 <= e.Moves && e.Record[e.Moves-2] == 0 {
+		if z == 0 && 2 <= e.MovesNum && e.Record[e.MovesNum-2] == 0 {
 			fmt.Printf("two pass\n")
 			break
 		}

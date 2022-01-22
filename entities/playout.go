@@ -119,8 +119,8 @@ func Playout(
 
 		// テストのときは棋譜を残します
 		if FlagTestPlayout != 0 {
-			Record[Moves] = z
-			Moves++
+			Record[MovesNum] = z
+			MovesNum++
 		}
 
 		if z == 0 && previousZ == 0 {

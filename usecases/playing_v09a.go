@@ -27,7 +27,7 @@ func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoard fun
 	}
 	sec := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
-		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.Moves, color, e.AllPlayouts, fUCT)
+		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.MovesNum, color, e.AllPlayouts, fUCT)
 	e.AddMovesType2V9a(board, z, color, sec, printBoardType2)
 	return z
 }
@@ -38,6 +38,6 @@ func TestPlayoutV09a(board e.IBoardV01, printBoard func(int, int, int, int), get
 
 	e.Playout(board, 1, printBoard, getBlackWin)
 
-	printBoardType2(board, e.Moves)
-	p.PrintSgf(board, e.Moves, e.Record)
+	printBoardType2(board, e.MovesNum)
+	p.PrintSgf(board, e.MovesNum, e.Record)
 }

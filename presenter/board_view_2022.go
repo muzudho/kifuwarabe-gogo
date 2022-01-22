@@ -64,14 +64,7 @@ func PrintBoard(board e.IBoardV01, movesNum int) {
 		for x := 0; x < boardSize; x++ {
 			b.WriteString(stoneLabelsType3[board.ColorAtXy(x, y)])
 		}
-		b.WriteString(" |")
-		if y == 4 {
-			b.WriteString("  KoZ=")
-			b.WriteString(strconv.Itoa(board.GetZ4(e.KoIdx)))
-			b.WriteString(",movesNum=")
-			b.WriteString(strconv.Itoa(movesNum))
-		}
-		b.WriteString("\n")
+		b.WriteString(" |\n")
 	}
 
 	// Footer
@@ -80,6 +73,14 @@ func PrintBoard(board e.IBoardV01, movesNum int) {
 		b.WriteString("--")
 	}
 	b.WriteString("-+\n")
+
+	// Info
+	b.WriteString("  KoZ=")
+	b.WriteString(strconv.Itoa(board.GetZ4(e.KoIdx)))
+	if movesNum != -1 {
+		b.WriteString(",movesNum=")
+		b.WriteString(strconv.Itoa(movesNum))
+	}
 
 	fmt.Fprintf(os.Stderr, b.String())
 }

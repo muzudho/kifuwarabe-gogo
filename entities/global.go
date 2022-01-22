@@ -48,8 +48,8 @@ var KoIdx int
 // For count liberty.
 var checkBoard = []int{}
 
-// Moves - 手数？
-var Moves int
+// MovesNum - 手数？
+var MovesNum int
 
 // FlagTestPlayout - ？。
 var FlagTestPlayout int
