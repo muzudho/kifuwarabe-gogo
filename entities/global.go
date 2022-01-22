@@ -18,8 +18,7 @@ var G GlobalVariables
 
 // IPresenter - 表示用。
 type IPresenter interface {
-	// 盤の描画。
-	PrintBoardType1(board IBoardV01)
+	// 盤の描画
 	PrintBoardType2(board IBoardV01, movesNum int)
 }
 

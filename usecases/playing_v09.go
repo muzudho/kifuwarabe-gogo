@@ -6,7 +6,7 @@ import (
 )
 
 // SelfplayV09 - コンピューター同士の対局。
-func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) {
+func SelfplayV09(board e.IBoardV02, printBoardType1 func(e.IBoardV01, int), printBoardType2 func(e.IBoardV01, int)) {
 	color := 1
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()

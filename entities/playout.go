@@ -51,16 +51,16 @@ func CreatePrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
 }
 
 // CreatePrintingOfBoardDuringPlayout1 - プレイアウト中の盤の描画
-func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int) {
-	var printBoard = func(trial int, z int, color int, emptyNum int) {
+func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoardV01, int)) func(int, int, int, int) {
+	var printBoard2 = func(trial int, z int, color int, emptyNum int) {
 		var z4 = board.GetZ4(z)       // XXYY
 		var koZ4 = board.GetZ4(KoIdx) // XXYY
-		printBoardType1(board)
+		printBoard(board, -1)
 		fmt.Printf("trial=%d,z4=%04d,clr=%d,emptyNum=%d,koZ4=%04d\n",
 			trial, z4, color, emptyNum, koZ4)
 	}
 
-	return printBoard
+	return printBoard2
 }
 
 // Playout - 最後まで石を打ちます。得点を返します

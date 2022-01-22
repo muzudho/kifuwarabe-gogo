@@ -16,12 +16,11 @@ func GoGoV05() {
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV5()
 
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 
 	var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson05(board, color)
-	var printBoard = e.CreatePrintingOfBoardDuringPlayout1(board, presenter.PrintBoardType1)
+	var printBoard = e.CreatePrintingOfBoardDuringPlayout1(board, p.PrintBoard)
 	e.Playout(board, color, printBoard, getBlackWin)
 }

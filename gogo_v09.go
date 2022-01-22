@@ -20,6 +20,6 @@ func GoGoV09() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	// u.TestPlayoutV09(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
-	u.SelfplayV09(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
+	// u.TestPlayoutV09(board, p.PrintBoard, presenter.PrintBoardType2)
+	u.SelfplayV09(board, p.PrintBoard, presenter.PrintBoardType2)
 }
