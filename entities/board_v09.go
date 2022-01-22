@@ -39,11 +39,6 @@ func (board *BoardV09) PutStoneType2(z int, color int, fillEyeErr int) int {
 	return putStone(board, z, color, except)
 }
 
-// PlayOneMove - 置けるとこに置く。
-func (board *BoardV09) PlayOneMove(color int) int {
-	return playOneMove(board, color)
-}
-
 func (board *BoardV09) playoutV9(turnColor int) int {
 	boardSize := board.BoardSize()
 

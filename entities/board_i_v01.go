@@ -49,8 +49,8 @@ func newBoard(board IBoardV01) {
 	Dir4 = [4]int{1, board.SentinelWidth(), -1, -board.SentinelWidth()}
 }
 
-// playOneMove - 置けるとこに置く。
-func playOneMove(board IBoardV01, color int) int {
+// PlayOneMove - 置けるとこに置く。
+func PlayOneMove(board IBoardV01, color int) int {
 	for i := 0; i < 100; i++ {
 		tIdx := board.GetEmptyTIdx()
 		err := board.PutStoneType1(tIdx, color)

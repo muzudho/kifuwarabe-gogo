@@ -22,19 +22,19 @@ func GoGoV03() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for {
-		tIdx := board.PlayOneMove(color)
+		z := e.PlayOneMove(board, color)
 
-		fmt.Printf("moves=%4d, color=%d, z=%04d\n", e.Moves, color, board.GetZ4(tIdx))
+		fmt.Printf("moves=%4d, color=%d, z4=%04d\n", e.Moves, color, board.GetZ4(z))
 		presenter.PrintBoardType1(board)
 
-		e.Record[e.Moves] = tIdx
+		e.Record[e.Moves] = z
 		e.Moves++
 		if e.Moves == 1000 {
 			fmt.Printf("max moves!\n")
 			break
 		}
 		// パス で 2手目以降で、１手前（相手）もパスしていれば。
-		if tIdx == 0 && 2 <= e.Moves && e.Record[e.Moves-2] == 0 {
+		if z == 0 && 2 <= e.Moves && e.Record[e.Moves-2] == 0 {
 			fmt.Printf("two pass\n")
 			break
 		}

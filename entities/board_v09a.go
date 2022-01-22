@@ -35,11 +35,6 @@ func (board *BoardV09a) PutStoneType2(z int, color int, fillEyeErr int) int {
 	return putStone(board, z, color, except)
 }
 
-// PlayOneMove - 置けるとこに置く。
-func (board *BoardV09a) PlayOneMove(color int) int {
-	return playOneMove(board, color)
-}
-
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
 func (board *BoardV09a) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
 	addMovesType1V8(board, tIdx, color, printBoardType2)
