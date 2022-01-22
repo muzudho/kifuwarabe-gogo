@@ -1,6 +1,6 @@
 package entities
 
-func createExceptType1V01(board *BoardV1) func(int, int, int, int) int {
+func createExceptType1V01(board *BoardV01) func(int, int, int, int) int {
 	var exceptType1 = func(z int, space int, mycolSafe int, captureSum int) int {
 		// 中断処理1～4
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
