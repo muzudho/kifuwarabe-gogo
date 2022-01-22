@@ -20,6 +20,14 @@ func CreateInitBestValueForPrimitiveMonteCalroV6() func(int) float64 {
 	return initBestValue
 }
 
+func CreateInitBestValueForPrimitiveMonteCalroV7() func(int) float64 {
+	var initBestValue = func(color int) float64 {
+		return -100.0
+	}
+
+	return initBestValue
+}
+
 func primitiveMonteCalroV6(board IBoardV01, color int, initBestValue func(int) float64, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
@@ -72,7 +80,7 @@ func primitiveMonteCalroV6(board IBoardV01, color int, initBestValue func(int) f
 	return bestZ
 }
 
-func primitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+func primitiveMonteCalroV7(board IBoardV01, color int, initBestValue func(int) float64, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
 	var tryNum int
@@ -84,10 +92,11 @@ func primitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int,
 	}
 
 	bestZ := 0
-	var bestValue, winRate float64
+	var winRate float64
 	var boardCopy = board.CopyData()
 	koZCopy := KoIdx
-	bestValue = -100.0
+
+	var bestValue = initBestValue(color)
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
@@ -122,7 +131,7 @@ func primitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int,
 	return bestZ
 }
 
-func primitiveMonteCalroV9(board IBoardV01, color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+func primitiveMonteCalroV9(board IBoardV01, color int, initBestValue func(int) float64, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	boardSize := board.BoardSize()
 
 	var tryNum int
@@ -134,10 +143,11 @@ func primitiveMonteCalroV9(board IBoardV01, color int, printBoard func(int, int,
 	}
 
 	bestZ := 0
-	var bestValue, winRate float64
+	var winRate float64
 	var boardCopy = board.CopyData()
 	koZCopy := KoIdx
-	bestValue = -100.0
+
+	var bestValue = initBestValue(color)
 
 	for y := 0; y <= boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
