@@ -28,7 +28,30 @@ func CreateInitBestValueForPrimitiveMonteCalroV7() func(int) float64 {
 	return initBestValue
 }
 
-func primitiveMonteCalroV6(board IBoardV01, color int, initBestValue func(int) float64, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+func CreateCalcWinForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
+	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+		return Playout(board, FlipColor(color), printBoard, countTerritories)
+	}
+
+	return calcWin
+}
+
+func CreateCalcWinForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int {
+	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+		return -Playout(board, FlipColor(color), printBoard, countTerritories)
+	}
+
+	return calcWin
+}
+
+func primitiveMonteCalroV6(
+	board IBoardV01,
+	color int,
+	initBestValue func(int) float64,
+	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	printBoard func(int, int, int, int),
+	countTerritories func(IBoardV01, int) int) int {
+
 	boardSize := board.BoardSize()
 
 	var tryNum int
@@ -61,7 +84,9 @@ func primitiveMonteCalroV6(board IBoardV01, color int, initBestValue func(int) f
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-				win := Playout(board, FlipColor(color), printBoard, countTerritories)
+
+				var win = calcWin(board, FlipColor(color), printBoard, countTerritories)
+
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
@@ -80,7 +105,14 @@ func primitiveMonteCalroV6(board IBoardV01, color int, initBestValue func(int) f
 	return bestZ
 }
 
-func primitiveMonteCalroV7(board IBoardV01, color int, initBestValue func(int) float64, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+func primitiveMonteCalroV7(
+	board IBoardV01,
+	color int,
+	initBestValue func(int) float64,
+	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	printBoard func(int, int, int, int),
+	countTerritories func(IBoardV01, int) int) int {
+
 	boardSize := board.BoardSize()
 
 	var tryNum int
@@ -113,7 +145,9 @@ func primitiveMonteCalroV7(board IBoardV01, color int, initBestValue func(int) f
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-				win := -Playout(board, FlipColor(color), printBoard, countTerritories)
+
+				var win = calcWin(board, FlipColor(color), printBoard, countTerritories)
+
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
@@ -131,7 +165,14 @@ func primitiveMonteCalroV7(board IBoardV01, color int, initBestValue func(int) f
 	return bestZ
 }
 
-func primitiveMonteCalroV9(board IBoardV01, color int, initBestValue func(int) float64, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+func primitiveMonteCalroV9(
+	board IBoardV01,
+	color int,
+	initBestValue func(int) float64,
+	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	printBoard func(int, int, int, int),
+	countTerritories func(IBoardV01, int) int) int {
+
 	boardSize := board.BoardSize()
 
 	var tryNum int
@@ -164,7 +205,9 @@ func primitiveMonteCalroV9(board IBoardV01, color int, initBestValue func(int) f
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-				win := -Playout(board, FlipColor(color), printBoard, countTerritories)
+
+				var win = calcWin(board, FlipColor(color), printBoard, countTerritories)
+
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)

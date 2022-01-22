@@ -42,7 +42,8 @@ func (board *BoardV04) PlayOneMove(color int) int {
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 4.
 func (board *BoardV04) PrimitiveMonteCalro(color int, printBoardType1 func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV6()
-	return primitiveMonteCalroV6(board, color, initBestValue, printBoardType1, countTerritories)
+	var calcWin = CreateCalcWinForPrimitiveMonteCalroV6()
+	return primitiveMonteCalroV6(board, color, initBestValue, calcWin, printBoardType1, countTerritories)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
