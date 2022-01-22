@@ -14,6 +14,15 @@ func CreateCounterForPlayoutLesson04() func(IBoardV01, int) int {
 	return counter
 }
 
+// CreateCounterForPlayoutLesson05 - 簡易な地計算をします
+func CreateCounterForPlayoutLesson05(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+	var counter = func(IBoardV01, int) int {
+		return countScoreV5(board, turnColor)
+	}
+
+	return counter
+}
+
 // CreateCounterForPlayoutLesson07 - 簡易な地計算をします
 func CreateCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
 	var counter = func(IBoardV01, int) int {

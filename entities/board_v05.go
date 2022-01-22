@@ -1,9 +1,5 @@
 package entities
 
-import (
-	"math/rand"
-)
-
 // BoardV05 - 盤 Version 5。
 type BoardV05 struct {
 	BoardV00n20
@@ -45,52 +41,8 @@ func (board *BoardV05) PlayOneMove(color int) int {
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func (board *BoardV05) Playout(turnColor int, printBoard func(int, int, int, int)) int {
-	boardSize := board.BoardSize()
-
-	color := turnColor
-	previousTIdx := 0
-	loopMax := boardSize*boardSize + 200
-	boardMax := board.SentinelBoardMax()
-
-	for trial := 0; trial < loopMax; trial++ {
-		var empty = make([]int, boardMax)
-		var emptyNum, r, z int
-		for y := 0; y <= boardSize; y++ {
-			for x := 0; x < boardSize; x++ {
-				z = board.GetTIdxFromXy(x, y)
-				if board.Exists(z) {
-					continue
-				}
-				empty[emptyNum] = z
-				emptyNum++
-			}
-		}
-		r = 0
-		for {
-			if emptyNum == 0 {
-				z = 0
-			} else {
-				r = rand.Intn(emptyNum)
-				z = empty[r]
-			}
-			err := board.PutStoneType2(z, color, FillEyeErr)
-			if err == 0 {
-				break
-			}
-			empty[r] = empty[emptyNum-1]
-			emptyNum--
-		}
-		if z == 0 && previousTIdx == 0 {
-			break
-		}
-		previousTIdx = z
-
-		var z4 = board.GetZ4(z) // XXYY
-		printBoard(trial, z4, color, emptyNum)
-
-		color = FlipColor(color)
-	}
-	return countScoreV5(board, turnColor)
+	var count = CreateCounterForPlayoutLesson05(board, turnColor)
+	return Playout(board, turnColor, printBoard, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 5.
