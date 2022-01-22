@@ -29,7 +29,6 @@ func GoGoV01() {
 		fmt.Println("board.SentinelBoardMax()=", board.SentinelBoardMax())
 		fmt.Println("board.GetData()=", board.GetData())
 	*/
-	presenter := p.NewPresenterV1()
 
-	presenter.PrintBoardType1(board)
+	p.PrintBoard(board, -1)
 }

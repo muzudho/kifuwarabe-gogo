@@ -16,7 +16,6 @@ func GoGoV06() {
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV6()
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
@@ -33,7 +32,7 @@ func GoGoV06() {
 
 		e.PutStoneType2(board, z, color, e.FillEyeOk)
 
-		presenter.PrintBoardType1(board)
+		p.PrintBoard(board, -1)
 
 		color = e.FlipColor(color)
 	}

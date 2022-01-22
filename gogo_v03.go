@@ -17,7 +17,6 @@ func GoGoV03() {
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
-	presenter := p.NewPresenterV3()
 
 	var exceptPutStone = e.CreateExceptionForPutStoneLesson3(board)
 
@@ -27,7 +26,7 @@ func GoGoV03() {
 		z := e.PlayOneMove(board, color, exceptPutStone)
 
 		fmt.Printf("moves=%4d, color=%d, z4=%04d\n", e.Moves, color, board.GetZ4(z))
-		presenter.PrintBoardType1(board)
+		p.PrintBoard(board, -1)
 
 		e.Record[e.Moves] = z
 		e.Moves++

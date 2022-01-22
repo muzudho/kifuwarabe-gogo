@@ -18,7 +18,7 @@ var sz8k = 8 * 1024
 //  2| . . . . . . . . . . . . . . . . . . . |
 //  3| . . . . . . . . . . . . . . . . x . . |
 //  4| . . . . . . . . . . . . . . . . . . . |
-//  5| . . . . . . . . . . . . . . . . . . . |
+//  5| . . . . . . . . . . . . . . . . . . . |  KoZ=0,moves=999
 //  6| . . . . . . . . . . . . . . . . . . . |
 //  7| . . . . . . . . . . . . . . . . . . . |
 //  8| . . . . . . . . . . . . . . . . . . . |
@@ -38,8 +38,8 @@ var sz8k = 8 * 1024
 // ASCII文字を使います（全角、半角の狂いがないため）
 // 黒石は x 、 白石は o （ダークモードでもライトモードでも識別できるため）
 
-// PrintBoardType2 - 盤を描画。
-func PrintBoard2022(board e.IBoardV01, movesNum int) {
+// PrintBoard - 盤を描画。
+func PrintBoard(board e.IBoardV01, movesNum int) {
 
 	b := &strings.Builder{}
 	b.Grow(sz8k)
