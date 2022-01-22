@@ -26,6 +26,15 @@ func Lesson09a() {
 	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()
 
+	// パラーメーター調整
+	boardSize := board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		e.PlayoutTrialCount = boardSize*boardSize + 200
+	} else {
+		e.PlayoutTrialCount = boardSize * boardSize
+	}
+
 	e.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
 	// GUI から 囲碁エンジン へ入力があった、と考えてください
@@ -35,6 +44,17 @@ func Lesson09a() {
 		tokens := strings.Split(command, " ")
 		switch tokens[0] {
 		case "boardsize":
+			// TODO 盤のサイズを変えたい
+
+			// パラーメーター再調整
+			boardSize := board.BoardSize()
+			if boardSize < 10 {
+				// 10路盤より小さいとき
+				e.PlayoutTrialCount = boardSize*boardSize + 200
+			} else {
+				e.PlayoutTrialCount = boardSize * boardSize
+			}
+
 			e.G.Chat.Print("= \n\n")
 		case "clear_board":
 			board.InitBoard()

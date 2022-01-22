@@ -102,7 +102,7 @@ func selectBestUcb(nodeN int) int {
 }
 
 // SearchUctV8 - 再帰関数。 getBestUctV9a から呼び出されます。
-func SearchUctV8(board IBoardV02, color int, trialCount int, nodeN int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+func SearchUctV8(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
@@ -123,12 +123,12 @@ func SearchUctV8(board IBoardV02, color int, trialCount int, nodeN int, printBoa
 
 	if c.Games <= 0 {
 		// 指し手の勝率？
-		win = -Playout(board, FlipColor(color), trialCount, printBoard, getBlackWin)
+		win = -Playout(board, FlipColor(color), printBoard, getBlackWin)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = CreateNode(board)
 		}
-		win = -SearchUctV8(board, FlipColor(color), c.Next, trialCount, printBoard, getBlackWin)
+		win = -SearchUctV8(board, FlipColor(color), c.Next, printBoard, getBlackWin)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -142,22 +142,13 @@ func GetBestUctV8(board IBoardV02, color int, printBoard func(int, int, int, int
 	NodeNum = 0
 	uctLoop := 10000
 
-	var trialCount int
-	boardSize := board.BoardSize()
-	if boardSize < 10 {
-		// 10路盤より小さいとき
-		trialCount = boardSize*boardSize + 200
-	} else {
-		trialCount = boardSize * boardSize
-	}
-
 	var bestI = -1
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
 		koIdxCopy := KoIdx
 
-		SearchUctV8(board, color, next, trialCount, printBoard, getBlackWin)
+		SearchUctV8(board, color, next, printBoard, getBlackWin)
 
 		KoIdx = koIdxCopy
 		board.ImportData(boardCopy)
@@ -178,7 +169,7 @@ func GetBestUctV8(board IBoardV02, color int, printBoard func(int, int, int, int
 }
 
 // Recursive
-func searchUctV9(board IBoardV02, color int, trialCount int, nodeN int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
@@ -198,12 +189,12 @@ func searchUctV9(board IBoardV02, color int, trialCount int, nodeN int, printBoa
 	}
 
 	if c.Games <= 0 {
-		win = -Playout(board, FlipColor(color), trialCount, printBoard, getBlackWin)
+		win = -Playout(board, FlipColor(color), printBoard, getBlackWin)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = CreateNode(board)
 		}
-		win = -searchUctV9(board, FlipColor(color), trialCount, c.Next, printBoard, getBlackWin)
+		win = -searchUctV9(board, FlipColor(color), c.Next, printBoard, getBlackWin)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -217,22 +208,13 @@ func GetBestUctV9(board IBoardV02, color int, printBoard func(int, int, int, int
 	NodeNum = 0
 	uctLoop := 1000 // 少な目
 
-	var trialCount int
-	boardSize := board.BoardSize()
-	if boardSize < 10 {
-		// 10路盤より小さいとき
-		trialCount = boardSize*boardSize + 200
-	} else {
-		trialCount = boardSize * boardSize
-	}
-
 	var bestI = -1
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
 		koIdxCopy := KoIdx
 
-		searchUctV9(board, color, next, trialCount, printBoard, getBlackWin)
+		searchUctV9(board, color, next, printBoard, getBlackWin)
 
 		KoIdx = koIdxCopy
 		board.ImportData(boardCopy)
@@ -260,22 +242,13 @@ func GetBestUctV9a(board IBoardV02, color int, printBoard func(int, int, int, in
 	// uctLoop := 10000 // 多め
 	uctLoop := 1000 // 少なめ
 
-	var trialCount int
-	boardSize := board.BoardSize()
-	if boardSize < 10 {
-		// 10路盤より小さいとき
-		trialCount = boardSize*boardSize + 200
-	} else {
-		trialCount = boardSize * boardSize
-	}
-
 	var bestI = -1
 	next := CreateNode(board)
 	for i := 0; i < uctLoop; i++ {
 		var boardCopy = board.CopyData()
 		koZCopy := KoIdx
 
-		SearchUctV8(board, color, next, trialCount, printBoard, getBlackWin)
+		SearchUctV8(board, color, next, printBoard, getBlackWin)
 
 		KoIdx = koZCopy
 		board.ImportData(boardCopy)

@@ -24,17 +24,8 @@ func PlayComputerMoveV09a(
 	if fUCT != 0 {
 		z = e.GetBestUctV9a(board, color, printBoardDuringPlayout, getBlackWin)
 	} else {
-		var trialCount int
-		boardSize := board.BoardSize()
-		if boardSize < 10 {
-			// 10路盤より小さいとき
-			trialCount = boardSize*boardSize + 200
-		} else {
-			trialCount = boardSize * boardSize
-		}
-
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
-		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7(trialCount)
+		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
 		z = e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoardDuringPlayout, getBlackWin)

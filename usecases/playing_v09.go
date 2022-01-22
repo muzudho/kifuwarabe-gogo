@@ -48,16 +48,7 @@ func TestPlayoutLesson09(
 
 	e.FlagTestPlayout = 1
 
-	var trialCount int
-	boardSize := board.BoardSize()
-	if boardSize < 10 {
-		// 10路盤より小さいとき
-		trialCount = boardSize*boardSize + 200
-	} else {
-		trialCount = boardSize * boardSize
-	}
-
-	e.Playout(board, 1, trialCount, printBoardDuringPlayout, getBlackWin)
+	e.Playout(board, 1, printBoardDuringPlayout, getBlackWin)
 
 	printBoardOutOfPlayout(board, e.MovesNum)
 	p.PrintSgf(board, e.MovesNum, e.Record)

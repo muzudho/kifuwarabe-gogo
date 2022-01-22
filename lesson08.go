@@ -17,6 +17,14 @@ func Lesson08() {
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
+	boardSize := board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		e.PlayoutTrialCount = boardSize*boardSize + 200
+	} else {
+		e.PlayoutTrialCount = boardSize * boardSize
+	}
+
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
 	color := 1

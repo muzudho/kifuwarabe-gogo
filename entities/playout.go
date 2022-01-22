@@ -69,7 +69,6 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoard
 func Playout(
 	board IBoardV01,
 	turnColor int,
-	trialCount int,
 	printBoardDuringPlayout func(int, int, int, int),
 	getBlackWin func(IBoardV01, int) int) int {
 
@@ -80,7 +79,8 @@ func Playout(
 	previousZ := 0
 	boardMax := board.SentinelBoardArea()
 
-	for trial := 0; trial < trialCount; trial++ {
+	var playoutTrialCount = PlayoutTrialCount
+	for trial := 0; trial < playoutTrialCount; trial++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
 		for y := 0; y <= boardSize; y++ {
