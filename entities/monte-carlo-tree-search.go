@@ -140,11 +140,12 @@ func SearchUctV8(board IBoardV02, color int, nodeN int, printBoard func(int, int
 func GetBestUctV8(board IBoardV02, color int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	max := -999
 	NodeNum = 0
-	uctLoop := 10000
 
 	var bestI = -1
 	next := CreateNode(board)
-	for i := 0; i < uctLoop; i++ {
+
+	var uctLoopCount = UctLoopCount
+	for i := 0; i < uctLoopCount; i++ {
 		var boardCopy = board.CopyData()
 		koIdxCopy := KoIdx
 
@@ -206,11 +207,12 @@ func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int
 func GetBestUctV9(board IBoardV02, color int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
 	max := -999
 	NodeNum = 0
-	uctLoop := 1000 // 少な目
 
 	var bestI = -1
 	next := CreateNode(board)
-	for i := 0; i < uctLoop; i++ {
+
+	var uctLoopCount = UctLoopCount
+	for i := 0; i < uctLoopCount; i++ {
 		var boardCopy = board.CopyData()
 		koIdxCopy := KoIdx
 
@@ -239,12 +241,11 @@ func GetBestUctV9a(board IBoardV02, color int, printBoard func(int, int, int, in
 	max := -999
 	NodeNum = 0
 
-	// uctLoop := 10000 // 多め
-	uctLoop := 1000 // 少なめ
-
 	var bestI = -1
 	next := CreateNode(board)
-	for i := 0; i < uctLoop; i++ {
+
+	var uctLoopCount = UctLoopCount
+	for i := 0; i < uctLoopCount; i++ {
 		var boardCopy = board.CopyData()
 		koZCopy := KoIdx
 
