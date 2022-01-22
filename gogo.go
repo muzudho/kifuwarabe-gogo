@@ -34,8 +34,7 @@ func main() {
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
 	e.G.Chat.Trace("Author: %s\n", e.Author)
 
-	// テスト表示
-	p.PrintTest()
+	p.PrintTest() // TODO 消す。テスト表示
 
 	if lessonVer == "V01" {
 		GoGoV01()

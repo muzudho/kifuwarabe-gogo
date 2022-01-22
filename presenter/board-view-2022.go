@@ -1,6 +1,15 @@
 package presenter
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+
+	e "github.com/muzudho/kifuwarabe-gogo/entities"
+)
+
+var sz8k = 8 * 1024
 
 // 案
 //     A B C D E F G H J K L M N O P Q R S T
@@ -53,4 +62,45 @@ func PrintTest() {
 	fmt.Printf("18| . . . . . . . . . . . . . . . . . . . |\n")
 	fmt.Printf("19| . . . . . . . . . . . . . . . . . . . |\n")
 	fmt.Printf("  +---------------------------------------+\n")
+}
+
+// PrintBoardType2 - 盤を描画。
+func PrintBoard2022(board e.IBoardV01, moves int) {
+
+	b := &strings.Builder{}
+	b.Grow(sz8k)
+
+	boardSize := board.BoardSize()
+
+	b.WriteString("\n   ")
+	for x := 0; x < boardSize; x++ {
+		b.WriteString(labelOfColumns[x+1])
+	}
+	b.WriteString("\n  +")
+	for x := 0; x < boardSize; x++ {
+		b.WriteString("--")
+	}
+	b.WriteString("+\n")
+	for y := 0; y < boardSize; y++ {
+		b.WriteString(labelOfRowsV9a[y+1])
+		b.WriteString("|")
+		for x := 0; x < boardSize; x++ {
+			b.WriteString(stoneLabelsType2[board.ColorAtXy(x, y)])
+		}
+		b.WriteString("|")
+		if y == 4 {
+			b.WriteString("  KoZ=")
+			b.WriteString(strconv.Itoa(board.GetZ4(e.KoIdx)))
+			b.WriteString(",moves=")
+			b.WriteString(strconv.Itoa(moves))
+		}
+		b.WriteString("\n")
+	}
+	b.WriteString("  +")
+	for x := 0; x < boardSize; x++ {
+		b.WriteString("--")
+	}
+	b.WriteString("+\n")
+
+	fmt.Fprintf(os.Stderr, b.String())
 }
