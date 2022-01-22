@@ -105,6 +105,11 @@ func NewPresenterV9a() *PresenterV9a {
 var labelOfColumns = [20]string{"零", " 1", " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9",
 	"ι0", "ι1", "ι2", "ι3", "ι4", "ι5", "ι6", "ι7", "ι8", "ι9"}
 
+// labelOfColumnsV2 - 各列の表示符号。
+// 国際囲碁連盟のフォーマット
+var labelOfColumnsV2 = [20]string{"xx", " A", " B", " C", " D", " E", " F", " G", " H", " J",
+	" K", " L", " M", " N", " O", " P", " Q", " R", " S", " T"}
+
 // labelOfRowsV1 - 各行の表示符号。
 var labelOfRowsV1 = [20]string{"零", "一", "二", "三", "四", "五", "六", "七", "八", "九",
 	"10", "11", "12", "13", "14", "15", "16", "17", "18", "19"}
@@ -120,3 +125,9 @@ var stoneLabelsType1 = [4]string{"・", " ●", " ○", "＃"}
 // " *" - Visual Studio Code の 全角半角崩れ対応。
 // " ○" - Visual Studio Code の 全角半角崩れ対応。
 var stoneLabelsType2 = [4]string{" .", " *", " o", " #"}
+
+// " ." - 空点
+// " x" - 黒石
+// " o" - 白石
+// " #" - 壁（使いません）
+var stoneLabelsType3 = [4]string{" .", " x", " o", " #"}
