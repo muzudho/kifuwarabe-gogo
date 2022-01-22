@@ -1,7 +1,7 @@
 package entities
 
 // Lesson01 石を置けないケースを判定します
-func createExceptionForPutStoneLesson1(board IBoardV01) func(int, int, int, int, int) int {
+func CreateExceptionForPutStoneLesson1(board IBoardV01) func(int, int, int, int, int) int {
 	var exceptType1 = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
 		// 中断処理1～4
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
@@ -23,8 +23,8 @@ func createExceptionForPutStoneLesson1(board IBoardV01) func(int, int, int, int,
 	return exceptType1
 }
 
-// Lesson03 目には打たないようにします
-func createExceptionForPutStoneLesson3(board IBoardV01) func(int, int, int, int, int) int {
+// CreateExceptionForPutStoneLesson3 - Lesson03 目には打たないようにします
+func CreateExceptionForPutStoneLesson3(board IBoardV01) func(int, int, int, int, int) int {
 	var except = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
 		// 中断処理1～4
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
@@ -69,10 +69,10 @@ func createExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int
 	return except
 }
 
-// putStone - 石を置きます。
+// PutStone - 石を置きます。
 // * `z` - 交点。壁有り盤の配列インデックス
 // * `except` - 石を置けないケースを判定する関数
-func putStone(board IBoardV01, z int, color int, except func(int, int, int, int, int) int) int {
+func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int, int) int) int {
 	var around = [4][3]int{}
 	var liberty, stone int
 	var unCol = FlipColor(color)
@@ -148,5 +148,5 @@ func putStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 // * `fillEyeErr` - 目潰しの有無
 func PutStoneType2(board IBoardV01, z int, color int, fillEyeErr int) int {
 	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
-	return putStone(board, z, color, except)
+	return PutStone(board, z, color, except)
 }

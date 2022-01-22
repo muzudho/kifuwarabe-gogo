@@ -7,19 +7,16 @@ import (
 // IBoardV01 - 盤。
 type IBoardV01 interface {
 	// 指定した交点の石の色
-	ColorAt(tIdx int) int
+	ColorAt(z int) int
 	ColorAtXy(x int, y int) int
-	SetColor(tIdx int, color int)
+	SetColor(z int, color int)
 
 	CopyData() []int
 	ImportData(boardCopy2 []int)
-	Exists(tIdx int) bool
+	Exists(z int) bool
 
-	// 石を置きます。
-	PutStoneType1(tIdx int, color int) int
-
-	CountLiberty(tIdx int, pLiberty *int, pStone *int)
-	TakeStone(tIdx int, color int)
+	CountLiberty(z int, pLiberty *int, pStone *int)
+	TakeStone(z int, color int)
 	GetEmptyTIdx() int
 
 	BoardSize() int
@@ -32,7 +29,7 @@ type IBoardV01 interface {
 	// GetTIdxFromXy - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
 	GetTIdxFromXy(x int, y int) int
 	// GetZ4 - tIdx（配列のインデックス）を XXYY形式へ変換します。
-	GetZ4(tIdx int) int
+	GetZ4(z int) int
 }
 
 func newBoard(board IBoardV01) {
@@ -43,19 +40,19 @@ func newBoard(board IBoardV01) {
 }
 
 // PlayOneMove - 置けるとこに置く。
-func PlayOneMove(board IBoardV01, color int) int {
+func PlayOneMove(board IBoardV01, color int, exceptPutStone func(int, int, int, int, int) int) int {
 	for i := 0; i < 100; i++ {
-		tIdx := board.GetEmptyTIdx()
-		err := board.PutStoneType1(tIdx, color)
+		z := board.GetEmptyTIdx()
+		err := PutStone(board, z, color, exceptPutStone)
 		if err == 0 {
-			return tIdx
+			return z
 		}
 	}
 
 	// 0 はパス。
-	const tIdx = 0
-	board.PutStoneType1(tIdx, color)
-	return tIdx
+	const z = 0
+	PutStone(board, z, color, exceptPutStone)
+	return z
 }
 
 // countScore - 得点計算。
@@ -67,8 +64,8 @@ func countScoreV5(board IBoardV01, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetTIdxFromXy(x, y)
-			color2 := board.ColorAt(tIdx)
+			z := board.GetTIdxFromXy(x, y)
+			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -76,7 +73,7 @@ func countScoreV5(board IBoardV01, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for dir := 0; dir < 4; dir++ {
-				mk[board.ColorAt(tIdx+Dir4[dir])]++
+				mk[board.ColorAt(z+Dir4[dir])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -107,8 +104,8 @@ func countScoreV6(board IBoardV01, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetTIdxFromXy(x, y)
-			color2 := board.ColorAt(tIdx)
+			z := board.GetTIdxFromXy(x, y)
+			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -116,7 +113,7 @@ func countScoreV6(board IBoardV01, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for dir := 0; dir < 4; dir++ {
-				mk[board.ColorAt(tIdx+Dir4[dir])]++
+				mk[board.ColorAt(z+Dir4[dir])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++
@@ -147,8 +144,8 @@ func countScoreV7(board IBoardV01, turnColor int) int {
 
 	for y := 0; y < boardSize; y++ {
 		for x := 0; x < boardSize; x++ {
-			tIdx := board.GetTIdxFromXy(x, y)
-			color2 := board.ColorAt(tIdx)
+			z := board.GetTIdxFromXy(x, y)
+			color2 := board.ColorAt(z)
 			kind[color2]++
 			if color2 != 0 {
 				continue
@@ -156,7 +153,7 @@ func countScoreV7(board IBoardV01, turnColor int) int {
 			mk[1] = 0
 			mk[2] = 0
 			for dir := 0; dir < 4; dir++ {
-				mk[board.ColorAt(tIdx+Dir4[dir])]++
+				mk[board.ColorAt(z+Dir4[dir])]++
 			}
 			if mk[1] != 0 && mk[2] == 0 {
 				blackArea++

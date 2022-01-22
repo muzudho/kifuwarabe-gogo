@@ -20,10 +20,3 @@ func NewBoardV01(data []int, boardSize int, sentinelBoardMax int, komi float64, 
 
 	return board
 }
-
-// PutStoneType1 - 石を置きます。
-// * `z` - 交点。壁有り盤の配列インデックス
-func (board *BoardV01) PutStoneType1(z int, color int) int {
-	except := createExceptionForPutStoneLesson1(board)
-	return putStone(board, z, color, except)
-}

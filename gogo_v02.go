@@ -19,7 +19,10 @@ func GoGoV02() {
 
 	presenter.PrintBoardType1(board)
 
-	err := board.PutStoneType1(board.GetTIdxFromXy(7-1, 5-1), 2)
+	exceptPutStone := e.CreateExceptionForPutStoneLesson1(board)
+	var z = board.GetTIdxFromXy(7-1, 5-1)
+	var color = 2
+	err := e.PutStone(board, z, color, exceptPutStone)
 	fmt.Printf("err=%d\n", err)
 
 	presenter.PrintBoardType1(board)

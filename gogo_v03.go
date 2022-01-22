@@ -19,10 +19,12 @@ func GoGoV03() {
 	board := e.NewBoardV3(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	presenter := p.NewPresenterV3()
 
+	var exceptPutStone = e.CreateExceptionForPutStoneLesson3(board)
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for {
-		z := e.PlayOneMove(board, color)
+		z := e.PlayOneMove(board, color, exceptPutStone)
 
 		fmt.Printf("moves=%4d, color=%d, z4=%04d\n", e.Moves, color, board.GetZ4(z))
 		presenter.PrintBoardType1(board)
