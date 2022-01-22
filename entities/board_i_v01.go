@@ -18,7 +18,7 @@ type IBoardV01 interface {
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
 	SentinelWidth() int
-	SentinelBoardMax() int
+	SentinelBoardArea() int
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	Komi() float64
 	MaxMoves() int

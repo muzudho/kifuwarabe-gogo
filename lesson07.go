@@ -9,13 +9,13 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// GoGoV06 - バージョン６。
-func GoGoV06() {
-	e.G.Chat.Trace("# GoGo v6 プログラム開始☆（＾～＾）\n")
+// Lesson07 - レッスン７
+func Lesson07() {
+	e.G.Chat.Trace("# GoGo Lesson07 プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
@@ -23,11 +23,11 @@ func GoGoV06() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV6()
-		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV6()
-		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV6()
+		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
+		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
+		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
-		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson06(board, color)
+		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
 		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)
 
 		e.PutStoneType2(board, z, color, e.FillEyeOk)

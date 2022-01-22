@@ -24,8 +24,8 @@ func (board BoardV01) SentinelWidth() int {
 	return board.sentinelWidth
 }
 
-// SentinelBoardMax - 枠付きの盤の交点数
-func (board BoardV01) SentinelBoardMax() int {
+// SentinelBoardArea - 枠付きの盤の交点数
+func (board BoardV01) SentinelBoardArea() int {
 	return board.sentinelBoardMax
 }
 
@@ -61,7 +61,7 @@ func (board *BoardV01) SetColor(tIdx int, color int) {
 
 // CopyData - 盤データのコピー。
 func (board BoardV01) CopyData() []int {
-	boardMax := board.SentinelBoardMax()
+	boardMax := board.SentinelBoardArea()
 
 	var boardCopy2 = make([]int, boardMax)
 	copy(boardCopy2[:], board.data[:])
@@ -126,7 +126,7 @@ func (board BoardV01) countLibertySub(tIdx int, color int, pLiberty *int, pStone
 func (board BoardV01) CountLiberty(tIdx int, pLiberty *int, pStone *int) {
 	*pLiberty = 0
 	*pStone = 0
-	boardMax := board.SentinelBoardMax()
+	boardMax := board.SentinelBoardArea()
 	// 初期化
 	for tIdx2 := 0; tIdx2 < boardMax; tIdx2++ {
 		checkBoard[tIdx2] = 0
@@ -147,7 +147,7 @@ func (board *BoardV01) TakeStone(tIdx int, color int) {
 
 // InitBoard - 盤の初期化。
 func (board *BoardV01) InitBoard() {
-	boardMax := board.SentinelBoardMax()
+	boardMax := board.SentinelBoardArea()
 	boardSize := board.BoardSize()
 	// G.Chat.Trace("# (^q^) boardMax=%d boardSize=%d\n", boardMax, boardSize)
 

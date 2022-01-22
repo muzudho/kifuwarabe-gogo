@@ -14,14 +14,14 @@ import (
 	u "github.com/muzudho/kifuwarabe-gogo/usecases"
 )
 
-// GoGoV09a - バージョン９a。
+// Lesson09a - レッスン９a
 // GTP2NNGS に対応しているのでは？
-func GoGoV09a() {
-	e.G.Chat.Trace("# GoGo v09a プログラム開始☆（＾～＾）\n")
+func Lesson09a() {
+	e.G.Chat.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()

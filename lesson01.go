@@ -6,9 +6,9 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// GoGoV01 - バージョン１。
-func GoGoV01() {
-	e.G.Chat.Trace("# GoGo v1 プログラム開始☆（＾～＾）\n")
+// Lesson01 - レッスン１
+func Lesson01() {
+	e.G.Chat.Trace("# GoGo Lesson01 プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v1.gameConf.toml")
 
@@ -21,12 +21,17 @@ func GoGoV01() {
 	e.G.Chat.Trace("# BoardSize=%d\n", config.Game.BoardSize)
 	e.G.Chat.Trace("# MaxMoves=%d\n", config.Game.MaxMoves)
 	e.G.Chat.Trace("# BoardData=%s\n", config.Game.BoardData)
-	e.G.Chat.Trace("# SentinelBoardMax()=%d\n", config.SentinelBoardMax())
+	e.G.Chat.Trace("# SentinelBoardArea()=%d\n", config.SentinelBoardArea())
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard( // 盤生成
+		config.GetBoardArray(),     // 配列
+		config.BoardSize(),         // 盤サイズ
+		config.SentinelBoardArea(), // 番兵
+		config.Komi(),              // コミ
+		config.MaxMoves())          // 上限手数
 	/*
 		fmt.Println("board.BoardSize()=", board.BoardSize())
-		fmt.Println("board.SentinelBoardMax()=", board.SentinelBoardMax())
+		fmt.Println("board.SentinelBoardArea()=", board.SentinelBoardArea())
 		fmt.Println("board.GetData()=", board.GetData())
 	*/
 

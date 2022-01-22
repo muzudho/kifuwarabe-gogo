@@ -8,13 +8,13 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// GoGoV02 - バージョン２。
-func GoGoV02() {
-	e.G.Chat.Trace("# GoGo v2 プログラム開始☆（＾～＾）\n")
+// Lesson02 - レッスン２
+func Lesson02() {
+	e.G.Chat.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v2.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	p.PrintBoard(board, -1)
 

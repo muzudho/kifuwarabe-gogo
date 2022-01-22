@@ -10,12 +10,12 @@ import (
 	u "github.com/muzudho/kifuwarabe-gogo/usecases"
 )
 
-// GoGoV09 - バージョン９。
-func GoGoV09() {
-	e.G.Chat.Trace("# GoGo v9 プログラム開始☆（＾～＾）\n")
+// Lesson09 - レッスン９
+func Lesson09() {
+	e.G.Chat.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	rand.Seed(time.Now().UnixNano())
 

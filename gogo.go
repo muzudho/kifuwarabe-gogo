@@ -34,27 +34,27 @@ func main() {
 	e.G.Chat.Trace("Author: %s\n", e.Author)
 
 	if lessonVer == "V01" {
-		GoGoV01()
+		Lesson01()
 	} else if lessonVer == "V02" {
-		GoGoV02()
+		Lesson02()
 	} else if lessonVer == "V03" {
-		GoGoV03()
+		Lesson03()
 	} else if lessonVer == "V04" {
-		GoGoV04()
+		Lesson04()
 	} else if lessonVer == "V05" {
-		GoGoV05()
+		Lesson05()
 	} else if lessonVer == "V06" {
-		GoGoV06()
+		Lesson06()
 	} else if lessonVer == "V07" {
-		GoGoV07()
+		Lesson07()
 	} else if lessonVer == "V08" {
-		GoGoV08()
+		Lesson08()
 	} else if lessonVer == "V09" {
-		GoGoV09()
+		Lesson09()
 	} else if lessonVer == "V09a" {
-		GoGoV09a() // GTP
+		Lesson09a() // GTP
 	} else {
-		GoGoV09a() // GTP
+		Lesson09a() // GTP
 	}
 	//KifuwarabeV1()
 }

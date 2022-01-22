@@ -9,13 +9,13 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// GoGoV08 - バージョン８。
-func GoGoV08() {
+// Lesson08 - レッスン８
+func Lesson08() {
 	e.G.Chat.Trace("# GoGo v8 プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 

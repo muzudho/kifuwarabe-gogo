@@ -9,13 +9,13 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// GoGoV05 - バージョン５。
-func GoGoV05() {
-	e.G.Chat.Trace("# GoGo v5 プログラム開始☆（＾～＾）\n")
+// Lesson05 - レッスン５
+func Lesson05() {
+	e.G.Chat.Trace("# GoGo Lesson05 プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	color := 1
 	rand.Seed(time.Now().UnixNano())

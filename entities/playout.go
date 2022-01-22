@@ -86,7 +86,7 @@ func Playout(
 		loopMax = boardSize * boardSize
 	}
 
-	boardMax := board.SentinelBoardMax()
+	boardMax := board.SentinelBoardArea()
 
 	for trial := 0; trial < loopMax; trial++ {
 		var empty = make([]int, boardMax)

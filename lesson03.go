@@ -10,13 +10,13 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// GoGoV03 - バージョン３。
-func GoGoV03() {
-	e.G.Chat.Trace("# GoGo v3 プログラム開始☆（＾～＾）\n")
+// Lesson03 - レッスン３
+func Lesson03() {
+	e.G.Chat.Trace("# GoGo Lesson03 プログラム開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
 
 	var exceptPutStone = e.CreateExceptionForPutStoneLesson3(board)
 
