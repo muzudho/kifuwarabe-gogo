@@ -2,7 +2,6 @@ package entities
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 )
 
@@ -195,106 +194,6 @@ func countScoreV7(board IBoardV01, turnColor int) int {
 	// fmt.Printf("whiteSum=%2d, (stones=%2d, area=%2d)\n", whiteSum, kind[2], whiteArea)
 	// fmt.Printf("score=%d, win=%d\n", score, win)
 	return win
-}
-
-func playoutV1(board IBoardV01, turnColor int, printBoardType1 func(IBoardV01)) int {
-	boardSize := board.BoardSize()
-
-	color := turnColor
-	previousTIdx := 0
-	loopMax := boardSize*boardSize + 200
-	boardMax := board.SentinelBoardMax()
-
-	for loop := 0; loop < loopMax; loop++ {
-		var empty = make([]int, boardMax)
-		var emptyNum, r, tIdx int
-		for y := 0; y <= boardSize; y++ {
-			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetTIdxFromXy(x, y)
-				if board.Exists(tIdx) {
-					continue
-				}
-				empty[emptyNum] = tIdx
-				emptyNum++
-			}
-		}
-		r = 0
-		for {
-			if emptyNum == 0 {
-				tIdx = 0
-			} else {
-				r = rand.Intn(emptyNum)
-				tIdx = empty[r]
-			}
-			err := board.PutStoneType2(tIdx, color, FillEyeErr)
-			if err == 0 {
-				break
-			}
-			empty[r] = empty[emptyNum-1]
-			emptyNum--
-		}
-		if tIdx == 0 && previousTIdx == 0 {
-			break
-		}
-		previousTIdx = tIdx
-
-		printBoardType1(board)
-
-		fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
-			loop, board.GetZ4(tIdx), color, emptyNum, board.GetZ4(KoIdx))
-		color = FlipColor(color)
-	}
-	return 0
-}
-
-// Playout - 最後まで石を打ちます。得点を返します。
-func playoutV8(board IBoardV01, turnColor int, printBoardType1 func(IBoardV01)) int {
-	boardSize := board.BoardSize()
-
-	color := turnColor
-	previousTIdx := 0
-	loopMax := boardSize*boardSize + 200
-	boardMax := board.SentinelBoardMax()
-
-	AllPlayouts++
-	for loop := 0; loop < loopMax; loop++ {
-		var empty = make([]int, boardMax)
-		var emptyNum, r, tIdx int
-		for y := 0; y <= boardSize; y++ {
-			for x := 0; x < boardSize; x++ {
-				tIdx = board.GetTIdxFromXy(x, y)
-				if board.Exists(tIdx) {
-					continue
-				}
-				empty[emptyNum] = tIdx
-				emptyNum++
-			}
-		}
-		r = 0
-		for {
-			if emptyNum == 0 {
-				tIdx = 0
-			} else {
-				r = rand.Intn(emptyNum)
-				tIdx = empty[r]
-			}
-			err := board.PutStoneType2(tIdx, color, FillEyeErr)
-			if err == 0 {
-				break
-			}
-			empty[r] = empty[emptyNum-1]
-			emptyNum--
-		}
-		if tIdx == 0 && previousTIdx == 0 {
-			break
-		}
-		previousTIdx = tIdx
-		// printBoardType1()
-		// fmt.Printf("loop=%d,z=%04d,c=%d,emptyNum=%d,KoZ=%04d\n",
-		// 	loop, e.GetZ4(tIdx), color, emptyNum, e.GetZ4(KoIdx))
-		color = FlipColor(color)
-	}
-	return countScoreV7(board, turnColor)
 }
 
 func primitiveMonteCalroV6(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {

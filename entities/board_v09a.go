@@ -24,14 +24,14 @@ func NewBoardV09a(data []int, boardSize int, sentinelBoardMax int, komi float64,
 // PutStoneType1 - 石を置きます。
 // * `z` - 交点。壁有り盤の配列インデックス
 func (board *BoardV09a) PutStoneType1(z int, color int) int {
-	var except = createExceptType2(board)
+	var except = createExceptionForPutStoneLesson3(board)
 	return putStone(board, z, color, except)
 }
 
 // PutStoneType2 - 石を置きます。
 // * `z` - 交点。壁有り盤の配列インデックス
 func (board *BoardV09a) PutStoneType2(z int, color int, fillEyeErr int) int {
-	var except = createExceptType3(board, fillEyeErr)
+	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
 	return putStone(board, z, color, except)
 }
 
@@ -42,7 +42,9 @@ func (board *BoardV09a) PlayOneMove(color int) int {
 
 // Playout - 最後まで石を打ちます。得点を返します。
 func (board *BoardV09a) Playout(turnColor int, printBoardType1 func(IBoardV01)) int {
-	return playoutV8(board, turnColor, printBoardType1)
+	var printBoardIdling = createPrintBoardIdling()
+	var count = createCounterForPlayoutLesson07(board, turnColor)
+	return playoutV8(board, turnColor, printBoardIdling, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 9a.

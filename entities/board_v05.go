@@ -29,13 +29,13 @@ func NewBoardV5(data []int, boardSize int, sentinelBoardMax int, komi float64, m
 // PutStoneType1 - 石を置きます。
 // * `z` - 交点。壁有り盤の配列インデックス
 func (board *BoardV05) PutStoneType1(z int, color int) int {
-	var except = createExceptType2(board)
+	var except = createExceptionForPutStoneLesson3(board)
 	return putStone(board, z, color, except)
 }
 
 // PutStoneType2 - 石を置きます。
 func (board *BoardV05) PutStoneType2(z int, color int, fillEyeErr int) int {
-	var except = createExceptType3(board, fillEyeErr)
+	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
 	return putStone(board, z, color, except)
 }
 
