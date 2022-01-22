@@ -15,7 +15,7 @@ func Lesson09() {
 	e.G.Chat.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
 	rand.Seed(time.Now().UnixNano())
 

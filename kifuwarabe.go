@@ -21,12 +21,12 @@ func KifuwarabeV1() {
 		e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")
 		e.G.Chat.Trace("# Komi=%f\n", config.Game.Komi)
 		e.G.Chat.Trace("# BoardSize=%d\n", config.Game.BoardSize)
-		e.G.Chat.Trace("# MaxMoves=%d\n", config.Game.MaxMoves)
+		e.G.Chat.Trace("# MaxMovesNum=%d\n", config.Game.MaxMovesNum)
 		e.G.Chat.Trace("# BoardData=%s\n", config.Game.BoardData)
 		e.G.Chat.Trace("# SentinelBoardArea()=%d\n", config.SentinelBoardArea())
 	*/
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
 	//e.G.Chat.Trace("# 盤を新規作成した☆（＾～＾）\n")
 

@@ -14,7 +14,7 @@ func Lesson02() {
 
 	config := c.LoadGameConf("input/example-v2.gameConf.toml")
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMoves())
+	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
 	p.PrintBoard(board, -1)
 

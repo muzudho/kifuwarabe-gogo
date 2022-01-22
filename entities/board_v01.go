@@ -34,8 +34,8 @@ func (board BoardV01) Komi() float64 {
 	return board.komi
 }
 
-// MaxMoves - 最大手数
-func (board BoardV01) MaxMoves() int {
+// MaxMovesNum - 最大手数
+func (board BoardV01) MaxMovesNum() int {
 	return board.maxMoves
 }
 

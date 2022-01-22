@@ -28,7 +28,7 @@ func Lesson01() {
 		config.BoardSize(),         // 盤サイズ
 		config.SentinelBoardArea(), // 番兵
 		config.Komi(),              // コミ
-		config.MaxMoves())          // 上限手数
+		config.MaxMovesNum())       // 上限手数
 	/*
 		fmt.Println("board.BoardSize()=", board.BoardSize())
 		fmt.Println("board.SentinelBoardArea()=", board.SentinelBoardArea())

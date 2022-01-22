@@ -21,7 +21,7 @@ type IBoardV01 interface {
 	SentinelBoardArea() int
 	// 6.5 といった数字を入れるだけ。実行速度優先で 64bitに。
 	Komi() float64
-	MaxMoves() int
+	MaxMovesNum() int
 	// GetTIdxFromXy - YX形式の座標を、tIdx（配列のインデックス）へ変換します。
 	GetTIdxFromXy(x int, y int) int
 	// GetZ4 - tIdx（配列のインデックス）を XXYY形式へ変換します。
