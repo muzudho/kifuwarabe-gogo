@@ -24,7 +24,8 @@ func GoGoV07() {
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		tIdx := board.PrimitiveMonteCalro(color, printBoard)
+		var count = e.CreateCounterForPlayoutLesson07(board, color)
+		tIdx := board.PrimitiveMonteCalro(color, printBoard, count)
 
 		board.PutStoneType2(tIdx, color, e.FillEyeOk)
 

@@ -25,7 +25,8 @@ func GoGoV08() {
 	for i := 0; i < 20; i++ {
 		e.AllPlayouts = 0
 
-		tIdx := e.GetBestUctV8(board, color, printBoard)
+		var count = e.CreateCounterForPlayoutLesson07(board, color)
+		tIdx := e.GetBestUctV8(board, color, printBoard, count)
 
 		board.AddMovesType1(tIdx, color, presenter.PrintBoardType2)
 		color = e.FlipColor(color)

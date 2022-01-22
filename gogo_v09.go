@@ -19,6 +19,7 @@ func GoGoV09() {
 	presenter := p.NewPresenterV9()
 
 	rand.Seed(time.Now().UnixNano())
+
 	// u.TestPlayoutV09(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
 	u.SelfplayV09(board, presenter.PrintBoardType1, presenter.PrintBoardType2)
 }

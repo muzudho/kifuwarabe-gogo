@@ -40,14 +40,14 @@ func (board *BoardV05) PlayOneMove(color int) int {
 }
 
 // Playout - 最後まで石を打ちます。得点を返します。
-func (board *BoardV05) Playout(turnColor int, printBoard func(int, int, int, int)) int {
+func (board *BoardV05) Playout(turnColor int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	var count = CreateCounterForPlayoutLesson05(board, turnColor)
 	return Playout(board, turnColor, printBoard, count)
 }
 
 // PrimitiveMonteCalro - モンテカルロ木探索 Version 5.
-func (board *BoardV05) PrimitiveMonteCalro(color int, printBoard func(int, int, int, int)) int {
-	return primitiveMonteCalroV6(board, color, printBoard)
+func (board *BoardV05) PrimitiveMonteCalro(color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+	return primitiveMonteCalroV6(board, color, printBoard, countTerritories)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
@@ -61,6 +61,6 @@ func (board *BoardV05) AddMovesType2(z int, color int, sec float64, printBoardTy
 }
 
 // GetComputerMove - コンピューターの指し手。
-func (board *BoardV05) GetComputerMove(color int, fUCT int, printBoard func(int, int, int, int)) int {
-	return getComputerMoveV9(board, color, fUCT, printBoard)
+func (board *BoardV05) GetComputerMove(color int, fUCT int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
+	return getComputerMoveV9(board, color, fUCT, printBoard, countTerritories)
 }
