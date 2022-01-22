@@ -18,11 +18,13 @@ func GoGoV07() {
 	board := e.NewBoardV7(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	presenter := p.NewPresenterV7()
 
+	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 
-		tIdx := board.PrimitiveMonteCalro(color, presenter.PrintBoardType1)
+		tIdx := board.PrimitiveMonteCalro(color, printBoard)
 
 		board.PutStoneType2(tIdx, color, e.FillEyeOk)
 

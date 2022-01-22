@@ -21,15 +21,15 @@ type IBoardV01 interface {
 	PutStoneType2(tIdx int, color int, fillEyeErr int) int
 
 	// Playout - 最後まで石を打ちます。
-	Playout(turnColor int, printBoardType1 func(IBoardV01)) int
+	Playout(turnColor int, printBoard func(int, int, int, int)) int
 	CountLiberty(tIdx int, pLiberty *int, pStone *int)
 	TakeStone(tIdx int, color int)
 	GetEmptyTIdx() int
 
 	// GetComputerMove - コンピューターの指し手。
-	GetComputerMove(color int, fUCT int, printBoardType1 func(IBoardV01)) int
+	GetComputerMove(color int, fUCT int, printBoard func(int, int, int, int)) int
 	// Monte Calro Tree Search
-	PrimitiveMonteCalro(color int, printBoardType1 func(IBoardV01)) int
+	PrimitiveMonteCalro(color int, printBoard func(int, int, int, int)) int
 	// AddMovesType1 - 指し手の追加？
 	AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int))
 	// AddMovesType2 - 指し手の追加？
@@ -196,7 +196,7 @@ func countScoreV7(board IBoardV01, turnColor int) int {
 	return win
 }
 
-func primitiveMonteCalroV6(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
+func primitiveMonteCalroV6(board IBoardV01, color int, printBoard func(int, int, int, int)) int {
 	boardSize := board.BoardSize()
 
 	// 9路盤なら
@@ -229,7 +229,7 @@ func primitiveMonteCalroV6(board IBoardV01, color int, printBoardType1 func(IBoa
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
-				win := board.Playout(FlipColor(color), printBoardType1)
+				win := board.Playout(FlipColor(color), printBoard)
 				winSum += win
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
@@ -248,7 +248,7 @@ func primitiveMonteCalroV6(board IBoardV01, color int, printBoardType1 func(IBoa
 	return bestTIdx
 }
 
-func primitiveMonteCalroV7(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
+func primitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int, int, int)) int {
 	boardSize := board.BoardSize()
 
 	tryNum := 30
@@ -274,7 +274,7 @@ func primitiveMonteCalroV7(board IBoardV01, color int, printBoardType1 func(IBoa
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
 
-				win := -board.Playout(FlipColor(color), printBoardType1)
+				win := -board.Playout(FlipColor(color), printBoard)
 
 				winSum += win
 				KoIdx = koZCopy2
@@ -293,7 +293,7 @@ func primitiveMonteCalroV7(board IBoardV01, color int, printBoardType1 func(IBoa
 	return bestTIdx
 }
 
-func primitiveMonteCalroV9(board IBoardV01, color int, printBoardType1 func(IBoardV01)) int {
+func primitiveMonteCalroV9(board IBoardV01, color int, printBoard func(int, int, int, int)) int {
 	boardSize := board.BoardSize()
 
 	// ９路盤なら
@@ -322,7 +322,7 @@ func primitiveMonteCalroV9(board IBoardV01, color int, printBoardType1 func(IBoa
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
 
-				win := -board.Playout(FlipColor(color), printBoardType1)
+				win := -board.Playout(FlipColor(color), printBoard)
 
 				winSum += win
 				KoIdx = koZCopy2

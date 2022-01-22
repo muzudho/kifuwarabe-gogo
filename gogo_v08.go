@@ -18,12 +18,14 @@ func GoGoV08() {
 	board := e.NewBoardV8(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardMax(), config.Komi(), config.MaxMoves())
 	presenter := p.NewPresenterV8()
 
+	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 20; i++ {
 		e.AllPlayouts = 0
 
-		tIdx := e.GetBestUctV8(board, color, presenter.PrintBoardType1)
+		tIdx := e.GetBestUctV8(board, color, printBoard)
 
 		board.AddMovesType1(tIdx, color, presenter.PrintBoardType2)
 		color = e.FlipColor(color)

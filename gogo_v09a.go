@@ -63,7 +63,8 @@ func GoGoV09a() {
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
 			}
-			z := u.PlayComputerMoveV09a(board, color, 1, presenter.PrintBoardType1, presenter.PrintBoardType2)
+			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
+			z := u.PlayComputerMoveV09a(board, color, 1, printBoard, presenter.PrintBoardType2)
 			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4

@@ -9,12 +9,14 @@ import (
 func SelfplayV09(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) {
 	color := 1
 
+	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
+
 	for {
 		fUCT := 1
 		if color == 1 {
 			fUCT = 0
 		}
-		tIdx := board.GetComputerMove(color, fUCT, printBoardType1)
+		tIdx := board.GetComputerMove(color, fUCT, printBoard)
 		board.AddMovesType1(tIdx, color, printBoardType2)
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
 		if tIdx == 0 && 1 < e.Moves && e.Record[e.Moves-2] == 0 {
@@ -31,9 +33,9 @@ func SelfplayV09(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBoar
 }
 
 // TestPlayoutV09 - 試しにプレイアウトする。
-func TestPlayoutV09(board e.IBoardV01, printBoardType1 func(e.IBoardV01), printBoardType2 func(e.IBoardV01, int)) {
+func TestPlayoutV09(board e.IBoardV01, printBoard func(int, int, int, int), printBoardType2 func(e.IBoardV01, int)) {
 	e.FlagTestPlayout = 1
-	board.Playout(1, printBoardType1)
+	board.Playout(1, printBoard)
 	printBoardType2(board, e.Moves)
 	p.PrintSgf(board, e.Moves, e.Record)
 }

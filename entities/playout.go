@@ -23,8 +23,8 @@ func createCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoard
 	return counter
 }
 
-// プレイアウト中の盤の描画（何も描画しません）
-func createPrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
+// CreatePrintingOfBoardDuringPlayoutIdling - プレイアウト中の盤の描画（何も描画しません）
+func CreatePrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
 	var printBoard = func(trial int, z4 int, color int, emptyNum int) {
 		// 何もしません
 	}
@@ -32,8 +32,8 @@ func createPrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
 	return printBoard
 }
 
-// プレイアウト中の盤の描画
-func createPrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int) {
+// CreatePrintingOfBoardDuringPlayout1 - プレイアウト中の盤の描画
+func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoardType1 func(IBoardV01)) func(int, int, int, int) {
 	var printBoard = func(trial int, z int, color int, emptyNum int) {
 		var z4 = board.GetZ4(z)       // XXYY
 		var koZ4 = board.GetZ4(KoIdx) // XXYY
