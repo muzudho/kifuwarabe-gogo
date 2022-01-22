@@ -5,8 +5,8 @@ import (
 	"math/rand"
 )
 
-// createCounterForPlayoutLesson04 - 地計算をしません。0を返します
-func createCounterForPlayoutLesson04() func(IBoardV01, int) int {
+// CreateCounterForPlayoutLesson04 - 地計算をしません。0を返します
+func CreateCounterForPlayoutLesson04() func(IBoardV01, int) int {
 	var counter = func(IBoardV01, int) int {
 		return 0
 	}
@@ -14,8 +14,8 @@ func createCounterForPlayoutLesson04() func(IBoardV01, int) int {
 	return counter
 }
 
-// createCounterForPlayoutLesson07 - 簡易な地計算をします
-func createCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+// CreateCounterForPlayoutLesson07 - 簡易な地計算をします
+func CreateCounterForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
 	var counter = func(IBoardV01, int) int {
 		return countScoreV7(board, turnColor)
 	}

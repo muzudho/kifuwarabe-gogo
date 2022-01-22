@@ -43,7 +43,7 @@ func (board *BoardV03) PlayOneMove(color int) int {
 // Playout - 最後まで石を打ちます。
 func (board *BoardV03) Playout(turnColor int, printBoard func(int, int, int, int)) int {
 	// var printBoard = CreatePrintingOfBoardDuringPlayout1(board, printBoardType1)
-	var count = createCounterForPlayoutLesson04()
+	var count = CreateCounterForPlayoutLesson04()
 	return playout(board, turnColor, printBoard, count)
 }
 
