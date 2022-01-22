@@ -25,6 +25,10 @@ func Lesson06() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
+	var exceptPutStoneLesson06 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeOk)
+	e.ExceptPutStoneOnPrimitiveMonteCalro = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
 	color := 1
@@ -38,8 +42,7 @@ func Lesson06() {
 		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson06(board, color)
 		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)
 
-		var exceptPutStone = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeOk)
-		e.PutStone(board, z, color, exceptPutStone)
+		e.PutStone(board, z, color, exceptPutStoneLesson06)
 
 		p.PrintBoard(board, -1)
 

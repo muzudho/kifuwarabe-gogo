@@ -25,6 +25,8 @@ func Lesson05() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
+	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 

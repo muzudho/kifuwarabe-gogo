@@ -50,7 +50,7 @@ func CreateExceptionForPutStoneLesson3(board IBoardV01) func(int, int, int, int,
 // * `board` - 盤
 // * `fillEyeErr` - 目潰しの有無
 func CreateExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int, int, int, int, int) int {
-	var except = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
+	var exceptPutStone = func(z int, space int, wall int, mycolSafe int, captureSum int) int {
 		// 中断処理1～4
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
 			return 1
@@ -68,7 +68,7 @@ func CreateExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int
 		return 0
 	}
 
-	return except
+	return exceptPutStone
 }
 
 // PutStone - 石を置きます。
@@ -144,10 +144,10 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 }
 
 // PlayOneMove - Lesson03で使用。置けるとこに置く
-func PlayOneMove(board IBoardV01, color int, exceptPutStone func(int, int, int, int, int) int) int {
+func PlayOneMove(board IBoardV01, color int, exceptPutStoneL03 func(int, int, int, int, int) int) int {
 	for i := 0; i < 100; i++ {
 		z := board.GetEmptyZ()
-		err := PutStone(board, z, color, exceptPutStone)
+		err := PutStone(board, z, color, exceptPutStoneL03)
 		if err == 0 {
 			return z
 		}
@@ -155,6 +155,6 @@ func PlayOneMove(board IBoardV01, color int, exceptPutStone func(int, int, int, 
 
 	// 0 はパス。
 	const z = 0
-	PutStone(board, z, color, exceptPutStone)
+	PutStone(board, z, color, exceptPutStoneL03)
 	return z
 }

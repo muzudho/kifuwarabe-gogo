@@ -25,6 +25,9 @@ func Lesson09() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
+	e.ExceptPutStoneOnSearchUctV9 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+	e.ExceptPutStoneOnPrimitiveMonteCalro = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+
 	rand.Seed(time.Now().UnixNano())
 
 	// u.TestPlayoutLesson09(board, p.PrintBoard, p.PrintBoard)

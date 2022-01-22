@@ -6,12 +6,12 @@ import (
 
 // BoardV01 - 盤
 type BoardV01 struct {
-	data             []int
-	boardSize        int
-	sentinelWidth    int
-	sentinelBoardMax int
-	komi             float64
-	maxMoves         int
+	data              []int
+	boardSize         int
+	sentinelWidth     int
+	sentinelBoardArea int
+	komi              float64
+	maxMoves          int
 }
 
 // BoardSize - 何路盤か
@@ -26,7 +26,7 @@ func (board BoardV01) SentinelWidth() int {
 
 // SentinelBoardArea - 枠付きの盤の交点数
 func (board BoardV01) SentinelBoardArea() int {
-	return board.sentinelBoardMax
+	return board.sentinelBoardArea
 }
 
 // Komi - コミ
@@ -61,9 +61,9 @@ func (board *BoardV01) SetColor(z int, color int) {
 
 // CopyData - 盤データのコピー。
 func (board BoardV01) CopyData() []int {
-	boardMax := board.SentinelBoardArea()
+	boardArea := board.SentinelBoardArea()
 
-	var boardCopy2 = make([]int, boardMax)
+	var boardCopy2 = make([]int, boardArea)
 	copy(boardCopy2[:], board.data[:])
 	return boardCopy2
 }

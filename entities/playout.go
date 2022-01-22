@@ -73,6 +73,7 @@ func Playout(
 	getBlackWin func(IBoardV01, int) int) int {
 
 	AllPlayouts++
+
 	boardSize := board.BoardSize()
 
 	color := turnColor
@@ -102,8 +103,7 @@ func Playout(
 				z = empty[r]
 			}
 
-			var exceptPutStone = CreateExceptionForPutStoneLesson4(board, FillEyeErr)
-			var err = PutStone(board, z, color, exceptPutStone)
+			var err = PutStone(board, z, color, ExceptPutStoneDuringPlayout)
 
 			if err == 0 {
 				break

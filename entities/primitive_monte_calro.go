@@ -114,8 +114,7 @@ func PrimitiveMonteCalro(
 				continue
 			}
 
-			var exceptPutStone = CreateExceptionForPutStoneLesson4(board, FillEyeErr)
-			var err = PutStone(board, z, color, exceptPutStone)
+			var err = PutStone(board, z, color, ExceptPutStoneOnPrimitiveMonteCalro)
 
 			if err != 0 {
 				continue

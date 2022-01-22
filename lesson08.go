@@ -25,6 +25,9 @@ func Lesson08() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
+	e.ExceptPutStoneOnSearchUctV8 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
 	color := 1

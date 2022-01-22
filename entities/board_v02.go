@@ -7,12 +7,12 @@ type BoardV02 struct {
 }
 
 // NewBoard - 盤を作成します。
-func NewBoard(data []int, boardSize int, sentinelBoardMax int, komi float64, maxMoves int) *BoardV02 {
+func NewBoard(data []int, boardSize int, sentinelBoardArea int, komi float64, maxMoves int) *BoardV02 {
 	board := new(BoardV02)
 	board.data = data
 	board.boardSize = boardSize
 	board.sentinelWidth = boardSize + 2
-	board.sentinelBoardMax = sentinelBoardMax
+	board.sentinelBoardArea = sentinelBoardArea
 	board.komi = komi
 	board.maxMoves = maxMoves
 	board.uctChildrenSize = boardSize*boardSize + 1

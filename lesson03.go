@@ -18,12 +18,12 @@ func Lesson03() {
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
-	var exceptPutStone = e.CreateExceptionForPutStoneLesson3(board)
+	var exceptPutStoneL03 = e.CreateExceptionForPutStoneLesson3(board)
 
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for {
-		z := e.PlayOneMove(board, color, exceptPutStone)
+		z := e.PlayOneMove(board, color, exceptPutStoneL03)
 
 		fmt.Printf("movesNum=%4d, color=%d, z4=%04d\n", e.MovesNum, color, board.GetZ4(z))
 		p.PrintBoard(board, -1)

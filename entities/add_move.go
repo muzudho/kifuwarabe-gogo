@@ -8,8 +8,8 @@ import (
 // AddMoves - GoGoV8, SelfplayV09 から呼び出されます。
 func AddMoves(board IBoardV01, z int, color int, recItem IRecordItemV01, printBoard func(IBoardV01, int)) {
 
-	var exceptPutStone = CreateExceptionForPutStoneLesson4(board, FillEyeOk)
-	var err = PutStone(board, z, color, exceptPutStone)
+	var exceptPutStoneL04 = CreateExceptionForPutStoneLesson4(board, FillEyeOk)
+	var err = PutStone(board, z, color, exceptPutStoneL04)
 
 	if err != 0 {
 		fmt.Fprintf(os.Stderr, "(AddMoves) Err!\n")

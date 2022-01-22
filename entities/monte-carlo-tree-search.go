@@ -106,13 +106,13 @@ func SearchUctV8(board IBoardV02, color int, nodeN int, printBoard func(int, int
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
+
 	for {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		z := c.Z
 
-		var exceptPutStone = CreateExceptionForPutStoneLesson4(board, FillEyeErr)
-		var err = PutStone(board, z, color, exceptPutStone)
+		var err = PutStone(board, z, color, ExceptPutStoneOnSearchUctV8) // Lesson08 や Lesson09
 
 		if err == 0 {
 			break
@@ -171,16 +171,17 @@ func GetBestUctV8(board IBoardV02, color int, printBoard func(int, int, int, int
 
 // Recursive
 func searchUctV9(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int), getBlackWin func(IBoardV01, int) int) int {
+
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
+
 	for {
 		selectI := selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
 		z := c.Z
 
-		var exceptPutStone = CreateExceptionForPutStoneLesson4(board, FillEyeErr)
-		var err = PutStone(board, z, color, exceptPutStone)
+		var err = PutStone(board, z, color, ExceptPutStoneOnSearchUctV9) // Lesson09
 
 		if err == 0 {
 			break
@@ -241,18 +242,20 @@ func GetBestUctV9a(board IBoardV02, color int, printBoard func(int, int, int, in
 	max := -999
 	NodeNum = 0
 
+	ExceptPutStoneOnSearchUctV8 = CreateExceptionForPutStoneLesson4(board, FillEyeErr)
+
 	var bestI = -1
 	next := CreateNode(board)
 
 	var uctLoopCount = UctLoopCount
 	for i := 0; i < uctLoopCount; i++ {
-		var boardCopy = board.CopyData()
-		koZCopy := KoIdx
+		var copiedBoard = board.CopyData()
+		var copiedKoZ = KoIdx
 
 		SearchUctV8(board, color, next, printBoard, getBlackWin)
 
-		KoIdx = koZCopy
-		board.ImportData(boardCopy)
+		KoIdx = copiedKoZ
+		board.ImportData(copiedBoard)
 	}
 	pN := &Nodes[next]
 	for i := 0; i < pN.ChildNum; i++ {

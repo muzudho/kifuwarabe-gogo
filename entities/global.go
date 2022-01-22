@@ -48,3 +48,12 @@ var FlagTestPlayout int
 func FlipColor(col int) int {
 	return 3 - col
 }
+
+// ExceptPutStoneDuringPlayout - PutStone時の石を置けないケース
+var ExceptPutStoneDuringPlayout func(int, int, int, int, int) int
+
+var ExceptPutStoneOnPrimitiveMonteCalro func(int, int, int, int, int) int
+
+var ExceptPutStoneOnSearchUctV8 func(int, int, int, int, int) int
+
+var ExceptPutStoneOnSearchUctV9 func(int, int, int, int, int) int
