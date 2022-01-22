@@ -44,11 +44,31 @@ func CreateCalcWinForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int
 	return calcWin
 }
 
+func CreateIsBestUpdateForPrimitiveMonteCalroV6() func(color int, bestValue float64, winRate float64) bool {
+	var updateBest = func(color int, bestValue float64, winRate float64) bool {
+		var isBestUpdate = (color == 1 && bestValue < winRate) ||
+			(color == 2 && winRate < bestValue)
+		return isBestUpdate
+	}
+
+	return updateBest
+}
+
+func CreateIsBestUpdateForPrimitiveMonteCalroV7() func(color int, bestValue float64, winRate float64) bool {
+	var updateBest = func(color int, bestValue float64, winRate float64) bool {
+		var isBestUpdate = bestValue < winRate
+		return isBestUpdate
+	}
+
+	return updateBest
+}
+
 func primitiveMonteCalroV6(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,
 	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printBoard func(int, int, int, int),
 	countTerritories func(IBoardV01, int) int) int {
 
@@ -91,13 +111,14 @@ func primitiveMonteCalroV6(
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}
+
 			winRate = float64(winSum) / float64(tryNum)
-			if (color == 1 && bestValue < winRate) ||
-				(color == 2 && winRate < bestValue) {
+			if isBestUpdate(color, bestValue, winRate) {
 				bestValue = winRate
 				bestZ = z
 				fmt.Printf("(primitiveMonteCalroV6) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", board.GetZ4(bestZ), color, bestValue, tryNum)
 			}
+
 			KoIdx = koZCopy
 			board.ImportData(boardCopy)
 		}
@@ -110,6 +131,7 @@ func primitiveMonteCalroV7(
 	color int,
 	initBestValue func(int) float64,
 	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printBoard func(int, int, int, int),
 	countTerritories func(IBoardV01, int) int) int {
 
@@ -152,12 +174,14 @@ func primitiveMonteCalroV7(
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}
+
 			winRate = float64(winSum) / float64(tryNum)
-			if bestValue < winRate {
+			if isBestUpdate(color, bestValue, winRate) {
 				bestValue = winRate
 				bestZ = z
 				fmt.Printf("(primitiveMonteCalroV7) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", board.GetZ4(bestZ), color, bestValue, tryNum)
 			}
+
 			KoIdx = koZCopy
 			board.ImportData(boardCopy)
 		}
@@ -170,6 +194,7 @@ func primitiveMonteCalroV9(
 	color int,
 	initBestValue func(int) float64,
 	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), count func(IBoardV01, int) int) int,
+	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printBoard func(int, int, int, int),
 	countTerritories func(IBoardV01, int) int) int {
 
@@ -212,12 +237,14 @@ func primitiveMonteCalroV9(
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}
+
 			winRate = float64(winSum) / float64(tryNum)
-			if bestValue < winRate {
+			if isBestUpdate(color, bestValue, winRate) {
 				bestValue = winRate
 				bestZ = z
 				// fmt.Printf("(primitiveMonteCalroV9) bestZ=%04d,color=%d,v=%5.3f,tryNum=%d\n", e.GetZ4(bestZ), color, bestValue, tryNum)
 			}
+
 			KoIdx = koZCopy
 			board.ImportData(boardCopy)
 		}

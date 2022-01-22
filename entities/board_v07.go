@@ -43,7 +43,8 @@ func (board *BoardV07) PlayOneMove(color int) int {
 func (board *BoardV07) PrimitiveMonteCalro(color int, printBoard func(int, int, int, int), countTerritories func(IBoardV01, int) int) int {
 	var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
 	var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
-	return primitiveMonteCalroV7(board, color, initBestValue, calcWin, printBoard, countTerritories)
+	var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
+	return primitiveMonteCalroV7(board, color, initBestValue, calcWin, isBestUpdate, printBoard, countTerritories)
 }
 
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
