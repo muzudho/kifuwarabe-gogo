@@ -17,12 +17,12 @@ func addMovesType1V8(board IBoardV01, z int, color int, printBoardType2 func(IBo
 	printBoardType2(board, Moves)
 }
 
-// addMovesV9a - 指し手の追加？
+// AddMovesType2V9a - 指し手の追加？
 // 消費時間を記録
-func addMovesType2V9a(board IBoardV01, z int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
+func AddMovesType2V9a(board IBoardV01, z int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
 	err := PutStoneType2(board, z, color, FillEyeOk)
 	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(addMoves9a) Err!\n")
+		fmt.Fprintf(os.Stderr, "(AddMovesType2V9a) Err!\n")
 		os.Exit(0)
 	}
 	Record[Moves] = z

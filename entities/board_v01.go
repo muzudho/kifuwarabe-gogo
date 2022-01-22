@@ -28,19 +28,7 @@ func (board *BoardV01) PutStoneType1(z int, color int) int {
 	return putStone(board, z, color, except)
 }
 
-// PutStoneType2 - 石を置きます。
-// * `z` - 交点。壁有り盤の配列インデックス
-func (board *BoardV01) PutStoneType2(z int, color int, fillEyeErr int) int {
-	var except = createExceptionForPutStoneLesson4(board, fillEyeErr)
-	return putStone(board, z, color, except)
-}
-
 // AddMovesType1 - GoGoV8, SelfplayV09 から呼び出されます。
 func (board *BoardV01) AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int)) {
 	addMovesType1V8(board, tIdx, color, printBoardType2)
-}
-
-// AddMovesType2 - 指し手の追加？
-func (board *BoardV01) AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
-	addMovesType2V9a(board, tIdx, color, sec, printBoardType2)
 }

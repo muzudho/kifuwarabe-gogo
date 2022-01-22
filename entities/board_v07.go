@@ -32,8 +32,3 @@ func (board *BoardV07) PutStoneType1(z int, color int) int {
 func (board *BoardV07) AddMovesType1(z int, color int, printBoardType2 func(IBoardV01, int)) {
 	addMovesType1V8(board, z, color, printBoardType2)
 }
-
-// AddMovesType2 - 指し手の追加？
-func (board *BoardV07) AddMovesType2(z int, color int, sec float64, printBoardType2 func(IBoardV01, int)) {
-	addMovesType2V9a(board, z, color, sec, printBoardType2)
-}

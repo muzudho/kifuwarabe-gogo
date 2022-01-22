@@ -90,12 +90,12 @@ func GoGoV09a() {
 					x--
 				}
 				y := int(ax[1] - '0')
-				tIdx := board.GetTIdxFromXy(int(x)-1, board.BoardSize()-y)
-				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%04d\n", x, y, board.GetZ4(tIdx))
+				z := board.GetTIdxFromXy(int(x)-1, board.BoardSize()-y)
+				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%04d\n", x, y, board.GetZ4(z))
 				if ax == "pass" {
-					tIdx = 0
+					z = 0
 				}
-				board.AddMovesType2(tIdx, color, 0, presenter.PrintBoardType2)
+				e.AddMovesType2V9a(board, z, color, 0, presenter.PrintBoardType2)
 				e.G.Chat.Print("= \n\n")
 			}
 		default:

@@ -28,7 +28,7 @@ func PlayComputerMoveV09a(board e.IBoardV02, color int, fUCT int, printBoard fun
 	sec := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,moves=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.Moves, color, e.AllPlayouts, fUCT)
-	board.AddMovesType2(z, color, sec, printBoardType2)
+	e.AddMovesType2V9a(board, z, color, sec, printBoardType2)
 	return z
 }
 

@@ -24,8 +24,6 @@ type IBoardV01 interface {
 
 	// AddMovesType1 - 指し手の追加？
 	AddMovesType1(tIdx int, color int, printBoardType2 func(IBoardV01, int))
-	// AddMovesType2 - 指し手の追加？
-	AddMovesType2(tIdx int, color int, sec float64, printBoardType2 func(IBoardV01, int))
 
 	BoardSize() int
 	// SentinelWidth - 枠付きの盤の一辺の交点数
