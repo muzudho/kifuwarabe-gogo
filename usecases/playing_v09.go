@@ -17,7 +17,7 @@ func SelfplayLesson09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 			fUCT = 0
 		}
 
-		e.GettingOfWinnerOnDuringUCTPlayout = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
+		e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
 		z := e.GetComputerMoveLesson09(board, color, fUCT, noPrintBoard)
 
 		var recItem = new(e.RecordItemV01)

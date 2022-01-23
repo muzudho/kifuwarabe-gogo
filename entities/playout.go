@@ -5,43 +5,27 @@ import (
 	"math/rand"
 )
 
-// CreateGettingOfWinnerForPlayoutEverDraw - Lesson04以前に使用。「常に引分け（0）を返す関数」を作成します。つまり勝者判定を行いません
-func CreateGettingOfWinnerForPlayoutEverDraw() func(IBoardV01, int) int {
-	var getWinner = func(IBoardV01, int) int {
-		return 0
-	}
-
-	return getWinner
+// GettingOfWinnerForPlayoutEverDraw - Lesson04以前に使用。「常に引分け（0）を返す関数」を作成します。つまり勝者判定を行いません
+func GettingOfWinnerForPlayoutEverDraw(IBoardV01, int) int {
+	return 0
 }
 
-// CreateGettingOfWinnerForPlayoutLesson05BlackSideView - Lesson05で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
+// GettingOfWinnerForPlayoutLesson05BlackSideView - Lesson05で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
 // * `colorIsNotUsed` - 使っていません
-func CreateGettingOfWinnerForPlayoutLesson05BlackSideView(board IBoardV01, colorIsNotUsed int) func(IBoardV01, int) int {
-	var getWinner = func(IBoardV01, int) int {
-		return GetWinnerV05BlackSideView(board, colorIsNotUsed)
-	}
-
-	return getWinner
+func GettingOfWinnerForPlayoutLesson05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
+	return GetWinnerV05BlackSideView(board, colorIsNotUsed)
 }
 
-// CreateGettingOfWinnerForPlayoutLesson06BlackSideView - Lesson06で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数（黒側の視点）」を作成します
+// GettingOfWinnerForPlayoutLesson06BlackSideView - Lesson06で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数（黒側の視点）」を作成します
 // * `colorIsNotUsed` - 使っていません
-func CreateGettingOfWinnerForPlayoutLesson06BlackSideView(board IBoardV01, colorIsNotUsed int) func(IBoardV01, int) int {
-	var getWinner = func(IBoardV01, int) int {
-		return GetWinnerV06BlackSideView(board, colorIsNotUsed)
-	}
-
-	return getWinner
+func GettingOfWinnerForPlayoutLesson06BlackSideView(board IBoardV01, colorIsNotUsed int) int {
+	return GetWinnerV06BlackSideView(board, colorIsNotUsed)
 }
 
-// CreateGettingOfWinnerForPlayoutLesson07SelfView - 「手番の勝ちなら1、引き分けなら0、手番の負けなら-1を返す関数（自分視点）」を作成します
+// GettingOfWinnerForPlayoutLesson07SelfView - 「手番の勝ちなら1、引き分けなら0、手番の負けなら-1を返す関数（自分視点）」を作成します
 // * `turnColor` - 手番の石の色
-func CreateGettingOfWinnerForPlayoutLesson07SelfView(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var getWinner = func(IBoardV01, int) int {
-		return GetWinnerV07SelfView(board, turnColor)
-	}
-
-	return getWinner
+func GettingOfWinnerForPlayoutLesson07SelfView(board IBoardV01, turnColor int) int {
+	return GetWinnerV07SelfView(board, turnColor)
 }
 
 // CreatePrintingOfBoardDuringPlayoutIdling - プレイアウト中の盤の描画（何も描画しません）

@@ -39,7 +39,7 @@ func Lesson06() {
 		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV6()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV6()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
-		e.GettingOfWinnerOnDuringUCTPlayout = e.CreateGettingOfWinnerForPlayoutLesson06BlackSideView(board, color)
+		e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson06BlackSideView
 		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWinner, isBestUpdate, printInfo, printBoard)
 
 		e.PutStone(board, z, color, exceptPutStoneLesson06)

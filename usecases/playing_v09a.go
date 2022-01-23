@@ -16,7 +16,7 @@ func PlayComputerMoveLesson09a(
 	printBoardDuringPlayout func(int, int, int, int),
 	printBoardOutOfPlayout func(e.IBoardV01, int)) int {
 
-	e.GettingOfWinnerOnDuringUCTPlayout = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
+	e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
 
 	var z int
 	st := time.Now()

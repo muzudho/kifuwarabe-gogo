@@ -30,7 +30,6 @@ func Lesson05() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 
-	var getWinnerIsBlack = e.CreateGettingOfWinnerForPlayoutLesson05BlackSideView(board, color)
 	var printBoardDuringPlayout = e.CreatePrintingOfBoardDuringPlayout1(board, p.PrintBoard)
-	e.Playout(board, color, printBoardDuringPlayout, getWinnerIsBlack)
+	e.Playout(board, color, printBoardDuringPlayout, e.GettingOfWinnerForPlayoutLesson05BlackSideView)
 }
