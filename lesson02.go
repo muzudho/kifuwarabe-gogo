@@ -12,7 +12,7 @@ import (
 func Lesson02() {
 	e.G.Chat.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
 
-	config := cnf.LoadGameConf("input/example-v2.gameConf.toml")
+	config := cnf.LoadGameConf("input/example-v2.gameConf.toml", OnFatal)
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 

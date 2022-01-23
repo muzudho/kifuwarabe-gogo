@@ -10,7 +10,7 @@ import (
 func Lesson01() {
 	e.G.Chat.Trace("# GoGo Lesson01 プログラム開始☆（＾～＾）\n")
 
-	config := cnf.LoadGameConf("input/example-v1.gameConf.toml")
+	config := cnf.LoadGameConf("input/example-v1.gameConf.toml", OnFatal)
 
 	e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")
 	e.G.Chat.Trace("# Server=%s\n", config.Nngs.Server)

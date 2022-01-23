@@ -1,11 +1,11 @@
 package config_obj
 
 import (
+	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
 
-	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	"github.com/pelletier/go-toml"
 )
 
@@ -74,12 +74,15 @@ func (config Config) MaxMovesNum() int {
 }
 
 // LoadGameConf - ゲーム設定ファイルを読み込みます
-func LoadGameConf(path string) Config {
+func LoadGameConf(
+	path string,
+	onFatal func(string)) Config {
 
 	// ファイル読込
 	fileData, err := ioutil.ReadFile(path)
 	if err != nil {
-		e.G.Chat.Fatal("path=%s", path)
+		onFatal(fmt.Sprintf("path=%s", path))
+		// e.G.Chat.Fatal("path=%s", path)
 		panic(err)
 	}
 	// fmt.Print(string(fileData))

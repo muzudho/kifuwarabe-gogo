@@ -15,7 +15,7 @@ import (
 func KifuwarabeV1() {
 	e.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
 
-	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml")
+	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
 
 	/*
 		e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")

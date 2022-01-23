@@ -1,5 +1,9 @@
 package entities
 
+import (
+	cd "github.com/muzudho/kifuwarabe-gogo/coding_obj"
+)
+
 const (
 	// Author - 囲碁思考エンジンの作者名だぜ☆（＾～＾）
 	Author = "Satoshi Takahashi"
@@ -8,9 +12,9 @@ const (
 // GlobalVariables - グローバル変数。
 type GlobalVariables struct {
 	// Log - ロガー。
-	Log Logger
+	Log cd.Logger
 	// Chat - チャッター。 標準出力とロガーを一緒にしただけです。
-	Chat Chatter
+	Chat cd.Chatter
 }
 
 // G - グローバル変数。思い切った名前。

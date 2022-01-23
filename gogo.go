@@ -6,6 +6,7 @@ package main
 import (
 	"flag"
 
+	cd "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 )
 
@@ -17,7 +18,7 @@ func main() {
 	e.G = *new(e.GlobalVariables)
 
 	// ロガーの作成。
-	e.G.Log = *e.NewLogger(
+	e.G.Log = *cd.NewLogger(
 		"output/trace.log",
 		"output/debug.log",
 		"output/info.log",
@@ -28,7 +29,7 @@ func main() {
 		"output/print.log")
 
 	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
-	e.G.Chat = *e.NewChatter(e.G.Log)
+	e.G.Chat = *cd.NewChatter(e.G.Log)
 
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
 	e.G.Chat.Trace("Author: %s\n", e.Author)
@@ -57,4 +58,8 @@ func main() {
 		Lesson09a() // GTP
 	}
 	//KifuwarabeV1()
+}
+
+func OnFatal(errorMessage string) {
+	e.G.Chat.Fatal(errorMessage)
 }

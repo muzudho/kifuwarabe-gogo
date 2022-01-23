@@ -1,4 +1,4 @@
-package entities
+package coding_obj
 
 import (
 	"fmt"
