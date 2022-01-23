@@ -13,20 +13,20 @@ type IBoardV02 interface {
 }
 
 // GetComputerMoveLesson09 - コンピューターの指し手。 SelfplayLesson09 から呼び出されます
-func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int)) int {
 	var z int
 	start := time.Now()
 	AllPlayouts = 0
 
 	if fUCT != 0 {
-		z = GetBestUctLesson09(board, color, printBoard, getWinner)
+		z = GetBestUctLesson09(board, color, printBoard)
 
 	} else {
 		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
 		var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
-		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getWinner)
+		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard)
 	}
 
 	sec := time.Since(start).Seconds()

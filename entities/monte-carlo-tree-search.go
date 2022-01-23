@@ -102,7 +102,7 @@ func selectBestUcb(nodeN int) int {
 }
 
 // SearchUctLesson08OrMore - 再帰関数。 getBestUctLesson08, getBestUctLesson09a から呼び出されます。
-func SearchUctLesson08OrMore(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func SearchUctLesson08OrMore(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int)) int {
 	pN := &Nodes[nodeN]
 	var c *Child
 	var win int
@@ -123,12 +123,12 @@ func SearchUctLesson08OrMore(board IBoardV02, color int, nodeN int, printBoard f
 
 	if c.Games <= 0 {
 		// 指し手の勝率？
-		win = -Playout(board, FlipColor(color), printBoard, getWinner)
+		win = -Playout(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = CreateNode(board)
 		}
-		win = -SearchUctLesson08OrMore(board, FlipColor(color), c.Next, printBoard, getWinner)
+		win = -SearchUctLesson08OrMore(board, FlipColor(color), c.Next, printBoard)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -137,7 +137,7 @@ func SearchUctLesson08OrMore(board IBoardV02, color int, nodeN int, printBoard f
 }
 
 // GetBestUctLesson08 - 一番良いUCTを選びます。 GoGoV8 から呼び出されます。
-func GetBestUctLesson08(board IBoardV02, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func GetBestUctLesson08(board IBoardV02, color int, printBoard func(int, int, int, int)) int {
 	max := -999
 	NodeNum = 0
 
@@ -149,7 +149,7 @@ func GetBestUctLesson08(board IBoardV02, color int, printBoard func(int, int, in
 		var boardCopy = board.CopyData()
 		koIdxCopy := KoIdx
 
-		SearchUctLesson08OrMore(board, color, next, printBoard, getWinner)
+		SearchUctLesson08OrMore(board, color, next, printBoard)
 
 		KoIdx = koIdxCopy
 		board.ImportData(boardCopy)
@@ -170,7 +170,7 @@ func GetBestUctLesson08(board IBoardV02, color int, printBoard func(int, int, in
 }
 
 // Recursive. GetBestUctLesson09 から呼び出されます
-func searchUctLesson09(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func searchUctLesson09(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int)) int {
 
 	pN := &Nodes[nodeN]
 	var c *Child
@@ -191,12 +191,12 @@ func searchUctLesson09(board IBoardV02, color int, nodeN int, printBoard func(in
 	}
 
 	if c.Games <= 0 {
-		win = -Playout(board, FlipColor(color), printBoard, getWinner)
+		win = -Playout(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 	} else {
 		if c.Next == NodeEmpty {
 			c.Next = CreateNode(board)
 		}
-		win = -searchUctLesson09(board, FlipColor(color), c.Next, printBoard, getWinner)
+		win = -searchUctLesson09(board, FlipColor(color), c.Next, printBoard)
 	}
 	c.Rate = (c.Rate*float64(c.Games) + float64(win)) / float64(c.Games+1)
 	c.Games++
@@ -205,7 +205,7 @@ func searchUctLesson09(board IBoardV02, color int, nodeN int, printBoard func(in
 }
 
 // GetBestUctLesson09 - 最善のUCTを選びます。 GetComputerMoveLesson09 から呼び出されます。
-func GetBestUctLesson09(board IBoardV02, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func GetBestUctLesson09(board IBoardV02, color int, printBoard func(int, int, int, int)) int {
 	max := -999
 	NodeNum = 0
 
@@ -217,7 +217,7 @@ func GetBestUctLesson09(board IBoardV02, color int, printBoard func(int, int, in
 		var boardCopy = board.CopyData()
 		koIdxCopy := KoIdx
 
-		searchUctLesson09(board, color, next, printBoard, getWinner)
+		searchUctLesson09(board, color, next, printBoard)
 
 		KoIdx = koIdxCopy
 		board.ImportData(boardCopy)
@@ -238,7 +238,7 @@ func GetBestUctLesson09(board IBoardV02, color int, printBoard func(int, int, in
 }
 
 // GetBestUctLesson09a - Lesson09a の PlayComputerMoveLesson09a から呼び出されます。
-func GetBestUctLesson09a(board IBoardV02, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func GetBestUctLesson09a(board IBoardV02, color int, printBoard func(int, int, int, int)) int {
 	max := -999
 	NodeNum = 0
 
@@ -252,7 +252,7 @@ func GetBestUctLesson09a(board IBoardV02, color int, printBoard func(int, int, i
 		var copiedBoard = board.CopyData()
 		var copiedKoZ = KoIdx
 
-		SearchUctLesson08OrMore(board, color, next, printBoard, getWinner)
+		SearchUctLesson08OrMore(board, color, next, printBoard)
 
 		KoIdx = copiedKoZ
 		board.ImportData(copiedBoard)

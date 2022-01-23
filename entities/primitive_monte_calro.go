@@ -87,8 +87,7 @@ func PrimitiveMonteCalro(
 	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
 	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
-	printBoard func(int, int, int, int),
-	getWinner func(IBoardV01, int) int) int {
+	printBoard func(int, int, int, int)) int {
 
 	boardSize := board.BoardSize()
 
@@ -125,7 +124,7 @@ func PrimitiveMonteCalro(
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
 
-				var win = calcWin(board, FlipColor(color), printBoard, getWinner)
+				var win = calcWin(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 
 				winSum += win
 				KoIdx = koZCopy2
