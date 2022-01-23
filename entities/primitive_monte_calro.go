@@ -24,33 +24,22 @@ func CalcWinnerForPrimitiveMonteCalroV6(board IBoardV01, color int, printBoard f
 	return Playout(board, FlipColor(color), printBoard, getWinner)
 }
 
-func CreateCalcWinnerForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	var calcWinner = func(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-		return -Playout(board, FlipColor(color), printBoard, getWinner)
-	}
-
-	return calcWinner
+func CalcWinnerForPrimitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+	return -Playout(board, FlipColor(color), printBoard, getWinner)
 }
 
-func CreateIsBestUpdateForPrimitiveMonteCalroV6() func(color int, bestValue float64, winRate float64) bool {
-	var updateBest = func(color int, bestValue float64, winRate float64) bool {
-		var isBestUpdate = (color == 1 && bestValue < winRate) ||
-			(color == 2 && winRate < bestValue)
-		return isBestUpdate
-	}
-
-	return updateBest
+func IsBestUpdateForPrimitiveMonteCalroV6(color int, bestValue float64, winRate float64) bool {
+	var isBestUpdate = (color == 1 && bestValue < winRate) ||
+		(color == 2 && winRate < bestValue)
+	return isBestUpdate
 }
 
-func CreateIsBestUpdateForPrimitiveMonteCalroV7() func(color int, bestValue float64, winRate float64) bool {
-	var updateBest = func(color int, bestValue float64, winRate float64) bool {
-		var isBestUpdate = bestValue < winRate
-		return isBestUpdate
-	}
-
-	return updateBest
+func IsBestUpdateForPrimitiveMonteCalroV7(color int, bestValue float64, winRate float64) bool {
+	var isBestUpdate = bestValue < winRate
+	return isBestUpdate
 }
 
+// CreatePrintingOfInfoForPrimitiveMonteCalroV6 - 盤を束縛変数として与えます
 func CreatePrintingOfInfoForPrimitiveMonteCalroV6(board IBoardV01) func(color int, tryNum int, bestZ int, bestValue float64) {
 	var printInfo = func(color int, tryNum int, bestZ int, bestValue float64) {
 		var bestZ4 = board.GetZ4(bestZ)

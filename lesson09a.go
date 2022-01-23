@@ -148,15 +148,13 @@ func PlayComputerMoveLesson09a(
 		e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 		z = e.GetBestZByUct(board, color, e.SearchUct, printBoardDuringPlayout)
 	} else {
-		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV7()
-		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
 		z = e.PrimitiveMonteCalro(
 			board,
 			color,
 			e.InitBestValueForPrimitiveMonteCalroV7,
-			calcWinner,
-			isBestUpdate,
+			e.CalcWinnerForPrimitiveMonteCalroV7,
+			e.IsBestUpdateForPrimitiveMonteCalroV7,
 			printInfo,
 			printBoardDuringPlayout)
 	}
