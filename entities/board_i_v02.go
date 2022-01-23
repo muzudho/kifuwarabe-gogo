@@ -14,8 +14,9 @@ type IBoardV02 interface {
 
 // GetComputerMoveLesson09 - コンピューターの指し手。 SelfplayLesson09 から呼び出されます
 func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int)) int {
+
 	var z int
-	start := time.Now()
+	var start = time.Now()
 	AllPlayouts = 0
 
 	if fUCT != 0 {

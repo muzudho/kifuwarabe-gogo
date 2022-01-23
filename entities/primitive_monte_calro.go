@@ -73,23 +73,17 @@ func PrimitiveMonteCalro(
 	initBestValue func(int) float64,
 	calcWinner func(turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
 	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
-	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
+	printInfo func(color int, trialCount int, bestZ int, bestValue float64),
 	printBoard func(int, int, int, int)) int {
 
-	boardSize := board.BoardSize()
+	// 一時記憶
+	var copiedBoard1 = board.CopyData()
+	var copiedKoZ1 = KoZ
 
-	var tryNum int
-	if board.BoardSize() < 10 {
-		tryNum = 30
-	} else {
-		// 9路盤より大きければ
-		tryNum = 3
-	}
-
-	bestZ := 0
+	// 初期化
+	var boardSize = board.BoardSize()
+	var bestZ = 0
 	var winRate float64
-	var boardCopy = board.CopyData()
-	koZCopy := KoZ
 
 	var bestValue = initBestValue(color)
 
@@ -107,7 +101,7 @@ func PrimitiveMonteCalro(
 			}
 
 			winSum := 0
-			for i := 0; i < tryNum; i++ {
+			for i := 0; i < PrimitiveMonteCalroTrialCount; i++ {
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoZ
 
@@ -119,16 +113,18 @@ func PrimitiveMonteCalro(
 				board.ImportData(boardCopy2)
 			}
 
-			winRate = float64(winSum) / float64(tryNum)
+			winRate = float64(winSum) / float64(PrimitiveMonteCalroTrialCount)
 			if isBestUpdate(color, bestValue, winRate) {
 				bestValue = winRate
 				bestZ = z
-				printInfo(color, tryNum, bestZ, bestValue)
+				printInfo(color, PrimitiveMonteCalroTrialCount, bestZ, bestValue)
 			}
-
-			KoZ = koZCopy
-			board.ImportData(boardCopy)
 		}
 	}
+
+	// 復元
+	KoZ = copiedKoZ1
+	board.ImportData(copiedBoard1)
+
 	return bestZ
 }

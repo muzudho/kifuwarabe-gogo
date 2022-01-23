@@ -141,9 +141,18 @@ func PlayComputerMoveLesson09a(
 
 	e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
 
+	var boardSize = board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		e.PrimitiveMonteCalroTrialCount = 30
+	} else {
+		e.PrimitiveMonteCalroTrialCount = 3
+	}
+
 	var z int
 	st := time.Now()
 	e.AllPlayouts = 0
+
 	if fUCT != 0 {
 		e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 		z = e.GetBestZByUct(board, color, e.SearchUct, printBoardDuringPlayout)

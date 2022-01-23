@@ -14,16 +14,19 @@ import (
 func Lesson06() {
 	code.G.Chat.Trace("# GoGo Lesson06 プログラム開始☆（＾～＾）\n")
 
-	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
+	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
-	boardSize := board.BoardSize()
+	var boardSize = board.BoardSize()
 	if boardSize < 10 {
 		// 10路盤より小さいとき
 		e.PlayoutTrialCount = boardSize*boardSize + 200
+		e.PrimitiveMonteCalroTrialCount = 30
 	} else {
+		// 9路盤より大きければ
 		e.PlayoutTrialCount = boardSize * boardSize
+		e.PrimitiveMonteCalroTrialCount = 3
 	}
 
 	var exceptPutStoneLesson06 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeOk)
@@ -32,7 +35,7 @@ func Lesson06() {
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
-	color := 1
+	var color = 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 		e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson06BlackSideView

@@ -37,7 +37,15 @@ func Lesson09() {
 
 // SelfplayLesson09 - コンピューター同士の対局。
 func SelfplayLesson09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
-	color := 1
+	var color = 1
+
+	var boardSize = board.BoardSize()
+	if boardSize < 10 {
+		// 10路盤より小さいとき
+		e.PrimitiveMonteCalroTrialCount = 30
+	} else {
+		e.PrimitiveMonteCalroTrialCount = 3
+	}
 
 	var noPrintBoard = e.CreatePrintingOfBoardDuringPlayoutIdling() // プレイアウト中は盤を描画しません
 
