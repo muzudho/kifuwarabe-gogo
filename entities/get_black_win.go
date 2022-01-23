@@ -4,8 +4,9 @@ import (
 	"fmt"
 )
 
-// GetBlackWinV05 - 黒勝ちなら1、引き分け、または白勝ちなら0
-func GetBlackWinV05(board IBoardV01, turnColor int) int {
+// GetWinnerV05 - 黒勝ちなら1、引き分け、または白勝ちなら0
+// * `colorIsNotUsed` - 使っていません
+func GetWinnerV05(board IBoardV01, colorIsNotUsed int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -45,8 +46,9 @@ func GetBlackWinV05(board IBoardV01, turnColor int) int {
 	return win
 }
 
-// GetBlackWinV06 - 黒勝ちなら1、引き分け、または白勝ちなら0
-func GetBlackWinV06(board IBoardV01, turnColor int) int {
+// GetWinnerV06 - 黒勝ちなら1、引き分け、または白勝ちなら0
+// * `colorIsNotUsed` - 使っていません
+func GetWinnerV06(board IBoardV01, colorIsNotUsed int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
@@ -86,8 +88,9 @@ func GetBlackWinV06(board IBoardV01, turnColor int) int {
 	return win
 }
 
-// GetBlackWinV07 - 黒勝ちなら1、引き分けなら0、白勝ちなら-1
-func GetBlackWinV07(board IBoardV01, turnColor int) int {
+// GetWinnerV07 - 黒勝ちなら1、引き分けなら0、白勝ちなら-1
+// * `turnColor` - 手番の石の色
+func GetWinnerV07(board IBoardV01, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int

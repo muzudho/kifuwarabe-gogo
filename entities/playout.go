@@ -7,38 +7,38 @@ import (
 
 // CreateGettingOfBlackWinForPlayoutLesson04 - 「常に0を返す関数」を作成します
 func CreateGettingOfBlackWinForPlayoutLesson04() func(IBoardV01, int) int {
-	var getBlackWin = func(IBoardV01, int) int {
+	var getWinner = func(IBoardV01, int) int {
 		return 0
 	}
 
-	return getBlackWin
+	return getWinner
 }
 
 // CreateGettingOfBlackWinForPlayoutLesson05 - 「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
 func CreateGettingOfBlackWinForPlayoutLesson05(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var getBlackWin = func(IBoardV01, int) int {
-		return GetBlackWinV05(board, turnColor)
+	var getWinner = func(IBoardV01, int) int {
+		return GetWinnerV05(board, turnColor)
 	}
 
-	return getBlackWin
+	return getWinner
 }
 
 // CreateGettingOfBlackWinForPlayoutLesson06 - 「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
 func CreateGettingOfBlackWinForPlayoutLesson06(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var getBlackWin = func(IBoardV01, int) int {
-		return GetBlackWinV06(board, turnColor)
+	var getWinner = func(IBoardV01, int) int {
+		return GetWinnerV06(board, turnColor)
 	}
 
-	return getBlackWin
+	return getWinner
 }
 
 // CreateGettingOfBlackWinForPlayoutLesson07 - 「黒勝ちなら1、引き分けなら0、白勝ちなら-1を返す関数」を作成します
 func CreateGettingOfBlackWinForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
-	var getBlackWin = func(IBoardV01, int) int {
-		return GetBlackWinV07(board, turnColor)
+	var getWinner = func(IBoardV01, int) int {
+		return GetWinnerV07(board, turnColor)
 	}
 
-	return getBlackWin
+	return getWinner
 }
 
 // CreatePrintingOfBoardDuringPlayoutIdling - プレイアウト中の盤の描画（何も描画しません）
