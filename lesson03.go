@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-gogo/controller"
+	c "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )

@@ -8,10 +8,9 @@ import (
 	"strings"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-gogo/controller"
+	c "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
-	u "github.com/muzudho/kifuwarabe-gogo/usecases"
 )
 
 // Lesson09a - レッスン９a
@@ -75,7 +74,7 @@ func Lesson09a() {
 		case "komi":
 			e.G.Chat.Print("= 6.5\n\n")
 		case "undo":
-			u.UndoV09()
+			// TODO UndoV09()
 			e.G.Chat.Print("= \n\n")
 		// 19路盤だと、すごい長い時間かかる。
 		// genmove b
@@ -85,7 +84,7 @@ func Lesson09a() {
 				color = 2
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
-			z := u.PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
+			z := PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
 			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4
@@ -128,4 +127,39 @@ func Lesson09a() {
 			e.G.Chat.Print("? unknown_command\n\n")
 		}
 	}
+}
+
+// PlayComputerMoveLesson09a - コンピューター・プレイヤーの指し手。 Lesson09 から呼び出されます。
+func PlayComputerMoveLesson09a(
+	board e.IBoardV02,
+	color int,
+	fUCT int,
+	printBoardDuringPlayout func(int, int, int, int),
+	printBoardOutOfPlayout func(e.IBoardV01, int)) int {
+
+	e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
+
+	var z int
+	st := time.Now()
+	e.AllPlayouts = 0
+	if fUCT != 0 {
+		e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+		z = e.GetBestZByUct(board, color, e.SearchUct, printBoardDuringPlayout)
+	} else {
+		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
+		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV7()
+		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
+		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
+		z = e.PrimitiveMonteCalro(board, color, initBestValue, calcWinner, isBestUpdate, printInfo, printBoardDuringPlayout)
+	}
+	sec := time.Since(st).Seconds()
+	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
+		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.MovesNum, color, e.AllPlayouts, fUCT)
+
+	var recItem = new(e.RecordItemV02)
+	recItem.Z = z
+	recItem.Time = sec
+	e.AddMoves(board, z, color, recItem, printBoardOutOfPlayout)
+
+	return z
 }
