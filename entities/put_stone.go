@@ -7,7 +7,7 @@ func CreateExceptionForPutStoneLesson1(board IBoardV01) func(int, int, int, int,
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
 			return 1
 		}
-		if z == KoIdx {
+		if z == KoZ {
 			return 2
 		}
 		// if wall + mycolSafe == 4 {
@@ -30,7 +30,7 @@ func CreateExceptionForPutStoneLesson3(board IBoardV01) func(int, int, int, int,
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
 			return 1
 		}
-		if z == KoIdx {
+		if z == KoZ {
 			return 2
 		}
 		if wall+mycolSafe == 4 { // 目には打たないようにします
@@ -55,7 +55,7 @@ func CreateExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int
 		if captureSum == 0 && space == 0 && mycolSafe == 0 {
 			return 1
 		}
-		if z == KoIdx {
+		if z == KoZ {
 			return 2
 		}
 		if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
@@ -85,7 +85,7 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 	var koMaybe = 0
 
 	if z == 0 {
-		KoIdx = 0
+		KoZ = 0
 		return 0
 	}
 	for dir := 0; dir < 4; dir++ {
@@ -136,9 +136,9 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 	board.CountLiberty(z, &liberty, &stone)
 
 	if captureSum == 1 && stone == 1 && liberty == 1 {
-		KoIdx = koMaybe
+		KoZ = koMaybe
 	} else {
-		KoIdx = 0
+		KoZ = 0
 	}
 	return 0
 }

@@ -32,8 +32,8 @@ const (
 	FillEyeOk = 0
 )
 
-// KoIdx - コウの交点。Idx（配列のインデックス）表示。 0 ならコウは無し？
-var KoIdx int
+// KoZ - コウの交点。Idx（配列のインデックス）表示。 0 ならコウは無し？
+var KoZ int
 
 // For count liberty.
 var checkBoard = []int{}

@@ -56,8 +56,8 @@ func CreatePrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
 // CreatePrintingOfBoardDuringPlayout1 - プレイアウト中の盤の描画
 func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoardV01, int)) func(int, int, int, int) {
 	var printBoardDuringPlayout = func(trial int, z int, color int, emptyNum int) {
-		var z4 = board.GetZ4(z)       // XXYY
-		var koZ4 = board.GetZ4(KoIdx) // XXYY
+		var z4 = board.GetZ4(z)     // XXYY
+		var koZ4 = board.GetZ4(KoZ) // XXYY
 		printBoard(board, -1)
 		fmt.Printf("trial=%d,z4=%04d,clr=%d,emptyNum=%d,koZ4=%04d\n",
 			trial, z4, color, emptyNum, koZ4)

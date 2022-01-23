@@ -168,7 +168,7 @@ func (board *BoardV01) InitBoard() {
 	// G.Chat.Trace("# (^q^) 石は置いた☆\n")
 
 	MovesNum = 0
-	KoIdx = 0
+	KoZ = 0
 
 	// G.Chat.Trace("# (^q^) 盤の初期化は終わったぜ☆\n")
 }

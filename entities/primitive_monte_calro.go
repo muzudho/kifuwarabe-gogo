@@ -102,7 +102,7 @@ func PrimitiveMonteCalro(
 	bestZ := 0
 	var winRate float64
 	var boardCopy = board.CopyData()
-	koZCopy := KoIdx
+	koZCopy := KoZ
 
 	var bestValue = initBestValue(color)
 
@@ -122,13 +122,13 @@ func PrimitiveMonteCalro(
 			winSum := 0
 			for i := 0; i < tryNum; i++ {
 				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoIdx
+				koZCopy2 := KoZ
 
 				// 手番の勝ちが1、引分けが0、相手の勝ちが-1 としてください
 				var winner = calcWinner(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 
 				winSum += winner
-				KoIdx = koZCopy2
+				KoZ = koZCopy2
 				board.ImportData(boardCopy2)
 			}
 
@@ -139,7 +139,7 @@ func PrimitiveMonteCalro(
 				printInfo(color, tryNum, bestZ, bestValue)
 			}
 
-			KoIdx = koZCopy
+			KoZ = koZCopy
 			board.ImportData(boardCopy)
 		}
 	}

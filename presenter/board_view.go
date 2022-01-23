@@ -91,7 +91,7 @@ func PrintBoard(board e.IBoardV01, movesNum int) {
 
 	// Info
 	b.WriteString("  KoZ=")
-	b.WriteString(strconv.Itoa(board.GetZ4(e.KoIdx)))
+	b.WriteString(strconv.Itoa(board.GetZ4(e.KoZ)))
 	if movesNum != -1 {
 		b.WriteString(",movesNum=")
 		b.WriteString(strconv.Itoa(movesNum))
