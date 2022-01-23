@@ -9,9 +9,9 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// Lesson08 - レッスン８
+// Lesson08 - レッスン８ UCT計算
 func Lesson08() {
-	e.G.Chat.Trace("# GoGo v8 プログラム開始☆（＾～＾）\n")
+	e.G.Chat.Trace("# GoGo Lesson08 UCT計算開始☆（＾～＾）\n")
 
 	config := c.LoadGameConf("input/example-v3.gameConf.toml")
 

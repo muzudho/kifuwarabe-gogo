@@ -28,20 +28,20 @@ func CreateInitBestValueForPrimitiveMonteCalroV7() func(int) float64 {
 	return initBestValue
 }
 
-func CreateCalcWinForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func CreateCalcWinnerForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+	var calcWinner = func(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
 		return Playout(board, FlipColor(color), printBoard, getWinner)
 	}
 
-	return calcWin
+	return calcWinner
 }
 
-func CreateCalcWinForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	var calcWin = func(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func CreateCalcWinnerForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+	var calcWinner = func(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
 		return -Playout(board, FlipColor(color), printBoard, getWinner)
 	}
 
-	return calcWin
+	return calcWinner
 }
 
 func CreateIsBestUpdateForPrimitiveMonteCalroV6() func(color int, bestValue float64, winRate float64) bool {
@@ -84,7 +84,7 @@ func PrimitiveMonteCalro(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,
-	calcWin func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
+	calcWinner func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
 	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
 	printBoard func(int, int, int, int)) int {
@@ -124,9 +124,10 @@ func PrimitiveMonteCalro(
 				var boardCopy2 = board.CopyData()
 				koZCopy2 := KoIdx
 
-				var win = calcWin(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
+				// 手番の勝ちが1、引分けが0、相手の勝ちが-1 としてください
+				var winner = calcWinner(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 
-				winSum += win
+				winSum += winner
 				KoIdx = koZCopy2
 				board.ImportData(boardCopy2)
 			}

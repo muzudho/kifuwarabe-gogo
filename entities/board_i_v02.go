@@ -23,10 +23,10 @@ func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard fu
 
 	} else {
 		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
-		var calcWin = CreateCalcWinForPrimitiveMonteCalroV7()
+		var calcWinner = CreateCalcWinnerForPrimitiveMonteCalroV7()
 		var isBestUpdate = CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
-		z = PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard)
+		z = PrimitiveMonteCalro(board, color, initBestValue, calcWinner, isBestUpdate, printInfo, printBoard)
 	}
 
 	sec := time.Since(start).Seconds()

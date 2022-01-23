@@ -36,11 +36,11 @@ func Lesson06() {
 	for i := 0; i < 2; i++ {
 
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV6()
-		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV6()
+		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV6()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV6()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
 		e.GettingOfWinnerOnDuringUCTPlayout = e.CreateGettingOfWinnerForPlayoutLesson06BlackSideView(board, color)
-		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard)
+		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWinner, isBestUpdate, printInfo, printBoard)
 
 		e.PutStone(board, z, color, exceptPutStoneLesson06)
 

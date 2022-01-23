@@ -69,6 +69,10 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoard
 // Playout - 最後まで石を打ちます。得点を返します
 // * `printBoardDuringPlayout` - プレイアウト中の盤の描画
 // * `getWinner` - 地計算
+//
+// # Returns
+//
+// 勝者（黒番が1なのか、白番が1なのか、手番が1なのかは設定によって異なります）
 func Playout(
 	board IBoardV01,
 	turnColor int,

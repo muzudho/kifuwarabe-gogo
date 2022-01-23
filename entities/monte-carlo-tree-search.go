@@ -161,10 +161,10 @@ func GetBestUctLesson08(board IBoardV02, color int, printBoard func(int, int, in
 			bestI = i
 			max = c.Games
 		}
-		fmt.Printf("(GetBestUctLesson08) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
+		fmt.Printf("(UCT Calculating...) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
 	}
 	bestZ := pN.Children[bestI].Z
-	fmt.Printf("(GetBestUctLesson08) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	fmt.Printf("(UCT Calculated    ) bestZ=%4d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }
