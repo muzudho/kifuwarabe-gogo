@@ -42,7 +42,7 @@ func Playout(
 
 	AllPlayouts++
 
-	boardSize := board.BoardSize()
+	// boardSize := board.BoardSize()
 
 	color := turnColor
 	previousZ := 0
@@ -52,16 +52,30 @@ func Playout(
 	for trial := 0; trial < playoutTrialCount; trial++ {
 		var empty = make([]int, boardMax)
 		var emptyNum, r, z int
-		for y := 0; y <= boardSize; y++ {
-			for x := 0; x < boardSize; x++ {
-				z = board.GetZFromXy(x, y)
-				if board.Exists(z) {
-					continue
-				}
+
+		var onPoint = func(z int) {
+			if !board.Exists(z) {
 				empty[emptyNum] = z
 				emptyNum++
 			}
 		}
+
+		var boardIterator = CreateBoardIterator(board)
+		boardIterator(onPoint)
+
+		/*
+			for y := 0; y <= boardSize; y++ {
+				for x := 0; x < boardSize; x++ {
+					z = board.GetZFromXy(x, y)
+					if board.Exists(z) {
+						continue
+					}
+					empty[emptyNum] = z
+					emptyNum++
+				}
+			}
+		*/
+
 		r = 0
 		for {
 			if emptyNum == 0 {

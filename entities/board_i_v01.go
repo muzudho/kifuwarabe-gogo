@@ -27,3 +27,21 @@ type IBoardV01 interface {
 	// GetZ4 - z（配列のインデックス）を XXYY形式へ変換します。
 	GetZ4(z int) int
 }
+
+// CreateBoardIterator - 盤の全ての交点に順にアクセスする boardIterator 関数を生成します
+func CreateBoardIterator(
+	board IBoardV01) func(func(int)) {
+
+	var boardSize = board.BoardSize()
+	var boardIterator = func(onPoint func(int)) {
+
+		for y := 0; y <= boardSize; y++ {
+			for x := 0; x < boardSize; x++ {
+				var z = board.GetZFromXy(x, y)
+				onPoint(z)
+			}
+		}
+	}
+
+	return boardIterator
+}
