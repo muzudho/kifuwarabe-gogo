@@ -35,13 +35,18 @@ func Lesson07() {
 	color := 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
-
-		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV7()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
 		e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
-		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWinner, isBestUpdate, printInfo, printBoard)
+		z := e.PrimitiveMonteCalro(
+			board,
+			color,
+			e.InitBestValueForPrimitiveMonteCalroV7,
+			calcWinner,
+			isBestUpdate,
+			printInfo,
+			printBoard)
 
 		e.PutStone(board, z, color, exceptPutStoneLesson07)
 

@@ -4,36 +4,24 @@ import (
 	"fmt"
 )
 
-func CreateInitBestValueForPrimitiveMonteCalroV6() func(int) float64 {
-	var initBestValue = func(color int) float64 {
-		var bestValue float64
+func InitBestValueForPrimitiveMonteCalroV6(color int) float64 {
+	var bestValue float64
 
-		if color == 1 {
-			bestValue = -100.0
-		} else {
-			bestValue = 100.0
-		}
-
-		return bestValue
+	if color == 1 {
+		bestValue = -100.0
+	} else {
+		bestValue = 100.0
 	}
 
-	return initBestValue
+	return bestValue
 }
 
-func CreateInitBestValueForPrimitiveMonteCalroV7() func(int) float64 {
-	var initBestValue = func(color int) float64 {
-		return -100.0
-	}
-
-	return initBestValue
+func InitBestValueForPrimitiveMonteCalroV7(color int) float64 {
+	return -100.0
 }
 
-func CreateCalcWinnerForPrimitiveMonteCalroV6() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	var calcWinner = func(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-		return Playout(board, FlipColor(color), printBoard, getWinner)
-	}
-
-	return calcWinner
+func CalcWinnerForPrimitiveMonteCalroV6(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+	return Playout(board, FlipColor(color), printBoard, getWinner)
 }
 
 func CreateCalcWinnerForPrimitiveMonteCalroV7() func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
