@@ -34,25 +34,25 @@ func main() {
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
 	code.G.Chat.Trace("Author: %s\n", e.Author)
 
-	if lessonVer == "V01" {
+	if lessonVer == "Lesson01" {
 		Lesson01()
-	} else if lessonVer == "V02" {
+	} else if lessonVer == "Lesson02" {
 		Lesson02()
-	} else if lessonVer == "V03" {
+	} else if lessonVer == "Lesson03" {
 		Lesson03()
-	} else if lessonVer == "V04" {
+	} else if lessonVer == "Lesson04" {
 		Lesson04()
-	} else if lessonVer == "V05" {
+	} else if lessonVer == "Lesson05" {
 		Lesson05()
-	} else if lessonVer == "V06" {
+	} else if lessonVer == "Lesson06" {
 		Lesson06()
-	} else if lessonVer == "V07" {
+	} else if lessonVer == "Lesson07" {
 		Lesson07()
-	} else if lessonVer == "V08" {
+	} else if lessonVer == "Lesson08" {
 		Lesson08()
-	} else if lessonVer == "V09" {
+	} else if lessonVer == "Lesson09" {
 		Lesson09()
-	} else if lessonVer == "V09a" {
+	} else if lessonVer == "Lesson09a" {
 		Lesson09a() // GTP
 	} else {
 		Lesson09a() // GTP
