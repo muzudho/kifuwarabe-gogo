@@ -12,14 +12,14 @@ type IBoardV02 interface {
 	UctChildrenSize() int
 }
 
-// GetComputerMoveV9 - コンピューターの指し手。
-func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+// GetComputerMoveLesson09 - コンピューターの指し手。 SelfplayLesson09 から呼び出されます
+func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
 	var z int
 	start := time.Now()
 	AllPlayouts = 0
 
 	if fUCT != 0 {
-		z = GetBestUctV9(board, color, printBoard, getWinner)
+		z = GetBestUctLesson09(board, color, printBoard, getWinner)
 
 	} else {
 		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()
@@ -30,7 +30,7 @@ func GetComputerMoveV9(board IBoardV02, color int, fUCT int, printBoard func(int
 	}
 
 	sec := time.Since(start).Seconds()
-	fmt.Printf("(GetComputerMoveV9) %.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
+	fmt.Printf("(GetComputerMoveLesson09) %.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(AllPlayouts)/sec, board.GetZ4(z), MovesNum, color, AllPlayouts, fUCT)
 	return z
 }

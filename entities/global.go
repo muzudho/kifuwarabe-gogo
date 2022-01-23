@@ -56,4 +56,4 @@ var ExceptPutStoneOnPrimitiveMonteCalro func(int, int, int, int, int) int
 
 var ExceptPutStoneOnSearchUctV8 func(int, int, int, int, int) int
 
-var ExceptPutStoneOnSearchUctV9 func(int, int, int, int, int) int
+var ExceptPutStoneOnSearchUctLesson09 func(int, int, int, int, int) int

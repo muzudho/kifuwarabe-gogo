@@ -8,8 +8,8 @@ import (
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 )
 
-// PlayComputerMoveV09a - コンピューター・プレイヤーの指し手。 GoGoV9a から呼び出されます。
-func PlayComputerMoveV09a(
+// PlayComputerMoveLesson09a - コンピューター・プレイヤーの指し手。 Lesson09 から呼び出されます。
+func PlayComputerMoveLesson09a(
 	board e.IBoardV02,
 	color int,
 	fUCT int,
@@ -22,7 +22,7 @@ func PlayComputerMoveV09a(
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		z = e.GetBestUctV9a(board, color, printBoardDuringPlayout, getWinner)
+		z = e.GetBestUctLesson09a(board, color, printBoardDuringPlayout, getWinner)
 	} else {
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()

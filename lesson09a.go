@@ -35,6 +35,8 @@ func Lesson09a() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
+	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+
 	e.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
 	// GUI から 囲碁エンジン へ入力があった、と考えてください
@@ -83,7 +85,7 @@ func Lesson09a() {
 				color = 2
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
-			z := u.PlayComputerMoveV09a(board, color, 1, printBoard, p.PrintBoard)
+			z := u.PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
 			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4

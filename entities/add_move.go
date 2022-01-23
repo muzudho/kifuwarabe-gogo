@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-// AddMoves - GoGoV8, SelfplayV09 から呼び出されます。
+// AddMoves - GoGoV8, SelfplayLesson09 から呼び出されます。
 func AddMoves(board IBoardV01, z int, color int, recItem IRecordItemV01, printBoard func(IBoardV01, int)) {
 
 	var exceptPutStoneL04 = CreateExceptionForPutStoneLesson4(board, FillEyeOk)

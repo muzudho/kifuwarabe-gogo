@@ -36,7 +36,7 @@ func Lesson08() {
 		e.AllPlayouts = 0
 
 		var getWinner = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
-		z := e.GetBestUctV8(board, color, printBoard, getWinner)
+		z := e.GetBestUctLesson08(board, color, printBoard, getWinner)
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z

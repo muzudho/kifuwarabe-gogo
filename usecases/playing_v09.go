@@ -5,8 +5,8 @@ import (
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
 
-// SelfplayV09 - コンピューター同士の対局。
-func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
+// SelfplayLesson09 - コンピューター同士の対局。
+func SelfplayLesson09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 	color := 1
 
 	var noPrintBoard = e.CreatePrintingOfBoardDuringPlayoutIdling() // プレイアウト中は盤を描画しません
@@ -17,9 +17,9 @@ func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 			fUCT = 0
 		}
 
-		var getWinner = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
+		var getWinner = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color) // During UCT Playout
 
-		z := e.GetComputerMoveV9(board, color, fUCT, noPrintBoard, getWinner)
+		z := e.GetComputerMoveLesson09(board, color, fUCT, noPrintBoard, getWinner)
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
