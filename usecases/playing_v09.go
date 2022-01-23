@@ -17,9 +17,9 @@ func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 			fUCT = 0
 		}
 
-		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
+		var getWinner = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
 
-		z := e.GetComputerMoveV9(board, color, fUCT, noPrintBoard, getBlackWin)
+		z := e.GetComputerMoveV9(board, color, fUCT, noPrintBoard, getWinner)
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
@@ -43,12 +43,12 @@ func SelfplayV09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 func TestPlayoutLesson09(
 	board e.IBoardV01,
 	printBoardDuringPlayout func(int, int, int, int),
-	getBlackWin func(e.IBoardV01, int) int,
+	getWinner func(e.IBoardV01, int) int,
 	printBoardOutOfPlayout func(e.IBoardV01, int)) {
 
 	e.FlagTestPlayout = 1
 
-	e.Playout(board, 1, printBoardDuringPlayout, getBlackWin)
+	e.Playout(board, 1, printBoardDuringPlayout, getWinner)
 
 	printBoardOutOfPlayout(board, e.MovesNum)
 	p.PrintSgf(board, e.MovesNum, e.Record)

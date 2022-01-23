@@ -5,8 +5,8 @@ import (
 	"math/rand"
 )
 
-// CreateGettingOfBlackWinForPlayoutLesson04 - 「常に0を返す関数」を作成します
-func CreateGettingOfBlackWinForPlayoutLesson04() func(IBoardV01, int) int {
+// CreateGettingOfWinnerForPlayoutEverDraw - Lesson04以前に使用。「常に引分け（0）を返す関数」を作成します。つまり勝者判定を行いません
+func CreateGettingOfWinnerForPlayoutEverDraw() func(IBoardV01, int) int {
 	var getWinner = func(IBoardV01, int) int {
 		return 0
 	}
@@ -14,28 +14,31 @@ func CreateGettingOfBlackWinForPlayoutLesson04() func(IBoardV01, int) int {
 	return getWinner
 }
 
-// CreateGettingOfBlackWinForPlayoutLesson05 - 「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
-func CreateGettingOfBlackWinForPlayoutLesson05(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+// CreateGettingOfWinnerForPlayoutLesson05BlackSideView - Lesson05で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
+// * `colorIsNotUsed` - 使っていません
+func CreateGettingOfWinnerForPlayoutLesson05BlackSideView(board IBoardV01, colorIsNotUsed int) func(IBoardV01, int) int {
 	var getWinner = func(IBoardV01, int) int {
-		return GetWinnerV05(board, turnColor)
+		return GetWinnerV05BlackSideView(board, colorIsNotUsed)
 	}
 
 	return getWinner
 }
 
-// CreateGettingOfBlackWinForPlayoutLesson06 - 「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
-func CreateGettingOfBlackWinForPlayoutLesson06(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+// CreateGettingOfWinnerForPlayoutLesson06BlackSideView - Lesson06で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数（黒側の視点）」を作成します
+// * `colorIsNotUsed` - 使っていません
+func CreateGettingOfWinnerForPlayoutLesson06BlackSideView(board IBoardV01, colorIsNotUsed int) func(IBoardV01, int) int {
 	var getWinner = func(IBoardV01, int) int {
-		return GetWinnerV06(board, turnColor)
+		return GetWinnerV06BlackSideView(board, colorIsNotUsed)
 	}
 
 	return getWinner
 }
 
-// CreateGettingOfBlackWinForPlayoutLesson07 - 「黒勝ちなら1、引き分けなら0、白勝ちなら-1を返す関数」を作成します
-func CreateGettingOfBlackWinForPlayoutLesson07(board IBoardV01, turnColor int) func(IBoardV01, int) int {
+// CreateGettingOfWinnerForPlayoutLesson07SelfView - 「手番の勝ちなら1、引き分けなら0、手番の負けなら-1を返す関数（自分視点）」を作成します
+// * `turnColor` - 手番の石の色
+func CreateGettingOfWinnerForPlayoutLesson07SelfView(board IBoardV01, turnColor int) func(IBoardV01, int) int {
 	var getWinner = func(IBoardV01, int) int {
-		return GetWinnerV07(board, turnColor)
+		return GetWinnerV07SelfView(board, turnColor)
 	}
 
 	return getWinner
@@ -65,12 +68,12 @@ func CreatePrintingOfBoardDuringPlayout1(board IBoardV01, printBoard func(IBoard
 
 // Playout - 最後まで石を打ちます。得点を返します
 // * `printBoardDuringPlayout` - プレイアウト中の盤の描画
-// * `getBlackWin` - 地計算
+// * `getWinner` - 地計算
 func Playout(
 	board IBoardV01,
 	turnColor int,
 	printBoardDuringPlayout func(int, int, int, int),
-	getBlackWin func(IBoardV01, int) int) int {
+	getWinner func(IBoardV01, int) int) int {
 
 	AllPlayouts++
 
@@ -128,5 +131,5 @@ func Playout(
 		color = FlipColor(color)
 	}
 
-	return getBlackWin(board, turnColor)
+	return getWinner(board, turnColor)
 }

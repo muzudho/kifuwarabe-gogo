@@ -39,8 +39,8 @@ func Lesson07() {
 		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board)
-		var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
-		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getBlackWin)
+		var getWinner = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
+		z := e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoard, getWinner)
 
 		e.PutStone(board, z, color, exceptPutStoneLesson07)
 

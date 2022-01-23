@@ -16,19 +16,19 @@ func PlayComputerMoveV09a(
 	printBoardDuringPlayout func(int, int, int, int),
 	printBoardOutOfPlayout func(e.IBoardV01, int)) int {
 
-	var getBlackWin = e.CreateGettingOfBlackWinForPlayoutLesson07(board, color)
+	var getWinner = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
 
 	var z int
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		z = e.GetBestUctV9a(board, color, printBoardDuringPlayout, getBlackWin)
+		z = e.GetBestUctV9a(board, color, printBoardDuringPlayout, getWinner)
 	} else {
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWin = e.CreateCalcWinForPrimitiveMonteCalroV7()
 		var isBestUpdate = e.CreateIsBestUpdateForPrimitiveMonteCalroV7()
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
-		z = e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoardDuringPlayout, getBlackWin)
+		z = e.PrimitiveMonteCalro(board, color, initBestValue, calcWin, isBestUpdate, printInfo, printBoardDuringPlayout, getWinner)
 	}
 	sec := time.Since(st).Seconds()
 	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
