@@ -6,7 +6,7 @@ package main
 import (
 	"flag"
 
-	cd "github.com/muzudho/kifuwarabe-gogo/coding_obj"
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 )
 
@@ -18,7 +18,7 @@ func main() {
 	e.G = *new(e.GlobalVariables)
 
 	// ロガーの作成。
-	e.G.Log = *cd.NewLogger(
+	e.G.Log = *code.NewLogger(
 		"output/trace.log",
 		"output/debug.log",
 		"output/info.log",
@@ -29,7 +29,7 @@ func main() {
 		"output/print.log")
 
 	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
-	e.G.Chat = *cd.NewChatter(e.G.Log)
+	e.G.Chat = *code.NewChatter(e.G.Log)
 
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
 	e.G.Chat.Trace("Author: %s\n", e.Author)

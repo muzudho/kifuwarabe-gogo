@@ -1,7 +1,7 @@
 package entities
 
 import (
-	cd "github.com/muzudho/kifuwarabe-gogo/coding_obj"
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 )
 
 const (
@@ -12,9 +12,9 @@ const (
 // GlobalVariables - グローバル変数。
 type GlobalVariables struct {
 	// Log - ロガー。
-	Log cd.Logger
+	Log code.Logger
 	// Chat - チャッター。 標準出力とロガーを一緒にしただけです。
-	Chat cd.Chatter
+	Chat code.Chatter
 }
 
 // G - グローバル変数。思い切った名前。
