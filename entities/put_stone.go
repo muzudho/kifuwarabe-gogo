@@ -1,5 +1,27 @@
 package entities
 
+import (
+	"fmt"
+	"os"
+)
+
+// PutStoneOnRecord - Lesson08, Lesson09/Selfplay, Lesson09a から呼び出されます
+func PutStoneOnRecord(board IBoardV01, z int, color int, recItem IRecordItemV01) {
+
+	var exceptPutStoneL04 = CreateExceptionForPutStoneLesson4(board, FillEyeOk)
+	var err = PutStone(board, z, color, exceptPutStoneL04)
+
+	if err != 0 {
+		fmt.Fprintf(os.Stderr, "(PutStoneOnRecord) Err!\n")
+		os.Exit(0)
+	}
+
+	// 棋譜に記録
+	Record[MovesNum] = recItem
+
+	MovesNum++
+}
+
 // Lesson01 石を置けないケースを判定します
 func CreateExceptionForPutStoneLesson1(board IBoardV01) func(int, int, int, int, int) int {
 	var exceptType1 = func(z int, space int, wall int, mycolSafe int, captureSum int) int {

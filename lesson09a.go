@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
@@ -16,7 +17,7 @@ import (
 // Lesson09a - レッスン９a
 // GTP2NNGS に対応しているのでは？
 func Lesson09a() {
-	e.G.Chat.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
+	code.G.Chat.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
@@ -36,7 +37,7 @@ func Lesson09a() {
 
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 
-	e.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
+	code.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
 	// GUI から 囲碁エンジン へ入力があった、と考えてください
 	scanner := bufio.NewScanner(os.Stdin)
@@ -56,26 +57,26 @@ func Lesson09a() {
 				e.PlayoutTrialCount = boardSize * boardSize
 			}
 
-			e.G.Chat.Print("= \n\n")
+			code.G.Chat.Print("= \n\n")
 		case "clear_board":
 			board.InitBoard()
-			e.G.Chat.Print("= \n\n")
+			code.G.Chat.Print("= \n\n")
 		case "quit":
 			os.Exit(0)
 		case "protocol_version":
-			e.G.Chat.Print("= 2\n\n")
+			code.G.Chat.Print("= 2\n\n")
 		case "name":
-			e.G.Chat.Print("= GoGo\n\n")
+			code.G.Chat.Print("= GoGo\n\n")
 		case "version":
-			e.G.Chat.Print("= 0.0.1\n\n")
+			code.G.Chat.Print("= 0.0.1\n\n")
 		case "list_commands":
-			e.G.Chat.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
+			code.G.Chat.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
 				"name\nversion\nlist_commands\nkomi\ngenmove\nplay\n\n")
 		case "komi":
-			e.G.Chat.Print("= 6.5\n\n")
+			code.G.Chat.Print("= 6.5\n\n")
 		case "undo":
 			// TODO UndoV09()
-			e.G.Chat.Print("= \n\n")
+			code.G.Chat.Print("= \n\n")
 		// 19路盤だと、すごい長い時間かかる。
 		// genmove b
 		case "genmove":
@@ -85,7 +86,7 @@ func Lesson09a() {
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 			z := PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
-			e.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
+			code.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4
 		// play b d5
@@ -119,12 +120,13 @@ func Lesson09a() {
 				var recItem = new(e.RecordItemV02)
 				recItem.Z = z
 				recItem.Time = 0
-				e.AddMoves(board, z, color, recItem, p.PrintBoard)
+				e.PutStoneOnRecord(board, z, color, recItem)
+				p.PrintBoard(board, e.MovesNum)
 
-				e.G.Chat.Print("= \n\n")
+				code.G.Chat.Print("= \n\n")
 			}
 		default:
-			e.G.Chat.Print("? unknown_command\n\n")
+			code.G.Chat.Print("? unknown_command\n\n")
 		}
 	}
 }
@@ -159,7 +161,8 @@ func PlayComputerMoveLesson09a(
 	var recItem = new(e.RecordItemV02)
 	recItem.Z = z
 	recItem.Time = sec
-	e.AddMoves(board, z, color, recItem, printBoardOutOfPlayout)
+	e.PutStoneOnRecord(board, z, color, recItem)
+	printBoardOutOfPlayout(board, e.MovesNum)
 
 	return z
 }

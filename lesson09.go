@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
@@ -11,7 +12,7 @@ import (
 
 // Lesson09 - レッスン９
 func Lesson09() {
-	e.G.Chat.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
+	code.G.Chat.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
@@ -51,7 +52,8 @@ func SelfplayLesson09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
-		e.AddMoves(board, z, color, recItem, printBoard)
+		e.PutStoneOnRecord(board, z, color, recItem)
+		printBoard(board, e.MovesNum)
 
 		// パスで２手目以降で棋譜の１つ前（相手）もパスなら終了します。
 		if z == 0 && 1 < e.MovesNum && e.Record[e.MovesNum-2].GetZ() == 0 {

@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
@@ -11,7 +12,7 @@ import (
 
 // Lesson05 - レッスン５
 func Lesson05() {
-	e.G.Chat.Trace("# GoGo Lesson05 プログラム開始☆（＾～＾）\n")
+	code.G.Chat.Trace("# GoGo Lesson05 プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 

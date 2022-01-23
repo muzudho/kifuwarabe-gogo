@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
@@ -10,7 +11,7 @@ import (
 
 // Lesson02 - レッスン２
 func Lesson02() {
-	e.G.Chat.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
+	code.G.Chat.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v2.gameConf.toml", OnFatal)
 

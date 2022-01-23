@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
@@ -11,7 +12,7 @@ import (
 
 // Lesson08 - レッスン８ UCT計算
 func Lesson08() {
-	e.G.Chat.Trace("# GoGo Lesson08 UCT計算開始☆（＾～＾）\n")
+	code.G.Chat.Trace("# GoGo Lesson08 UCT計算開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
@@ -40,7 +41,8 @@ func Lesson08() {
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
-		e.AddMoves(board, z, color, recItem, p.PrintBoard)
+		e.PutStoneOnRecord(board, z, color, recItem)
+		p.PrintBoard(board, e.MovesNum)
 
 		color = e.FlipColor(color)
 	}

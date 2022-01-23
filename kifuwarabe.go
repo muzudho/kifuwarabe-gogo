@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"time"
 
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	"github.com/ziutek/telnet"
@@ -13,7 +14,7 @@ import (
 // KifuwarabeV1 - きふわらべバージョン１。
 // NNGSへの接続を試みる。
 func KifuwarabeV1() {
-	e.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
+	code.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
 
@@ -36,7 +37,7 @@ func KifuwarabeV1() {
 
 	board.InitBoard()
 
-	e.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
+	code.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
 
 	// connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
 	// connectionString := fmt.Sprintf("localhost:5555", config.Nngs.Server, config.Nngs.Port)
@@ -51,20 +52,20 @@ func KifuwarabeV1() {
 		panic(fmt.Sprintf("Failed to connect. %s", err))
 	}
 	defer nngsConn.Close()
-	e.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
+	code.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
 
-	e.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
+	code.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
 
 	nngsConn.Write([]byte(fmt.Sprintf("%s\n", config.Nngs.User)))
 
-	e.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
+	code.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
 
 	// nngsConnBuf := bufio.NewReader(nngsConn)
 	// str, err := nngsConnBuf.ReadString('\n')
 
 	// str, err := nngsConn.ReadUntil("\n")
 	str, err := nngsConn.ReadString('\n')
-	e.G.Chat.Trace("# どうか☆（＾～＾）\n")
+	code.G.Chat.Trace("# どうか☆（＾～＾）\n")
 	if err != nil {
 		panic(fmt.Sprintf("Failed to read string. %s", err))
 	}
@@ -81,5 +82,5 @@ func KifuwarabeV1() {
 		}
 	*/
 
-	e.G.Chat.Trace("# NNGSへの接続終わった☆（＾～＾）\n")
+	code.G.Chat.Trace("# NNGSへの接続終わった☆（＾～＾）\n")
 }

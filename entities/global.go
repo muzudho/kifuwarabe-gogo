@@ -1,24 +1,9 @@
 package entities
 
-import (
-	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
-)
-
 const (
 	// Author - 囲碁思考エンジンの作者名だぜ☆（＾～＾）
 	Author = "Satoshi Takahashi"
 )
-
-// GlobalVariables - グローバル変数。
-type GlobalVariables struct {
-	// Log - ロガー。
-	Log code.Logger
-	// Chat - チャッター。 標準出力とロガーを一緒にしただけです。
-	Chat code.Chatter
-}
-
-// G - グローバル変数。思い切った名前。
-var G GlobalVariables
 
 // AllPlayouts - プレイアウトした回数。
 var AllPlayouts int
