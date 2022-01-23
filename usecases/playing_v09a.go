@@ -22,8 +22,8 @@ func PlayComputerMoveLesson09a(
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		e.ExceptPutStoneOnSearchUctV8 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
-		z = e.GetBestZByUct(board, color, e.SearchUctLesson08OrMore, printBoardDuringPlayout)
+		e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+		z = e.GetBestZByUct(board, color, e.SearchUct, printBoardDuringPlayout)
 	} else {
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV7()

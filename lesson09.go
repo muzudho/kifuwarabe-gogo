@@ -25,7 +25,7 @@ func Lesson09() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
-	e.ExceptPutStoneOnSearchUctLesson09 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+	e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 	e.ExceptPutStoneOnPrimitiveMonteCalro = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 

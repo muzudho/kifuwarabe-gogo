@@ -25,7 +25,7 @@ func Lesson08() {
 		e.PlayoutTrialCount = boardSize * boardSize
 	}
 
-	e.ExceptPutStoneOnSearchUctV8 = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
+	e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
@@ -36,7 +36,7 @@ func Lesson08() {
 		e.AllPlayouts = 0
 
 		e.GettingOfWinnerOnDuringUCTPlayout = e.CreateGettingOfWinnerForPlayoutLesson07SelfView(board, color)
-		z := e.GetBestZByUct(board, color, e.SearchUctLesson08OrMore, printBoard)
+		z := e.GetBestZByUct(board, color, e.SearchUct, printBoard)
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
