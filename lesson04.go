@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-gogo/config_obj"
+	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	p "github.com/muzudho/kifuwarabe-gogo/presenter"
 )
@@ -13,7 +13,7 @@ import (
 func Lesson04() {
 	e.G.Chat.Trace("# GoGo Lesson04 プログラム開始☆（＾～＾）\n")
 
-	config := c.LoadGameConf("input/example-v3.gameConf.toml")
+	config := cnf.LoadGameConf("input/example-v3.gameConf.toml")
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 

@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	c "github.com/muzudho/kifuwarabe-gogo/config_obj"
+	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
 	"github.com/ziutek/telnet"
 )
@@ -15,7 +15,7 @@ import (
 func KifuwarabeV1() {
 	e.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
 
-	config := c.LoadGameConf("input/kifuwarabe-v1.gameConf.toml")
+	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml")
 
 	/*
 		e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")
