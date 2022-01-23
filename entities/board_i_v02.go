@@ -19,7 +19,7 @@ func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard fu
 	AllPlayouts = 0
 
 	if fUCT != 0 {
-		z = GetBestZByUctLesson09(board, color, printBoard)
+		z = GetBestZByUct(board, color, searchUctLesson09, printBoard)
 
 	} else {
 		var initBestValue = CreateInitBestValueForPrimitiveMonteCalroV7()

@@ -47,7 +47,7 @@ func addChild(pN *Node, z int) {
 	pN.ChildNum++
 }
 
-// CreateNode - ノード作成。 searchUctV8, GetBestZByUctLesson08, searchUctLesson09, GetBestZByUctLesson09, GetBestZByUctLesson09a から呼び出されます。
+// CreateNode - ノード作成。 searchUctV8, GetBestZByUct, searchUctLesson09 から呼び出されます。
 func CreateNode(board IBoardV02) int {
 	boardSize := board.BoardSize()
 
@@ -136,7 +136,7 @@ func SearchUctLesson08OrMore(board IBoardV02, color int, nodeN int, printBoard f
 	return win
 }
 
-// Recursive. GetBestZByUctLesson09 から呼び出されます
+// Recursive. GetBestZByUct() から呼び出されます
 func searchUctLesson09(board IBoardV02, color int, nodeN int, printBoard func(int, int, int, int)) int {
 
 	pN := &Nodes[nodeN]
