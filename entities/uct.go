@@ -19,7 +19,7 @@ const (
 func GetBestZByUct(
 	board IBoardV02,
 	color int,
-	searchUct func(IBoardV02, int, int, func(int, int, int, int)) int,
+	searchUct func(int, int) int,
 	printBoard func(int, int, int, int)) int {
 
 	// UCT計算フェーズ
@@ -27,11 +27,13 @@ func GetBestZByUct(
 	next := CreateNode(board)
 	var uctLoopCount = UctLoopCount
 	for i := 0; i < uctLoopCount; i++ {
+		// 一時記憶
 		var copiedBoard = board.CopyData()
 		var copiedKoZ = KoZ
 
-		searchUct(board, color, next, printBoard)
+		searchUct(color, next)
 
+		// 復元
 		KoZ = copiedKoZ
 		board.ImportData(copiedBoard)
 	}
@@ -54,6 +56,15 @@ func GetBestZByUct(
 	fmt.Fprintf(os.Stderr, "(UCT Calculated    ) bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
+}
+
+// WrapSearchUct - 盤とその描画関数を束縛変数として与えます
+func WrapSearchUct(board IBoardV02, printBoard func(int, int, int, int)) func(int, int) int {
+	var searchUct = func(color int, nodeN int) int {
+		return SearchUct(board, color, nodeN, printBoard)
+	}
+
+	return searchUct
 }
 
 // SearchUct - 再帰関数。 GetBestZByUct() から呼び出されます
