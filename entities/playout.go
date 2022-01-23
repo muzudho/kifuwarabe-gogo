@@ -42,8 +42,6 @@ func Playout(
 
 	AllPlayouts++
 
-	// boardSize := board.BoardSize()
-
 	color := turnColor
 	previousZ := 0
 	boardMax := board.SentinelBoardArea()
@@ -62,19 +60,6 @@ func Playout(
 
 		var boardIterator = CreateBoardIterator(board)
 		boardIterator(onPoint)
-
-		/*
-			for y := 0; y <= boardSize; y++ {
-				for x := 0; x < boardSize; x++ {
-					z = board.GetZFromXy(x, y)
-					if board.Exists(z) {
-						continue
-					}
-					empty[emptyNum] = z
-					emptyNum++
-				}
-			}
-		*/
 
 		r = 0
 		for {

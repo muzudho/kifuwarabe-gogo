@@ -66,16 +66,11 @@ func GetWinnerV05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
-	boardSize := board.BoardSize()
 
-	for y := 0; y < boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetZFromXy(x, y)
-			color2 := board.ColorAt(z)
-			kind[color2]++
-			if color2 != 0 {
-				continue
-			}
+	var onPoint = func(z int) {
+		color2 := board.ColorAt(z)
+		kind[color2]++
+		if color2 == 0 {
 			mk[1] = 0
 			mk[2] = 0
 			for dir := 0; dir < 4; dir++ {
@@ -89,6 +84,10 @@ func GetWinnerV05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 			}
 		}
 	}
+
+	var boardIterator = CreateBoardIterator(board)
+	boardIterator(onPoint)
+
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
@@ -108,16 +107,11 @@ func GetWinnerV06BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
-	boardSize := board.BoardSize()
 
-	for y := 0; y < boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetZFromXy(x, y)
-			color2 := board.ColorAt(z)
-			kind[color2]++
-			if color2 != 0 {
-				continue
-			}
+	var onPoint = func(z int) {
+		color2 := board.ColorAt(z)
+		kind[color2]++
+		if color2 == 0 {
 			mk[1] = 0
 			mk[2] = 0
 			for dir := 0; dir < 4; dir++ {
@@ -131,6 +125,10 @@ func GetWinnerV06BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 			}
 		}
 	}
+
+	var boardIterator = CreateBoardIterator(board)
+	boardIterator(onPoint)
+
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
@@ -150,16 +148,11 @@ func GetWinnerV07SelfView(board IBoardV01, turnColor int) int {
 	var mk = [4]int{}
 	var kind = [3]int{0, 0, 0}
 	var score, blackArea, whiteArea, blackSum, whiteSum int
-	boardSize := board.BoardSize()
 
-	for y := 0; y < boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetZFromXy(x, y)
-			color2 := board.ColorAt(z)
-			kind[color2]++
-			if color2 != 0 {
-				continue
-			}
+	var onPoint = func(z int) {
+		color2 := board.ColorAt(z)
+		kind[color2]++
+		if color2 == 0 {
 			mk[1] = 0
 			mk[2] = 0
 			for dir := 0; dir < 4; dir++ {
@@ -173,6 +166,10 @@ func GetWinnerV07SelfView(board IBoardV01, turnColor int) int {
 			}
 		}
 	}
+
+	var boardIterator = CreateBoardIterator(board)
+	boardIterator(onPoint)
+
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum

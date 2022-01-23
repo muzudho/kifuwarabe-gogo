@@ -81,46 +81,41 @@ func PrimitiveMonteCalro(
 	var copiedKoZ1 = KoZ
 
 	// 初期化
-	var boardSize = board.BoardSize()
 	var bestZ = 0
 	var winRate float64
 
 	var bestValue = initBestValue(color)
 
-	for y := 0; y <= boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetZFromXy(x, y)
-			if board.Exists(z) {
-				continue
-			}
-
+	var onPoint = func(z int) {
+		if !board.Exists(z) {
 			var err = PutStone(board, z, color, ExceptPutStoneOnPrimitiveMonteCalro)
 
-			if err != 0 {
-				continue
-			}
+			if err == 0 {
+				winSum := 0
+				for i := 0; i < PrimitiveMonteCalroTrialCount; i++ {
+					var boardCopy2 = board.CopyData()
+					koZCopy2 := KoZ
 
-			winSum := 0
-			for i := 0; i < PrimitiveMonteCalroTrialCount; i++ {
-				var boardCopy2 = board.CopyData()
-				koZCopy2 := KoZ
+					// 手番の勝ちが1、引分けが0、相手の勝ちが-1 としてください
+					var winner = calcWinner(FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 
-				// 手番の勝ちが1、引分けが0、相手の勝ちが-1 としてください
-				var winner = calcWinner(FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
+					winSum += winner
+					KoZ = koZCopy2
+					board.ImportData(boardCopy2)
+				}
 
-				winSum += winner
-				KoZ = koZCopy2
-				board.ImportData(boardCopy2)
-			}
-
-			winRate = float64(winSum) / float64(PrimitiveMonteCalroTrialCount)
-			if isBestUpdate(color, bestValue, winRate) {
-				bestValue = winRate
-				bestZ = z
-				printInfo(color, PrimitiveMonteCalroTrialCount, bestZ, bestValue)
+				winRate = float64(winSum) / float64(PrimitiveMonteCalroTrialCount)
+				if isBestUpdate(color, bestValue, winRate) {
+					bestValue = winRate
+					bestZ = z
+					printInfo(color, PrimitiveMonteCalroTrialCount, bestZ, bestValue)
+				}
 			}
 		}
 	}
+
+	var boardIterator = CreateBoardIterator(board)
+	boardIterator(onPoint)
 
 	// 復元
 	KoZ = copiedKoZ1

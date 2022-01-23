@@ -15,7 +15,9 @@ type IBoardV01 interface {
 	TakeStone(z int, color int)
 	GetEmptyZ() int
 
+	// n路盤
 	BoardSize() int
+
 	// SentinelWidth - 枠付きの盤の一辺の交点数
 	SentinelWidth() int
 	SentinelBoardArea() int
@@ -28,14 +30,15 @@ type IBoardV01 interface {
 	GetZ4(z int) int
 }
 
-// CreateBoardIterator - 盤の全ての交点に順にアクセスする boardIterator 関数を生成します
+// CreateBoardIterator - 盤の（壁を除く）全ての交点に順にアクセスする boardIterator 関数を生成します
 func CreateBoardIterator(
 	board IBoardV01) func(func(int)) {
 
 	var boardSize = board.BoardSize()
 	var boardIterator = func(onPoint func(int)) {
 
-		for y := 0; y <= boardSize; y++ {
+		// x,y は壁無しの盤での0から始まる座標、 z は壁有りの盤での0から始まる座標
+		for y := 0; y < boardSize; y++ {
 			for x := 0; x < boardSize; x++ {
 				var z = board.GetZFromXy(x, y)
 				onPoint(z)

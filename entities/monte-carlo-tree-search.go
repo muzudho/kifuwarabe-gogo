@@ -39,7 +39,6 @@ func addChild(pN *Node, z int) {
 
 // CreateNode - ノード作成。 searchUctV8, GetBestZByUct, searchUctLesson09 から呼び出されます。
 func CreateNode(board IBoardV02) int {
-	boardSize := board.BoardSize()
 
 	if NodeNum == NodeMax {
 		fmt.Printf("node over Err\n")
@@ -49,15 +48,16 @@ func CreateNode(board IBoardV02) int {
 	pN.ChildNum = 0
 	pN.Children = make([]Child, board.UctChildrenSize())
 	pN.ChildGameSum = 0
-	for y := 0; y <= boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			z := board.GetZFromXy(x, y)
-			if board.Exists(z) {
-				continue
-			}
+
+	var onPoint = func(z int) {
+		if !board.Exists(z) {
 			addChild(pN, z)
 		}
 	}
+
+	var boardIterator = CreateBoardIterator(board)
+	boardIterator(onPoint)
+
 	addChild(pN, 0)
 	NodeNum++
 	return NodeNum - 1

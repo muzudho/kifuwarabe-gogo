@@ -84,6 +84,7 @@ func (board BoardV01) GetZ4(z int) int {
 }
 
 // GetZFromXy - x,y を z （配列のインデックス）へ変換します。
+// x,y は壁を含まない領域での座標です。 z は壁を含む領域での座標です
 func (board BoardV01) GetZFromXy(x int, y int) int {
 	return (y+1)*board.SentinelWidth() + x + 1
 }
@@ -148,8 +149,7 @@ func (board *BoardV01) TakeStone(z int, color int) {
 // InitBoard - 盤の初期化。
 func (board *BoardV01) InitBoard() {
 	boardMax := board.SentinelBoardArea()
-	boardSize := board.BoardSize()
-	// G.Chat.Trace("# (^q^) boardMax=%d boardSize=%d\n", boardMax, boardSize)
+	// G.Chat.Trace("# (^q^) boardMax=%d\n", boardMax)
 
 	// 枠線
 	for z := 0; z < boardMax; z++ {
@@ -159,11 +159,11 @@ func (board *BoardV01) InitBoard() {
 	// G.Chat.Trace("# (^q^) 盤を 3 で埋めた☆\n")
 
 	// 盤上
-	for y := 0; y < boardSize; y++ {
-		for x := 0; x < boardSize; x++ {
-			board.SetColor(board.GetZFromXy(x, y), 0)
-		}
+	var onPoint = func(z int) {
+		board.SetColor(z, 0)
 	}
+	var boardIterator = CreateBoardIterator(board)
+	boardIterator(onPoint)
 
 	// G.Chat.Trace("# (^q^) 石は置いた☆\n")
 
