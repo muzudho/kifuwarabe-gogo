@@ -40,7 +40,7 @@ func Lesson07() {
 			board,
 			color,
 			e.InitBestValueForPrimitiveMonteCalroV7,
-			e.CalcWinnerForPrimitiveMonteCalroV7,
+			e.CreateCalcWinnerForPrimitiveMonteCalroV7(board),
 			e.IsBestUpdateForPrimitiveMonteCalroV7,
 			e.CreatePrintingOfInfoForPrimitiveMonteCalroV6(board),
 			printBoard)

@@ -153,7 +153,7 @@ func PlayComputerMoveLesson09a(
 			board,
 			color,
 			e.InitBestValueForPrimitiveMonteCalroV7,
-			e.CalcWinnerForPrimitiveMonteCalroV7,
+			e.CreateCalcWinnerForPrimitiveMonteCalroV7(board),
 			e.IsBestUpdateForPrimitiveMonteCalroV7,
 			printInfo,
 			printBoardDuringPlayout)

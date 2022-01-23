@@ -20,12 +20,22 @@ func InitBestValueForPrimitiveMonteCalroV7(color int) float64 {
 	return -100.0
 }
 
-func CalcWinnerForPrimitiveMonteCalroV6(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	return Playout(board, FlipColor(color), printBoard, getWinner)
+// CreateCalcWinnerForPrimitiveMonteCalroV6 - 盤を束縛変数として与えます
+func CreateCalcWinnerForPrimitiveMonteCalroV6(board IBoardV01) func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+	var calcWinner = func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+		return Playout(board, FlipColor(color), printBoard, getWinner)
+	}
+
+	return calcWinner
 }
 
-func CalcWinnerForPrimitiveMonteCalroV7(board IBoardV01, color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	return -Playout(board, FlipColor(color), printBoard, getWinner)
+// CreateCalcWinnerForPrimitiveMonteCalroV7 - 盤を束縛変数として与えます
+func CreateCalcWinnerForPrimitiveMonteCalroV7(board IBoardV01) func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+	var calcWinner = func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+		return -Playout(board, FlipColor(color), printBoard, getWinner)
+	}
+
+	return calcWinner
 }
 
 func IsBestUpdateForPrimitiveMonteCalroV6(color int, bestValue float64, winRate float64) bool {
@@ -61,7 +71,7 @@ func PrimitiveMonteCalro(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,
-	calcWinner func(board IBoardV01, turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
+	calcWinner func(turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
 	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printInfo func(color int, tryNum int, bestZ int, bestValue float64),
 	printBoard func(int, int, int, int)) int {
@@ -102,7 +112,7 @@ func PrimitiveMonteCalro(
 				koZCopy2 := KoZ
 
 				// 手番の勝ちが1、引分けが0、相手の勝ちが-1 としてください
-				var winner = calcWinner(board, FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
+				var winner = calcWinner(FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)
 
 				winSum += winner
 				KoZ = koZCopy2

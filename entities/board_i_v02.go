@@ -20,16 +20,14 @@ func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard fu
 
 	if fUCT != 0 {
 		z = GetBestZByUct(board, color, SearchUct, printBoard)
-
 	} else {
-		var printInfo = CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
 		z = PrimitiveMonteCalro(
 			board,
 			color,
 			InitBestValueForPrimitiveMonteCalroV7,
-			CalcWinnerForPrimitiveMonteCalroV7,
+			CreateCalcWinnerForPrimitiveMonteCalroV7(board),
 			IsBestUpdateForPrimitiveMonteCalroV7,
-			printInfo,
+			CreatePrintingOfInfoForPrimitiveMonteCalroIdling(),
 			printBoard)
 	}
 
