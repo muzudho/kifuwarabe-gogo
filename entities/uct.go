@@ -2,7 +2,17 @@ package entities
 
 import (
 	"fmt"
+	"math"
+	"math/rand"
 	"os"
+)
+
+// UCT
+const (
+	NodeMax   = 10000
+	NodeEmpty = -1
+	// Table index.
+	IllegalZ = -1
 )
 
 // GetBestZByUct - Lesson08,09,09aで使用。 一番良いUCTである着手を選びます。 GetComputerMoveLesson09 などから呼び出されます。
@@ -83,4 +93,35 @@ func SearchUct(
 	c.Games++
 	pN.ChildGameSum++
 	return winner
+}
+
+// 一番良い UCB を選びます。 SearchUct から呼び出されます。
+func selectBestUcb(nodeN int) int {
+	pN := &Nodes[nodeN]
+	selectI := -1
+	maxUcb := -999.0
+	ucb := 0.0
+	for i := 0; i < pN.ChildNum; i++ {
+		c := &pN.Children[i]
+		if c.Z == IllegalZ {
+			continue
+		}
+		if c.Games == 0 {
+			ucb = 10000.0 + 32768.0*rand.Float64()
+		} else {
+			ucb = c.Rate + 1.0*math.Sqrt(math.Log(float64(pN.ChildGameSum))/float64(c.Games))
+		}
+		if maxUcb < ucb {
+			maxUcb = ucb
+			selectI = i
+		}
+	}
+
+	// 異常終了
+	if selectI == -1 {
+		fmt.Printf("Err! select\n")
+		os.Exit(0)
+	}
+
+	return selectI
 }

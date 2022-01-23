@@ -2,17 +2,7 @@ package entities
 
 import (
 	"fmt"
-	"math"
-	"math/rand"
 	"os"
-)
-
-// UCT
-const (
-	NodeMax   = 10000
-	NodeEmpty = -1
-	// Table index.
-	IllegalZ = -1
 )
 
 // Child - 子。
@@ -71,32 +61,4 @@ func CreateNode(board IBoardV02) int {
 	addChild(pN, 0)
 	NodeNum++
 	return NodeNum - 1
-}
-
-// 一番良い UCB を選びます。 searchUctV8, searchUctLesson09 から呼び出されます。
-func selectBestUcb(nodeN int) int {
-	pN := &Nodes[nodeN]
-	selectI := -1
-	maxUcb := -999.0
-	ucb := 0.0
-	for i := 0; i < pN.ChildNum; i++ {
-		c := &pN.Children[i]
-		if c.Z == IllegalZ {
-			continue
-		}
-		if c.Games == 0 {
-			ucb = 10000.0 + 32768.0*rand.Float64()
-		} else {
-			ucb = c.Rate + 1.0*math.Sqrt(math.Log(float64(pN.ChildGameSum))/float64(c.Games))
-		}
-		if maxUcb < ucb {
-			maxUcb = ucb
-			selectI = i
-		}
-	}
-	if selectI == -1 {
-		fmt.Printf("Err! select\n")
-		os.Exit(0)
-	}
-	return selectI
 }
