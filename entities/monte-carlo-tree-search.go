@@ -55,8 +55,7 @@ func CreateNode(board IBoardV02) int {
 		}
 	}
 
-	var boardIterator = CreateBoardIterator(board)
-	boardIterator(onPoint)
+	board.IterateWithoutWall(onPoint)
 
 	addChild(pN, 0)
 	NodeNum++

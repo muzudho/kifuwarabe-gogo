@@ -6,12 +6,39 @@ import (
 
 // BoardV01 - 盤
 type BoardV01 struct {
-	data              []int
-	boardSize         int
-	sentinelWidth     int
-	sentinelBoardArea int
-	komi              float64
-	maxMoves          int
+	data                []int
+	boardSize           int
+	sentinelWidth       int
+	sentinelBoardArea   int
+	komi                float64
+	maxMoves            int
+	iteratorWithoutWall func(func(int))
+}
+
+// InitBoard - 盤の初期化。
+func (board *BoardV01) InitBoard() {
+	boardMax := board.SentinelBoardArea()
+	// G.Chat.Trace("# (^q^) boardMax=%d\n", boardMax)
+
+	// 枠線
+	for z := 0; z < boardMax; z++ {
+		board.SetColor(z, 3)
+	}
+
+	// G.Chat.Trace("# (^q^) 盤を 3 で埋めた☆\n")
+
+	// 盤上
+	var onPoint = func(z int) {
+		board.SetColor(z, 0)
+	}
+	board.iteratorWithoutWall(onPoint)
+
+	// G.Chat.Trace("# (^q^) 石は置いた☆\n")
+
+	MovesNum = 0
+	KoZ = 0
+
+	// G.Chat.Trace("# (^q^) 盤の初期化は終わったぜ☆\n")
 }
 
 // BoardSize - 何路盤か
@@ -146,29 +173,7 @@ func (board *BoardV01) TakeStone(z int, color int) {
 	}
 }
 
-// InitBoard - 盤の初期化。
-func (board *BoardV01) InitBoard() {
-	boardMax := board.SentinelBoardArea()
-	// G.Chat.Trace("# (^q^) boardMax=%d\n", boardMax)
-
-	// 枠線
-	for z := 0; z < boardMax; z++ {
-		board.SetColor(z, 3)
-	}
-
-	// G.Chat.Trace("# (^q^) 盤を 3 で埋めた☆\n")
-
-	// 盤上
-	var onPoint = func(z int) {
-		board.SetColor(z, 0)
-	}
-	var boardIterator = CreateBoardIterator(board)
-	boardIterator(onPoint)
-
-	// G.Chat.Trace("# (^q^) 石は置いた☆\n")
-
-	MovesNum = 0
-	KoZ = 0
-
-	// G.Chat.Trace("# (^q^) 盤の初期化は終わったぜ☆\n")
+// IterateWithoutWall - 盤イテレーター
+func (board BoardV01) IterateWithoutWall(onPoint func(int)) {
+	board.iteratorWithoutWall(onPoint)
 }

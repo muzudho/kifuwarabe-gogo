@@ -17,13 +17,12 @@ import (
 // Lesson09a - レッスン９a
 // GTP2NNGS に対応しているのでは？
 func Lesson09a() {
+	rand.Seed(time.Now().UnixNano())
 	code.G.Chat.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
-
-	rand.Seed(time.Now().UnixNano())
 	board.InitBoard()
 
 	// パラーメーター調整

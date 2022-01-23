@@ -7,6 +7,7 @@ type BoardV02 struct {
 }
 
 // NewBoard - 盤を作成します。
+// TODO BoardV01 の NewBoard を呼び出す方法がない？
 func NewBoard(data []int, boardSize int, sentinelBoardArea int, komi float64, maxMoves int) *BoardV02 {
 	board := new(BoardV02)
 	board.data = data
@@ -16,6 +17,7 @@ func NewBoard(data []int, boardSize int, sentinelBoardArea int, komi float64, ma
 	board.komi = komi
 	board.maxMoves = maxMoves
 	board.uctChildrenSize = boardSize*boardSize + 1
+	board.iteratorWithoutWall = CreateBoardIteratorWithoutWall(board)
 
 	checkBoard = make([]int, board.SentinelBoardArea())
 	Record = make([]IRecordItemV01, board.MaxMovesNum())

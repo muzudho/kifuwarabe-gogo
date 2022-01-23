@@ -85,8 +85,7 @@ func GetWinnerV05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 		}
 	}
 
-	var boardIterator = CreateBoardIterator(board)
-	boardIterator(onPoint)
+	board.IterateWithoutWall(onPoint)
 
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
@@ -126,8 +125,7 @@ func GetWinnerV06BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 		}
 	}
 
-	var boardIterator = CreateBoardIterator(board)
-	boardIterator(onPoint)
+	board.IterateWithoutWall(onPoint)
 
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
@@ -167,8 +165,7 @@ func GetWinnerV07SelfView(board IBoardV01, turnColor int) int {
 		}
 	}
 
-	var boardIterator = CreateBoardIterator(board)
-	boardIterator(onPoint)
+	board.IterateWithoutWall(onPoint)
 
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea

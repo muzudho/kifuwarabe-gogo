@@ -114,8 +114,7 @@ func PrimitiveMonteCalro(
 		}
 	}
 
-	var boardIterator = CreateBoardIterator(board)
-	boardIterator(onPoint)
+	board.IterateWithoutWall(onPoint)
 
 	// 復元
 	KoZ = copiedKoZ1

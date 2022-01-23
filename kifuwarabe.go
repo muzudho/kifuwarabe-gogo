@@ -14,6 +14,9 @@ import (
 // KifuwarabeV1 - きふわらべバージョン１。
 // NNGSへの接続を試みる。
 func KifuwarabeV1() {
+	rand.Seed(time.Now().UnixNano())
+	//e.G.Chat.Trace("# (^q^) ランダムの種を設定したぜ☆\n")
+
 	code.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
@@ -28,14 +31,8 @@ func KifuwarabeV1() {
 	*/
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
-
-	//e.G.Chat.Trace("# 盤を新規作成した☆（＾～＾）\n")
-
-	rand.Seed(time.Now().UnixNano())
-
-	//e.G.Chat.Trace("# (^q^) ランダムの種を設定したぜ☆\n")
-
 	board.InitBoard()
+	//e.G.Chat.Trace("# 盤を新規作成した☆（＾～＾）\n")
 
 	code.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
 

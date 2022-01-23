@@ -58,8 +58,7 @@ func Playout(
 			}
 		}
 
-		var boardIterator = CreateBoardIterator(board)
-		boardIterator(onPoint)
+		board.IterateWithoutWall(onPoint)
 
 		r = 0
 		for {

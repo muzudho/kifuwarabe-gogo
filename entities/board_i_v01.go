@@ -28,10 +28,12 @@ type IBoardV01 interface {
 	GetZFromXy(x int, y int) int
 	// GetZ4 - z（配列のインデックス）を XXYY形式へ変換します。
 	GetZ4(z int) int
+
+	IterateWithoutWall(func(int))
 }
 
-// CreateBoardIterator - 盤の（壁を除く）全ての交点に順にアクセスする boardIterator 関数を生成します
-func CreateBoardIterator(
+// CreateBoardIteratorWithoutWall - 盤の（壁を除く）全ての交点に順にアクセスする boardIterator 関数を生成します
+func CreateBoardIteratorWithoutWall(
 	board IBoardV01) func(func(int)) {
 
 	var boardSize = board.BoardSize()
