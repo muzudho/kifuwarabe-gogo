@@ -22,7 +22,7 @@ func PlayComputerMoveLesson09a(
 	st := time.Now()
 	e.AllPlayouts = 0
 	if fUCT != 0 {
-		z = e.GetBestUctLesson09a(board, color, printBoardDuringPlayout)
+		z = e.GetBestZByUctLesson09a(board, color, printBoardDuringPlayout)
 	} else {
 		var initBestValue = e.CreateInitBestValueForPrimitiveMonteCalroV7()
 		var calcWinner = e.CreateCalcWinnerForPrimitiveMonteCalroV7()
