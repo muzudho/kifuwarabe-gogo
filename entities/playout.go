@@ -5,29 +5,6 @@ import (
 	"math/rand"
 )
 
-// GettingOfWinnerForPlayoutEverDraw - Lesson04以前に使用。「常に引分け（0）を返す関数」を作成します。つまり勝者判定を行いません
-func GettingOfWinnerForPlayoutEverDraw(IBoardV01, int) int {
-	return 0
-}
-
-// GettingOfWinnerForPlayoutLesson05BlackSideView - Lesson05で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数」を作成します
-// * `colorIsNotUsed` - 使っていません
-func GettingOfWinnerForPlayoutLesson05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
-	return GetWinnerV05BlackSideView(board, colorIsNotUsed)
-}
-
-// GettingOfWinnerForPlayoutLesson06BlackSideView - Lesson06で使用。「黒勝ちなら1、引き分け、または白勝ちなら0を返す関数（黒側の視点）」を作成します
-// * `colorIsNotUsed` - 使っていません
-func GettingOfWinnerForPlayoutLesson06BlackSideView(board IBoardV01, colorIsNotUsed int) int {
-	return GetWinnerV06BlackSideView(board, colorIsNotUsed)
-}
-
-// GettingOfWinnerForPlayoutLesson07SelfView - 「手番の勝ちなら1、引き分けなら0、手番の負けなら-1を返す関数（自分視点）」を作成します
-// * `turnColor` - 手番の石の色
-func GettingOfWinnerForPlayoutLesson07SelfView(board IBoardV01, turnColor int) int {
-	return GetWinnerV07SelfView(board, turnColor)
-}
-
 // CreatePrintingOfBoardDuringPlayoutIdling - プレイアウト中の盤の描画（何も描画しません）
 func CreatePrintingOfBoardDuringPlayoutIdling() func(int, int, int, int) {
 	var printBoardDuringPlayout = func(trial int, z4 int, color int, emptyNum int) {
@@ -61,7 +38,7 @@ func Playout(
 	board IBoardV01,
 	turnColor int,
 	printBoardDuringPlayout func(int, int, int, int),
-	getWinner func(IBoardV01, int) int) int {
+	getWinner func(int) int) int {
 
 	AllPlayouts++
 
@@ -119,5 +96,5 @@ func Playout(
 		color = FlipColor(color)
 	}
 
-	return getWinner(board, turnColor)
+	return getWinner(turnColor)
 }

@@ -36,7 +36,7 @@ func Lesson08() {
 	for i := 0; i < 20; i++ {
 		e.AllPlayouts = 0
 
-		e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
+		e.GettingOfWinnerOnDuringUCTPlayout = e.WrapGettingOfWinnerForPlayoutLesson07SelfView(board)
 		z := e.GetBestZByUct(
 			board,
 			color,

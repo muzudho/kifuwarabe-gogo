@@ -21,8 +21,8 @@ func InitBestValueForPrimitiveMonteCalroV7(color int) float64 {
 }
 
 // CreateCalcWinnerForPrimitiveMonteCalroV6 - 盤を束縛変数として与えます
-func CreateCalcWinnerForPrimitiveMonteCalroV6(board IBoardV01) func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	var calcWinner = func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func CreateCalcWinnerForPrimitiveMonteCalroV6(board IBoardV01) func(int, func(int, int, int, int), func(int) int) int {
+	var calcWinner = func(color int, printBoard func(int, int, int, int), getWinner func(int) int) int {
 		return Playout(board, FlipColor(color), printBoard, getWinner)
 	}
 
@@ -30,8 +30,8 @@ func CreateCalcWinnerForPrimitiveMonteCalroV6(board IBoardV01) func(color int, p
 }
 
 // CreateCalcWinnerForPrimitiveMonteCalroV7 - 盤を束縛変数として与えます
-func CreateCalcWinnerForPrimitiveMonteCalroV7(board IBoardV01) func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
-	var calcWinner = func(color int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int {
+func CreateCalcWinnerForPrimitiveMonteCalroV7(board IBoardV01) func(int, func(int, int, int, int), func(int) int) int {
+	var calcWinner = func(color int, printBoard func(int, int, int, int), getWinner func(int) int) int {
 		return -Playout(board, FlipColor(color), printBoard, getWinner)
 	}
 
@@ -71,7 +71,7 @@ func PrimitiveMonteCalro(
 	board IBoardV01,
 	color int,
 	initBestValue func(int) float64,
-	calcWinner func(turnColor int, printBoard func(int, int, int, int), getWinner func(IBoardV01, int) int) int,
+	calcWinner func(turnColor int, printBoard func(int, int, int, int), getWinner func(int) int) int,
 	isBestUpdate func(color int, bestValue float64, winRate float64) bool,
 	printInfo func(color int, trialCount int, bestZ int, bestValue float64),
 	printBoard func(int, int, int, int)) int {

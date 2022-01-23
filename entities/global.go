@@ -45,4 +45,4 @@ var ExceptPutStoneOnPrimitiveMonteCalro func(int, int, int, int, int) int
 
 var ExceptPutStoneOnSearchUct func(int, int, int, int, int) int
 
-var GettingOfWinnerOnDuringUCTPlayout func(IBoardV01, int) int
+var GettingOfWinnerOnDuringUCTPlayout func(int) int

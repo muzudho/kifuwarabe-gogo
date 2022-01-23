@@ -37,7 +37,7 @@ func Lesson07() {
 	var color = 1
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
-		e.GettingOfWinnerOnDuringUCTPlayout = e.GettingOfWinnerForPlayoutLesson07SelfView
+		e.GettingOfWinnerOnDuringUCTPlayout = e.WrapGettingOfWinnerForPlayoutLesson07SelfView(board)
 		z := e.PrimitiveMonteCalro(
 			board,
 			color,
