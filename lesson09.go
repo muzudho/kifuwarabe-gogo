@@ -12,7 +12,7 @@ import (
 // Lesson09 - レッスン９ 自己対局
 func Lesson09() {
 	code.Console.Trace("# GoGo Lesson09 自己対局開始☆（＾～＾）\n")
-	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/lesson03_or_more_game_conf.toml", OnFatal)
 	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
 	var boardSize = board.BoardSize()

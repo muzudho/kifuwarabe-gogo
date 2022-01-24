@@ -10,7 +10,7 @@ import (
 // Lesson01 - レッスン１
 func Lesson01() {
 	code.Console.Trace("# GoGo Lesson01 プログラム開始☆（＾～＾）\n")
-	var config = cnf.LoadGameConf("input/example-v1.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/lesson01_game_conf.toml", OnFatal)
 
 	code.Console.Trace("# Config読んだ☆（＾～＾）\n")
 	code.Console.Trace("# Server=%s\n", config.Nngs.Server)

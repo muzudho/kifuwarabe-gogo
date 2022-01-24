@@ -13,7 +13,7 @@ import (
 // NNGSへの接続を試みる。
 func KifuwarabeV1() {
 	code.Console.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
-	var config = cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/telnet_game_conf.toml", OnFatal)
 
 	/*
 		code.Out.Trace("# Config読んだ☆（＾～＾）\n")

@@ -16,7 +16,7 @@ import (
 // GTP2NNGS に対応しているのでは？
 func Lesson09a() {
 	code.Console.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
-	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/lesson03_or_more_game_conf.toml", OnFatal)
 
 	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 	board.InitBoard()
