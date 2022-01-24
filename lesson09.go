@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
@@ -45,7 +47,7 @@ func SelfplayLesson09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 		}
 
 		e.GettingOfWinnerOnDuringUCTPlayout = e.WrapGettingOfWinnerForPlayoutLesson07SelfView(board)
-		var z = e.GetComputerMoveLesson09(board, color, fUCT, noPrintBoard)
+		var z = GetComputerMoveLesson09(board, color, fUCT, noPrintBoard)
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
@@ -79,4 +81,33 @@ func TestPlayoutLesson09(
 
 	printBoardOutOfPlayout(board, e.MovesNum)
 	p.PrintSgf(board, e.MovesNum, e.Record)
+}
+
+// GetComputerMoveLesson09 - コンピューターの指し手。 SelfplayLesson09 から呼び出されます
+func GetComputerMoveLesson09(board e.IBoardV02, color int, fUCT int, printBoard func(int, int, int, int)) int {
+
+	var z int
+	var start = time.Now()
+	e.AllPlayouts = 0
+
+	if fUCT != 0 {
+		z = e.GetBestZByUct(
+			board,
+			color,
+			e.WrapSearchUct(board, printBoard))
+	} else {
+		z = e.PrimitiveMonteCalro(
+			board,
+			color,
+			e.InitBestValueForPrimitiveMonteCalroV7,
+			e.CreateCalcWinnerForPrimitiveMonteCalroV7(board),
+			e.IsBestUpdateForPrimitiveMonteCalroV7,
+			e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling(),
+			printBoard)
+	}
+
+	var sec = time.Since(start).Seconds()
+	code.Console.Info("(GetComputerMoveLesson09) %.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
+		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.MovesNum, color, e.AllPlayouts, fUCT)
+	return z
 }
