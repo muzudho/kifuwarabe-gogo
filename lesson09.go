@@ -1,9 +1,6 @@
 package main
 
 import (
-	"math/rand"
-	"time"
-
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
@@ -13,50 +10,42 @@ import (
 // Lesson09 - レッスン９
 func Lesson09() {
 	code.Out.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
-	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
+	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
-
-	boardSize := board.BoardSize()
+	var boardSize = board.BoardSize()
 	if boardSize < 10 {
 		// 10路盤より小さいとき
 		e.PlayoutTrialCount = boardSize*boardSize + 200
+		e.PrimitiveMonteCalroTrialCount = 30
 	} else {
 		e.PlayoutTrialCount = boardSize * boardSize
+		e.PrimitiveMonteCalroTrialCount = 3
 	}
 
 	e.ExceptPutStoneOnSearchUct = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 	e.ExceptPutStoneOnPrimitiveMonteCalro = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 
-	rand.Seed(time.Now().UnixNano())
-
-	// TestPlayoutLesson09(board, p.PrintBoard, p.PrintBoard)
+	// TestPlayoutLesson09(board, p.PrintBoard)
 	SelfplayLesson09(board, p.PrintBoard)
 }
 
 // SelfplayLesson09 - コンピューター同士の対局。
 func SelfplayLesson09(board e.IBoardV02, printBoard func(e.IBoardV01, int)) {
 	var color = 1
-
-	var boardSize = board.BoardSize()
-	if boardSize < 10 {
-		// 10路盤より小さいとき
-		e.PrimitiveMonteCalroTrialCount = 30
-	} else {
-		e.PrimitiveMonteCalroTrialCount = 3
-	}
-
 	var noPrintBoard = e.CreatePrintingOfBoardDuringPlayoutIdling() // プレイアウト中は盤を描画しません
 
 	for {
-		fUCT := 1
+		var fUCT int
 		if color == 1 {
 			fUCT = 0
+		} else {
+			fUCT = 1
 		}
 
 		e.GettingOfWinnerOnDuringUCTPlayout = e.WrapGettingOfWinnerForPlayoutLesson07SelfView(board)
-		z := e.GetComputerMoveLesson09(board, color, fUCT, noPrintBoard)
+		var z = e.GetComputerMoveLesson09(board, color, fUCT, noPrintBoard)
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z

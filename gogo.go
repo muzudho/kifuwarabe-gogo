@@ -5,6 +5,8 @@ package main
 
 import (
 	"flag"
+	"math/rand"
+	"time"
 
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
@@ -13,6 +15,9 @@ import (
 func main() {
 	flag.Parse()
 	lessonVer := flag.Arg(0)
+
+	// 乱数の種を設定
+	rand.Seed(time.Now().UnixNano())
 
 	// ロガーの作成。
 	code.Log.SetPath(

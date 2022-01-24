@@ -1,9 +1,6 @@
 package main
 
 import (
-	"math/rand"
-	"time"
-
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
@@ -13,7 +10,6 @@ import (
 // Lesson06 - レッスン６
 func Lesson06() {
 	code.Out.Trace("# GoGo Lesson06 プログラム開始☆（＾～＾）\n")
-
 	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
 	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
@@ -36,7 +32,6 @@ func Lesson06() {
 	var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 
 	var color = 1
-	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 2; i++ {
 		e.GettingOfWinnerOnDuringUCTPlayout = e.WrapGettingOfWinnerForPlayoutLesson06BlackSideView(board)
 		z := e.PrimitiveMonteCalro(

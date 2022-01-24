@@ -56,10 +56,10 @@ var stoneLabels = [4]string{" .", " x", " o", " #"}
 // PrintBoard - 盤を描画。
 func PrintBoard(board e.IBoardV01, movesNum int) {
 
-	b := &strings.Builder{}
+	var b = &strings.Builder{}
 	b.Grow(sz8k)
 
-	boardSize := board.BoardSize()
+	var boardSize = board.BoardSize()
 
 	// Header
 	b.WriteString("\n   ")
@@ -98,5 +98,5 @@ func PrintBoard(board e.IBoardV01, movesNum int) {
 	}
 	b.WriteString("\n")
 
-	fmt.Fprintf(os.Stderr, b.String())
+	fmt.Fprint(os.Stderr, b.String())
 }

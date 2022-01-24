@@ -10,8 +10,7 @@ import (
 // Lesson01 - レッスン１
 func Lesson01() {
 	code.Out.Trace("# GoGo Lesson01 プログラム開始☆（＾～＾）\n")
-
-	config := cnf.LoadGameConf("input/example-v1.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/example-v1.gameConf.toml", OnFatal)
 
 	code.Out.Trace("# Config読んだ☆（＾～＾）\n")
 	code.Out.Trace("# Server=%s\n", config.Nngs.Server)
@@ -24,7 +23,7 @@ func Lesson01() {
 	code.Out.Trace("# BoardData=%s\n", config.Game.BoardData)
 	code.Out.Trace("# SentinelBoardArea()=%d\n", config.SentinelBoardArea())
 
-	board := e.NewBoard( // 盤生成
+	var board = e.NewBoard( // 盤生成
 		config.GetBoardArray(),     // 配列
 		config.BoardSize(),         // 盤サイズ
 		config.SentinelBoardArea(), // 番兵

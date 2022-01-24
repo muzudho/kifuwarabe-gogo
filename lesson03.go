@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
 
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
@@ -14,17 +12,15 @@ import (
 // Lesson03 - レッスン３
 func Lesson03() {
 	code.Out.Trace("# GoGo Lesson03 プログラム開始☆（＾～＾）\n")
+	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
-	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
-
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
+	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
 	var exceptPutStoneL03 = e.CreateExceptionForPutStoneLesson3(board)
 
-	color := 1
-	rand.Seed(time.Now().UnixNano())
+	var color = 1
 	for {
-		z := e.PlayOneMove(board, color, exceptPutStoneL03)
+		var z = e.PlayOneMove(board, color, exceptPutStoneL03)
 
 		fmt.Printf("movesNum=%4d, color=%d, z4=%04d\n", e.MovesNum, color, board.GetZ4(z))
 		p.PrintBoard(board, -1)

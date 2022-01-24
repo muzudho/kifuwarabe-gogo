@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"time"
 
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
@@ -14,12 +12,8 @@ import (
 // KifuwarabeV1 - きふわらべバージョン１。
 // NNGSへの接続を試みる。
 func KifuwarabeV1() {
-	rand.Seed(time.Now().UnixNano())
-	//code.Out.Trace("# (^q^) ランダムの種を設定したぜ☆\n")
-
 	code.Out.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
-
-	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
+	var config = cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
 
 	/*
 		code.Out.Trace("# Config読んだ☆（＾～＾）\n")
@@ -30,9 +24,9 @@ func KifuwarabeV1() {
 		code.Out.Trace("# SentinelBoardArea()=%d\n", config.SentinelBoardArea())
 	*/
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
+	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 	board.InitBoard()
-	//e.G.Chat.Trace("# 盤を新規作成した☆（＾～＾）\n")
+	// code.Out.Trace("# 盤を新規作成した☆（＾～＾）\n")
 
 	code.Out.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
 
@@ -40,7 +34,7 @@ func KifuwarabeV1() {
 	// connectionString := fmt.Sprintf("localhost:5555", config.Nngs.Server, config.Nngs.Port)
 
 	// "tcp" で合ってるよう。
-	nngsConn, err := telnet.Dial("tcp", "localhost:5555")
+	var nngsConn, err = telnet.Dial("tcp", "localhost:5555")
 	// nngsConn, err := telnet.Dial("udp", "localhost:5555")
 	// fail: nngsConn, err := telnet.Dial("ip4", "localhost:5555")
 	// fail: nngsConn, err := telnet.Dial("ip", "localhost:5555")

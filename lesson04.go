@@ -1,9 +1,6 @@
 package main
 
 import (
-	"math/rand"
-	"time"
-
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	cnf "github.com/muzudho/kifuwarabe-gogo/config_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
@@ -13,12 +10,11 @@ import (
 // Lesson04 - レッスン４
 func Lesson04() {
 	code.Out.Trace("# GoGo Lesson04 プログラム開始☆（＾～＾）\n")
+	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
-	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
+	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
-
-	boardSize := board.BoardSize()
+	var boardSize = board.BoardSize()
 	if boardSize < 10 {
 		// 10路盤より小さいとき
 		e.PlayoutTrialCount = boardSize*boardSize + 200
@@ -28,8 +24,7 @@ func Lesson04() {
 
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 
-	color := 1
-	rand.Seed(time.Now().UnixNano())
+	var color = 1
 
 	var printBoardDuringPlayout = e.CreatePrintingOfBoardDuringPlayout1(board, p.PrintBoard)
 	e.Playout(board, color, printBoardDuringPlayout, e.GettingOfWinnerForPlayoutEverDraw)

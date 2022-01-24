@@ -12,17 +12,16 @@ import (
 // Lesson02 - レッスン２
 func Lesson02() {
 	code.Out.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
+	var config = cnf.LoadGameConf("input/example-v2.gameConf.toml", OnFatal)
 
-	config := cnf.LoadGameConf("input/example-v2.gameConf.toml", OnFatal)
-
-	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
+	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 
 	p.PrintBoard(board, -1)
 
 	var exceptPutStoneL01 = e.CreateExceptionForPutStoneLesson1(board)
 	var z = board.GetZFromXy(7-1, 5-1)
 	var color = 2
-	err := e.PutStone(board, z, color, exceptPutStoneL01) // Lesson02
+	var err = e.PutStone(board, z, color, exceptPutStoneL01)
 	fmt.Printf("err=%d\n", err)
 
 	p.PrintBoard(board, -1)
