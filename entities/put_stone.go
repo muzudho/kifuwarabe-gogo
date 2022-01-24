@@ -1,8 +1,9 @@
 package entities
 
 import (
-	"fmt"
 	"os"
+
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 )
 
 // PutStoneOnRecord - Lesson08, Lesson09/Selfplay, Lesson09a から呼び出されます
@@ -12,7 +13,7 @@ func PutStoneOnRecord(board IBoardV01, z int, color int, recItem IRecordItemV01)
 	var err = PutStone(board, z, color, exceptPutStoneL04)
 
 	if err != 0 {
-		fmt.Fprintf(os.Stderr, "(PutStoneOnRecord) Err!\n")
+		code.Console.Print("(PutStoneOnRecord) Err!\n")
 		os.Exit(0)
 	}
 

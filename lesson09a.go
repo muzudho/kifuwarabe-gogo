@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -16,7 +15,7 @@ import (
 // Lesson09a - レッスン９a
 // GTP2NNGS に対応しているのでは？
 func Lesson09a() {
-	code.Out.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
+	code.Console.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
 	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
 	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
@@ -33,7 +32,7 @@ func Lesson09a() {
 
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 
-	code.Out.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
+	code.Console.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
 	// GUI から 囲碁エンジン へ入力があった、と考えてください
 	var scanner = bufio.NewScanner(os.Stdin)
@@ -52,34 +51,34 @@ func Lesson09a() {
 				e.PlayoutTrialCount = boardSize * boardSize
 			}
 
-			code.Out.Print("= \n\n")
+			code.Gtp.Print("= \n\n")
 
 		case "clear_board":
 			board.InitBoard()
-			code.Out.Print("= \n\n")
+			code.Gtp.Print("= \n\n")
 
 		case "quit":
 			os.Exit(0)
 
 		case "protocol_version":
-			code.Out.Print("= 2\n\n")
+			code.Gtp.Print("= 2\n\n")
 
 		case "name":
-			code.Out.Print("= GoGo\n\n")
+			code.Gtp.Print("= GoGo\n\n")
 
 		case "version":
-			code.Out.Print("= 0.0.1\n\n")
+			code.Gtp.Print("= 0.0.1\n\n")
 
 		case "list_commands":
-			code.Out.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
+			code.Gtp.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
 				"name\nversion\nlist_commands\nkomi\ngenmove\nplay\n\n")
 
 		case "komi":
-			code.Out.Print("= 6.5\n\n")
+			code.Gtp.Print("= 6.5\n\n")
 
 		case "undo":
 			// TODO UndoV09()
-			code.Out.Print("= \n\n")
+			code.Gtp.Print("= \n\n")
 
 		// genmove b
 		case "genmove":
@@ -91,7 +90,7 @@ func Lesson09a() {
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 			var z = PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
-			code.Out.Print("= %s\n\n", p.GetCharZ(board, z))
+			code.Gtp.Print("= %s\n\n", p.GetCharZ(board, z))
 
 		// play b a3
 		// play w d4
@@ -113,14 +112,14 @@ func Lesson09a() {
 
 			if 2 < len(tokens) {
 				var ax = strings.ToLower(tokens[2])
-				fmt.Fprintf(os.Stderr, "ax=%s\n", ax)
+				code.Console.Print("ax=%s\n", ax)
 				var x = ax[0] - 'a' + 1
 				if ax[0] >= 'i' {
 					x--
 				}
 				var y = int(ax[1] - '0')
 				var z = board.GetZFromXy(int(x)-1, board.BoardSize()-y)
-				fmt.Fprintf(os.Stderr, "x=%d y=%d z=%04d\n", x, y, board.GetZ4(z))
+				code.Console.Print("x=%d y=%d z=%04d\n", x, y, board.GetZ4(z))
 				if ax == "pass" {
 					z = 0
 				}
@@ -131,10 +130,10 @@ func Lesson09a() {
 				e.PutStoneOnRecord(board, z, color, recItem)
 				p.PrintBoard(board, e.MovesNum)
 
-				code.Out.Print("= \n\n")
+				code.Gtp.Print("= \n\n")
 			}
 		default:
-			code.Out.Print("? unknown_command\n\n")
+			code.Gtp.Print("? unknown_command\n\n")
 		}
 	}
 }
@@ -180,7 +179,7 @@ func PlayComputerMoveLesson09a(
 			printBoardDuringPlayout)
 	}
 	var sec = time.Since(st).Seconds()
-	fmt.Fprintf(os.Stderr, "%.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
+	code.Console.Print("%.1f sec, %.0f playout/sec, play_z=%04d,movesNum=%d,color=%d,playouts=%d,fUCT=%d\n",
 		sec, float64(e.AllPlayouts)/sec, board.GetZ4(z), e.MovesNum, color, e.AllPlayouts, fUCT)
 
 	var recItem = new(e.RecordItemV02)

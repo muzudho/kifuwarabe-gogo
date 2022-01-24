@@ -9,7 +9,7 @@ import (
 
 // Lesson09 - レッスン９
 func Lesson09() {
-	code.Out.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
+	code.Console.Trace("# GoGo Lesson09 プログラム開始☆（＾～＾）\n")
 	var config = cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 

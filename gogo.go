@@ -30,8 +30,7 @@ func main() {
 		"output/fatal.log",
 		"output/print.log")
 
-	// 標準出力への表示と、ログへの書き込みを同時に行います。
-	code.Out.Trace("Author: %s\n", e.Author)
+	code.Console.Trace("Author: %s\n", e.Author)
 
 	if lessonVer == "Lesson01" {
 		Lesson01()
@@ -60,5 +59,5 @@ func main() {
 }
 
 func OnFatal(errorMessage string) {
-	code.Out.Fatal(errorMessage)
+	code.Console.Fatal(errorMessage)
 }

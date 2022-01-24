@@ -5,6 +5,8 @@ import (
 	"math"
 	"math/rand"
 	"os"
+
+	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 )
 
 // UCT
@@ -48,12 +50,12 @@ func GetBestZByUct(
 			bestI = i
 			max = c.Games
 		}
-		fmt.Fprintf(os.Stderr, "(UCT Calculating...) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
+		code.Console.Print("(UCT Calculating...) %2d:z=%04d,rate=%.4f,games=%3d\n", i, board.GetZ4(c.Z), c.Rate, c.Games)
 	}
 
 	// 結果
 	var bestZ = pN.Children[bestI].Z
-	fmt.Fprintf(os.Stderr, "(UCT Calculated    ) bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
+	code.Console.Print("(UCT Calculated    ) bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
 }

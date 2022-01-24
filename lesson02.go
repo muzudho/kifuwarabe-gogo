@@ -11,7 +11,7 @@ import (
 
 // Lesson02 - レッスン２
 func Lesson02() {
-	code.Out.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
+	code.Console.Trace("# GoGo Lesson02 プログラム開始☆（＾～＾）\n")
 	var config = cnf.LoadGameConf("input/example-v2.gameConf.toml", OnFatal)
 
 	var board = e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
