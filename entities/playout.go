@@ -42,9 +42,9 @@ func Playout(
 
 	AllPlayouts++
 
-	color := turnColor
-	previousZ := 0
-	boardMax := board.SentinelBoardArea()
+	var color = turnColor
+	var previousZ = 0
+	var boardMax = board.SentinelBoardArea()
 
 	var playoutTrialCount = PlayoutTrialCount
 	for trial := 0; trial < playoutTrialCount; trial++ {

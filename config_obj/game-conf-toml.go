@@ -34,13 +34,13 @@ type Game struct {
 // GetBoardArray - 盤上の石の色の配列
 func (config Config) GetBoardArray() []int {
 	// 最後のカンマを削除しないと、要素数が 1 多くなってしまいます
-	s := strings.TrimRight(config.Game.BoardData, ",")
+	var s = strings.TrimRight(config.Game.BoardData, ",")
 	// fmt.Println("s=", s)
-	nodes := strings.Split(s, ",")
-	array := make([]int, len(nodes))
+	var nodes = strings.Split(s, ",")
+	var array = make([]int, len(nodes))
 	for i, s := range nodes {
-		s := strings.Trim(s, " ")
-		color, _ := strconv.Atoi(s)
+		var s = strings.Trim(s, " ")
+		var color, _ = strconv.Atoi(s)
 		// fmt.Println("strconv.Atoi(", s, ")=", color)
 		array[i] = color
 	}
@@ -58,7 +58,7 @@ func (config Config) BoardSize() int {
 // SentinelBoardArea - 枠付きの盤上の交点の数
 func (config Config) SentinelBoardArea() int {
 	// Width - 枠込み。
-	Width := int(config.Game.BoardSize) + 2
+	var Width = int(config.Game.BoardSize) + 2
 	// BoardMax - 枠込み盤の配列サイズ
 	return Width * Width
 }
@@ -79,7 +79,7 @@ func LoadGameConf(
 	onFatal func(string)) Config {
 
 	// ファイル読込
-	fileData, err := ioutil.ReadFile(path)
+	var fileData, err = ioutil.ReadFile(path)
 	if err != nil {
 		onFatal(fmt.Sprintf("path=%s", path))
 		// e.G.Chat.Fatal("path=%s", path)
@@ -107,8 +107,8 @@ func LoadGameConf(
 	*/
 
 	// Toml解析
-	binary := []byte(string(fileData))
-	config := Config{}
+	var binary = []byte(string(fileData))
+	var config = Config{}
 	toml.Unmarshal(binary, &config)
 	/*
 		fmt.Println("Komi=", config.Game.Komi)

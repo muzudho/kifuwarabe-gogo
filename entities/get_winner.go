@@ -68,7 +68,7 @@ func GetWinnerV05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 	var score, blackArea, whiteArea, blackSum, whiteSum int
 
 	var onPoint = func(z int) {
-		color2 := board.ColorAt(z)
+		var color2 = board.ColorAt(z)
 		kind[color2]++
 		if color2 == 0 {
 			mk[1] = 0
@@ -90,7 +90,7 @@ func GetWinnerV05BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
-	win := 0
+	var win = 0
 	if 0 < float64(score)-board.Komi() { // float32 → float64
 		win = 1
 	}
@@ -130,7 +130,7 @@ func GetWinnerV06BlackSideView(board IBoardV01, colorIsNotUsed int) int {
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
-	win := 0
+	var win = 0
 	if 0 < float64(score)-board.Komi() { // float32 → float64
 		win = 1
 	}
@@ -148,7 +148,7 @@ func GetWinnerV07SelfView(board IBoardV01, turnColor int) int {
 	var score, blackArea, whiteArea, blackSum, whiteSum int
 
 	var onPoint = func(z int) {
-		color2 := board.ColorAt(z)
+		var color2 = board.ColorAt(z)
 		kind[color2]++
 		if color2 == 0 {
 			mk[1] = 0
@@ -170,7 +170,7 @@ func GetWinnerV07SelfView(board IBoardV01, turnColor int) int {
 	blackSum = kind[1] + blackArea
 	whiteSum = kind[2] + whiteArea
 	score = blackSum - whiteSum
-	win := 0
+	var win = 0
 	if 0 < float64(score)-board.Komi() {
 		win = 1
 	}

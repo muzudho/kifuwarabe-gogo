@@ -29,7 +29,7 @@ var NodeNum = 0
 
 // CreateNode から呼び出されます。
 func addChild(pN *Node, z int) {
-	n := pN.ChildNum
+	var n = pN.ChildNum
 	pN.Children[n].Z = z
 	pN.Children[n].Games = 0
 	pN.Children[n].Rate = 0.0
@@ -44,7 +44,7 @@ func CreateNode(board IBoardV02) int {
 		fmt.Printf("node over Err\n")
 		os.Exit(0)
 	}
-	pN := &Nodes[NodeNum]
+	var pN = &Nodes[NodeNum]
 	pN.ChildNum = 0
 	pN.Children = make([]Child, board.UctChildrenSize())
 	pN.ChildGameSum = 0

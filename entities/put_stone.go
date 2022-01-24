@@ -114,8 +114,8 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 		around[dir][0] = 0
 		around[dir][1] = 0
 		around[dir][2] = 0
-		z2 := z + Dir4[dir]
-		color2 := board.ColorAt(z2)
+		var z2 = z + Dir4[dir]
+		var color2 = board.ColorAt(z2)
 		if color2 == 0 {
 			space++
 		}
@@ -146,15 +146,14 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 	}
 
 	for dir := 0; dir < 4; dir++ {
-		lib := around[dir][0]
-		color2 := around[dir][2]
+		var lib = around[dir][0]
+		var color2 = around[dir][2]
 		if color2 == unCol && lib == 1 && board.Exists(z+Dir4[dir]) {
 			board.TakeStone(z+Dir4[dir], unCol)
 		}
 	}
 
 	board.SetColor(z, color)
-
 	board.CountLiberty(z, &liberty, &stone)
 
 	if captureSum == 1 && stone == 1 && liberty == 1 {
@@ -162,14 +161,15 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 	} else {
 		KoZ = 0
 	}
+
 	return 0
 }
 
 // PlayOneMove - Lesson03で使用。置けるとこに置く
 func PlayOneMove(board IBoardV01, color int, exceptPutStoneL03 func(int, int, int, int, int) int) int {
 	for i := 0; i < 100; i++ {
-		z := board.GetEmptyZ()
-		err := PutStone(board, z, color, exceptPutStoneL03)
+		var z = board.GetEmptyZ()
+		var err = PutStone(board, z, color, exceptPutStoneL03)
 		if err == 0 {
 			return z
 		}

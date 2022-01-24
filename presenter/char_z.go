@@ -12,11 +12,11 @@ func GetCharZ(board e.IBoardV01, z int) string {
 		return "pass"
 	}
 
-	boardSize := board.BoardSize()
+	var boardSize = board.BoardSize()
 
-	y := z / board.SentinelWidth()
-	x := z - y*board.SentinelWidth()
-	ax := 'A' + x - 1
+	var y = z / board.SentinelWidth()
+	var x = z - y*board.SentinelWidth()
+	var ax = 'A' + x - 1
 	if ax >= 'I' {
 		ax++
 	}

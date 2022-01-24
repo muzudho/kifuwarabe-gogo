@@ -91,10 +91,10 @@ func PrimitiveMonteCalro(
 			var err = PutStone(board, z, color, ExceptPutStoneOnPrimitiveMonteCalro)
 
 			if err == 0 {
-				winSum := 0
+				var winSum = 0
 				for i := 0; i < PrimitiveMonteCalroTrialCount; i++ {
 					var boardCopy2 = board.CopyData()
-					koZCopy2 := KoZ
+					var koZCopy2 = KoZ
 
 					// 手番の勝ちが1、引分けが0、相手の勝ちが-1 としてください
 					var winner = calcWinner(FlipColor(color), printBoard, GettingOfWinnerOnDuringUCTPlayout)

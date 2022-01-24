@@ -24,7 +24,7 @@ func GetBestZByUct(
 
 	// UCT計算フェーズ
 	NodeNum = 0 // カウンターリセット
-	next := CreateNode(board)
+	var next = CreateNode(board)
 	var uctLoopCount = UctLoopCount
 	for i := 0; i < uctLoopCount; i++ {
 		// 一時記憶
@@ -41,9 +41,9 @@ func GetBestZByUct(
 	// ベスト値検索フェーズ
 	var bestI = -1
 	var max = -999
-	pN := &Nodes[next]
+	var pN = &Nodes[next]
 	for i := 0; i < pN.ChildNum; i++ {
-		c := &pN.Children[i]
+		var c = &pN.Children[i]
 		if c.Games > max {
 			bestI = i
 			max = c.Games
@@ -52,7 +52,7 @@ func GetBestZByUct(
 	}
 
 	// 結果
-	bestZ := pN.Children[bestI].Z
+	var bestZ = pN.Children[bestI].Z
 	fmt.Fprintf(os.Stderr, "(UCT Calculated    ) bestZ=%04d,rate=%.4f,games=%d,playouts=%d,nodes=%d\n",
 		board.GetZ4(bestZ), pN.Children[bestI].Rate, max, AllPlayouts, NodeNum)
 	return bestZ
@@ -74,13 +74,13 @@ func SearchUct(
 	nodeN int,
 	printBoard func(int, int, int, int)) int {
 
-	pN := &Nodes[nodeN]
+	var pN = &Nodes[nodeN]
 	var c *Child
 
 	for {
-		selectI := selectBestUcb(nodeN)
+		var selectI = selectBestUcb(nodeN)
 		c = &pN.Children[selectI]
-		z := c.Z
+		var z = c.Z
 
 		var err = PutStone(board, z, color, ExceptPutStoneOnSearchUct) // Lesson08 や Lesson09
 
@@ -108,12 +108,12 @@ func SearchUct(
 
 // 一番良い UCB を選びます。 SearchUct から呼び出されます。
 func selectBestUcb(nodeN int) int {
-	pN := &Nodes[nodeN]
-	selectI := -1
-	maxUcb := -999.0
-	ucb := 0.0
+	var pN = &Nodes[nodeN]
+	var selectI = -1
+	var maxUcb = -999.0
+	var ucb = 0.0
 	for i := 0; i < pN.ChildNum; i++ {
-		c := &pN.Children[i]
+		var c = &pN.Children[i]
 		if c.Z == IllegalZ {
 			continue
 		}
