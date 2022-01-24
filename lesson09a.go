@@ -92,7 +92,7 @@ func Lesson09a() {
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 			var z = PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
-			code.Gtp.Print("= %s\n\n", p.GetCharZ(board, z))
+			code.Gtp.Print("= %s\n\n", p.GetGtpZ(board, z))
 
 		// play b a3
 		// play w d4
