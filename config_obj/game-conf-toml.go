@@ -97,13 +97,13 @@ func LoadGameConf(
 		fmt.Println("Success.")
 
 		komi := tomlTree.Get("Game.Komi").(float64)
-		fmt.Printf("komi=%f\n", komi)
+		code.Console.Debug("komi=%f\n", komi)
 
 		boardSize := tomlTree.Get("Game.BoardSize").(int64)
-		fmt.Printf("boardSize=%d\n", boardSize)
+		code.Console.Debug("boardSize=%d\n", boardSize)
 
 		maxMoves := tomlTree.Get("Game.MaxMovesNum").(int64)
-		fmt.Printf("maxMoves=%d\n", maxMoves)
+		code.Console.Debug("maxMoves=%d\n", maxMoves)
 	*/
 
 	// Toml解析

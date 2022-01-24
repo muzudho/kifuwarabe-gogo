@@ -60,7 +60,7 @@ func KifuwarabeV1() {
 	if err != nil {
 		panic(fmt.Sprintf("Failed to read string. %s", err))
 	}
-	fmt.Printf("str=%s", str)
+	code.Console.Trace("str=%s", str)
 
 	/*
 		// scanner - 標準入力を監視します。
