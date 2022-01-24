@@ -20,8 +20,7 @@ const (
 func GetBestZByUct(
 	board IBoardV02,
 	color int,
-	searchUct func(int, int) int,
-	printBoard func(int, int, int, int)) int {
+	searchUct func(int, int) int) int {
 
 	// UCT計算フェーズ
 	NodeNum = 0 // カウンターリセット

@@ -24,8 +24,7 @@ func GetComputerMoveLesson09(board IBoardV02, color int, fUCT int, printBoard fu
 		z = GetBestZByUct(
 			board,
 			color,
-			WrapSearchUct(board, printBoard),
-			printBoard)
+			WrapSearchUct(board, printBoard))
 	} else {
 		z = PrimitiveMonteCalro(
 			board,

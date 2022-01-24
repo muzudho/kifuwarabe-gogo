@@ -165,8 +165,7 @@ func PlayComputerMoveLesson09a(
 		z = e.GetBestZByUct(
 			board,
 			color,
-			e.WrapSearchUct(board, printBoardDuringPlayout),
-			printBoardDuringPlayout)
+			e.WrapSearchUct(board, printBoardDuringPlayout))
 	} else {
 		var printInfo = e.CreatePrintingOfInfoForPrimitiveMonteCalroIdling()
 		z = e.PrimitiveMonteCalro(

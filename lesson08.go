@@ -34,8 +34,7 @@ func Lesson08() {
 		var z = e.GetBestZByUct(
 			board,
 			color,
-			e.WrapSearchUct(board, printBoard),
-			printBoard)
+			e.WrapSearchUct(board, printBoard))
 
 		var recItem = new(e.RecordItemV01)
 		recItem.Z = z
