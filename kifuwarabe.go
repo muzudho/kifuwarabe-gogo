@@ -15,26 +15,26 @@ import (
 // NNGSへの接続を試みる。
 func KifuwarabeV1() {
 	rand.Seed(time.Now().UnixNano())
-	//e.G.Chat.Trace("# (^q^) ランダムの種を設定したぜ☆\n")
+	//code.Out.Trace("# (^q^) ランダムの種を設定したぜ☆\n")
 
-	code.G.Chat.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
+	code.Out.Trace("# きふわらべv1プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/kifuwarabe-v1.gameConf.toml", OnFatal)
 
 	/*
-		e.G.Chat.Trace("# Config読んだ☆（＾～＾）\n")
-		e.G.Chat.Trace("# Komi=%f\n", config.Game.Komi)
-		e.G.Chat.Trace("# BoardSize=%d\n", config.Game.BoardSize)
-		e.G.Chat.Trace("# MaxMovesNum=%d\n", config.Game.MaxMovesNum)
-		e.G.Chat.Trace("# BoardData=%s\n", config.Game.BoardData)
-		e.G.Chat.Trace("# SentinelBoardArea()=%d\n", config.SentinelBoardArea())
+		code.Out.Trace("# Config読んだ☆（＾～＾）\n")
+		code.Out.Trace("# Komi=%f\n", config.Game.Komi)
+		code.Out.Trace("# BoardSize=%d\n", config.Game.BoardSize)
+		code.Out.Trace("# MaxMovesNum=%d\n", config.Game.MaxMovesNum)
+		code.Out.Trace("# BoardData=%s\n", config.Game.BoardData)
+		code.Out.Trace("# SentinelBoardArea()=%d\n", config.SentinelBoardArea())
 	*/
 
 	board := e.NewBoard(config.GetBoardArray(), config.BoardSize(), config.SentinelBoardArea(), config.Komi(), config.MaxMovesNum())
 	board.InitBoard()
 	//e.G.Chat.Trace("# 盤を新規作成した☆（＾～＾）\n")
 
-	code.G.Chat.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
+	code.Out.Trace("# NNGSへの接続を試みるぜ☆（＾～＾） server=%s port=%d\n", config.Nngs.Server, config.Nngs.Port)
 
 	// connectionString := fmt.Sprintf("%s:%d", config.Nngs.Server, config.Nngs.Port)
 	// connectionString := fmt.Sprintf("localhost:5555", config.Nngs.Server, config.Nngs.Port)
@@ -49,20 +49,20 @@ func KifuwarabeV1() {
 		panic(fmt.Sprintf("Failed to connect. %s", err))
 	}
 	defer nngsConn.Close()
-	code.G.Chat.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
+	code.Out.Trace("# NNGSへ接続でけた☆（＾～＾）\n")
 
-	code.G.Chat.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
+	code.Out.Trace("# NNGSへユーザー名 %s を送ったろ……☆（＾～＾）\n", config.Nngs.User)
 
 	nngsConn.Write([]byte(fmt.Sprintf("%s\n", config.Nngs.User)))
 
-	code.G.Chat.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
+	code.Out.Trace("# NNGSからの返信を待と……☆（＾～＾）\n")
 
 	// nngsConnBuf := bufio.NewReader(nngsConn)
 	// str, err := nngsConnBuf.ReadString('\n')
 
 	// str, err := nngsConn.ReadUntil("\n")
 	str, err := nngsConn.ReadString('\n')
-	code.G.Chat.Trace("# どうか☆（＾～＾）\n")
+	code.Out.Trace("# どうか☆（＾～＾）\n")
 	if err != nil {
 		panic(fmt.Sprintf("Failed to read string. %s", err))
 	}
@@ -79,5 +79,5 @@ func KifuwarabeV1() {
 		}
 	*/
 
-	code.G.Chat.Trace("# NNGSへの接続終わった☆（＾～＾）\n")
+	code.Out.Trace("# NNGSへの接続終わった☆（＾～＾）\n")
 }

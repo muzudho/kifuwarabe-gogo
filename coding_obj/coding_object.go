@@ -1,12 +1,7 @@
 package coding_obj
 
-// GlobalVariables - グローバル変数。
-type GlobalVariables struct {
-	// Log - ロガー。
-	Log Logger
-	// Chat - チャッター。 標準出力とロガーを一緒にしただけです。
-	Chat Chatter
-}
+// Log - ロガー
+var Log Logger = *new(Logger)
 
-// G - グローバル変数。思い切った名前。
-var G GlobalVariables
+// Out - 標準出力とログを一緒にしたもの
+var Out StdoutLogWriter = *NewStdoutLogWriter(&Log)

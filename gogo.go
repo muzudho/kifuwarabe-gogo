@@ -14,11 +14,8 @@ func main() {
 	flag.Parse()
 	lessonVer := flag.Arg(0)
 
-	// グローバル変数の作成
-	code.G = *new(code.GlobalVariables)
-
 	// ロガーの作成。
-	code.G.Log = *code.NewLogger(
+	code.Log.SetPath(
 		"output/trace.log",
 		"output/debug.log",
 		"output/info.log",
@@ -28,11 +25,8 @@ func main() {
 		"output/fatal.log",
 		"output/print.log")
 
-	// チャッターの作成。 標準出力とロガーを一緒にしただけです。
-	code.G.Chat = *code.NewChatter(code.G.Log)
-
 	// 標準出力への表示と、ログへの書き込みを同時に行います。
-	code.G.Chat.Trace("Author: %s\n", e.Author)
+	code.Out.Trace("Author: %s\n", e.Author)
 
 	if lessonVer == "Lesson01" {
 		Lesson01()
@@ -61,5 +55,5 @@ func main() {
 }
 
 func OnFatal(errorMessage string) {
-	code.G.Chat.Fatal(errorMessage)
+	code.Out.Fatal(errorMessage)
 }

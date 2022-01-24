@@ -12,7 +12,7 @@ import (
 
 // Lesson08 - レッスン８ UCT計算
 func Lesson08() {
-	code.G.Chat.Trace("# GoGo Lesson08 UCT計算開始☆（＾～＾）\n")
+	code.Out.Trace("# GoGo Lesson08 UCT計算開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 

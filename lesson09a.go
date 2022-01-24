@@ -18,7 +18,7 @@ import (
 // GTP2NNGS に対応しているのでは？
 func Lesson09a() {
 	rand.Seed(time.Now().UnixNano())
-	code.G.Chat.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
+	code.Out.Trace("# GoGo Lesson09a プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
@@ -36,7 +36,7 @@ func Lesson09a() {
 
 	e.ExceptPutStoneDuringPlayout = e.CreateExceptionForPutStoneLesson4(board, e.FillEyeErr)
 
-	code.G.Chat.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
+	code.Out.Trace("何か標準入力しろだぜ☆（＾～＾）\n")
 
 	// GUI から 囲碁エンジン へ入力があった、と考えてください
 	scanner := bufio.NewScanner(os.Stdin)
@@ -56,26 +56,26 @@ func Lesson09a() {
 				e.PlayoutTrialCount = boardSize * boardSize
 			}
 
-			code.G.Chat.Print("= \n\n")
+			code.Out.Print("= \n\n")
 		case "clear_board":
 			board.InitBoard()
-			code.G.Chat.Print("= \n\n")
+			code.Out.Print("= \n\n")
 		case "quit":
 			os.Exit(0)
 		case "protocol_version":
-			code.G.Chat.Print("= 2\n\n")
+			code.Out.Print("= 2\n\n")
 		case "name":
-			code.G.Chat.Print("= GoGo\n\n")
+			code.Out.Print("= GoGo\n\n")
 		case "version":
-			code.G.Chat.Print("= 0.0.1\n\n")
+			code.Out.Print("= 0.0.1\n\n")
 		case "list_commands":
-			code.G.Chat.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
+			code.Out.Print("= boardsize\nclear_board\nquit\nprotocol_version\nundo\n" +
 				"name\nversion\nlist_commands\nkomi\ngenmove\nplay\n\n")
 		case "komi":
-			code.G.Chat.Print("= 6.5\n\n")
+			code.Out.Print("= 6.5\n\n")
 		case "undo":
 			// TODO UndoV09()
-			code.G.Chat.Print("= \n\n")
+			code.Out.Print("= \n\n")
 		// 19路盤だと、すごい長い時間かかる。
 		// genmove b
 		case "genmove":
@@ -85,7 +85,7 @@ func Lesson09a() {
 			}
 			var printBoard = e.CreatePrintingOfBoardDuringPlayoutIdling()
 			z := PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
-			code.G.Chat.Print("= %s\n\n", p.GetCharZ(board, z))
+			code.Out.Print("= %s\n\n", p.GetCharZ(board, z))
 		// play b a3
 		// play w d4
 		// play b d5
@@ -122,10 +122,10 @@ func Lesson09a() {
 				e.PutStoneOnRecord(board, z, color, recItem)
 				p.PrintBoard(board, e.MovesNum)
 
-				code.G.Chat.Print("= \n\n")
+				code.Out.Print("= \n\n")
 			}
 		default:
-			code.G.Chat.Print("? unknown_command\n\n")
+			code.Out.Print("? unknown_command\n\n")
 		}
 	}
 }

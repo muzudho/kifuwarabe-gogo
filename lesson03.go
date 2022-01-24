@@ -13,7 +13,7 @@ import (
 
 // Lesson03 - レッスン３
 func Lesson03() {
-	code.G.Chat.Trace("# GoGo Lesson03 プログラム開始☆（＾～＾）\n")
+	code.Out.Trace("# GoGo Lesson03 プログラム開始☆（＾～＾）\n")
 
 	config := cnf.LoadGameConf("input/example-v3.gameConf.toml", OnFatal)
 
