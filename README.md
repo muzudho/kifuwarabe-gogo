@@ -105,10 +105,10 @@ kifuwarabe-gogo Lesson09a
 Input: (Example)  
 
 ```shell
-genmove b
+genmove black
 # 少し時間がかかります
 
-genmove w
+genmove white
 # 少し時間がかかります
 
 quit
