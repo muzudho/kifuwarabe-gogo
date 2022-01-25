@@ -82,8 +82,8 @@ func Lesson09a() {
 			// TODO UndoV09()
 			code.Gtp.Print("= \n\n")
 
-		// genmove b
 		case "genmove":
+			// genmove b
 			var color int
 			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
 				color = 2
@@ -94,25 +94,25 @@ func Lesson09a() {
 			var z = PlayComputerMoveLesson09a(board, color, 1, printBoard, p.PrintBoard)
 			code.Gtp.Print("= %s\n\n", p.GetGtpZ(board, z))
 
-		// play b a3
-		// play w d4
-		// play b d5
-		// play w e5
-		// play b e4
-		// play w d6
-		// play b f5
-		// play w c5
-		// play b pass
-		// play w pass
 		case "play":
-			var color = 1
-			if 1 < len(tokens) && strings.ToLower(tokens[1]) == "w" {
-				color = 2
-			} else {
-				color = 1
-			}
-
+			// play black A3
+			// play white D4
+			// play black D5
+			// play white E5
+			// play black E4
+			// play white D6
+			// play black F5
+			// play white C5
+			// play black pass
+			// play white pass
 			if 2 < len(tokens) {
+				var color int
+				if strings.ToLower(tokens[1][0:1]) == "w" {
+					color = 2
+				} else {
+					color = 1
+				}
+
 				var z = p.GetZFromGtp(board, tokens[2])
 				var recItem = new(e.RecordItemV02)
 				recItem.Z = z
@@ -122,6 +122,7 @@ func Lesson09a() {
 
 				code.Gtp.Print("= \n\n")
 			}
+
 		default:
 			code.Gtp.Print("? unknown_command\n\n")
 		}
