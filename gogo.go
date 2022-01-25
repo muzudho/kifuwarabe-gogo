@@ -10,6 +10,7 @@ import (
 
 	code "github.com/muzudho/kifuwarabe-gogo/coding_obj"
 	e "github.com/muzudho/kifuwarabe-gogo/entities"
+	t "github.com/muzudho/kifuwarabe-gogo/test"
 )
 
 func main() {
@@ -53,6 +54,8 @@ func main() {
 		Lesson09()
 	} else if lessonVer == "Lesson09a" {
 		Lesson09a() // GTP
+	} else if lessonVer == "Test" {
+		t.TestPrintZ()
 	} else {
 		Lesson09a() // GTP
 	}

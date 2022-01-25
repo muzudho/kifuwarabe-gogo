@@ -114,6 +114,12 @@ genmove w
 quit
 ```
 
+# Example - Test
+
+```shell
+kifuwarabe-gogo Test
+```
+
 ## Memorandom
 
 `go build -ldflags "-s -w"` でデバッグ情報を外せる？  
