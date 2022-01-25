@@ -113,30 +113,7 @@ func Lesson09a() {
 			}
 
 			if 2 < len(tokens) {
-				// 最初の１文字はアルファベット、２文字目（あれば３文字目）は数字と想定
-				var gtp_z = strings.ToLower(tokens[2])
-				code.Console.Trace("# gtp_z=%s\n", gtp_z)
-
-				// 筋
-				var x = gtp_z[0] - 'a' + 1
-				if gtp_z[0] >= 'i' {
-					x--
-				}
-
-				// 段
-				var y = int(gtp_z[1] - '0')
-				if 2 < len(gtp_z) {
-					y *= 10
-					y += int(gtp_z[2] - '0')
-				}
-
-				// インデックス
-				var z = board.GetZFromXy(int(x)-1, y-1)
-				code.Console.Trace("# x=%d y=%d z=%d z4=%04d\n", x, y, z, board.GetZ4(z))
-				if gtp_z == "pass" {
-					z = 0
-				}
-
+				var z = p.GetZFromGtp(board, tokens[2])
 				var recItem = new(e.RecordItemV02)
 				recItem.Z = z
 				recItem.Time = 0
