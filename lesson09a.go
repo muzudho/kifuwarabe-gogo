@@ -103,8 +103,8 @@ func Lesson09a() {
 			// play white D6
 			// play black F5
 			// play white C5
-			// play black pass
-			// play white pass
+			// play black PASS
+			// play white PASS
 			if 2 < len(tokens) {
 				var color int
 				if strings.ToLower(tokens[1][0:1]) == "w" {
