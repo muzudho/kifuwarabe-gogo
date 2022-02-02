@@ -42,42 +42,42 @@ func (board *BoardV01) InitBoard() {
 }
 
 // BoardSize - 何路盤か
-func (board BoardV01) BoardSize() int {
+func (board *BoardV01) BoardSize() int {
 	return board.boardSize
 }
 
 // SentinelWidth - 枠付きの盤の一辺の交点数
-func (board BoardV01) SentinelWidth() int {
+func (board *BoardV01) SentinelWidth() int {
 	return board.sentinelWidth
 }
 
 // SentinelBoardArea - 枠付きの盤の交点数
-func (board BoardV01) SentinelBoardArea() int {
+func (board *BoardV01) SentinelBoardArea() int {
 	return board.sentinelBoardArea
 }
 
 // Komi - コミ
-func (board BoardV01) Komi() float64 {
+func (board *BoardV01) Komi() float64 {
 	return board.komi
 }
 
 // MaxMovesNum - 最大手数
-func (board BoardV01) MaxMovesNum() int {
+func (board *BoardV01) MaxMovesNum() int {
 	return board.maxMoves
 }
 
 // ColorAt - 指定した交点の石の色
-func (board BoardV01) ColorAt(z int) int {
+func (board *BoardV01) ColorAt(z int) int {
 	return board.data[z]
 }
 
 // ColorAtXy - 指定した交点の石の色
-func (board BoardV01) ColorAtXy(x int, y int) int {
+func (board *BoardV01) ColorAtXy(x int, y int) int {
 	return board.data[(y+1)*board.sentinelWidth+x+1]
 }
 
 // IsEmpty - 指定の交点に空点があるか？
-func (board BoardV01) IsEmpty(z int) bool {
+func (board *BoardV01) IsEmpty(z int) bool {
 	return board.data[z] == 0
 }
 
@@ -87,7 +87,7 @@ func (board *BoardV01) SetColor(z int, color int) {
 }
 
 // CopyData - 盤データのコピー。
-func (board BoardV01) CopyData() []int {
+func (board *BoardV01) CopyData() []int {
 	boardArea := board.SentinelBoardArea()
 
 	var boardCopy2 = make([]int, boardArea)
@@ -101,7 +101,7 @@ func (board *BoardV01) ImportData(boardCopy2 []int) {
 }
 
 // GetZ4 - z（配列のインデックス）を XXYY形式（3～4桁の数）の座標へ変換します。
-func (board BoardV01) GetZ4(z int) int {
+func (board *BoardV01) GetZ4(z int) int {
 	if z == 0 {
 		return 0
 	}
@@ -112,12 +112,12 @@ func (board BoardV01) GetZ4(z int) int {
 
 // GetZFromXy - x,y を z （配列のインデックス）へ変換します。
 // x,y は壁を含まない領域での座標です。 z は壁を含む領域での座標です
-func (board BoardV01) GetZFromXy(x int, y int) int {
+func (board *BoardV01) GetZFromXy(x int, y int) int {
 	return (y+1)*board.SentinelWidth() + x + 1
 }
 
 // GetEmptyZ - 空点の z （配列のインデックス）を返します。
-func (board BoardV01) GetEmptyZ() int {
+func (board *BoardV01) GetEmptyZ() int {
 	var x, y, z int
 	for {
 		// ランダムに交点を選んで、空点を見つけるまで繰り返します。
@@ -131,27 +131,8 @@ func (board BoardV01) GetEmptyZ() int {
 	return z
 }
 
-func (board BoardV01) countLibertySub(z int, color int, pLiberty *int, pStone *int) {
-	checkBoard[z] = 1
-	*pStone++
-	for i := 0; i < 4; i++ {
-		z := z + Dir4[i]
-		if checkBoard[z] != 0 {
-			continue
-		}
-		if board.IsEmpty(z) { // 空点
-			checkBoard[z] = 1
-			*pLiberty++
-		}
-		if board.data[z] == color {
-			board.countLibertySub(z, color, pLiberty, pStone)
-		}
-	}
-
-}
-
 // CountLiberty - 呼吸点を数えます。
-func (board BoardV01) CountLiberty(z int, pLiberty *int, pStone *int) {
+func (board *BoardV01) CountLiberty(z int, pLiberty *int, pStone *int) {
 	*pLiberty = 0
 	*pStone = 0
 	boardMax := board.SentinelBoardArea()
@@ -162,20 +143,37 @@ func (board BoardV01) CountLiberty(z int, pLiberty *int, pStone *int) {
 	board.countLibertySub(z, board.data[z], pLiberty, pStone)
 }
 
+func (board *BoardV01) countLibertySub(z int, color int, pLiberty *int, pStone *int) {
+	checkBoard[z] = 1
+	*pStone++
+	for i := 0; i < 4; i++ {
+		var adjZ = z + Dir4[i]
+		if checkBoard[adjZ] != 0 {
+			continue
+		}
+		if board.IsEmpty(adjZ) { // 空点
+			checkBoard[adjZ] = 1
+			*pLiberty++
+		} else if board.data[adjZ] == color {
+			board.countLibertySub(adjZ, color, pLiberty, pStone)
+		}
+	}
+}
+
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
 func (board *BoardV01) TakeStone(z int, color int) {
 	board.data[z] = 0 // 石を消します
 
 	for dir := 0; dir < 4; dir++ {
-		var z2 = z + Dir4[dir]
+		var adjZ = z + Dir4[dir]
 
-		if board.data[z2] == color { // 再帰します
-			board.TakeStone(z2, color)
+		if board.data[adjZ] == color { // 再帰します
+			board.TakeStone(adjZ, color)
 		}
 	}
 }
 
 // IterateWithoutWall - 盤イテレーター
-func (board BoardV01) IterateWithoutWall(onPoint func(int)) {
+func (board *BoardV01) IterateWithoutWall(onPoint func(int)) {
 	board.iteratorWithoutWall(onPoint)
 }

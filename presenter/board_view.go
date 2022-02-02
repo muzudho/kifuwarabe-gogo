@@ -97,5 +97,5 @@ func PrintBoard(board e.IBoardV01, movesNum int) {
 	}
 	b.WriteString("\n")
 
-	code.Console.Notice(b.String())
+	code.Console.Print(b.String())
 }

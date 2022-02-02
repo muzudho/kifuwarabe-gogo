@@ -27,6 +27,6 @@ func NewBoard(data []int, boardSize int, sentinelBoardArea int, komi float64, ma
 }
 
 // UctChildrenSize - UCTの最大手数
-func (board BoardV02) UctChildrenSize() int {
+func (board *BoardV02) UctChildrenSize() int {
 	return board.uctChildrenSize
 }
