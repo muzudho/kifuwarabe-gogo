@@ -81,7 +81,7 @@ kifuwarabe-gogo Lesson07
 kifuwarabe-gogo Lesson08
 ```
 
-# Example - Lesson09
+# Example - Lesson09 - SelfPlay
 
 ## Run
 

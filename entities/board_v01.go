@@ -164,10 +164,12 @@ func (board BoardV01) CountLiberty(z int, pLiberty *int, pStone *int) {
 
 // TakeStone - 石を打ち上げ（取り上げ、取り除き）ます。
 func (board *BoardV01) TakeStone(z int, color int) {
-	board.data[z] = 0
+	board.data[z] = 0 // 石を消します
+
 	for dir := 0; dir < 4; dir++ {
-		z2 := z + Dir4[dir]
-		if board.data[z2] == color {
+		var z2 = z + Dir4[dir]
+
+		if board.data[z2] == color { // 再帰します
 			board.TakeStone(z2, color)
 		}
 	}
