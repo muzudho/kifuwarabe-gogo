@@ -9,7 +9,7 @@ type IBoardV01 interface {
 
 	CopyData() []int
 	ImportData(boardCopy2 []int)
-	Exists(z int) bool
+	IsEmpty(z int) bool
 
 	CountLiberty(z int, pLiberty *int, pStone *int)
 	TakeStone(z int, color int)

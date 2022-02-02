@@ -53,7 +53,7 @@ func Playout(
 		var emptyNum, r, z int
 
 		var onPoint = func(z int) {
-			if !board.Exists(z) {
+			if board.IsEmpty(z) { // 空点
 				empty[emptyNum] = z
 				emptyNum++
 			}

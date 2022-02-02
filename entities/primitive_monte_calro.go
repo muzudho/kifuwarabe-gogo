@@ -87,7 +87,7 @@ func PrimitiveMonteCalro(
 	var bestValue = initBestValue(color)
 
 	var onPoint = func(z int) {
-		if !board.Exists(z) {
+		if board.IsEmpty(z) { // 空点
 			var err = PutStone(board, z, color, ExceptPutStoneOnPrimitiveMonteCalro)
 
 			if err == 0 {

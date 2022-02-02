@@ -36,7 +36,7 @@ func CreateExceptionForPutStoneLesson1(board IBoardV01) func(int, int, int, int,
 		// if wall + mycolSafe == 4 {
 		//		return 3
 		// }
-		if board.Exists(z) {
+		if !board.IsEmpty(z) { // 石または壁
 			return 4
 		}
 
@@ -59,7 +59,7 @@ func CreateExceptionForPutStoneLesson3(board IBoardV01) func(int, int, int, int,
 		if wall+mycolSafe == 4 { // 目には打たないようにします
 			return 3
 		}
-		if board.Exists(z) {
+		if !board.IsEmpty(z) { // 石または壁
 			return 4
 		}
 
@@ -84,7 +84,7 @@ func CreateExceptionForPutStoneLesson4(board IBoardV01, fillEyeErr int) func(int
 		if wall+mycolSafe == 4 && fillEyeErr == FillEyeErr {
 			return 3
 		}
-		if board.Exists(z) {
+		if !board.IsEmpty(z) { // 石または壁
 			return 4
 		}
 
@@ -149,7 +149,9 @@ func PutStone(board IBoardV01, z int, color int, except func(int, int, int, int,
 	for dir := 0; dir < 4; dir++ {
 		var lib = around[dir][0]
 		var color2 = around[dir][2]
-		if color2 == unCol && lib == 1 && board.Exists(z+Dir4[dir]) {
+		if color2 == unCol && // 相手の連で（壁は除外）
+			lib == 1 && // その連は呼吸点が１つで
+			!board.IsEmpty(z+Dir4[dir]) { // 石がまだあるなら
 			board.TakeStone(z+Dir4[dir], unCol)
 		}
 	}

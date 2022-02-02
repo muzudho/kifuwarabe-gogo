@@ -51,7 +51,7 @@ func CreateNode(board IBoardV02) int {
 	pN.ChildGameSum = 0
 
 	var onPoint = func(z int) {
-		if !board.Exists(z) {
+		if board.IsEmpty(z) { // 空点
 			addChild(pN, z)
 		}
 	}

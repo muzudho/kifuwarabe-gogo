@@ -76,9 +76,9 @@ func (board BoardV01) ColorAtXy(x int, y int) int {
 	return board.data[(y+1)*board.sentinelWidth+x+1]
 }
 
-// Exists - 指定の交点に石があるか？
-func (board BoardV01) Exists(z int) bool {
-	return board.data[z] != 0
+// IsEmpty - 指定の交点に空点があるか？
+func (board BoardV01) IsEmpty(z int) bool {
+	return board.data[z] == 0
 }
 
 // SetColor - 盤データ。
@@ -124,7 +124,7 @@ func (board BoardV01) GetEmptyZ() int {
 		x = rand.Intn(9)
 		y = rand.Intn(9)
 		z = board.GetZFromXy(x, y)
-		if !board.Exists(z) {
+		if board.IsEmpty(z) { // 空点
 			break
 		}
 	}
@@ -139,7 +139,7 @@ func (board BoardV01) countLibertySub(z int, color int, pLiberty *int, pStone *i
 		if checkBoard[z] != 0 {
 			continue
 		}
-		if !board.Exists(z) {
+		if board.IsEmpty(z) { // 空点
 			checkBoard[z] = 1
 			*pLiberty++
 		}
